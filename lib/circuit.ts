@@ -28,6 +28,10 @@ const PIN_LABEL_H = 26;
 const BODY_H = 54;
 const MARGIN_X = 54;
 const MIN_SPACING = 88;
+// Sideways step between parts sharing a column, so two caps on one pin do not
+// land on the same wire. The column pitch is widened to fit whatever this
+// pushes their labels out to.
+const JOG = 38;
 
 /** Half the width of each symbol, so labels clear it. Matches CircuitDiagram. */
 const HALF: Record<CircuitSymbol, number> = {
@@ -218,12 +222,46 @@ export function schematic(board: Board, circuit: Circuit): Schematic | null {
     ...used.filter((t) => terminalSide(t) === "right"),
   ];
 
+  // Several parts from one node to one rail share a column, jogged apart so
+  // they do not sit on the same wire. Grouping has to happen before the pitch
+  // is chosen, because the jog decides how far a label reaches sideways.
+  const groups = new Map<string, Vertical[]>();
+  for (const v of verticals) {
+    const k = `${v.node}-${v.rail}`;
+    groups.set(k, [...(groups.get(k) ?? []), v]);
+  }
+  const offsetOf = new Map<Vertical, number>();
+  for (const [, group] of groups) {
+    group.forEach((v, i) => {
+      offsetOf.set(v, group.length > 1 ? (i - (group.length - 1) / 2) * JOG : 0);
+    });
+  }
+
+  // How far each column's labels reach to either side. A label sits on the
+  // outboard side of its symbol, so a jogged part on the left of its column
+  // reaches left, into whatever the previous column reaches right with.
+  const reachL = new Map<string, number>();
+  const reachR = new Map<string, number>();
+  for (const v of verticals) {
+    if (!v.part) continue;
+    const off = offsetOf.get(v) as number;
+    const arm = Math.abs(off) + HALF[v.part.symbol] + 6 + widest(wrap(v.part.part));
+    const side = off < 0 ? reachL : reachR;
+    side.set(v.node, Math.max(side.get(v.node) ?? 0, arm));
+  }
+
   // Column pitch has to clear the widest thing hanging in a column: a pin
-  // label, or a rail-bound part's label sitting beside its symbol.
+  // label, or a rail-bound part's label sitting beside its symbol. Adjacent
+  // columns are measured as a pair, because one reaching right and the next
+  // reaching left is the case that collides.
   let pitch = MIN_SPACING;
   for (const v of verticals) {
     if (!v.part) continue;
     pitch = Math.max(pitch, widest(wrap(v.part.part)) + HALF[v.part.symbol] + 32);
+  }
+  for (let i = 0; i + 1 < order.length; i++) {
+    const gap = (reachR.get(order[i]) ?? 0) + (reachL.get(order[i + 1]) ?? 0);
+    if (gap > 0) pitch = Math.max(pitch, gap + 20);
   }
   for (const n of pinOrder) {
     const pin = byNumber.get(n) as Pin;
@@ -301,20 +339,14 @@ export function schematic(board: Board, circuit: Circuit): Schematic | null {
   const upFrom = new Set<number>();
   const downFrom = new Set<number>();
 
-  // Rail-bound parts. Several from one pin to one rail get their own column
-  // with a short jog, so two decoupling caps do not land on the same wire.
-  const groups = new Map<string, Vertical[]>();
-  for (const v of verticals) {
-    const k = `${v.node}-${v.rail}`;
-    groups.set(k, [...(groups.get(k) ?? []), v]);
-  }
+  // Rail-bound parts, using the grouping and jog offsets measured above.
   for (const [, group] of groups) {
     group.forEach((v, i) => {
       const up = v.rail === "VCC";
       const isTerm = TERMINALS.has(v.node);
       if (!isTerm) (up ? upFrom : downFrom).add(Number(v.node));
       const px = x.get(v.node) as number;
-      const off = group.length > 1 ? (i - (group.length - 1) / 2) * 38 : 0;
+      const off = offsetOf.get(v) as number;
       const start = isTerm ? (up ? bodyMid - 13 : bodyMid + 13) : up ? bodyTop : bodyBottom;
       const railY = (up ? vcc : gnd) as number;
       const points: [number, number][] = off
