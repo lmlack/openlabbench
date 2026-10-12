@@ -1,0 +1,195 @@
+{
+  "slug": "lm358",
+  "name": "LM358 Dual Op-Amp",
+  "shortName": "LM358",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "The default jellybean op-amp: two channels, runs from a single supply, and cannot reach either rail.",
+  "logic": "3-32 V single or +/-1.5-16 V split",
+  "package": "PDIP-8 / SOIC-8",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "keywords": [
+    "lm358",
+    "op amp",
+    "opamp",
+    "dual op amp",
+    "lm2904",
+    "lm324",
+    "comparator"
+  ],
+  "notes": [
+    "Not rail to rail. The output gets within about 1.5 V of V+ and the input common mode range stops 1.5 V below it too. On a 3.3 V rail that leaves almost nothing, which is why it misbehaves in modern designs.",
+    "The output does reach close to ground, which is the trick that makes single supply work at all. Sinking current near 0 V is weak though, roughly 50 uA without a pull-down resistor.",
+    "There is crossover distortion in the output stage. Fine for DC and sensor conditioning, audibly bad for audio. Use a TL072 or an NE5532 there.",
+    "1 MHz gain bandwidth. At a gain of 100 you have 10 kHz of bandwidth left, and no more.",
+    "The LM393 comparator shares this package and pin arrangement but has an open collector output. The two look identical on a board and are not interchangeable.",
+    "Pin 4 is the negative supply, which is ground in a single supply circuit. Pin 8 is V+. That is the opposite corner pair from most DIP-8 logic."
+  ],
+  "docs": [
+    {
+      "label": "TI LM358 datasheet",
+      "url": "https://www.ti.com/product/LM358"
+    },
+    {
+      "label": "Microchip MCP6002 (rail to rail alternative)",
+      "url": "https://www.microchip.com/en-us/product/MCP6002"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "OUT1",
+      "primary": "gpio",
+      "aliases": [
+        "OUTA"
+      ],
+      "functions": [
+        "Amplifier 1 output"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "IN1-",
+      "primary": "gpio",
+      "aliases": [
+        "INA-"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 1 inverting input"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "IN1+",
+      "primary": "gpio",
+      "aliases": [
+        "INA+"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 1 non-inverting input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "V-",
+      "primary": "gnd",
+      "aliases": [
+        "GND",
+        "VEE"
+      ],
+      "functions": [
+        "Negative supply"
+      ],
+      "note": "Ground in a single supply circuit."
+    },
+    {
+      "number": 5,
+      "name": "IN2+",
+      "primary": "gpio",
+      "aliases": [
+        "INB+"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 2 non-inverting input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "IN2-",
+      "primary": "gpio",
+      "aliases": [
+        "INB-"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 2 inverting input"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "OUT2",
+      "primary": "gpio",
+      "aliases": [
+        "OUTB"
+      ],
+      "functions": [
+        "Amplifier 2 output"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "V+",
+      "primary": "vcc",
+      "voltage": "3-32 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "100 nF to ground at the pin."
+    }
+  ],
+  "circuit": {
+    "title": "Single-supply follower",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "2",
+        "required": true,
+        "why": "Output straight back to the inverting input. Unity gain, the simplest useful configuration."
+      },
+      {
+        "part": "100 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "VCC",
+        "required": false,
+        "why": "Half-rail bias. On a single supply the input has to sit somewhere the amplifier can actually reach."
+      },
+      {
+        "part": "100 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "GND",
+        "required": false,
+        "why": "The lower half of the same divider."
+      },
+      {
+        "part": "1 uF",
+        "symbol": "cap",
+        "from": "3",
+        "to": "GND",
+        "required": false,
+        "why": "Stops supply noise riding straight through the bias divider into the input."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "The input range includes ground but the output does not: it only swings down to about 20 mV above the negative rail, and up to about 1.5 V below the positive one. The LM358 is not rail to rail, whatever the breakout board says."
+  }
+}

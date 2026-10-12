@@ -1,0 +1,58 @@
+{
+  "slug": "pro-micro-32u4",
+  "name": "Pro Micro (ATmega32U4)",
+  "shortName": "Pro Micro",
+  "vendor": "SparkFun / clones",
+  "category": "mcu-board",
+  "summary": "ATmega32U4 with native USB, so it can be a keyboard or a mouse without a helper chip. The board in most custom keyboard builds. USB at the top.",
+  "logic": "5 V at 16 MHz, or 3.3 V at 8 MHz",
+  "package": "2x12 2.54 mm, 33 x 18 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 12,
+    "sideLabels": ["Left (USB at top)", "Right (USB at top)"]
+  },
+  "keywords": ["pro micro", "promicro", "atmega32u4", "32u4", "leonardo", "qmk", "keyboard", "hid", "sparkfun"],
+  "notes": [
+    "Native USB is the whole point. The 32U4 does USB itself, so the board can enumerate as a keyboard, mouse or MIDI device. That is why QMK and every handwired keyboard uses it.",
+    "There are two serial ports and they are not the same thing. Serial is the USB connection to your computer; Serial1 is the hardware UART on pins 0 and 1. Code written for a Uno that expects Serial on the TX and RX pins will not work.",
+    "The bootloader only listens for about eight seconds after a reset. Upload a sketch that hangs or kills USB and the board stops enumerating. The recovery is to short RST to GND twice quickly and start the upload inside that window. This is the most common way a Pro Micro appears bricked.",
+    "There is a 5 V 16 MHz version and a 3.3 V 8 MHz version, and they look identical. Picking the wrong board in the IDE sets the wrong fuses and the result is a board that no longer enumerates.",
+    "RAW is the unregulated input, up to 12 V, feeding the on-board regulator. VCC is the regulated rail, and it is an output when the board is powered from RAW or USB. Feeding VCC directly bypasses the regulator.",
+    "The analog pins are not where a Uno user expects. There is no A4 or A5. The ADC lives on A0 to A3 (pins 18 to 21) and A6 to A10 (pins 4, 6, 8, 9, 10).",
+    "I2C is on pins 2 and 3, not on the analog pins.",
+    "The micro-USB connector on the cheap clones is held on by solder pads alone and tears off. Glue it, or buy a USB-C clone."
+  ],
+  "docs": [
+    { "label": "SparkFun Pro Micro hookup guide", "url": "https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide" },
+    { "label": "ATmega32U4 product page", "url": "https://www.microchip.com/en-us/product/ATmega32U4" }
+  ],
+  "pins": [
+    { "name": "TXO", "primary": "gpio", "aliases": ["D1", "TX", "PD3"], "tags": ["uart"], "functions": ["Serial1 TXD"], "side": "left", "row": 1, "note": "Hardware UART, not the USB serial. Use Serial1 in code." },
+    { "name": "RXI", "primary": "gpio", "aliases": ["D0", "RX", "PD2"], "tags": ["uart"], "functions": ["Serial1 RXD"], "side": "left", "row": 2 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "left", "row": 3 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "left", "row": 4 },
+    { "name": "D2", "primary": "gpio", "aliases": ["SDA", "PD1"], "tags": ["i2c"], "functions": ["I2C SDA", "External interrupt 1"], "side": "left", "row": 5, "note": "I2C is here, not on the analog pins like a Uno." },
+    { "name": "D3", "primary": "gpio", "aliases": ["SCL", "PD0"], "tags": ["i2c", "pwm"], "functions": ["I2C SCL", "PWM", "External interrupt 0"], "side": "left", "row": 6 },
+    { "name": "D4", "primary": "gpio", "aliases": ["A6", "PD4"], "tags": ["analog"], "functions": ["ADC 6"], "side": "left", "row": 7 },
+    { "name": "D5", "primary": "gpio", "aliases": ["PC6"], "tags": ["pwm"], "functions": ["PWM"], "side": "left", "row": 8 },
+    { "name": "D6", "primary": "gpio", "aliases": ["A7", "PD7"], "tags": ["analog", "pwm"], "functions": ["ADC 7", "PWM"], "side": "left", "row": 9 },
+    { "name": "D7", "primary": "gpio", "aliases": ["PE6"], "functions": ["External interrupt 6"], "side": "left", "row": 10 },
+    { "name": "D8", "primary": "gpio", "aliases": ["A8", "PB4"], "tags": ["analog"], "functions": ["ADC 8"], "side": "left", "row": 11 },
+    { "name": "D9", "primary": "gpio", "aliases": ["A9", "PB5"], "tags": ["analog", "pwm"], "functions": ["ADC 9", "PWM"], "side": "left", "row": 12 },
+
+    { "name": "RAW", "primary": "vin", "voltage": "up to 12 V", "functions": ["Unregulated supply in"], "side": "right", "row": 1, "note": "Feeds the on-board regulator. About 4.8 V when running from USB." },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 2 },
+    { "name": "RST", "primary": "ctrl", "functions": ["Active-low reset"], "side": "right", "row": 3, "note": "Short to GND twice quickly to force the bootloader. This is how you recover a board that stopped enumerating." },
+    { "name": "VCC", "primary": "power5", "voltage": "5 V or 3.3 V", "functions": ["Regulated rail"], "side": "right", "row": 4, "note": "An output when powered from RAW or USB. Driving it directly bypasses the regulator." },
+    { "name": "D21", "primary": "gpio", "aliases": ["A3", "PF4"], "tags": ["analog"], "functions": ["ADC 3"], "side": "right", "row": 5 },
+    { "name": "D20", "primary": "gpio", "aliases": ["A2", "PF5"], "tags": ["analog"], "functions": ["ADC 2"], "side": "right", "row": 6 },
+    { "name": "D19", "primary": "gpio", "aliases": ["A1", "PF6"], "tags": ["analog"], "functions": ["ADC 1"], "side": "right", "row": 7 },
+    { "name": "D18", "primary": "gpio", "aliases": ["A0", "PF7"], "tags": ["analog"], "functions": ["ADC 0"], "side": "right", "row": 8 },
+    { "name": "D15", "primary": "gpio", "aliases": ["SCLK", "SCK", "PB1"], "tags": ["spi", "clock"], "functions": ["SPI clock"], "side": "right", "row": 9 },
+    { "name": "D14", "primary": "gpio", "aliases": ["MISO", "PB3"], "tags": ["spi"], "functions": ["SPI MISO"], "side": "right", "row": 10 },
+    { "name": "D16", "primary": "gpio", "aliases": ["MOSI", "PB2"], "tags": ["spi"], "functions": ["SPI MOSI"], "side": "right", "row": 11 },
+    { "name": "D10", "primary": "gpio", "aliases": ["A10", "PB6"], "tags": ["analog", "pwm"], "functions": ["ADC 10", "PWM"], "side": "right", "row": 12 }
+  ]
+}

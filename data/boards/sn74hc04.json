@@ -1,0 +1,201 @@
+{
+  "slug": "sn74hc04",
+  "name": "74HC04 Hex Inverter",
+  "shortName": "74HC04",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Six plain inverters. The cheapest logic chip there is, and the wrong one if your input edge is slow.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc04",
+    "7404",
+    "hex inverter",
+    "not gate",
+    "74hc14"
+  ],
+  "notes": [
+    "No hysteresis. A slow or noisy edge makes the output chatter through the transition, sometimes several times. If the input comes from an RC, a long cable, a sensor or a switch, use the 74HC14 instead.",
+    "Same pin arrangement as the 74HC14, so the two are interchangeable in a socket. The 14 is a strict upgrade for about the same money.",
+    "Tie unused inputs to a rail. Six floating inverter inputs will happily oscillate and heat the chip.",
+    "Two inverters and an RC make a ring oscillator, but without hysteresis it is jittery. Again, the 74HC14 does this properly."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC04 datasheet",
+      "url": "https://www.ti.com/product/SN74HC04"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 1 input"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 1 output"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 2 input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 2 output"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 3 input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 3 output"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 4 output"
+      ],
+      "note": "Output first on this side."
+    },
+    {
+      "number": 9,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 4 input"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "5Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 5 output"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "5A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 5 input"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "6Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 6 output"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "6A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 6 input"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Crystal oscillator",
+    "parts": [
+      {
+        "part": "1 MOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "2",
+        "required": true,
+        "why": "Biases the inverter into its linear region so it amplifies instead of sitting at a rail."
+      },
+      {
+        "part": "Crystal",
+        "symbol": "xtal",
+        "from": "1",
+        "to": "2",
+        "required": true,
+        "why": "A fundamental-mode crystal across the same inverter. This is the Pierce oscillator."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Load capacitor on the input side. The crystal's datasheet load, usually 18 to 22 pF."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "The matching load capacitor on the output side."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Buffer the output with a second inverter before you use it anywhere, so loading the oscillator does not pull it off frequency. An HCU04, the unbuffered version, oscillates more reliably here than the HC04."
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "slug": "sn74hc595",
+  "name": "74HC595 Shift Register",
+  "shortName": "74HC595",
+  "vendor": "Texas Instruments / Nexperia / many",
+  "package": "PDIP-16 / SOIC-16 / TSSOP-16",
+  "category": "ic",
+  "summary": "8-bit serial-in, parallel-out shift register with a separate output latch. Three microcontroller pins buy you eight outputs, and chaining Q7S into the next chip's DS extends that indefinitely.",
+  "logic": "2-6 V (HC)",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "keywords": [
+    "74hc595",
+    "595",
+    "shift register",
+    "sn74hc595",
+    "74hct595",
+    "serial to parallel"
+  ],
+  "notes": [
+    "Two clocks, and mixing them up is the classic bug: SH_CP (pin 11) shifts a bit into the register, ST_CP (pin 12) copies the whole register to the output pins. Shift all eight bits first, then latch once.",
+    "Data is sampled on the rising edge of SH_CP, so it is SPI mode 0 compatible, MOSI to DS, SCK to SH_CP, and any GPIO as the latch.",
+    "OE (pin 13) is active low and must be grounded for the outputs to drive. Tie it high to tri-state all eight outputs, or feed it PWM to dim an entire LED bank at once.",
+    "MR (pin 10) is active low and must be tied to VCC for normal operation. It clears the shift register but not the output latch.",
+    "Output current is around 6 mA per pin and 70 mA for the whole package. For LED matrices or relays use the TPIC6B595, which has 150 mA open-drain sinks.",
+    "Q0 is pin 15, on the far side from Q1-Q7. The output order on the package is not the order you would draw it.",
+    "HC inputs need a level near their own supply rail. A 5 V 74HC595 clocked from 3.3 V logic will drop bits, use the 74HCT595, which has TTL input thresholds, or run the register at 3.3 V."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC595 product page",
+      "url": "https://www.ti.com/product/SN74HC595"
+    },
+    {
+      "label": "TI TPIC6B595 (power outputs)",
+      "url": "https://www.ti.com/product/TPIC6B595"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "Q1",
+      "primary": "gpio",
+      "aliases": [
+        "QB"
+      ],
+      "functions": [
+        "Parallel output 1"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "Q2",
+      "primary": "gpio",
+      "aliases": [
+        "QC"
+      ],
+      "functions": [
+        "Parallel output 2"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "Q3",
+      "primary": "gpio",
+      "aliases": [
+        "QD"
+      ],
+      "functions": [
+        "Parallel output 3"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "Q4",
+      "primary": "gpio",
+      "aliases": [
+        "QE"
+      ],
+      "functions": [
+        "Parallel output 4"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Q5",
+      "primary": "gpio",
+      "aliases": [
+        "QF"
+      ],
+      "functions": [
+        "Parallel output 5"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "Q6",
+      "primary": "gpio",
+      "aliases": [
+        "QG"
+      ],
+      "functions": [
+        "Parallel output 6"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Q7",
+      "primary": "gpio",
+      "aliases": [
+        "QH"
+      ],
+      "functions": [
+        "Parallel output 7"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Q7S",
+      "primary": "gpio",
+      "aliases": [
+        "QH'",
+        "SQH",
+        "Serial out"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Overflow / cascade output"
+      ],
+      "note": "Wire to the next chip's DS to chain registers. One clock behind the latch."
+    },
+    {
+      "number": 10,
+      "name": "MR",
+      "primary": "ctrl",
+      "aliases": [
+        "SRCLR",
+        "/MR"
+      ],
+      "functions": [
+        "Active-low shift register clear"
+      ],
+      "note": "Tie to VCC for normal use. Clears the shift register only, the latch keeps its value until ST_CP."
+    },
+    {
+      "number": 11,
+      "name": "SH_CP",
+      "primary": "gpio",
+      "aliases": [
+        "SRCLK",
+        "SCK",
+        "CLOCK"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "Shift register clock"
+      ],
+      "note": "Rising edge shifts DS into the register. This is SCK."
+    },
+    {
+      "number": 12,
+      "name": "ST_CP",
+      "primary": "gpio",
+      "aliases": [
+        "RCLK",
+        "LATCH"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "Storage register clock"
+      ],
+      "note": "Rising edge copies the shift register to Q0-Q7. This is the latch pin."
+    },
+    {
+      "number": 13,
+      "name": "OE",
+      "primary": "ctrl",
+      "aliases": [
+        "/OE",
+        "G",
+        "ENABLE"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Active-low output enable"
+      ],
+      "note": "Ground it to enable outputs. PWM here dims every output together."
+    },
+    {
+      "number": 14,
+      "name": "DS",
+      "primary": "gpio",
+      "aliases": [
+        "SER",
+        "SI",
+        "DATA",
+        "A"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Serial data in"
+      ],
+      "note": "This is MOSI."
+    },
+    {
+      "number": 15,
+      "name": "Q0",
+      "primary": "gpio",
+      "aliases": [
+        "QA"
+      ],
+      "functions": [
+        "Parallel output 0"
+      ],
+      "note": "First bit out, but physically opposite Q1-Q7."
+    },
+    {
+      "number": 16,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "2-6 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "100 nF decoupling at the pin; shift registers switch eight outputs at once."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Eight outputs switching together is a real current step."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "Active low output enable. Left floating the outputs stay tri-stated and nothing lights."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "10",
+        "to": "VCC",
+        "required": true,
+        "why": "Active low clear. Left floating the register clears at random."
+      }
+    ],
+    "note": "OE can take a PWM signal instead of a ground link, which dims every output at once."
+  },
+  "snippets": [
+    {
+      "title": "Shift out a byte over SPI",
+      "toolchain": "avr-libc",
+      "lang": "c",
+      "code": "#include <avr/io.h>\n\n/* The 595 is SPI mode 0. MOSI to DS, SCK to SH_CP, any GPIO to ST_CP. */\nDDRB |= (1 << PB3) | (1 << PB5) | (1 << PB2);   /* MOSI, SCK, latch */\nSPCR  = (1 << SPE) | (1 << MSTR);               /* enable, 1/4 clock */\n\nvoid shift_out(uint8_t v) {\n    SPDR = v;\n    while (!(SPSR & (1 << SPIF))) { }           /* wait for the byte */\n    PORTB |=  (1 << PB2);                       /* latch rising edge */\n    PORTB &= ~(1 << PB2);\n}",
+      "gotcha": "Two clocks, and swapping them is the classic bug. SH_CP shifts one bit in; ST_CP copies the whole register to the output pins. Shift all eight bits first, then latch once."
+    }
+  ]
+}

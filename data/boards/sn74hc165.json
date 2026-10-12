@@ -1,0 +1,241 @@
+{
+  "slug": "sn74hc165",
+  "name": "74HC165 Shift Register (parallel in)",
+  "shortName": "74HC165",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Eight inputs into three microcontroller pins. The mirror image of the 74HC595, and the part you want for a bank of buttons.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-16 / SOIC-16",
+  "keywords": [
+    "74hc165",
+    "165",
+    "parallel in serial out",
+    "piso",
+    "shift register",
+    "buttons",
+    "74hc595"
+  ],
+  "notes": [
+    "SH/LD (pin 1) is active low and backwards from what the name suggests: hold it LOW to snapshot the eight inputs, then take it HIGH to shift them out. Clock only moves data while it is high.",
+    "The first bit is already on QH before you send any clock. Read it, then clock seven times, not eight.",
+    "Inputs are D0 to D7 but they are split across the package: D4 to D7 on pins 3 to 6, D0 to D3 on pins 11 to 14. Wire from the numbers.",
+    "Chain by feeding QH of one chip into SER (pin 10) of the next, and share SH/LD and CLK. Read the far chip first.",
+    "CLK INH (pin 15) gates the clock. Ground it unless you need it, or the register will not shift.",
+    "Inputs have no internal pull-ups. A bank of buttons needs a resistor per input, which is the one place the PCF8574 is less work."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC165 datasheet",
+      "url": "https://www.ti.com/product/SN74HC165"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "SH/LD",
+      "primary": "ctrl",
+      "aliases": [
+        "PL",
+        "LOAD"
+      ],
+      "functions": [
+        "Shift or load, active low"
+      ],
+      "note": "Low snapshots the inputs, high lets the clock shift them out."
+    },
+    {
+      "number": 2,
+      "name": "CLK",
+      "primary": "gpio",
+      "aliases": [
+        "CP"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "Shift clock"
+      ],
+      "note": "This is SCK."
+    },
+    {
+      "number": 3,
+      "name": "D4",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 4"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "D5",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 5"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "D6",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 6"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "D7",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 7"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "QH",
+      "primary": "gpio",
+      "aliases": [
+        "/Q7",
+        "QH bar"
+      ],
+      "functions": [
+        "Inverted serial output"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "QH",
+      "primary": "gpio",
+      "aliases": [
+        "Q7",
+        "SO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Serial output"
+      ],
+      "note": "This is MISO. The first bit is here before the first clock."
+    },
+    {
+      "number": 10,
+      "name": "SER",
+      "primary": "gpio",
+      "aliases": [
+        "DS",
+        "SI"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Serial input for cascading"
+      ],
+      "note": "Feed the previous chip's QH in here. Tie low on a single chip."
+    },
+    {
+      "number": 11,
+      "name": "D0",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 0"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "D1",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 1"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "D2",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 2"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "D3",
+      "primary": "gpio",
+      "functions": [
+        "Parallel input 3"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "CLK INH",
+      "primary": "ctrl",
+      "aliases": [
+        "CE"
+      ],
+      "functions": [
+        "Clock inhibit, active high"
+      ],
+      "note": "Ground it. High here blocks the clock entirely."
+    },
+    {
+      "number": 16,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF to GND at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "15",
+        "to": "GND",
+        "required": true,
+        "why": "Clock inhibit is active high. Tied low the register clocks normally."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "10",
+        "to": "GND",
+        "required": true,
+        "why": "Serial input of the first stage. Tie it, or chain it from the previous chip's QH."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Pulse SH/LD (1) low to latch the eight inputs, then clock them out most significant first. Holding it low keeps loading and you read the same pin eight times."
+  }
+}

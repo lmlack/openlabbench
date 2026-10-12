@@ -1,0 +1,737 @@
+{
+  "slug": "stm32f103-blue-pill",
+  "name": "STM32F103C8T6 Blue Pill",
+  "shortName": "Blue Pill",
+  "vendor": "Generic / WeAct",
+  "category": "mcu-board",
+  "summary": "72 MHz Cortex-M3 with real SWD debugging for about the price of a Nano. Orientation below has the USB connector at the top.",
+  "logic": "3.3 V",
+  "package": "2x20 2.54 mm, 53 x 22 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 20,
+    "sideLabels": [
+      "Header 1, USB at top",
+      "Header 2, USB at top"
+    ]
+  },
+  "keywords": [
+    "blue pill",
+    "stm32",
+    "stm32f103",
+    "f103c8t6",
+    "cortex-m3",
+    "bluepill",
+    "cs32",
+    "swd"
+  ],
+  "notes": [
+    "The analog pins (PA0 to PA7, PB0, PB1) and PC13 to PC15 are NOT 5 V tolerant. Most of PA8 to PA15 and PB3 to PB15 are, but check the FT column in the datasheet for the exact pin before you rely on it.",
+    "PC13 drives the on-board LED and sinks it, so the LED is on when the pin is low. PC13, PC14 and PC15 are limited to 3 mA and cannot be used as fast outputs.",
+    "USB rarely works out of the box: the D+ pull-up should be 1.5k and most boards ship 10k or 4.7k. Replace R10, or bodge a 1.8k from PA12 to 3.3 V.",
+    "PA13 and PA14 are SWDIO and SWCLK on the 4-pin debug header, not on the side headers. That header is the reason to pick this board: real breakpoints over a 3 dollar ST-Link clone.",
+    "PA15, PB3 and PB4 default to JTAG. They need the JTAG remap disabled in software before they work as ordinary GPIO.",
+    "BOOT0 high at reset runs the built-in serial bootloader on PA9/PA10. BOOT0 low runs your code. Move the jumper back after flashing or the next power cycle sits in the bootloader.",
+    "The 5V header pin is wired straight to USB VBUS with no protection. Do not feed it from a bench supply with USB also plugged in.",
+    "Plenty of boards in circulation carry a CKS or CS32 die rather than a real ST part. They mostly work, but SWD connection and USB behave differently, and the 128 KB flash on a C8-marked chip is unofficial."
+  ],
+  "docs": [
+    {
+      "label": "STM32F103C8 product page",
+      "url": "https://www.st.com/en/microcontrollers-microprocessors/stm32f103c8.html"
+    },
+    {
+      "label": "stm32-base board reference",
+      "url": "https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill.html"
+    }
+  ],
+  "pins": [
+    {
+      "name": "VB",
+      "primary": "vin",
+      "aliases": [
+        "VBAT"
+      ],
+      "voltage": "1.8-3.6 V",
+      "functions": [
+        "RTC backup supply"
+      ],
+      "side": "left",
+      "row": 1,
+      "note": "No backup cell fitted. Tie to 3.3 V if unused."
+    },
+    {
+      "name": "PC13",
+      "primary": "gpio",
+      "aliases": [
+        "C13",
+        "LED_BUILTIN"
+      ],
+      "functions": [
+        "On-board LED, active low"
+      ],
+      "side": "left",
+      "row": 2,
+      "note": "3 mA max and slow. Fine for an LED, wrong for anything else."
+    },
+    {
+      "name": "PC14",
+      "primary": "gpio",
+      "aliases": [
+        "C14",
+        "OSC32_IN"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "LSE crystal in"
+      ],
+      "side": "left",
+      "row": 3,
+      "note": "3 mA max. Taken by the 32.768 kHz crystal on most boards."
+    },
+    {
+      "name": "PC15",
+      "primary": "gpio",
+      "aliases": [
+        "C15",
+        "OSC32_OUT"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "LSE crystal out"
+      ],
+      "side": "left",
+      "row": 4,
+      "note": "3 mA max. Taken by the 32.768 kHz crystal on most boards."
+    },
+    {
+      "name": "PA0",
+      "primary": "gpio",
+      "aliases": [
+        "A0",
+        "ADC_IN0",
+        "WKUP"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN0",
+        "TIM2 CH1",
+        "Wake-up"
+      ],
+      "side": "left",
+      "row": 5,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA1",
+      "primary": "gpio",
+      "aliases": [
+        "A1",
+        "ADC_IN1"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN1",
+        "TIM2 CH2"
+      ],
+      "side": "left",
+      "row": 6,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA2",
+      "primary": "gpio",
+      "aliases": [
+        "A2",
+        "ADC_IN2"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN2",
+        "USART2 TX",
+        "TIM2 CH3"
+      ],
+      "side": "left",
+      "row": 7,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA3",
+      "primary": "gpio",
+      "aliases": [
+        "A3",
+        "ADC_IN3"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN3",
+        "USART2 RX",
+        "TIM2 CH4"
+      ],
+      "side": "left",
+      "row": 8,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA4",
+      "primary": "gpio",
+      "aliases": [
+        "A4",
+        "ADC_IN4"
+      ],
+      "tags": [
+        "analog",
+        "spi"
+      ],
+      "functions": [
+        "ADC1 IN4",
+        "SPI1 NSS"
+      ],
+      "side": "left",
+      "row": 9,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA5",
+      "primary": "gpio",
+      "aliases": [
+        "A5",
+        "ADC_IN5"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "ADC1 IN5",
+        "SPI1 SCK"
+      ],
+      "side": "left",
+      "row": 10,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA6",
+      "primary": "gpio",
+      "aliases": [
+        "A6",
+        "ADC_IN6"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN6",
+        "SPI1 MISO",
+        "TIM3 CH1"
+      ],
+      "side": "left",
+      "row": 11,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PA7",
+      "primary": "gpio",
+      "aliases": [
+        "A7",
+        "ADC_IN7"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN7",
+        "SPI1 MOSI",
+        "TIM3 CH2"
+      ],
+      "side": "left",
+      "row": 12,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PB0",
+      "primary": "gpio",
+      "aliases": [
+        "B0",
+        "ADC_IN8"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN8",
+        "TIM3 CH3"
+      ],
+      "side": "left",
+      "row": 13,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PB1",
+      "primary": "gpio",
+      "aliases": [
+        "B1",
+        "ADC_IN9"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN9",
+        "TIM3 CH4"
+      ],
+      "side": "left",
+      "row": 14,
+      "note": "Not 5 V tolerant."
+    },
+    {
+      "name": "PB10",
+      "primary": "gpio",
+      "aliases": [
+        "B10"
+      ],
+      "tags": [
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "I2C2 SCL",
+        "USART3 TX"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "PB11",
+      "primary": "gpio",
+      "aliases": [
+        "B11"
+      ],
+      "tags": [
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "I2C2 SDA",
+        "USART3 RX"
+      ],
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "R",
+      "primary": "ctrl",
+      "aliases": [
+        "NRST",
+        "RESET"
+      ],
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "left",
+      "row": 17
+    },
+    {
+      "name": "3.3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply"
+      ],
+      "side": "left",
+      "row": 18,
+      "note": "Also an input if you feed the board from a regulated 3.3 V rail."
+    },
+    {
+      "name": "G",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 19
+    },
+    {
+      "name": "G",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 20
+    },
+    {
+      "name": "3.3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "G",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "USB VBUS"
+      ],
+      "side": "right",
+      "row": 3,
+      "note": "Straight to the USB connector, unprotected and unfused."
+    },
+    {
+      "name": "PB9",
+      "primary": "gpio",
+      "aliases": [
+        "B9"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "TIM4 CH4",
+        "I2C1 SDA remap",
+        "CAN TX remap"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "PB8",
+      "primary": "gpio",
+      "aliases": [
+        "B8"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "TIM4 CH3",
+        "I2C1 SCL remap",
+        "CAN RX remap"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "PB7",
+      "primary": "gpio",
+      "aliases": [
+        "B7"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "TIM4 CH2",
+        "USART1 RX remap"
+      ],
+      "side": "right",
+      "row": 6,
+      "note": "Default I2C1 data pin."
+    },
+    {
+      "name": "PB6",
+      "primary": "gpio",
+      "aliases": [
+        "B6"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "TIM4 CH1",
+        "USART1 TX remap"
+      ],
+      "side": "right",
+      "row": 7,
+      "note": "Default I2C1 clock pin."
+    },
+    {
+      "name": "PB5",
+      "primary": "gpio",
+      "aliases": [
+        "B5"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI1 MOSI remap",
+        "TIM3 CH2 remap",
+        "I2C1 SMBA"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "PB4",
+      "primary": "gpio",
+      "aliases": [
+        "B4",
+        "NJTRST"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "JTAG NJTRST",
+        "SPI1 MISO remap",
+        "TIM3 CH1 remap"
+      ],
+      "side": "right",
+      "row": 9,
+      "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
+    },
+    {
+      "name": "PB3",
+      "primary": "gpio",
+      "aliases": [
+        "B3",
+        "JTDO"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "JTAG JTDO",
+        "SPI1 SCK remap",
+        "TIM2 CH2 remap"
+      ],
+      "side": "right",
+      "row": 10,
+      "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
+    },
+    {
+      "name": "PA15",
+      "primary": "gpio",
+      "aliases": [
+        "A15",
+        "JTDI"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "JTAG JTDI",
+        "SPI1 NSS remap",
+        "TIM2 CH1 remap"
+      ],
+      "side": "right",
+      "row": 11,
+      "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
+    },
+    {
+      "name": "PA12",
+      "primary": "gpio",
+      "aliases": [
+        "A12",
+        "USB_DP"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "USB D+",
+        "CAN TX",
+        "TIM1 CH ETR"
+      ],
+      "side": "right",
+      "row": 12,
+      "note": "USB D+. This is the pin that needs the 1.5k pull-up to 3.3 V."
+    },
+    {
+      "name": "PA11",
+      "primary": "gpio",
+      "aliases": [
+        "A11",
+        "USB_DM"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "USB D-",
+        "CAN RX",
+        "TIM1 CH4"
+      ],
+      "side": "right",
+      "row": 13,
+      "note": "USB D-."
+    },
+    {
+      "name": "PA10",
+      "primary": "gpio",
+      "aliases": [
+        "A10"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "USART1 RX",
+        "TIM1 CH3"
+      ],
+      "side": "right",
+      "row": 14,
+      "note": "Serial bootloader RX when BOOT0 is high."
+    },
+    {
+      "name": "PA9",
+      "primary": "gpio",
+      "aliases": [
+        "A9"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "USART1 TX",
+        "TIM1 CH2"
+      ],
+      "side": "right",
+      "row": 15,
+      "note": "Serial bootloader TX when BOOT0 is high."
+    },
+    {
+      "name": "PA8",
+      "primary": "gpio",
+      "aliases": [
+        "A8",
+        "MCO"
+      ],
+      "tags": [
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "TIM1 CH1",
+        "Clock output"
+      ],
+      "side": "right",
+      "row": 16
+    },
+    {
+      "name": "PB15",
+      "primary": "gpio",
+      "aliases": [
+        "B15"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI2 MOSI"
+      ],
+      "side": "right",
+      "row": 17
+    },
+    {
+      "name": "PB14",
+      "primary": "gpio",
+      "aliases": [
+        "B14"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI2 MISO"
+      ],
+      "side": "right",
+      "row": 18
+    },
+    {
+      "name": "PB13",
+      "primary": "gpio",
+      "aliases": [
+        "B13"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI2 SCK"
+      ],
+      "side": "right",
+      "row": 19
+    },
+    {
+      "name": "PB12",
+      "primary": "gpio",
+      "aliases": [
+        "B12"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI2 NSS"
+      ],
+      "side": "right",
+      "row": 20
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Blink the on-board LED on PC13",
+      "toolchain": "CMSIS, no HAL",
+      "lang": "c",
+      "code": "#include \"stm32f1xx.h\"\n\n/* 1. Clock the port. Nothing else works until this line runs. */\nRCC->APB2ENR |= RCC_APB2ENR_IOPCEN;\n\n/* 2. Configure PC13. Pins 8-15 live in CRH, 4 bits each,\n      so PC13 sits at bit (13 - 8) * 4 = 20.\n      MODE = 10 (output, 2 MHz), CNF = 00 (push-pull). */\nGPIOC->CRH &= ~(0xFu << 20);\nGPIOC->CRH |=  (0x2u << 20);\n\n/* 3. BSRR writes without a read-modify-write, so it is\n      interrupt-safe. The LED is active low on this board. */\nGPIOC->BSRR = GPIO_BSRR_BR13;   /* LED on  */\nGPIOC->BSRR = GPIO_BSRR_BS13;   /* LED off */",
+      "gotcha": "The peripheral clock enable in RCC is the step everyone misses. Without it the GPIO registers read and write as zero and the pin simply never moves, with no error anywhere."
+    }
+  ]
+}

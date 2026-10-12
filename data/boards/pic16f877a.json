@@ -1,0 +1,648 @@
+{
+  "slug": "pic16f877a",
+  "name": "PIC16F877A",
+  "shortName": "PIC16F877A",
+  "vendor": "Microchip",
+  "category": "mcu-chip",
+  "summary": "The PIC that taught a generation of engineering students. 33 I/O, eight ADC channels and a DIP-40 you can still breadboard.",
+  "logic": "2.0-5.5 V",
+  "package": "PDIP-40 / TQFP-44 / PLCC-44",
+  "keywords": [
+    "pic16f877a",
+    "pic16f877",
+    "pic",
+    "microchip",
+    "mplab",
+    "pickit",
+    "16f877a"
+  ],
+  "notes": [
+    "Both VDD pins (11 and 32) and both VSS pins (12 and 31) must be connected. Wiring only one pair gives you a chip that half works and resets randomly.",
+    "MCLR needs a 10k pull-up to VDD. There is no internal one by default, and a floating MCLR means a chip that never comes out of reset or resets on a sneeze.",
+    "RA4 is open drain. It can sink but not source, so it cannot drive an LED to ground the way every other pin can. This is the single most asked question about this chip.",
+    "Port A and Port E default to ANALOG at power-on. Until you write the ADCON1 register, digital reads on those pins return zero. The classic first-project bug.",
+    "RB3 is the low-voltage programming pin. Tie it low if you are not using LVP, or noise can drop the chip into programming mode mid-run.",
+    "RB4 to RB7 have interrupt-on-change, which is how keypads and wake-from-sleep are normally done.",
+    "RB6 and RB7 are the ICSP clock and data. Anything hung on them must not fight the programmer, so keep loads light or add series resistors.",
+    "Superseded for new designs by the PIC16F1939 and the PIC18F family, but still in production and still what a lot of university courses teach."
+  ],
+  "docs": [
+    {
+      "label": "Microchip PIC16F877A product page",
+      "url": "https://www.microchip.com/en-us/product/PIC16F877A"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "MCLR",
+      "primary": "ctrl",
+      "aliases": [
+        "VPP",
+        "RE3"
+      ],
+      "functions": [
+        "Reset, active low",
+        "Programming voltage"
+      ],
+      "note": "Needs a 10k pull-up to VDD. Also where 13 V arrives during high-voltage programming."
+    },
+    {
+      "number": 2,
+      "name": "RA0",
+      "primary": "gpio",
+      "aliases": [
+        "AN0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port A bit 0",
+        "ADC 0"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "RA1",
+      "primary": "gpio",
+      "aliases": [
+        "AN1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port A bit 1",
+        "ADC 1"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "RA2",
+      "primary": "gpio",
+      "aliases": [
+        "AN2",
+        "VREF-"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port A bit 2",
+        "ADC 2",
+        "ADC negative reference"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "RA3",
+      "primary": "gpio",
+      "aliases": [
+        "AN3",
+        "VREF+"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port A bit 3",
+        "ADC 3",
+        "ADC positive reference"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "RA4",
+      "primary": "gpio",
+      "aliases": [
+        "T0CKI"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port A bit 4",
+        "Timer0 clock in"
+      ],
+      "note": "Open drain only. It cannot source current, so an LED here needs a pull-up, not a series resistor to VDD."
+    },
+    {
+      "number": 7,
+      "name": "RA5",
+      "primary": "gpio",
+      "aliases": [
+        "AN4",
+        "SS"
+      ],
+      "tags": [
+        "analog",
+        "spi"
+      ],
+      "functions": [
+        "Port A bit 5",
+        "ADC 4",
+        "SPI slave select"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "RE0",
+      "primary": "gpio",
+      "aliases": [
+        "RD",
+        "AN5"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port E bit 0",
+        "Parallel slave read",
+        "ADC 5"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "RE1",
+      "primary": "gpio",
+      "aliases": [
+        "WR",
+        "AN6"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port E bit 1",
+        "Parallel slave write",
+        "ADC 6"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "RE2",
+      "primary": "gpio",
+      "aliases": [
+        "CS",
+        "AN7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Port E bit 2",
+        "Parallel slave select",
+        "ADC 7"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2.0-5.5 V",
+      "note": "Both VDD pins, 11 and 32, must be connected."
+    },
+    {
+      "number": 12,
+      "name": "VSS",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "Both VSS pins, 12 and 31, must be connected."
+    },
+    {
+      "number": 13,
+      "name": "OSC1",
+      "primary": "gpio",
+      "aliases": [
+        "CLKIN"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in / external clock"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "OSC2",
+      "primary": "gpio",
+      "aliases": [
+        "CLKOUT"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "RC0",
+      "primary": "gpio",
+      "aliases": [
+        "T1OSO",
+        "T1CKI"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port C bit 0",
+        "Timer1 oscillator out"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "RC1",
+      "primary": "gpio",
+      "aliases": [
+        "T1OSI",
+        "CCP2"
+      ],
+      "tags": [
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "Port C bit 1",
+        "Timer1 oscillator in",
+        "CCP2 / PWM"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "RC2",
+      "primary": "gpio",
+      "aliases": [
+        "CCP1"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Port C bit 2",
+        "CCP1 / PWM"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "RC3",
+      "primary": "gpio",
+      "aliases": [
+        "SCK",
+        "SCL"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "clock"
+      ],
+      "functions": [
+        "Port C bit 3",
+        "SPI clock",
+        "I2C clock"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "RD0",
+      "primary": "gpio",
+      "aliases": [
+        "PSP0"
+      ],
+      "functions": [
+        "Port D bit 0",
+        "Parallel slave port 0"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "RD1",
+      "primary": "gpio",
+      "aliases": [
+        "PSP1"
+      ],
+      "functions": [
+        "Port D bit 1",
+        "Parallel slave port 1"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "RD2",
+      "primary": "gpio",
+      "aliases": [
+        "PSP2"
+      ],
+      "functions": [
+        "Port D bit 2",
+        "Parallel slave port 2"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "RD3",
+      "primary": "gpio",
+      "aliases": [
+        "PSP3"
+      ],
+      "functions": [
+        "Port D bit 3",
+        "Parallel slave port 3"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "RC4",
+      "primary": "gpio",
+      "aliases": [
+        "SDI",
+        "SDA"
+      ],
+      "tags": [
+        "spi",
+        "i2c"
+      ],
+      "functions": [
+        "Port C bit 4",
+        "SPI data in",
+        "I2C data"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "RC5",
+      "primary": "gpio",
+      "aliases": [
+        "SDO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Port C bit 5",
+        "SPI data out"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "RC6",
+      "primary": "gpio",
+      "aliases": [
+        "TX",
+        "CK"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Port C bit 6",
+        "USART transmit"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "RC7",
+      "primary": "gpio",
+      "aliases": [
+        "RX",
+        "DT"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Port C bit 7",
+        "USART receive"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "RD4",
+      "primary": "gpio",
+      "aliases": [
+        "PSP4"
+      ],
+      "functions": [
+        "Port D bit 4"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "RD5",
+      "primary": "gpio",
+      "aliases": [
+        "PSP5"
+      ],
+      "functions": [
+        "Port D bit 5"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "RD6",
+      "primary": "gpio",
+      "aliases": [
+        "PSP6"
+      ],
+      "functions": [
+        "Port D bit 6"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "RD7",
+      "primary": "gpio",
+      "aliases": [
+        "PSP7"
+      ],
+      "functions": [
+        "Port D bit 7"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "VSS",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "The second ground. Connect it."
+    },
+    {
+      "number": 32,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2.0-5.5 V",
+      "note": "The second supply pin. Connect it."
+    },
+    {
+      "number": 33,
+      "name": "RB0",
+      "primary": "gpio",
+      "aliases": [
+        "INT"
+      ],
+      "functions": [
+        "Port B bit 0",
+        "External interrupt"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "RB1",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 1"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "RB2",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 2"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "RB3",
+      "primary": "gpio",
+      "aliases": [
+        "PGM"
+      ],
+      "functions": [
+        "Port B bit 3",
+        "Low-voltage programming"
+      ],
+      "note": "Tie low if you are not using low-voltage programming, or stray noise can put the chip into program mode."
+    },
+    {
+      "number": 37,
+      "name": "RB4",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 4"
+      ],
+      "note": "RB4 to RB7 have interrupt-on-change, the usual way to wake from sleep on a keypad."
+    },
+    {
+      "number": 38,
+      "name": "RB5",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 5"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "RB6",
+      "primary": "gpio",
+      "aliases": [
+        "PGC"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port B bit 6",
+        "ICSP clock"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "RB7",
+      "primary": "gpio",
+      "aliases": [
+        "PGD"
+      ],
+      "functions": [
+        "Port B bit 7",
+        "ICSP data"
+      ]
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "snippets": [
+    {
+      "title": "Set up the ports, and stop them being analog",
+      "toolchain": "XC8",
+      "lang": "c",
+      "code": "#include <xc.h>\n\n/* Port A and Port E come up ANALOG. Until this runs, a digital\n   read on those pins returns 0 no matter what you wired. */\nADCON1 = 0x06;                 /* PCFG = 0110: all digital */\n\nTRISB  = 0x00;                 /* 0 = output, the opposite of AVR's DDR */\nPORTB  = 0xFF;\n\nTRISA  = 0xFF;                 /* 1 = input */\nif (PORTAbits.RA0 == 0) {\n}\n\n/* RA4 is open drain. It can sink but never source, so an LED\n   to ground will not light from this pin. */",
+      "gotcha": "TRIS is inverted against AVR's DDR: 0 means output here. And Port A defaults to analog, which is the single most common first-project failure on this chip."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "MCLR is the reset input and has no internal pull-up. Floating, the chip resets at random."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "11",
+        "to": "GND",
+        "required": true,
+        "why": "Decoupling at the first supply pair, as close to the pins as the layout allows."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "32",
+        "to": "GND",
+        "required": true,
+        "why": "The second VDD pin needs its own. Both pairs must be connected, they are not bonded internally."
+      },
+      {
+        "part": "20 MHz crystal",
+        "symbol": "xtal",
+        "from": "13",
+        "to": "14",
+        "required": true,
+        "why": "There is no internal oscillator on this part. With nothing on OSC1 the chip simply does not run."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "Crystal load capacitor, 15 to 33 pF depending on the crystal."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "The matching load capacitor on the other crystal pin."
+      }
+    ],
+    "note": "The configuration word has to select the oscillator mode as well, HS for 20 MHz. Fitting the crystal is not enough on its own, and the same word is where you turn the watchdog off."
+  }
+}

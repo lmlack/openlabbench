@@ -1,0 +1,279 @@
+{
+  "slug": "l293d",
+  "name": "L293D Motor Driver",
+  "shortName": "L293D",
+  "vendor": "Texas Instruments / STMicroelectronics",
+  "category": "ic",
+  "summary": "Quad half-bridge with built-in flyback diodes: two DC motors bidirectionally, or one bipolar stepper. Old, inefficient and still the part in every starter kit.",
+  "logic": "4.5-7 V logic / ≤36 V motor",
+  "package": "PDIP-16 / SOIC-16 (PowerDIP with fused GND)",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "keywords": [
+    "l293d",
+    "l293",
+    "l298n",
+    "motor driver",
+    "h-bridge",
+    "half bridge",
+    "stepper"
+  ],
+  "notes": [
+    "It is a Darlington bridge, so it drops roughly 1.4-1.8 V on each side, about 3 V total. At 6 V in, your motor sees half that. This is the reason to reach for a DRV8833 or TB6612FNG instead.",
+    "600 mA continuous per channel, 1.2 A peak. The plain L293 doubles that but has no internal diodes.",
+    "The four center pins (4, 5, 12, 13) are both ground and the only heatsink. Solder all four to a copper pour; a DIP socket in still air will thermally shut down.",
+    "VCC1 (16) is logic and VCC2 (8) is the motor rail. Both are required, and VCC2 must be at or above VCC1.",
+    "The two enable pins take PWM for speed control. PWM on the direction inputs instead works but is noisier and gives a worse low-speed response.",
+    "The D in L293D means the clamp diodes are on-die. With a bare L293 you must add eight external Schottkys."
+  ],
+  "docs": [
+    {
+      "label": "TI L293D product page",
+      "url": "https://www.ti.com/product/L293D"
+    },
+    {
+      "label": "TI DRV8833 (modern alternative)",
+      "url": "https://www.ti.com/product/DRV8833"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "EN1,2",
+      "primary": "ctrl",
+      "aliases": [
+        "1,2EN",
+        "ENA"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Enable channels 1 and 2"
+      ],
+      "note": "High to drive. PWM here for speed control on motor A."
+    },
+    {
+      "number": 2,
+      "name": "IN1",
+      "primary": "gpio",
+      "aliases": [
+        "1A"
+      ],
+      "functions": [
+        "Channel 1 input"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "OUT1",
+      "primary": "gpio",
+      "aliases": [
+        "1Y"
+      ],
+      "functions": [
+        "Channel 1 output"
+      ],
+      "note": "Motor A terminal."
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground / heatsink"
+      ],
+      "note": "One of four fused ground pins, the package's entire thermal path."
+    },
+    {
+      "number": 5,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground / heatsink"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "OUT2",
+      "primary": "gpio",
+      "aliases": [
+        "2Y"
+      ],
+      "functions": [
+        "Channel 2 output"
+      ],
+      "note": "Motor A terminal."
+    },
+    {
+      "number": 7,
+      "name": "IN2",
+      "primary": "gpio",
+      "aliases": [
+        "2A"
+      ],
+      "functions": [
+        "Channel 2 input"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "VCC2",
+      "primary": "vin",
+      "voltage": "VCC1 to 36 V",
+      "functions": [
+        "Motor supply"
+      ],
+      "note": "Needs a bulk electrolytic close by; motor current comes from here, not from your 5 V rail."
+    },
+    {
+      "number": 9,
+      "name": "EN3,4",
+      "primary": "ctrl",
+      "aliases": [
+        "3,4EN",
+        "ENB"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Enable channels 3 and 4"
+      ],
+      "note": "PWM here for speed control on motor B."
+    },
+    {
+      "number": 10,
+      "name": "IN3",
+      "primary": "gpio",
+      "aliases": [
+        "3A"
+      ],
+      "functions": [
+        "Channel 3 input"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "OUT3",
+      "primary": "gpio",
+      "aliases": [
+        "3Y"
+      ],
+      "functions": [
+        "Channel 3 output"
+      ],
+      "note": "Motor B terminal."
+    },
+    {
+      "number": 12,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground / heatsink"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground / heatsink"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "OUT4",
+      "primary": "gpio",
+      "aliases": [
+        "4Y"
+      ],
+      "functions": [
+        "Channel 4 output"
+      ],
+      "note": "Motor B terminal."
+    },
+    {
+      "number": 15,
+      "name": "IN4",
+      "primary": "gpio",
+      "aliases": [
+        "4A"
+      ],
+      "functions": [
+        "Channel 4 input"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "VCC1",
+      "primary": "vcc",
+      "voltage": "4.5-7 V",
+      "functions": [
+        "Logic supply"
+      ],
+      "note": "Separate from the motor rail. 100 nF at the pin."
+    }
+  ],
+  "circuit": {
+    "title": "Driving one motor",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "16",
+        "to": "VCC",
+        "required": true,
+        "why": "Logic supply, 4.5 to 7 V. Separate from the motor rail and it must be powered first."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "8",
+        "to": "VM",
+        "required": true,
+        "why": "Motor supply, up to 36 V. Tying it to the logic rail only works if the motor runs on 5 V."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Decoupling on the logic supply at the pin."
+      },
+      {
+        "part": "100 uF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Bulk on the motor supply. Stall current comes from here, not from the logic rail."
+      },
+      {
+        "part": "Motor",
+        "symbol": "load",
+        "from": "3",
+        "to": "6",
+        "required": true,
+        "why": "A brushed motor across one half bridge. IN1 and IN2 set direction, EN1,2 gates both outputs."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "VCC",
+        "required": false,
+        "why": "Enable tied high runs the bridge continuously. Drive it with PWM instead to control speed."
+      }
+    ],
+    "note": "The D suffix is the whole difference: the L293D has the clamp diodes on-die, the plain L293 does not and needs eight external ones. Both drop about 2 V across the output stage, so a 12 V motor on a 12 V rail sees closer to 10 V."
+  }
+}

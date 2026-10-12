@@ -1,0 +1,367 @@
+{
+  "slug": "mos-6551",
+  "name": "MOS 6551 ACIA",
+  "shortName": "6551 ACIA",
+  "vendor": "MOS / Rockwell / WDC",
+  "category": "ic",
+  "summary": "Serial port for a 6502 system: a full UART with its own baud rate generator, so one crystal gives you every standard rate.",
+  "logic": "5 V",
+  "package": "PDIP-28",
+  "keywords": [
+    "6551",
+    "acia",
+    "w65c51",
+    "uart",
+    "6502",
+    "serial",
+    "homebrew computer",
+    "rs232"
+  ],
+  "notes": [
+    "It has its own baud rate generator. A 1.8432 MHz crystal on XTLI and XTLO gives every standard rate from 50 to 19200 baud with no divider maths.",
+    "Only four registers, selected by RS0 and RS1: data, status, command and control. Wire those to CPU A0 and A1.",
+    "The original NMOS 6551 has a well-known transmitter bug: the transmit-empty flag is unreliable, so polling it can hang. The usual workaround is a fixed delay per character. The CMOS W65C51N has the same bug; the older W65C51S does not.",
+    "IRQ is open drain, so it shares one interrupt line with the VIA and anything else through a single pull-up.",
+    "The modem control lines are real: RTS, CTS, DTR, DSR and DCD are all brought out, which is enough for proper hardware flow control.",
+    "Output levels are TTL, not RS-232. A MAX232 or equivalent sits between this and a real serial port; for a modern USB adapter, wire TxD and RxD straight across.",
+    "Pair it with a 6522 VIA and a 6502 and you have the classic three-chip computer."
+  ],
+  "docs": [
+    {
+      "label": "WDC W65C51N datasheet",
+      "url": "https://www.westerndesigncenter.com/wdc/documentation/w65c51n.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "VSS"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "CS0",
+      "primary": "ctrl",
+      "functions": [
+        "Chip select 0, active high"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "CS1",
+      "primary": "ctrl",
+      "aliases": [
+        "/CS1"
+      ],
+      "functions": [
+        "Chip select 1, active low"
+      ],
+      "note": "Both selects must agree, and both should be qualified with PHI2."
+    },
+    {
+      "number": 4,
+      "name": "RES",
+      "primary": "ctrl",
+      "aliases": [
+        "/RES",
+        "RESET"
+      ],
+      "functions": [
+        "Reset, active low"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "RxC",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Receive clock"
+      ],
+      "note": "Output at 16x baud when using the internal generator; an input in external clock mode."
+    },
+    {
+      "number": 6,
+      "name": "XTLI",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in"
+      ],
+      "note": "1.8432 MHz. That exact frequency is what makes every standard baud rate come out right."
+    },
+    {
+      "number": 7,
+      "name": "XTLO",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "RTS",
+      "primary": "ctrl",
+      "aliases": [
+        "/RTS"
+      ],
+      "functions": [
+        "Request to send, active low"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "CTS",
+      "primary": "ctrl",
+      "aliases": [
+        "/CTS"
+      ],
+      "functions": [
+        "Clear to send, active low"
+      ],
+      "note": "Tie low if you are not using flow control, or the transmitter stays silent."
+    },
+    {
+      "number": 10,
+      "name": "TxD",
+      "primary": "gpio",
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Transmit data"
+      ],
+      "note": "TTL level, not RS-232."
+    },
+    {
+      "number": 11,
+      "name": "DTR",
+      "primary": "ctrl",
+      "aliases": [
+        "/DTR"
+      ],
+      "functions": [
+        "Data terminal ready, active low"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "RxD",
+      "primary": "gpio",
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Receive data"
+      ],
+      "note": "TTL level, not RS-232."
+    },
+    {
+      "number": 13,
+      "name": "RS0",
+      "primary": "ctrl",
+      "functions": [
+        "Register select 0"
+      ],
+      "note": "Wire RS0 and RS1 to CPU A0 and A1."
+    },
+    {
+      "number": 14,
+      "name": "RS1",
+      "primary": "ctrl",
+      "functions": [
+        "Register select 1"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "5 V",
+      "note": "100 nF at the pin."
+    },
+    {
+      "number": 16,
+      "name": "DCD",
+      "primary": "ctrl",
+      "aliases": [
+        "/DCD"
+      ],
+      "functions": [
+        "Data carrier detect, active low"
+      ],
+      "note": "Tie low if unused, or the receiver ignores incoming data."
+    },
+    {
+      "number": 17,
+      "name": "DSR",
+      "primary": "ctrl",
+      "aliases": [
+        "/DSR"
+      ],
+      "functions": [
+        "Data set ready, active low"
+      ],
+      "note": "Tie low if unused."
+    },
+    {
+      "number": 18,
+      "name": "D0",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 0"
+      ],
+      "note": "Unlike the 6502 and 6522, this bus runs D0 up to D7 as the pin numbers rise."
+    },
+    {
+      "number": 19,
+      "name": "D1",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 1"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "D2",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 2"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "D3",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 3"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "D4",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 4"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "D5",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 5"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "D6",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 6"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "D7",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 7"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "IRQ",
+      "primary": "gpio",
+      "aliases": [
+        "/IRQ"
+      ],
+      "functions": [
+        "Interrupt request, active low"
+      ],
+      "note": "Open drain. Shares a line with the VIA through one pull-up."
+    },
+    {
+      "number": 27,
+      "name": "PHI2",
+      "primary": "ctrl",
+      "aliases": [
+        "O2",
+        "CLK"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "System clock in"
+      ],
+      "note": "From the CPU phase 2 output."
+    },
+    {
+      "number": 28,
+      "name": "RW",
+      "primary": "gpio",
+      "aliases": [
+        "R/W"
+      ],
+      "functions": [
+        "Read high, write low"
+      ]
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 14,
+    "sideLabels": [
+      "Pins 1-14",
+      "Pins 15-28"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "1.8432 MHz crystal",
+        "symbol": "xtal",
+        "from": "6",
+        "to": "7",
+        "required": true,
+        "why": "Divides to exact standard baud rates. Without it the internal rate generator has nothing to count."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "15",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      },
+      {
+        "part": "3.3 kOhm",
+        "symbol": "res",
+        "from": "26",
+        "to": "VCC",
+        "required": true,
+        "why": "IRQ is open drain and shares a line with the other peripherals."
+      }
+    ],
+    "note": "Drive XTLI (6) directly from an external clock if you prefer, but then XTLO (7) must be left open. The NMOS part also has the famous transmit bug: the status register never reports the transmitter empty, so timing-based delays are the usual workaround."
+  }
+}

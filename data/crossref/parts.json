@@ -1,0 +1,1498 @@
+[
+  {
+    "part": "2N2222",
+    "category": "discrete",
+    "summary": "General purpose NPN small-signal switch.",
+    "specs": {
+      "Type": "NPN BJT",
+      "Ic max": "800 mA",
+      "Vce max": "40 V",
+      "hFE": "100-300",
+      "Package": "TO-18 / TO-92 (PN2222)"
+    },
+    "keywords": [
+      "2n2222",
+      "npn",
+      "transistor",
+      "pn2222"
+    ],
+    "equivalents": [
+      {
+        "part": "PN2222 / P2N2222",
+        "confidence": "caveats",
+        "notes": "The TO-92 plastic version, which is what you almost certainly have. Same ratings, but check the pinout: TO-92 2N2222 variants ship in both EBC and CBE orders depending on maker."
+      },
+      {
+        "part": "2N3904",
+        "confidence": "caveats",
+        "notes": "Same role, 200 mA instead of 800 mA. Fine for driving a relay coil or an LED, not for a motor. TO-92 pinout differs from some 2222 variants."
+      },
+      {
+        "part": "BC547",
+        "confidence": "caveats",
+        "notes": "European equivalent, 100 mA, higher gain. Pinout is CBE where the 2N3904 is EBC, the single most common cause of a transistor circuit that does nothing."
+      },
+      {
+        "part": "2N2907 / BC557",
+        "confidence": "not-drop-in",
+        "notes": "The PNP complements, for switching the high side."
+      },
+      {
+        "part": "AO3400 / IRLML2502",
+        "confidence": "not-drop-in",
+        "notes": "Logic-level MOSFETs: no base current, milliohms of on-resistance, amps of capacity. What a BJT switch should usually be replaced with."
+      }
+    ]
+  },
+  {
+    "part": "74HC595",
+    "category": "logic",
+    "summary": "8-bit serial-in parallel-out shift register with output latch.",
+    "pinout": "sn74hc595",
+    "specs": {
+      "Supply": "2-6 V",
+      "Outputs": "8",
+      "Drive": "~6 mA/pin",
+      "Max clock": "~25 MHz at 5 V",
+      "Package": "PDIP-16, SOIC-16"
+    },
+    "keywords": [
+      "595",
+      "shift register",
+      "serial to parallel"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT595",
+        "confidence": "drop-in",
+        "notes": "TTL input thresholds. This is the one to use when a 5 V register is clocked from 3.3 V logic, the plain HC version needs inputs near its own rail and will miss bits."
+      },
+      {
+        "part": "74AHC595 / 74LVC595",
+        "confidence": "caveats",
+        "notes": "Faster and, for the LVC, happy at 1.65-3.6 V. Watch the lower absolute maximum on the LVC part."
+      },
+      {
+        "part": "TPIC6B595",
+        "confidence": "caveats",
+        "notes": "Same three-wire interface, but the outputs are 150 mA open-drain sinks rated to 50 V. Outputs sink rather than source, so LED wiring inverts."
+      },
+      {
+        "part": "74HC164",
+        "confidence": "not-drop-in",
+        "notes": "Shift register without the output latch, so outputs ripple while you clock data in. Cheaper, visibly worse for LED work."
+      },
+      {
+        "part": "MIC5891 / A6276",
+        "confidence": "not-drop-in",
+        "notes": "Latched source drivers for bigger LED loads. Different pinouts and much higher current."
+      }
+    ]
+  },
+  {
+    "part": "A4988",
+    "category": "driver",
+    "summary": "Bipolar stepper driver with microstepping, the original RepRap module.",
+    "specs": {
+      "Current": "1 A (2 A peak, cooled)",
+      "Motor supply": "8-35 V",
+      "Microsteps": "to 1/16",
+      "Control": "STEP / DIR",
+      "Package": "QFN-28 module"
+    },
+    "keywords": [
+      "a4988",
+      "stepper driver",
+      "drv8825",
+      "tmc2209",
+      "pololu"
+    ],
+    "equivalents": [
+      {
+        "part": "DRV8825",
+        "confidence": "caveats",
+        "notes": "Pin-compatible module in the same footprint: 2.2 A, 1/32 microstepping, 45 V. Current-set resistor and Vref formula differ, so recalibrate rather than assuming the same potentiometer position."
+      },
+      {
+        "part": "TMC2208 / TMC2209",
+        "confidence": "caveats",
+        "notes": "Same footprint and STEP/DIR interface, near-silent thanks to StealthChop. The 2209 adds UART configuration and sensorless stall detection. The reason every current 3D printer is quiet."
+      },
+      {
+        "part": "TB6600 / DM542",
+        "confidence": "not-drop-in",
+        "notes": "Enclosed drivers for 3-4 A NEMA23 motors. Same STEP/DIR signaling, completely different hardware."
+      },
+      {
+        "part": "ULN2003 board",
+        "confidence": "not-drop-in",
+        "notes": "Not a substitute: that board drives unipolar 28BYJ-48 motors with no current control. Different motor class entirely."
+      }
+    ]
+  },
+  {
+    "part": "ADS1115",
+    "category": "analog",
+    "summary": "16-bit I2C ADC, four channels, with PGA and comparator.",
+    "specs": {
+      "Resolution": "16-bit",
+      "Channels": "4 SE / 2 diff",
+      "Rate": "860 SPS max",
+      "Interface": "I2C",
+      "Addresses": "0x48-0x4B"
+    },
+    "keywords": [
+      "ads1115",
+      "adc",
+      "16 bit adc",
+      "ads1015"
+    ],
+    "equivalents": [
+      {
+        "part": "ADS1113 / ADS1114",
+        "confidence": "caveats",
+        "notes": "Same silicon family and registers with 1 and 1 channel respectively; the 1113 also drops the PGA. Code ports directly."
+      },
+      {
+        "part": "ADS1015",
+        "confidence": "caveats",
+        "notes": "Pin- and register-compatible at 12-bit and 3300 SPS. The usual accidental substitution, the registers read the same, the bottom four bits are simply not there."
+      },
+      {
+        "part": "MCP3424",
+        "confidence": "not-drop-in",
+        "notes": "18-bit delta-sigma, four channels, I2C. Slower and better resolved; different registers."
+      },
+      {
+        "part": "ADS131M04 / ADS1256",
+        "confidence": "not-drop-in",
+        "notes": "24-bit simultaneous-sampling SPI ADCs for load cells and power metering. A different class of part and a different budget."
+      }
+    ]
+  },
+  {
+    "part": "AMS1117-3.3",
+    "category": "regulator",
+    "summary": "1 A fixed LDO, the 3.3 V regulator on most cheap dev boards.",
+    "specs": {
+      "Output": "3.3 V fixed",
+      "Current": "1 A",
+      "Dropout": "~1.1-1.3 V",
+      "Quiescent": "~5 mA",
+      "Package": "SOT-223"
+    },
+    "keywords": [
+      "ams1117",
+      "1117",
+      "3.3v regulator",
+      "ldo"
+    ],
+    "equivalents": [
+      {
+        "part": "LM1117-3.3 / LD1117-3.3",
+        "confidence": "drop-in",
+        "notes": "Same SOT-223 pinout and dropout from TI and ST. Better specified and better behaved on transients."
+      },
+      {
+        "part": "AP2112K-3.3",
+        "confidence": "not-drop-in",
+        "notes": "SOT-23-5, 600 mA, 250 mV dropout and ~55 µA quiescent. The right part for anything battery powered, where the AMS1117's milliamps of idle current and 1.2 V dropout are both unacceptable."
+      },
+      {
+        "part": "MCP1700-3302E",
+        "confidence": "not-drop-in",
+        "notes": "250 mA, 1.6 µA quiescent. For sleeping sensor nodes where idle current is the whole design."
+      },
+      {
+        "part": "LM2596 / MP1584 buck module",
+        "confidence": "not-drop-in",
+        "notes": "Switching, so efficiency stays high from a 12 V input instead of burning the difference as heat. Noisier, not what you want upstream of an ADC without filtering."
+      }
+    ]
+  },
+  {
+    "part": "ATmega328P",
+    "category": "microcontroller",
+    "summary": "8-bit AVR, 32 KB flash, the chip in the Arduino Uno and Nano.",
+    "pinout": "atmega328p-pdip",
+    "specs": {
+      "Core": "8-bit AVR",
+      "Flash": "32 KB",
+      "RAM": "2 KB",
+      "Supply": "1.8-5.5 V",
+      "Package": "PDIP-28, TQFP-32"
+    },
+    "keywords": [
+      "arduino uno chip",
+      "328",
+      "atmega"
+    ],
+    "equivalents": [
+      {
+        "part": "ATmega328PB",
+        "confidence": "caveats",
+        "notes": "Same pinout and core with extra peripherals (second I2C/SPI/USART, more timers). Needs a newer toolchain and a different device signature, and a few register and interrupt vector names moved, so code is a recompile rather than a straight binary swap."
+      },
+      {
+        "part": "ATmega168P",
+        "confidence": "caveats",
+        "notes": "Pin-identical, half the flash (16 KB) and RAM. Fine for small sketches; the Arduino bootloader eats a bigger share of it."
+      },
+      {
+        "part": "ATmega88PA",
+        "confidence": "caveats",
+        "notes": "Pin-identical, 8 KB flash. Too small for most Arduino libraries but a cheap fit for bare-metal work."
+      },
+      {
+        "part": "LGT8F328P",
+        "confidence": "not-drop-in",
+        "notes": "A Chinese reimplementation, not an AVR. Pin-compatible in DIP and much faster with a 12-bit ADC and DAC, but it needs its own core, its own programmer protocol, and timing-sensitive code behaves differently."
+      }
+    ]
+  },
+  {
+    "part": "ATtiny85",
+    "category": "microcontroller",
+    "summary": "8-pin AVR, 8 KB flash, five usable I/O.",
+    "pinout": "attiny85",
+    "specs": {
+      "Core": "8-bit AVR",
+      "Flash": "8 KB",
+      "RAM": "512 B",
+      "I/O": "5-6",
+      "Package": "PDIP-8, SOIC-8"
+    },
+    "keywords": [
+      "tiny85",
+      "digispark"
+    ],
+    "equivalents": [
+      {
+        "part": "ATtiny45",
+        "confidence": "drop-in",
+        "notes": "Identical pinout and peripherals, 4 KB flash instead of 8 KB. Recompile with the right target and it just works."
+      },
+      {
+        "part": "ATtiny25",
+        "confidence": "caveats",
+        "notes": "Same pinout, 2 KB flash and 128 B RAM. Only enough for bare-metal code."
+      },
+      {
+        "part": "ATtiny861",
+        "confidence": "not-drop-in",
+        "notes": "Same family, 20 pins. The move to make when you run out of I/O rather than flash."
+      },
+      {
+        "part": "ATtiny412 / ATtiny1614",
+        "confidence": "not-drop-in",
+        "notes": "Modern tinyAVR 0/1-series. Cheaper, faster and with better peripherals, but a different architecture generation: UPDI programming instead of ISP, and a largely different register map."
+      }
+    ]
+  },
+  {
+    "part": "Adafruit Feather",
+    "category": "microcontroller",
+    "summary": "A board footprint, not a chip: one pinout across a whole family.",
+    "pinout": "adafruit-feather",
+    "specs": {
+      "Headers": "16 + 12 pins",
+      "Logic": "3.3 V only",
+      "Battery": "LiPo charging required",
+      "Size": "0.9 x 2.0 in",
+      "Stacking": "FeatherWings"
+    },
+    "keywords": [
+      "feather",
+      "featherwing",
+      "adafruit",
+      "footprint"
+    ],
+    "equivalents": [
+      {
+        "part": "Feather M4 Express",
+        "confidence": "caveats",
+        "notes": "SAMD51 at 120 MHz, the usual choice when you want CircuitPython and plenty of RAM. Same footprint, different silicon behind each pin name."
+      },
+      {
+        "part": "Feather RP2040",
+        "confidence": "caveats",
+        "notes": "Same footprint with PIO, which no other Feather has. Worth it for bit-banged protocols and anything needing deterministic timing."
+      },
+      {
+        "part": "Feather ESP32-S3",
+        "confidence": "caveats",
+        "notes": "Adds WiFi and BLE in the same footprint. Power draw in transmit bursts is far higher, so size the battery and the regulator for it."
+      },
+      {
+        "part": "Seeed XIAO / QT Py",
+        "confidence": "not-drop-in",
+        "notes": "A smaller 14-pin footprint shared between Seeed and Adafruit. Much less I/O and no FeatherWing compatibility, but a third of the size."
+      },
+      {
+        "part": "Teensy 4.0",
+        "confidence": "not-drop-in",
+        "notes": "Not a Feather and not stackable, but a similar size and roughly thirty times the compute. The move when the job is audio or anything that needs 600 MHz."
+      }
+    ]
+  },
+  {
+    "part": "BME280",
+    "category": "sensor",
+    "summary": "Pressure, temperature and humidity sensor with I2C and SPI.",
+    "specs": {
+      "Measures": "P, T, RH",
+      "Interface": "I2C + SPI",
+      "Addresses": "0x76 / 0x77",
+      "Supply": "1.71-3.6 V",
+      "RH accuracy": "±3 %"
+    },
+    "keywords": [
+      "bme280",
+      "weather sensor",
+      "barometer",
+      "humidity"
+    ],
+    "equivalents": [
+      {
+        "part": "BMP280",
+        "confidence": "caveats",
+        "notes": "Same package, same pinout, same registers, but no humidity channel. The two are routinely mislabeled by sellers; read the chip ID register (0x60 for BME, 0x58 for BMP) to find out what you actually got."
+      },
+      {
+        "part": "BME680",
+        "confidence": "caveats",
+        "notes": "Adds a gas/VOC channel. Software-compatible for P/T/RH, but the gas sensor needs Bosch's BSEC library and a long burn-in to mean anything."
+      },
+      {
+        "part": "BMP180 / BMP085",
+        "confidence": "not-drop-in",
+        "notes": "Older pressure-and-temperature parts, different register map and a lower resolution. Only worth it for cost."
+      },
+      {
+        "part": "SHT31 / SHT41",
+        "confidence": "not-drop-in",
+        "notes": "If you want humidity and temperature only, these beat the BME280 on RH accuracy (±2 % and better) and do not self-heat as much. I2C, different address and registers."
+      }
+    ]
+  },
+  {
+    "part": "CH340G",
+    "category": "interface",
+    "summary": "USB to UART bridge, the one on most clone dev boards.",
+    "specs": {
+      "Interface": "USB 2.0 FS to UART",
+      "Baud": "to 2 Mbps",
+      "Supply": "5 V or 3.3 V",
+      "Package": "SOIC-16, SOP-16"
+    },
+    "keywords": [
+      "ch340",
+      "usb serial",
+      "ch340c",
+      "usb uart"
+    ],
+    "equivalents": [
+      {
+        "part": "CH340C",
+        "confidence": "caveats",
+        "notes": "Same bridge with the crystal on-die, so the external 12 MHz crystal and its caps disappear. Not pin-identical with the G."
+      },
+      {
+        "part": "CP2102 / CP2102N",
+        "confidence": "not-drop-in",
+        "notes": "Silicon Labs bridge, more reliable drivers on macOS and Linux, higher price. Different pinout."
+      },
+      {
+        "part": "FT232RL",
+        "confidence": "not-drop-in",
+        "notes": "The original FTDI part. Best driver support and bit-bang modes; counterfeits are rife and FTDI drivers have historically bricked them."
+      },
+      {
+        "part": "PL2303",
+        "confidence": "not-drop-in",
+        "notes": "Prolific bridge. Avoid for new work: driver support for older revisions has been withdrawn on current Windows versions."
+      },
+      {
+        "part": "Native USB MCU",
+        "confidence": "not-drop-in",
+        "notes": "An RP2040, ESP32-S3, SAMD21 or ATmega32U4 does USB itself and removes the bridge entirely."
+      }
+    ]
+  },
+  {
+    "part": "DHT22",
+    "category": "sensor",
+    "summary": "Single-wire temperature and humidity sensor.",
+    "specs": {
+      "Measures": "T, RH",
+      "Interface": "1-wire proprietary",
+      "Rate": "0.5 Hz max",
+      "Supply": "3.3-6 V",
+      "RH accuracy": "±2-5 %"
+    },
+    "keywords": [
+      "dht22",
+      "am2302",
+      "dht11",
+      "humidity sensor"
+    ],
+    "equivalents": [
+      {
+        "part": "AM2302",
+        "confidence": "drop-in",
+        "notes": "The same sensor sold under the manufacturer part number, usually on a small PCB with the pull-up fitted."
+      },
+      {
+        "part": "DHT11",
+        "confidence": "caveats",
+        "notes": "Same one-wire protocol and pinout, markedly worse: ±5 % RH, 1 °C resolution, 0-50 °C range. Only the library's init call changes."
+      },
+      {
+        "part": "SHT31-D",
+        "confidence": "not-drop-in",
+        "notes": "Proper I2C, ±2 % RH, readable as fast as you like. The upgrade worth making, the DHT line's one-wire timing protocol is fragile under interrupts."
+      },
+      {
+        "part": "DS18B20",
+        "confidence": "not-drop-in",
+        "notes": "Temperature only, but a real 1-Wire bus with addressable devices, so dozens share one pin. The right answer when you never needed humidity."
+      }
+    ]
+  },
+  {
+    "part": "DS3231",
+    "category": "interface",
+    "summary": "I2C real-time clock with a temperature-compensated crystal.",
+    "specs": {
+      "Interface": "I2C",
+      "Address": "0x68",
+      "Accuracy": "±2 ppm (±1 min/yr)",
+      "Supply": "2.3-5.5 V",
+      "Backup": "Coin cell / supercap"
+    },
+    "keywords": [
+      "ds3231",
+      "rtc",
+      "real time clock",
+      "zs-042"
+    ],
+    "equivalents": [
+      {
+        "part": "DS3232",
+        "confidence": "drop-in",
+        "notes": "Same part plus 236 bytes of battery-backed SRAM. Same address and register layout."
+      },
+      {
+        "part": "DS1307",
+        "confidence": "caveats",
+        "notes": "Same I2C address and a similar register map, so libraries often cover both, but it uses a bare external crystal and drifts minutes per month against the DS3231's minutes per year. 5 V only."
+      },
+      {
+        "part": "PCF8563 / PCF8523",
+        "confidence": "not-drop-in",
+        "notes": "Cheap NXP RTCs at address 0x51/0x68 with different registers. Accuracy is crystal-dependent, like the DS1307."
+      },
+      {
+        "part": "RV-3028-C7",
+        "confidence": "not-drop-in",
+        "notes": "±1 ppm at 45 nA. The part for a coin cell that has to last years. Different registers and a different package."
+      }
+    ]
+  },
+  {
+    "part": "ESP-01",
+    "category": "microcontroller",
+    "summary": "The smallest and cheapest ESP8266 module, with two usable GPIO.",
+    "pinout": "esp-01",
+    "specs": {
+      "Radio": "WiFi b/g/n",
+      "Usable I/O": "2",
+      "Flash": "512 KB or 1 MB",
+      "Supply": "3.0-3.6 V",
+      "ADC": "None brought out"
+    },
+    "keywords": [
+      "esp-01",
+      "esp01s",
+      "esp8266 module",
+      "wifi module"
+    ],
+    "equivalents": [
+      {
+        "part": "ESP-01S",
+        "confidence": "drop-in",
+        "notes": "Same pinout and footprint with 1 MB of flash instead of 512 KB, which matters because OTA updates need room for two images. The LED moves to GPIO2."
+      },
+      {
+        "part": "ESP-12F / ESP-12E",
+        "confidence": "not-drop-in",
+        "notes": "The same ESP8266 with most pins brought out, including the ADC and the deep-sleep wake pin. Castellated module rather than a header, so it needs a breakout."
+      },
+      {
+        "part": "WEMOS D1 mini",
+        "confidence": "not-drop-in",
+        "notes": "ESP-12F with a USB bridge, a 3.3 V regulator and a breadboard-friendly header. Costs a little more and removes every reason the ESP-01 is painful."
+      },
+      {
+        "part": "ESP32-C3 SuperMini",
+        "confidence": "not-drop-in",
+        "notes": "Similar size and price, with BLE, native USB, more RAM and far more usable I/O. The sensible choice for anything new."
+      }
+    ]
+  },
+  {
+    "part": "ESP32-CAM",
+    "category": "microcontroller",
+    "summary": "ESP32 with an OV2640 camera and microSD, no USB.",
+    "pinout": "esp32-cam",
+    "specs": {
+      "SoC": "ESP32-S / WROOM",
+      "Camera": "OV2640 2 MP",
+      "PSRAM": "4 MB on most",
+      "Free GPIO": "~6, and only one set",
+      "USB": "None"
+    },
+    "keywords": [
+      "esp32-cam",
+      "ai-thinker",
+      "ov2640",
+      "camera module"
+    ],
+    "equivalents": [
+      {
+        "part": "ESP32-S3-CAM / Freenove ESP32-S3",
+        "confidence": "not-drop-in",
+        "notes": "S3 with native USB, so no external serial adapter, plus more RAM and far more free GPIO. The straightforward upgrade if the ESP32-CAM's pin famine is the problem."
+      },
+      {
+        "part": "ESP32-CAM-MB baseboard",
+        "confidence": "drop-in",
+        "notes": "Not a different board, the carrier that adds USB and the auto-reset circuit. It turns flashing from a two-wire-and-a-jumper ritual into plugging in a cable."
+      },
+      {
+        "part": "XIAO ESP32S3 Sense",
+        "confidence": "not-drop-in",
+        "notes": "Thumbnail-sized, camera and microphone, native USB and a battery charger. Several times the price and worth it for anything wearable."
+      },
+      {
+        "part": "Raspberry Pi Zero 2 W with a camera",
+        "confidence": "not-drop-in",
+        "notes": "When the job is actual image processing rather than capture and upload. Linux, OpenCV and a real filesystem, at maybe ten times the power draw."
+      }
+    ]
+  },
+  {
+    "part": "ESP8266EX",
+    "category": "microcontroller",
+    "summary": "2.4 GHz WiFi SoC with a single Tensilica L106 core.",
+    "pinout": "wemos-d1-mini",
+    "specs": {
+      "Core": "80/160 MHz L106",
+      "RAM": "~50 KB usable",
+      "Radio": "WiFi b/g/n",
+      "ADC": "1x 10-bit",
+      "Supply": "3.0-3.6 V"
+    },
+    "keywords": [
+      "esp8266",
+      "esp-12f",
+      "nodemcu",
+      "d1 mini"
+    ],
+    "equivalents": [
+      {
+        "part": "ESP32",
+        "confidence": "not-drop-in",
+        "notes": "Dual core, Bluetooth, 18 ADC channels, real hardware I2C and far more GPIO. Different pin map and SDK, but the Arduino core API is close enough that most sketches port with pin changes only."
+      },
+      {
+        "part": "ESP32-C3",
+        "confidence": "not-drop-in",
+        "notes": "Single RISC-V core, closest to the ESP8266 in price and power. Adds BLE 5 and native USB. The usual modern replacement for a new design."
+      },
+      {
+        "part": "ESP8285",
+        "confidence": "drop-in",
+        "notes": "An ESP8266 with the 1 MB flash on-die. Electrically the same part; just set the flash size in the build."
+      },
+      {
+        "part": "RTL8710 / BL602",
+        "confidence": "not-drop-in",
+        "notes": "Cheaper WiFi SoCs that appear in commodity smart plugs. Toolchains and community support are a long way behind Espressif's."
+      }
+    ]
+  },
+  {
+    "part": "IRLZ44N",
+    "category": "discrete",
+    "summary": "Logic-level N-channel MOSFET for 5 V and 3.3 V gate drive.",
+    "specs": {
+      "Type": "N-ch MOSFET",
+      "Id": "47 A",
+      "Vds": "55 V",
+      "Rds(on)": "22 mΩ at Vgs=5 V",
+      "Vgs(th)": "1-2 V"
+    },
+    "keywords": [
+      "irlz44n",
+      "mosfet",
+      "logic level mosfet",
+      "irf540"
+    ],
+    "equivalents": [
+      {
+        "part": "IRLB8743 / IRLZ34N",
+        "confidence": "drop-in",
+        "notes": "Other logic-level TO-220 N-channel parts with the same GDS pinout. Pick on Rds(on) and voltage."
+      },
+      {
+        "part": "IRF540N",
+        "confidence": "not-drop-in",
+        "notes": "Looks like the same part and is constantly substituted for it, but it is NOT logic level: Rds(on) is specified at Vgs = 10 V and it barely turns on from a 5 V pin. Hot MOSFETs in beginner projects are usually this mistake."
+      },
+      {
+        "part": "STP55NF06L / FQP30N06L",
+        "confidence": "drop-in",
+        "notes": "Logic-level TO-220 alternatives, widely stocked. The trailing L is the part of the number that means logic level."
+      },
+      {
+        "part": "AO3400 / SI2302",
+        "confidence": "not-drop-in",
+        "notes": "SOT-23 logic-level MOSFETs for a few amps, when a TO-220 is overkill."
+      }
+    ]
+  },
+  {
+    "part": "L293D",
+    "category": "driver",
+    "summary": "Quad half-bridge motor driver with internal clamp diodes.",
+    "pinout": "l293d",
+    "specs": {
+      "Channels": "4 half-bridge",
+      "Current": "600 mA cont.",
+      "Motor supply": "to 36 V",
+      "Dropout": "~3 V total",
+      "Package": "PDIP-16"
+    },
+    "keywords": [
+      "l293",
+      "h bridge",
+      "motor driver",
+      "stepper driver"
+    ],
+    "equivalents": [
+      {
+        "part": "L293",
+        "confidence": "caveats",
+        "notes": "Pin-identical, 1 A per channel, but no internal diodes. Needs eight external clamp diodes or the first PWM cycle kills it."
+      },
+      {
+        "part": "L298N",
+        "confidence": "not-drop-in",
+        "notes": "2 A per channel in a 15-pin multiwatt package. The red breakout boards everyone has. Same Darlington voltage drop problem, just at higher current."
+      },
+      {
+        "part": "DRV8833",
+        "confidence": "not-drop-in",
+        "notes": "MOSFET bridge: ~0.2 V drop instead of 3 V, 1.5 A per channel, built-in current limit, runs from 2.7 V. Strictly better for anything battery powered, but a QFN/HTSSOP part with a different pinout."
+      },
+      {
+        "part": "TB6612FNG",
+        "confidence": "not-drop-in",
+        "notes": "The usual breadboard-friendly upgrade. 1.2 A continuous, MOSFET outputs, same three-signal-per-motor control scheme as the L293D so the code ports almost unchanged."
+      }
+    ]
+  },
+  {
+    "part": "LM358",
+    "category": "analog",
+    "summary": "Dual op-amp, single-supply, the default jellybean.",
+    "specs": {
+      "Channels": "2",
+      "Supply": "3-32 V single",
+      "GBW": "1 MHz",
+      "Input": "Not rail-to-rail",
+      "Package": "DIP-8, SOIC-8"
+    },
+    "keywords": [
+      "lm358",
+      "op amp",
+      "opamp",
+      "lm324"
+    ],
+    "equivalents": [
+      {
+        "part": "LM2904 / LM358A",
+        "confidence": "drop-in",
+        "notes": "Automotive-grade and tighter-offset versions of the same die and pinout."
+      },
+      {
+        "part": "LM324",
+        "confidence": "not-drop-in",
+        "notes": "Four of the same amplifier in a DIP-14. Same characteristics, different pinout."
+      },
+      {
+        "part": "MCP6002",
+        "confidence": "caveats",
+        "notes": "Same DIP-8 pinout, rail-to-rail in and out, runs from 1.8 V. The part to use on a 3.3 V rail, where the LM358's output cannot get within 1.5 V of the top rail and its input cannot reach it at all."
+      },
+      {
+        "part": "TL072",
+        "confidence": "caveats",
+        "notes": "Same pinout, JFET input, much quieter, the audio choice. Needs a dual supply or careful biasing; it is not a single-supply part in the way the LM358 is."
+      },
+      {
+        "part": "LM393",
+        "confidence": "not-drop-in",
+        "notes": "Same package and pin arrangement but a comparator, with an open-collector output. Looks interchangeable on a board and is not."
+      }
+    ],
+    "pinout": "lm358"
+  },
+  {
+    "part": "LM7805",
+    "category": "regulator",
+    "summary": "Classic 1 A fixed 5 V linear regulator.",
+    "specs": {
+      "Output": "5 V fixed",
+      "Current": "1-1.5 A",
+      "Dropout": "~2 V",
+      "Input max": "35 V",
+      "Package": "TO-220, TO-252"
+    },
+    "keywords": [
+      "7805",
+      "lm7805",
+      "l7805",
+      "5v regulator"
+    ],
+    "equivalents": [
+      {
+        "part": "L7805 / MC7805 / UA7805",
+        "confidence": "drop-in",
+        "notes": "Second sources with the same TO-220 pinout and the same 2 V dropout. Pick on price and package."
+      },
+      {
+        "part": "LM2940-5.0",
+        "confidence": "drop-in",
+        "notes": "Same pinout, 0.5 V dropout and reverse-battery protection. Worth the premium in automotive or battery work."
+      },
+      {
+        "part": "LM2596-5.0 module",
+        "confidence": "not-drop-in",
+        "notes": "Switching buck, 90 %+ efficient. A 7805 dropping 12 V to 5 V at 500 mA dissipates 3.5 W, that is a heatsink, and the reason to switch."
+      },
+      {
+        "part": "R-78E5.0-1.0",
+        "confidence": "drop-in",
+        "notes": "A switching module in a TO-220 footprint. Drops into an existing 7805 socket and stops it getting hot."
+      }
+    ]
+  },
+  {
+    "part": "MAX485",
+    "category": "transceiver",
+    "summary": "Half-duplex RS-485 transceiver, 5 V.",
+    "specs": {
+      "Supply": "4.75-5.25 V",
+      "Nodes": "32",
+      "Speed": "2.5 Mbps",
+      "Duplex": "Half",
+      "Package": "DIP-8, SOIC-8"
+    },
+    "keywords": [
+      "rs485",
+      "modbus",
+      "485"
+    ],
+    "equivalents": [
+      {
+        "part": "SN75176B",
+        "confidence": "drop-in",
+        "notes": "The original TI part with the same DIP-8 pinout. Slightly higher supply current, otherwise interchangeable."
+      },
+      {
+        "part": "MAX3485",
+        "confidence": "caveats",
+        "notes": "Same pinout and speed at 3.3 V. The right part for an ESP32 or Pico, and not safe on a 5 V rail."
+      },
+      {
+        "part": "SP3485 / ADM3485",
+        "confidence": "caveats",
+        "notes": "3.3 V, pin-compatible with the MAX3485. Common second sources."
+      },
+      {
+        "part": "MAX487",
+        "confidence": "drop-in",
+        "notes": "Same pinout with a quarter-unit-load receiver, so 128 nodes on the bus instead of 32, at 250 kbps."
+      },
+      {
+        "part": "MAX13487E",
+        "confidence": "not-drop-in",
+        "notes": "Adds automatic direction control, which removes the DE/RE GPIO and the turnaround timing bugs that come with it. Different pinout."
+      }
+    ],
+    "pinout": "max485"
+  },
+  {
+    "part": "MAX7219",
+    "category": "driver",
+    "summary": "Serial LED driver for eight 7-segment digits or an 8x8 matrix.",
+    "pinout": "max7219",
+    "specs": {
+      "Digits": "8",
+      "Interface": "3-wire serial",
+      "Supply": "4.0-5.5 V",
+      "Peak current": "330 mA",
+      "Scan": "Automatic, ~800 Hz"
+    },
+    "keywords": [
+      "max7219",
+      "led matrix",
+      "7 segment",
+      "display driver"
+    ],
+    "equivalents": [
+      {
+        "part": "MAX7221",
+        "confidence": "drop-in",
+        "notes": "Same pinout and register set, with SPI-compliant timing and slew-limited segment drivers for less radiated noise. It also respects CS properly, which matters on a shared bus."
+      },
+      {
+        "part": "HT16K33",
+        "confidence": "not-drop-in",
+        "notes": "I2C instead of SPI, and it scans a key matrix as well as driving the display. Two wires instead of three and an address, so several share a bus without extra chip selects."
+      },
+      {
+        "part": "TM1637",
+        "confidence": "not-drop-in",
+        "notes": "The four-digit module in every cheap clock kit. Two wires, far less capable, and a fraction of the price."
+      },
+      {
+        "part": "HT7219 / clone MAX7219",
+        "confidence": "caveats",
+        "notes": "Pin and register compatible clones fill the cheap 8x8 modules. They mostly work; brightness linearity and the ISET relationship differ, so recalibrate rather than assuming the same resistor."
+      }
+    ]
+  },
+  {
+    "part": "MCP23017",
+    "category": "interface",
+    "summary": "16-bit I2C I/O expander with interrupt outputs.",
+    "specs": {
+      "I/O": "16",
+      "Interface": "I2C",
+      "Addresses": "0x20-0x27",
+      "Supply": "1.8-5.5 V",
+      "Interrupts": "2 (per port)"
+    },
+    "keywords": [
+      "mcp23017",
+      "io expander",
+      "gpio expander",
+      "pcf8574"
+    ],
+    "equivalents": [
+      {
+        "part": "MCP23S17",
+        "confidence": "not-drop-in",
+        "notes": "Identical register set over SPI instead of I2C. Pin count and package match; the interface pins change."
+      },
+      {
+        "part": "MCP23008",
+        "confidence": "not-drop-in",
+        "notes": "Eight bits of the same thing in a DIP-18. Same register style."
+      },
+      {
+        "part": "PCF8574",
+        "confidence": "not-drop-in",
+        "notes": "Cheaper 8-bit expander, no registers at all, you read and write a byte. Quasi-bidirectional outputs mean weak high drive and no configurable pull-ups, so it is poor for inputs and is why I2C LCD backpacks behave oddly."
+      },
+      {
+        "part": "TCA9555 / PCA9555",
+        "confidence": "caveats",
+        "notes": "16-bit expanders with a register model close to the MCP23017's but not identical. Widely stocked when Microchip parts are not."
+      }
+    ]
+  },
+  {
+    "part": "MOS 6502",
+    "category": "microcontroller",
+    "summary": "8-bit CPU of the Apple II, C64 and NES.",
+    "pinout": "mos-6502",
+    "specs": {
+      "Bus": "8-bit data, 16-bit address",
+      "Clock": "1-3 MHz NMOS",
+      "Supply": "5 V",
+      "Package": "PDIP-40",
+      "Registers": "A, X, Y, SP, PC"
+    },
+    "keywords": [
+      "6502",
+      "retro cpu",
+      "homebrew computer"
+    ],
+    "equivalents": [
+      {
+        "part": "W65C02S",
+        "confidence": "caveats",
+        "notes": "WDC's CMOS part, still in production and the one to buy. Same pinout with pins 5, 36 and 38 given real functions. Fully static so you can single-step it by hand, fixes the JMP indirect page-boundary bug, and adds instructions. Code written for the NMOS part runs; code relying on undocumented opcodes does not."
+      },
+      {
+        "part": "R6502 / UM6502 / SY6502",
+        "confidence": "drop-in",
+        "notes": "Rockwell, UMC and Synertek second sources of the original NMOS die. Same pinout and the same quirks. Plentiful as pulls from old equipment."
+      },
+      {
+        "part": "6510",
+        "confidence": "not-drop-in",
+        "notes": "The C64's CPU: a 6502 with a 6-bit I/O port added, which takes over pins the plain 6502 uses differently. Not interchangeable without rewiring."
+      },
+      {
+        "part": "W65C816S",
+        "confidence": "not-drop-in",
+        "notes": "16-bit successor that boots in 6502 emulation mode. It multiplexes the upper address byte onto the data bus, so the glue logic needs a latch the 6502 does not."
+      },
+      {
+        "part": "Z80",
+        "confidence": "not-drop-in",
+        "notes": "The other classic 8-bit choice. More registers and a separate I/O space, but it needs more clock cycles per instruction and the bus timing is nothing alike."
+      },
+      {
+        "part": "6522 VIA",
+        "confidence": "not-drop-in",
+        "notes": "Not a substitute, the companion. A bare 6502 has no I/O at all; the 6522 adds two 8-bit ports, two timers and interrupt handling. Still in production as the W65C22, and the chip Ben Eater's build uses."
+      },
+      {
+        "part": "6551 ACIA",
+        "confidence": "not-drop-in",
+        "notes": "The other companion chip: a full UART with its own baud rate generator, so a 1.8432 MHz crystal gives every standard rate. Pair it with a 6522 and a 6502 for the classic three-chip computer."
+      }
+    ]
+  },
+  {
+    "part": "MPU6050",
+    "category": "sensor",
+    "summary": "6-axis accelerometer and gyroscope, I2C.",
+    "specs": {
+      "Axes": "3 accel + 3 gyro",
+      "Interface": "I2C (SPI on 6000)",
+      "Addresses": "0x68 / 0x69",
+      "Supply": "2.375-3.46 V",
+      "Status": "Not recommended for new designs"
+    },
+    "keywords": [
+      "mpu6050",
+      "imu",
+      "gyro",
+      "accelerometer",
+      "gy-521"
+    ],
+    "equivalents": [
+      {
+        "part": "MPU6500 / MPU9250",
+        "confidence": "caveats",
+        "notes": "Mostly register-compatible, lower noise and lower power; the 9250 adds a magnetometer behind a second I2C address. The WHO_AM_I value differs, so libraries that check it need a nudge."
+      },
+      {
+        "part": "ICM-20948",
+        "confidence": "not-drop-in",
+        "notes": "TDK's current 9-axis part and the actual successor. Different register map; the vendor library is the practical route."
+      },
+      {
+        "part": "LSM6DS3 / LSM6DSOX",
+        "confidence": "not-drop-in",
+        "notes": "ST 6-axis, better noise and a real machine-learning core on the DSOX. Widely stocked while MPU parts drift in and out of supply."
+      },
+      {
+        "part": "BMI160 / BMI270",
+        "confidence": "not-drop-in",
+        "notes": "Bosch 6-axis, very low power. The BMI270 is what current phones and the Nano 33 BLE Sense Rev2 use."
+      }
+    ]
+  },
+  {
+    "part": "NE555",
+    "category": "analog",
+    "summary": "Bipolar timer for astable, monostable and comparator duty.",
+    "pinout": "ne555",
+    "specs": {
+      "Supply": "4.5-16 V",
+      "Output": "200 mA",
+      "Max freq": "~500 kHz",
+      "Package": "PDIP-8, SOIC-8"
+    },
+    "keywords": [
+      "555",
+      "timer"
+    ],
+    "equivalents": [
+      {
+        "part": "LM555 / SA555 / KA555",
+        "confidence": "drop-in",
+        "notes": "Second-source bipolar 555s from TI, ON and others. Same die topology, same pinout, same supply current spikes."
+      },
+      {
+        "part": "TLC555",
+        "confidence": "caveats",
+        "notes": "CMOS: runs from 2 V, draws ~170 µA instead of 10 mA, and does not slam the supply rail on each transition. Output only sources ~10 mA though, so anything driven directly from a bipolar 555 needs a transistor here."
+      },
+      {
+        "part": "ICM7555 / LMC555",
+        "confidence": "caveats",
+        "notes": "Other CMOS versions, same trade: far lower supply current and higher usable frequency, much weaker output drive."
+      },
+      {
+        "part": "NE556",
+        "confidence": "not-drop-in",
+        "notes": "Two 555s in a 14-pin package. Same function, entirely different pinout."
+      }
+    ]
+  },
+  {
+    "part": "PC817",
+    "category": "interface",
+    "summary": "Single-channel phototransistor optocoupler.",
+    "specs": {
+      "Channels": "1",
+      "Isolation": "5 kV",
+      "CTR": "50-600 %",
+      "If": "50 mA max",
+      "Package": "DIP-4, SMD-4"
+    },
+    "keywords": [
+      "pc817",
+      "optocoupler",
+      "opto isolator",
+      "4n35"
+    ],
+    "equivalents": [
+      {
+        "part": "LTV817 / EL817 / FOD817",
+        "confidence": "drop-in",
+        "notes": "Direct second sources with the same DIP-4 pinout. Match the CTR bin letter if the design depends on gain."
+      },
+      {
+        "part": "4N35 / 4N25",
+        "confidence": "not-drop-in",
+        "notes": "DIP-6 with the base brought out. Lower CTR and slower, but the base pin lets you tame it."
+      },
+      {
+        "part": "6N137",
+        "confidence": "not-drop-in",
+        "notes": "Logic-output optocoupler at 10 Mbit. The part for isolating CAN, RS-485 or SPI, where the PC817's microsecond-scale response is far too slow."
+      },
+      {
+        "part": "MOC3021 / MOC3041",
+        "confidence": "not-drop-in",
+        "notes": "Triac-output couplers for switching mains. The 3041 adds zero-cross detection. Not interchangeable with a phototransistor part."
+      }
+    ]
+  },
+  {
+    "part": "PCF8574",
+    "category": "interface",
+    "summary": "8-bit I2C I/O expander, the chip on every LCD backpack.",
+    "pinout": "pcf8574",
+    "specs": {
+      "I/O": "8",
+      "Interface": "I2C",
+      "Addresses": "0x20-0x27",
+      "Sink": "25 mA",
+      "Source": "100 uA"
+    },
+    "keywords": [
+      "pcf8574",
+      "lcd backpack",
+      "io expander",
+      "i2c expander"
+    ],
+    "equivalents": [
+      {
+        "part": "PCF8574A",
+        "confidence": "caveats",
+        "notes": "Identical part at addresses 0x38 to 0x3F instead of 0x20 to 0x27. Sellers mix the two without saying which you are getting, so scan the bus rather than trusting the listing."
+      },
+      {
+        "part": "MCP23017",
+        "confidence": "not-drop-in",
+        "notes": "16 bits, real registers, configurable direction and pull-ups, and push-pull outputs that can actually source current. Everything the PCF8574 cannot do, in a DIP-28 with a different pinout."
+      },
+      {
+        "part": "TCA9554 / PCA9554",
+        "confidence": "caveats",
+        "notes": "8-bit expanders with a proper configuration register, in the same 16-pin footprint. A better part than the PCF8574 if your library supports it."
+      },
+      {
+        "part": "74HC595 plus 74HC165",
+        "confidence": "not-drop-in",
+        "notes": "Eight out and eight in over SPI instead of I2C, for a fraction of the price and much faster. More wires and more code."
+      }
+    ]
+  },
+  {
+    "part": "Raspberry Pi 4 Model B",
+    "category": "microcontroller",
+    "summary": "The default Linux SBC, and the 40-pin header everything else copies.",
+    "pinout": "raspberry-pi-40-pin",
+    "specs": {
+      "SoC": "BCM2711 quad A72",
+      "RAM": "1-8 GB",
+      "Header": "40-pin, 3.3 V",
+      "Video": "2x micro HDMI",
+      "Net": "Gigabit + WiFi"
+    },
+    "keywords": [
+      "raspberry pi",
+      "rpi4",
+      "sbc",
+      "single board computer",
+      "linux board"
+    ],
+    "equivalents": [
+      {
+        "part": "Raspberry Pi 5",
+        "confidence": "caveats",
+        "notes": "Same 40-pin header and same pin numbering, roughly twice the speed. GPIO now goes through the RP1 southbridge, so anything poking /dev/gpiomem or BCM2711 registers directly needs rewriting. Code on libgpiod is fine."
+      },
+      {
+        "part": "Raspberry Pi Zero 2 W",
+        "confidence": "drop-in",
+        "notes": "Same 40-pin header and same software, quarter the speed and a fraction of the power. The right swap when the job is GPIO and not compute."
+      },
+      {
+        "part": "Orange Pi 5",
+        "confidence": "not-drop-in",
+        "notes": "RK3588S, far faster, and the 40-pin header is physically compatible but the GPIO numbering is Rockchip's, not BCM. Expect to rewrite pin references and to rely on vendor kernels."
+      },
+      {
+        "part": "Radxa ROCK 5B",
+        "confidence": "not-drop-in",
+        "notes": "RK3588S, far faster, with the 40-pin header in the same positions. Power and ground line up so a HAT powers on, but pin 22 is a 1.8 V analog input where the Pi has GPIO25, and every GPIO number is Rockchip's rather than BCM. See its pinout page before plugging anything in."
+      },
+      {
+        "part": "Libre Computer Le Potato",
+        "confidence": "caveats",
+        "notes": "Cheap AML-S905X board that deliberately matches the Pi 3 header, and its libgpiod-based tooling tries hard to be compatible. Slower, no WiFi on the base model."
+      },
+      {
+        "part": "BeagleBone Black",
+        "confidence": "not-drop-in",
+        "notes": "Completely different headers (P8 and P9, 92 pins) and 1.8 V analog inputs. Worth it for the two PRU real-time cores, which no Pi has an answer to."
+      },
+      {
+        "part": "NVIDIA Jetson Nano / Orin Nano",
+        "confidence": "not-drop-in",
+        "notes": "40-pin header in Pi positions, but the point is the GPU for inference. Much more expensive and much hungrier for power."
+      },
+      {
+        "part": "Raspberry Pi Pico",
+        "confidence": "not-drop-in",
+        "notes": "Not a Linux board at all. If the project is really just timing-critical I/O, a microcontroller does it better and boots instantly."
+      },
+      {
+        "part": "Milk-V Duo",
+        "confidence": "not-drop-in",
+        "notes": "Not a Pi competitor at all, a five dollar RISC-V board that boots Linux in a Raspberry Pi Pico footprint. Worth knowing about when the job needs a filesystem and a network stack but no desktop."
+      }
+    ]
+  },
+  {
+    "part": "SSD1306",
+    "category": "interface",
+    "summary": "128x64 monochrome OLED controller, I2C or SPI.",
+    "specs": {
+      "Resolution": "128x64 / 128x32",
+      "Interface": "I2C or SPI",
+      "Addresses": "0x3C / 0x3D",
+      "Supply": "1.65-3.3 V logic",
+      "Charge pump": "Built in"
+    },
+    "keywords": [
+      "ssd1306",
+      "oled",
+      "0.96 oled",
+      "128x64"
+    ],
+    "equivalents": [
+      {
+        "part": "SH1106",
+        "confidence": "caveats",
+        "notes": "Looks identical and gets sold as an SSD1306. Its RAM is 132 columns wide, so an SSD1306 driver renders with a 2-pixel horizontal offset and wrapped edges. Same wiring, one line of library config."
+      },
+      {
+        "part": "SSD1309",
+        "confidence": "caveats",
+        "notes": "Larger 2.4\" panels, near-identical command set. Usually works with an SSD1306 driver after setting the geometry."
+      },
+      {
+        "part": "SSD1327 / SSD1351",
+        "confidence": "not-drop-in",
+        "notes": "Grayscale and color OLED controllers. Different command sets and much more RAM needed on the host."
+      },
+      {
+        "part": "ST7789 / ILI9341",
+        "confidence": "not-drop-in",
+        "notes": "Color TFT controllers over SPI. Brighter and far cheaper per pixel, but they need a backlight and more host RAM, and there is no charge pump."
+      }
+    ]
+  },
+  {
+    "part": "STM32F103C8T6",
+    "category": "microcontroller",
+    "summary": "72 MHz Cortex-M3, the Blue Pill chip.",
+    "pinout": "stm32f103-blue-pill",
+    "specs": {
+      "Core": "Cortex-M3 72 MHz",
+      "Flash": "64 KB (often 128)",
+      "RAM": "20 KB",
+      "Supply": "2.0-3.6 V",
+      "Package": "LQFP48"
+    },
+    "keywords": [
+      "blue pill",
+      "stm32",
+      "f103",
+      "cortex m3"
+    ],
+    "equivalents": [
+      {
+        "part": "STM32F103CBT6",
+        "confidence": "drop-in",
+        "notes": "Same die family and pinout with 128 KB of flash officially. Most C8 parts already have the extra 64 KB; the CB is the version ST will guarantee it on."
+      },
+      {
+        "part": "CKS32F103C8T6 / CS32F103",
+        "confidence": "caveats",
+        "notes": "The clone on a lot of cheap Blue Pills. Runs the same code, but SWD connection is flakier, USB enumeration differs, and some peripherals behave differently at the register level."
+      },
+      {
+        "part": "GD32F103C8T6",
+        "confidence": "caveats",
+        "notes": "GigaDevice reimplementation: pin compatible, runs to 108 MHz, uses SRAM-shadowed flash so execution timing differs. Binaries usually run, but anything built around flash wait states will not match."
+      },
+      {
+        "part": "STM32F411CEU6",
+        "confidence": "not-drop-in",
+        "notes": "The Black Pill. Cortex-M4F at 100 MHz with a working USB-C and 512 KB flash, in a different package and board. The sane upgrade when the F103 runs out of room."
+      },
+      {
+        "part": "STM32G031 / STM32C011",
+        "confidence": "not-drop-in",
+        "notes": "Modern low-cost Cortex-M0+ parts that are cheaper and in better supply than the F103, with far better low-power behavior. Different core and peripherals, so it is a port, not a swap."
+      }
+    ]
+  },
+  {
+    "part": "TP4056",
+    "category": "regulator",
+    "summary": "Single-cell Li-ion charger IC, the one on the ubiquitous red module.",
+    "specs": {
+      "Chemistry": "Li-ion / LiPo 1S",
+      "Current": "1 A, resistor set",
+      "Input": "4.5-5.5 V",
+      "Termination": "4.2 V CC/CV",
+      "Package": "SOP-8"
+    },
+    "keywords": [
+      "tp4056",
+      "lipo charger",
+      "li-ion charger",
+      "18650 charger"
+    ],
+    "equivalents": [
+      {
+        "part": "TC4056A / LTC4056",
+        "confidence": "drop-in",
+        "notes": "Clone-named parts on the same modules with the same pinout and programming resistor."
+      },
+      {
+        "part": "MCP73831",
+        "confidence": "not-drop-in",
+        "notes": "SOT-23-5, 500 mA, better specified. The one on Adafruit and SparkFun boards. Different pinout."
+      },
+      {
+        "part": "BQ24074",
+        "confidence": "not-drop-in",
+        "notes": "Adds power-path management, so the load runs from USB while the cell charges instead of fighting over it. The right part for a device that must work while plugged in."
+      },
+      {
+        "part": "IP5306",
+        "confidence": "not-drop-in",
+        "notes": "Charger, boost converter and fuel gauge in one, the chip inside cheap power banks. Convenient, loosely documented."
+      }
+    ]
+  },
+  {
+    "part": "ULN2003",
+    "category": "driver",
+    "summary": "Seven Darlington sinks with clamp diodes, for relays and unipolar steppers.",
+    "specs": {
+      "Channels": "7",
+      "Current": "500 mA/ch",
+      "Vce max": "50 V",
+      "Output": "Open-collector sink",
+      "Package": "DIP-16, SOIC-16"
+    },
+    "keywords": [
+      "uln2003",
+      "darlington array",
+      "28byj-48",
+      "relay driver",
+      "uln2803"
+    ],
+    "equivalents": [
+      {
+        "part": "ULN2003A",
+        "confidence": "drop-in",
+        "notes": "Same part; the A suffix is a specification revision."
+      },
+      {
+        "part": "ULN2803",
+        "confidence": "not-drop-in",
+        "notes": "Eight channels in a DIP-18. Same function, different pinout and pin count."
+      },
+      {
+        "part": "ULN2004",
+        "confidence": "drop-in",
+        "notes": "Same pinout with input resistors sized for 6-15 V CMOS logic rather than 5 V TTL."
+      },
+      {
+        "part": "TBD62083A",
+        "confidence": "drop-in",
+        "notes": "Pin-compatible DMOS replacement. Drops ~0.3 V instead of the Darlington's 1 V, so it runs cool and wastes far less of the supply."
+      },
+      {
+        "part": "MIC2981 / UDN2981",
+        "confidence": "not-drop-in",
+        "notes": "The source-driver counterpart, for common-cathode loads where you need to switch the high side."
+      }
+    ],
+    "pinout": "uln2003"
+  },
+  {
+    "part": "W5500",
+    "category": "transceiver",
+    "summary": "Hardwired TCP/IP Ethernet controller with SPI host interface.",
+    "specs": {
+      "Interface": "SPI to 80 MHz",
+      "PHY": "10/100 built in",
+      "Sockets": "8 hardware",
+      "Buffer": "32 KB",
+      "Supply": "3.3 V"
+    },
+    "keywords": [
+      "w5500",
+      "ethernet",
+      "w5100",
+      "enc28j60"
+    ],
+    "equivalents": [
+      {
+        "part": "W5100 / W5100S",
+        "confidence": "caveats",
+        "notes": "Earlier generation, four sockets, slower SPI. The Arduino Ethernet library covers both, so a sketch usually moves across unchanged."
+      },
+      {
+        "part": "ENC28J60",
+        "confidence": "not-drop-in",
+        "notes": "Much cheaper and much more work: it is a MAC+PHY only, so the TCP/IP stack runs on your microcontroller. On an AVR that means a cut-down stack and frequent memory trouble."
+      },
+      {
+        "part": "LAN8720",
+        "confidence": "not-drop-in",
+        "notes": "A bare PHY over RMII, for SoCs with a built-in MAC such as the ESP32 or STM32F4. Cheapest route when the host already has a MAC."
+      },
+      {
+        "part": "W6100",
+        "confidence": "caveats",
+        "notes": "WIZnet's IPv6-capable successor, close to W5500-compatible in register layout."
+      }
+    ]
+  },
+  {
+    "part": "Z80",
+    "category": "microcontroller",
+    "summary": "8-bit CPU of CP/M, the ZX Spectrum and MSX.",
+    "pinout": "zilog-z80",
+    "specs": {
+      "Bus": "8-bit data, 16-bit address",
+      "Clock": "2.5-20 MHz",
+      "Supply": "5 V",
+      "Package": "PDIP-40",
+      "I/O space": "Separate, 256 ports"
+    },
+    "keywords": [
+      "z80",
+      "z84c00",
+      "cp/m",
+      "retro cpu"
+    ],
+    "equivalents": [
+      {
+        "part": "Z84C00",
+        "confidence": "drop-in",
+        "notes": "The CMOS Z80 and the one still made. Same pinout, lower power, fully static so it can be single-stepped or stopped indefinitely. Happier with ordinary logic levels than the NMOS original."
+      },
+      {
+        "part": "Z180 / HD64180",
+        "confidence": "not-drop-in",
+        "notes": "Z80 core with an MMU, DMA, timers and two serial ports on board, reaching a megabyte of memory. Instruction compatible, completely different pinout and setup."
+      },
+      {
+        "part": "eZ80",
+        "confidence": "not-drop-in",
+        "notes": "Pipelined Z80 running up to 50 MHz with 24-bit addressing. Source compatible; hardware is not."
+      },
+      {
+        "part": "MOS 6502",
+        "confidence": "not-drop-in",
+        "notes": "The usual alternative for a homebrew 8-bit build. Simpler bus and fewer cycles per instruction, but no separate I/O space and far fewer registers."
+      }
+    ]
+  },
+  {
+    "part": "nRF24L01+",
+    "category": "transceiver",
+    "summary": "2.4 GHz GFSK transceiver module with SPI and hardware packet engine.",
+    "specs": {
+      "Band": "2.4 GHz ISM",
+      "Rate": "250 kbps - 2 Mbps",
+      "Interface": "SPI",
+      "Supply": "1.9-3.6 V",
+      "Range": "10-100 m"
+    },
+    "keywords": [
+      "nrf24",
+      "nrf24l01",
+      "2.4ghz radio"
+    ],
+    "equivalents": [
+      {
+        "part": "nRF24L01+ PA/LNA",
+        "confidence": "drop-in",
+        "notes": "Same chip with an amplifier and external antenna. Draws current in bursts well over 100 mA, so the 3V3 pin of a dev board will not hold it up, this is the module that needs a 10-100 µF bulk cap."
+      },
+      {
+        "part": "Si24R1",
+        "confidence": "caveats",
+        "notes": "A clone that fills most of the cheap modules. Register-compatible and usually works, but RF performance and current draw vary between batches."
+      },
+      {
+        "part": "RFM95W / SX1276",
+        "confidence": "not-drop-in",
+        "notes": "LoRa at 868/915 MHz. Kilometers instead of meters, at a few hundred bits per second. Different SPI register map entirely, and a different radio license band."
+      },
+      {
+        "part": "CC1101",
+        "confidence": "not-drop-in",
+        "notes": "Sub-GHz FSK at 433/868/915 MHz. Better range and wall penetration than 2.4 GHz, no hardware packet engine, so more work in firmware."
+      },
+      {
+        "part": "ESP-NOW on an ESP32",
+        "confidence": "not-drop-in",
+        "notes": "Not a chip swap, but worth knowing: if the project already has an ESP32 at each end, ESP-NOW does connectionless 2.4 GHz links with no extra hardware."
+      }
+    ]
+  }
+]

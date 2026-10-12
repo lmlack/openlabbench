@@ -1,0 +1,622 @@
+{
+  "slug": "beaglebone-black-p8",
+  "name": "BeagleBone Black P8 Header",
+  "shortName": "BBB P8",
+  "vendor": "BeagleBoard.org",
+  "category": "sbc",
+  "summary": "The GPIO side of the BeagleBone Black. Most of it is already spoken for by the on-board eMMC and HDMI, which is the first thing to work out before wiring a cape.",
+  "logic": "3.3 V",
+  "package": "2x23 2.54 mm (P8)",
+  "layout": {
+    "kind": "header",
+    "numbering": "zigzag",
+    "rows": 23,
+    "sideLabels": [
+      "Odd pins",
+      "Even pins"
+    ]
+  },
+  "keywords": [
+    "beaglebone",
+    "beaglebone black",
+    "bbb",
+    "p8",
+    "am335x",
+    "sitara",
+    "pru",
+    "cape"
+  ],
+  "notes": [
+    "Pins 27 to 46 drive the on-board HDMI framer. They are yours only after disabling HDMI in the device tree, and doing that costs you video output.",
+    "Pins 3 to 6 and 20 to 25 go to the on-board eMMC. Taking them means booting from microSD instead.",
+    "Between HDMI and eMMC, a stock board leaves roughly ten pins on P8 genuinely free. Plan the cape around that, not around the 46 holes.",
+    "Signal names here are the power-on defaults. Nearly every pin muxes to something else, and several reach the PRU, the real reason to pick this board over a Pi.",
+    "GPIO are 3.3 V and not 5 V tolerant, at 4 to 6 mA per pin.",
+    "The P8 and P9 headers are keyed the same and sit the same distance apart as on the original BeagleBone, so older capes still fit.",
+    "The other side of this board is the P9 header, documented separately: gwark.dev/openlabbench/pinouts/beaglebone-black-p9"
+  ],
+  "docs": [
+    {
+      "label": "BeagleBone Black system reference manual",
+      "url": "https://docs.beagleboard.org/boards/beaglebone/black/ch07.html"
+    },
+    {
+      "label": "AM335x datasheet (TI)",
+      "url": "https://www.ti.com/product/AM3358"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "GPIO1_6",
+      "primary": "gpio",
+      "aliases": [
+        "R9"
+      ],
+      "functions": [
+        "GPIO1_6"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 4,
+      "name": "GPIO1_7",
+      "primary": "gpio",
+      "aliases": [
+        "T9"
+      ],
+      "functions": [
+        "GPIO1_7"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 5,
+      "name": "GPIO1_2",
+      "primary": "gpio",
+      "aliases": [
+        "R8"
+      ],
+      "functions": [
+        "GPIO1_2"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 6,
+      "name": "GPIO1_3",
+      "primary": "gpio",
+      "aliases": [
+        "T8"
+      ],
+      "functions": [
+        "GPIO1_3"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 7,
+      "name": "TIMER4",
+      "primary": "gpio",
+      "aliases": [
+        "R7"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "TIMER4"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "TIMER7",
+      "primary": "gpio",
+      "aliases": [
+        "T7"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "TIMER7"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "TIMER5",
+      "primary": "gpio",
+      "aliases": [
+        "T6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "TIMER5"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "TIMER6",
+      "primary": "gpio",
+      "aliases": [
+        "U6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "TIMER6"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GPIO1_13",
+      "primary": "gpio",
+      "aliases": [
+        "R12"
+      ],
+      "functions": [
+        "GPIO1_13"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GPIO1_12",
+      "primary": "gpio",
+      "aliases": [
+        "T12"
+      ],
+      "functions": [
+        "GPIO1_12"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "EHRPWM2B",
+      "primary": "gpio",
+      "aliases": [
+        "T10"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "EHRPWM2B"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "GPIO0_26",
+      "primary": "gpio",
+      "aliases": [
+        "T11"
+      ],
+      "functions": [
+        "GPIO0_26"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GPIO1_15",
+      "primary": "gpio",
+      "aliases": [
+        "U13"
+      ],
+      "functions": [
+        "GPIO1_15"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "GPIO1_14",
+      "primary": "gpio",
+      "aliases": [
+        "V13"
+      ],
+      "functions": [
+        "GPIO1_14"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "GPIO0_27",
+      "primary": "gpio",
+      "aliases": [
+        "U12"
+      ],
+      "functions": [
+        "GPIO0_27"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "GPIO2_1",
+      "primary": "gpio",
+      "aliases": [
+        "V12"
+      ],
+      "functions": [
+        "GPIO2_1"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "EHRPWM2A",
+      "primary": "gpio",
+      "aliases": [
+        "U10"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "EHRPWM2A"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "GPIO1_31",
+      "primary": "gpio",
+      "aliases": [
+        "V9"
+      ],
+      "functions": [
+        "GPIO1_31"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 21,
+      "name": "GPIO1_30",
+      "primary": "gpio",
+      "aliases": [
+        "U9"
+      ],
+      "functions": [
+        "GPIO1_30"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 22,
+      "name": "GPIO1_5",
+      "primary": "gpio",
+      "aliases": [
+        "V8"
+      ],
+      "functions": [
+        "GPIO1_5"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 23,
+      "name": "GPIO1_4",
+      "primary": "gpio",
+      "aliases": [
+        "U8"
+      ],
+      "functions": [
+        "GPIO1_4"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 24,
+      "name": "GPIO1_1",
+      "primary": "gpio",
+      "aliases": [
+        "V7"
+      ],
+      "functions": [
+        "GPIO1_1"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 25,
+      "name": "GPIO1_0",
+      "primary": "gpio",
+      "aliases": [
+        "U7"
+      ],
+      "functions": [
+        "GPIO1_0"
+      ],
+      "note": "Wired to the on-board eMMC. Using it breaks eMMC boot."
+    },
+    {
+      "number": 26,
+      "name": "GPIO1_29",
+      "primary": "gpio",
+      "aliases": [
+        "V6"
+      ],
+      "functions": [
+        "GPIO1_29"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "GPIO2_22",
+      "primary": "gpio",
+      "aliases": [
+        "U5"
+      ],
+      "functions": [
+        "GPIO2_22"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 28,
+      "name": "GPIO2_24",
+      "primary": "gpio",
+      "aliases": [
+        "V5"
+      ],
+      "functions": [
+        "GPIO2_24"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 29,
+      "name": "GPIO2_23",
+      "primary": "gpio",
+      "aliases": [
+        "R5"
+      ],
+      "functions": [
+        "GPIO2_23"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 30,
+      "name": "GPIO2_25",
+      "primary": "gpio",
+      "aliases": [
+        "R6"
+      ],
+      "functions": [
+        "GPIO2_25"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 31,
+      "name": "UART5_CTSN",
+      "primary": "gpio",
+      "aliases": [
+        "V4"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART5_CTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 32,
+      "name": "UART5_RTSN",
+      "primary": "gpio",
+      "aliases": [
+        "T5"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART5_RTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 33,
+      "name": "UART4_RTSN",
+      "primary": "gpio",
+      "aliases": [
+        "V3"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART4_RTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 34,
+      "name": "UART3_RTSN",
+      "primary": "gpio",
+      "aliases": [
+        "U4"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART3_RTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 35,
+      "name": "UART4_CTSN",
+      "primary": "gpio",
+      "aliases": [
+        "V2"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART4_CTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 36,
+      "name": "UART3_CTSN",
+      "primary": "gpio",
+      "aliases": [
+        "U3"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART3_CTSN"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 37,
+      "name": "UART5_TXD",
+      "primary": "gpio",
+      "aliases": [
+        "U1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART5_TXD"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 38,
+      "name": "UART5_RXD",
+      "primary": "gpio",
+      "aliases": [
+        "U2"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART5_RXD"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 39,
+      "name": "GPIO2_12",
+      "primary": "gpio",
+      "aliases": [
+        "T3"
+      ],
+      "functions": [
+        "GPIO2_12"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 40,
+      "name": "GPIO2_13",
+      "primary": "gpio",
+      "aliases": [
+        "T4"
+      ],
+      "functions": [
+        "GPIO2_13"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 41,
+      "name": "GPIO2_10",
+      "primary": "gpio",
+      "aliases": [
+        "T1"
+      ],
+      "functions": [
+        "GPIO2_10"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 42,
+      "name": "GPIO2_11",
+      "primary": "gpio",
+      "aliases": [
+        "T2"
+      ],
+      "functions": [
+        "GPIO2_11"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 43,
+      "name": "GPIO2_8",
+      "primary": "gpio",
+      "aliases": [
+        "R3"
+      ],
+      "functions": [
+        "GPIO2_8"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 44,
+      "name": "GPIO2_9",
+      "primary": "gpio",
+      "aliases": [
+        "R4"
+      ],
+      "functions": [
+        "GPIO2_9"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 45,
+      "name": "GPIO2_6",
+      "primary": "gpio",
+      "aliases": [
+        "R1"
+      ],
+      "functions": [
+        "GPIO2_6"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    },
+    {
+      "number": 46,
+      "name": "GPIO2_7",
+      "primary": "gpio",
+      "aliases": [
+        "R2"
+      ],
+      "functions": [
+        "GPIO2_7"
+      ],
+      "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
+    }
+  ]
+}

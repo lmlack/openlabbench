@@ -1,0 +1,210 @@
+{
+  "slug": "ne555",
+  "name": "NE555 Timer",
+  "shortName": "NE555",
+  "vendor": "Texas Instruments / many",
+  "category": "ic",
+  "summary": "The timer that refuses to die. Monostable, astable or Schmitt comparator depending on how you wire the three resistor-divider taps. Pin 1 is bottom-left of the notch.",
+  "logic": "4.5-16 V",
+  "package": "PDIP-8 / SOIC-8",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "keywords": [
+    "555",
+    "ne555",
+    "lm555",
+    "timer",
+    "astable",
+    "monostable",
+    "tlc555"
+  ],
+  "notes": [
+    "The internal divider sets the thresholds at 1/3 VCC (trigger) and 2/3 VCC (threshold). Everything the chip does follows from those two numbers.",
+    "Astable frequency is f ≈ 1.44 / ((R1 + 2·R2)·C), duty cycle = (R1 + R2) / (R1 + 2·R2). A duty cycle below 50% needs a diode across R2.",
+    "Monostable pulse width is t ≈ 1.1 · R · C.",
+    "RESET (pin 4) is active low and must be tied to VCC if unused, or the timer will not run.",
+    "Decouple CONTROL (pin 5) to ground with 10 nF unless you are modulating it. Leaving it bare is the most common cause of a jittery 555.",
+    "The bipolar NE555 pulls a current spike of 100-200 mA through its supply on every output transition. Put 100 nF across VCC and GND at the chip, and prefer the CMOS TLC555 near anything analog.",
+    "The output is a totem pole that swings to within about 1.7 V of VCC on a bipolar 555, and does not reach ground either. Driving a MOSFET gate from a 5 V 555 is marginal; use the CMOS TLC555 or a gate driver."
+  ],
+  "docs": [
+    {
+      "label": "TI NE555 product page",
+      "url": "https://www.ti.com/product/NE555"
+    },
+    {
+      "label": "TI TLC555 (CMOS alternative)",
+      "url": "https://www.ti.com/product/TLC555"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "TRIG",
+      "primary": "gpio",
+      "aliases": [
+        "TRIGGER"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator B input"
+      ],
+      "note": "Output goes high while this sits below 1/3 VCC. Edge-triggered in monostable mode."
+    },
+    {
+      "number": 3,
+      "name": "OUT",
+      "primary": "gpio",
+      "aliases": [
+        "OUTPUT"
+      ],
+      "functions": [
+        "Push-pull output"
+      ],
+      "note": "Sources or sinks up to 200 mA, enough to drive a small relay or speaker directly."
+    },
+    {
+      "number": 4,
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low master reset"
+      ],
+      "note": "Tie to VCC when unused. Pulling it low forces the output low regardless of the timing network."
+    },
+    {
+      "number": 5,
+      "name": "CTRL",
+      "primary": "gpio",
+      "aliases": [
+        "CONT",
+        "CONTROL VOLTAGE"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Threshold divider tap"
+      ],
+      "note": "Sits at 2/3 VCC. Drive it to make a voltage-controlled oscillator, or decouple with 10 nF."
+    },
+    {
+      "number": 6,
+      "name": "THRES",
+      "primary": "gpio",
+      "aliases": [
+        "THR",
+        "THRESHOLD"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator A input"
+      ],
+      "note": "Output goes low once this rises above 2/3 VCC."
+    },
+    {
+      "number": 7,
+      "name": "DISCH",
+      "primary": "gpio",
+      "aliases": [
+        "DIS",
+        "DISCHARGE"
+      ],
+      "functions": [
+        "Open-collector to ground"
+      ],
+      "note": "Dumps the timing capacitor. In astable mode R2 connects here."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "4.5-16 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "16 V absolute max on the NE555; the TLC555 runs from 2 V."
+    }
+  ],
+  "circuit": {
+    "title": "Astable oscillator",
+    "parts": [
+      {
+        "part": "R1",
+        "symbol": "res",
+        "from": "VCC",
+        "to": "7",
+        "required": true,
+        "why": "Charges the timing capacitor through R1 and R2."
+      },
+      {
+        "part": "R2",
+        "symbol": "res",
+        "from": "7",
+        "to": "6",
+        "required": true,
+        "why": "Discharges through R2 alone, which is why duty cycle is always over 50 percent."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "2",
+        "required": true,
+        "why": "Ties the two comparators to the same node. This is what makes it free-run."
+      },
+      {
+        "part": "C timing",
+        "symbol": "cap",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "Sets the period together with R1 and R2."
+      },
+      {
+        "part": "10 nF",
+        "symbol": "cap",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "Stops the internal divider picking up noise. The usual cause of a jittery 555."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "4",
+        "to": "VCC",
+        "required": true,
+        "why": "Held low the timer simply will not run."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "The bipolar 555 pulls a 100 to 200 mA spike through the supply on every output transition."
+      }
+    ],
+    "note": "Frequency is about 1.44 / ((R1 + 2 x R2) x C). For a duty cycle under 50 percent put a diode across R2."
+  }
+}

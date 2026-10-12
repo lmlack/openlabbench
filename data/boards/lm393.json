@@ -1,0 +1,180 @@
+{
+  "slug": "lm393",
+  "name": "LM393 Dual Comparator",
+  "shortName": "LM393",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "Two comparators in the same DIP-8 arrangement as the LM358 op-amp, with open-collector outputs. The two look identical on a board and are not interchangeable.",
+  "logic": "2-36 V single or +/-1-18 V split",
+  "package": "PDIP-8 / SOIC-8",
+  "keywords": [
+    "lm393",
+    "comparator",
+    "dual comparator",
+    "lm339",
+    "lm358",
+    "open collector",
+    "schmitt"
+  ],
+  "notes": [
+    "The outputs are open collector. Without a pull-up resistor to your logic rail, nothing comes out at all. 10k is the usual choice; lower if the line is long or fast.",
+    "Same package and same pin arrangement as the LM358, which is why they get swapped by mistake. The LM358 is an op-amp with a push-pull output and will not work as a comparator at speed; the LM393 has no frequency compensation and will oscillate if you close a feedback loop around it.",
+    "With no hysteresis a slow input makes the output chatter across the threshold. Add positive feedback from output to the non-inverting input, a few hundred k, to turn it into a Schmitt trigger. Nearly every real comparator circuit needs this.",
+    "Open collector means you can wire several outputs together on one pull-up and get a wired-AND, which is how multi-channel alarm circuits are built.",
+    "Input common mode range goes down to ground but stops about 1.5 V below V+, the same limitation as the LM358.",
+    "The LM339 is four of these in a DIP-14, at the cost of a different pinout."
+  ],
+  "docs": [
+    {
+      "label": "TI LM393 datasheet",
+      "url": "https://www.ti.com/product/LM393"
+    },
+    {
+      "label": "TI LM339 (quad version)",
+      "url": "https://www.ti.com/product/LM339"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "OUT1",
+      "primary": "gpio",
+      "aliases": [
+        "OUTA"
+      ],
+      "functions": [
+        "Comparator 1 output"
+      ],
+      "note": "Open collector. Needs a pull-up."
+    },
+    {
+      "number": 2,
+      "name": "IN1-",
+      "primary": "gpio",
+      "aliases": [
+        "INA-"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 1 inverting input"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "IN1+",
+      "primary": "gpio",
+      "aliases": [
+        "INA+"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 1 non-inverting input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "V-"
+      ],
+      "functions": [
+        "Negative supply"
+      ],
+      "note": "Ground in a single supply circuit."
+    },
+    {
+      "number": 5,
+      "name": "IN2+",
+      "primary": "gpio",
+      "aliases": [
+        "INB+"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 2 non-inverting input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "IN2-",
+      "primary": "gpio",
+      "aliases": [
+        "INB-"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 2 inverting input"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "OUT2",
+      "primary": "gpio",
+      "aliases": [
+        "OUTB"
+      ],
+      "functions": [
+        "Comparator 2 output"
+      ],
+      "note": "Open collector. Needs a pull-up."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-36 V",
+      "note": "100 nF to ground at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "circuit": {
+    "title": "Comparator with hysteresis",
+    "parts": [
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "The output is an open collector. It can only pull low, so without this there is no high level at all."
+      },
+      {
+        "part": "1 MOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "3",
+        "required": false,
+        "why": "Positive feedback. A few millivolts of hysteresis stops the output chattering as the inputs cross."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Open collector cuts both ways: it is why you can wire several outputs together as an AND, and why a comparator with no pull-up looks dead on a scope."
+  }
+}

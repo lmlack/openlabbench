@@ -1,0 +1,313 @@
+{
+  "slug": "esp32-cam",
+  "name": "ESP32-CAM (AI-Thinker)",
+  "shortName": "ESP32-CAM",
+  "vendor": "Ai-Thinker",
+  "category": "mcu-board",
+  "summary": "ESP32 with an OV2640 camera and a microSD slot for the price of a sandwich. Almost every exposed pin is already spoken for, and there is no USB. Orientation below has the camera facing up.",
+  "logic": "3.3 V",
+  "package": "2x8 2.54 mm, 27 x 40.5 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 8,
+    "sideLabels": [
+      "Left (camera up)",
+      "Right (camera up)"
+    ]
+  },
+  "keywords": [
+    "esp32-cam",
+    "esp32 cam",
+    "ai-thinker",
+    "ov2640",
+    "camera",
+    "esp32cam",
+    "mb programmer"
+  ],
+  "notes": [
+    "There is no USB. Flashing needs an external USB-to-serial adapter on U0TXD and U0RXD, with GPIO0 shorted to GND to enter the bootloader and the short removed before running. The separate MB baseboard does this for you.",
+    "Every pin on the left header is the SD card interface. GPIO 2, 4, 12, 13, 14 and 15 are HS2_DATA0 to DATA3, CMD and CLK. Use the SD slot and the entire left side is gone; give up the SD slot and you get six pins back.",
+    "GPIO4 is the bright white flash LED as well as HS2_DATA1. It will light whenever you drive it, and it is genuinely blinding. The small red LED on GPIO33 is not on the header.",
+    "GPIO12 is a strapping pin that must be LOW at boot. It is also an SD data line, which is why a card inserted at power-up sometimes stops the board starting.",
+    "Power it from 5 V, not 3.3 V. The camera plus WiFi pulls bursts well over 200 mA and the on-board regulator needs the headroom. Brownout resets during the first camera init are nearly always an undersized supply or a thin USB cable.",
+    "The pin marked 3.3V/5V is an output, selectable by a solder jumper on the back. It is not a second input.",
+    "GPIO16 is connected to the PSRAM on boards that have it, so treat it as unavailable rather than free.",
+    "Realistically free pins after the camera and SD are accounted for: GPIO 1, 3 and 16 if you give up serial and PSRAM, or GPIO 2, 4, 12, 13, 14 and 15 if you give up the SD card. Plan the project around that, not around sixteen holes."
+  ],
+  "docs": [
+    {
+      "label": "ESP32 datasheet (Espressif)",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf"
+    },
+    {
+      "label": "OV2640 camera module",
+      "url": "https://www.uctronics.com/download/cam_module/OV2640DS.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "Supply in"
+      ],
+      "side": "left",
+      "row": 1,
+      "note": "The pin to power the board from. 3.3 V input browns out during camera init."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "GPIO12",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_DATA2",
+        "MTDI"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "SD data 2",
+        "ADC2 CH5",
+        "Touch 5"
+      ],
+      "side": "left",
+      "row": 3,
+      "note": "Strapping pin, must be LOW at boot, and an SD data line. A card inserted at power-up can stop the board starting."
+    },
+    {
+      "name": "GPIO13",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_DATA3",
+        "MTCK"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "SD data 3",
+        "ADC2 CH4",
+        "Touch 4"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "GPIO15",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_CMD",
+        "MTDO"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "SD command",
+        "ADC2 CH3",
+        "Touch 3"
+      ],
+      "side": "left",
+      "row": 5,
+      "note": "Strapping pin: high at boot. Pull low to silence the boot log."
+    },
+    {
+      "name": "GPIO14",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_CLK",
+        "MTMS"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch",
+        "clock"
+      ],
+      "functions": [
+        "SD clock",
+        "ADC2 CH6",
+        "Touch 6"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "GPIO2",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_DATA0"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "SD data 0",
+        "ADC2 CH2",
+        "Touch 2"
+      ],
+      "side": "left",
+      "row": 7,
+      "note": "Strapping pin: must be low or floating at boot."
+    },
+    {
+      "name": "GPIO4",
+      "primary": "gpio",
+      "aliases": [
+        "HS2_DATA1",
+        "FLASH LED"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "SD data 1",
+        "White flash LED",
+        "ADC2 CH0"
+      ],
+      "side": "left",
+      "row": 8,
+      "note": "Drives the bright white LED. It lights whenever you drive this pin, SD card or not."
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V out"
+      ],
+      "side": "right",
+      "row": 1,
+      "note": "Output from the on-board regulator."
+    },
+    {
+      "name": "GPIO16",
+      "primary": "gpio",
+      "aliases": [
+        "U2RXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART2 RXD",
+        "PSRAM chip select"
+      ],
+      "side": "right",
+      "row": 2,
+      "note": "Wired to the PSRAM on boards that have it. Treat as unavailable."
+    },
+    {
+      "name": "GPIO0",
+      "primary": "gpio",
+      "aliases": [
+        "CSI_MCLK"
+      ],
+      "tags": [
+        "clock",
+        "analog",
+        "touch"
+      ],
+      "functions": [
+        "Camera master clock",
+        "Boot mode select"
+      ],
+      "side": "right",
+      "row": 3,
+      "note": "Short to GND to enter the bootloader, then remove. Also the camera's clock, so it is not a free pin at runtime."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "VCC",
+      "primary": "power3",
+      "voltage": "3.3 V or 5 V",
+      "functions": [
+        "Supply out, jumper selected"
+      ],
+      "side": "right",
+      "row": 5,
+      "note": "An output, not an input. A solder jumper on the back picks 3.3 V or 5 V."
+    },
+    {
+      "name": "GPIO3",
+      "primary": "gpio",
+      "aliases": [
+        "U0RXD",
+        "RX"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART0 RXD"
+      ],
+      "side": "right",
+      "row": 6,
+      "note": "Programming serial. Goes to the adapter's TX."
+    },
+    {
+      "name": "GPIO1",
+      "primary": "gpio",
+      "aliases": [
+        "U0TXD",
+        "TX"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART0 TXD"
+      ],
+      "side": "right",
+      "row": 7,
+      "note": "Programming serial and the boot log. Goes to the adapter's RX."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 8
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin and read one",
+      "toolchain": "ESP-IDF v5",
+      "lang": "c",
+      "code": "#include \"driver/gpio.h\"\n\ngpio_reset_pin(GPIO_NUM_2);    /* clears any leftover mux setting */\ngpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);\ngpio_set_level(GPIO_NUM_2, 1);\n\ngpio_config_t in = {\n    .pin_bit_mask = 1ULL << GPIO_NUM_4,\n    .mode         = GPIO_MODE_INPUT,\n    .pull_up_en   = GPIO_PULLUP_ENABLE,\n    .intr_type    = GPIO_INTR_NEGEDGE,\n};\ngpio_config(&in);",
+      "gotcha": "pin_bit_mask is 64-bit. Writing 1 << GPIO_NUM_34 instead of 1ULL << overflows a 32-bit int and silently configures nothing."
+    }
+  ]
+}

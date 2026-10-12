@@ -1,0 +1,228 @@
+{
+  "slug": "sn74hc74",
+  "name": "74HC74 Dual D Flip-Flop",
+  "shortName": "74HC74",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Two edge-triggered D flip-flops with preset and clear. One bit of memory, a divide-by-two, or a proper synchronizer for an async input.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc74",
+    "7474",
+    "d flip flop",
+    "flipflop",
+    "divide by two",
+    "synchronizer",
+    "latch"
+  ],
+  "notes": [
+    "D is captured on the RISING edge of the clock and held until the next one. That is the difference between this and a transparent latch like the 74HC373.",
+    "Tie Q-bar back to D and the output toggles on every clock: a divide-by-two with one gate. Chain them for a ripple counter.",
+    "PRE and CLR are both ACTIVE LOW and both asynchronous, meaning they override the clock entirely. Tie them high through a resistor if unused. Leaving them floating is why a flip-flop appears stuck.",
+    "Asserting PRE and CLR together is an illegal state: both outputs go high and the next release is a race. Never drive them from the same logic without interlocking.",
+    "This is the right part for bringing an asynchronous signal into a clocked system. Two in series, clocked by your system clock, resolves metastability to a vanishing probability.",
+    "Setup time is about 15 ns at 5 V. Data must be stable that long before the clock edge or the output is undefined."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC74 datasheet",
+      "url": "https://www.ti.com/product/SN74HC74"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1CLR",
+      "primary": "ctrl",
+      "aliases": [
+        "/1CLR",
+        "1RESET"
+      ],
+      "functions": [
+        "Flip-flop 1 clear, active low"
+      ],
+      "note": "Asynchronous. Tie high if unused."
+    },
+    {
+      "number": 2,
+      "name": "1D",
+      "primary": "gpio",
+      "functions": [
+        "Flip-flop 1 data in"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "1CLK",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Flip-flop 1 clock"
+      ],
+      "note": "Captures D on the rising edge."
+    },
+    {
+      "number": 4,
+      "name": "1PRE",
+      "primary": "ctrl",
+      "aliases": [
+        "/1PRE",
+        "1SET"
+      ],
+      "functions": [
+        "Flip-flop 1 preset, active low"
+      ],
+      "note": "Asynchronous. Tie high if unused."
+    },
+    {
+      "number": 5,
+      "name": "1Q",
+      "primary": "gpio",
+      "functions": [
+        "Flip-flop 1 output"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "1Q",
+      "primary": "gpio",
+      "aliases": [
+        "/1Q",
+        "1Q bar"
+      ],
+      "functions": [
+        "Flip-flop 1 inverted output"
+      ],
+      "note": "Tie this back to 1D for a divide-by-two."
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "2Q",
+      "primary": "gpio",
+      "aliases": [
+        "/2Q",
+        "2Q bar"
+      ],
+      "functions": [
+        "Flip-flop 2 inverted output"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "2Q",
+      "primary": "gpio",
+      "functions": [
+        "Flip-flop 2 output"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "2PRE",
+      "primary": "ctrl",
+      "aliases": [
+        "/2PRE"
+      ],
+      "functions": [
+        "Flip-flop 2 preset, active low"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "2CLK",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Flip-flop 2 clock"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "2D",
+      "primary": "gpio",
+      "functions": [
+        "Flip-flop 2 data in"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "2CLR",
+      "primary": "ctrl",
+      "aliases": [
+        "/2CLR"
+      ],
+      "functions": [
+        "Flip-flop 2 clear, active low"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Divide by two",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "2",
+        "required": true,
+        "why": "Inverted output back to D. Every clock edge flips the state, so the output runs at half the clock."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "4",
+        "to": "VCC",
+        "required": true,
+        "why": "Preset is active low and has no internal pull-up. Floating, the flip-flop sets itself at random."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "Clear is active low as well. Both have to be held high for the flip-flop to clock at all."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Chain the second flip-flop onto the first for divide by four. The output is also a clean 50 percent duty cycle whatever the input looked like, which is the other reason to do this."
+  }
+}

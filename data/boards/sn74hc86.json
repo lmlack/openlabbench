@@ -1,0 +1,193 @@
+{
+  "slug": "sn74hc86",
+  "name": "74HC86 Quad XOR Gate",
+  "shortName": "74HC86",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Four 2-input XOR gates: a controlled inverter, a one-bit comparator and the core of every adder and CRC.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc86",
+    "7486",
+    "quad xor",
+    "exclusive or",
+    "parity"
+  ],
+  "notes": [
+    "XOR with one input tied high is an inverter, tied low it is a buffer. That makes it a controlled inverter, which is how you build a selectable-polarity output.",
+    "XOR is a one-bit not-equal test, so chaining them gives you a parity generator or a bus comparator.",
+    "Same pin arrangement as the 74HC00, 74HC08 and 74HC32.",
+    "HC inputs need a level near their own rail. Driving a 5 V part from 3.3 V logic wants the HCT version."
+  ],
+  "docs": [
+    {
+      "label": "TI 74HC86 datasheet",
+      "url": "https://www.ti.com/product/SN74HC86"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input A"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input B"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 output (XOR)"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input A"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "2B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input B"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 output (XOR)"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 output (XOR)"
+      ],
+      "note": "Output comes first on this side."
+    },
+    {
+      "number": 9,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input A"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "3B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input B"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 output (XOR)"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input A"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "4B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input B"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Controlled inverter",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "With one input high the XOR inverts the other. Drive this pin instead and you can switch inversion on and off."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "12",
+        "to": "GND",
+        "required": true,
+        "why": "An unused input still has to be tied to a rail."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "The other input of the same unused gate."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "A switchable inverter is most of why an XOR is on a board at all, that and parity. Four of them in a row make a one-instruction NOT across a nibble."
+  }
+}

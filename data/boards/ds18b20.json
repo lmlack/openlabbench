@@ -1,0 +1,96 @@
+{
+  "slug": "ds18b20",
+  "name": "DS18B20 Temperature Sensor",
+  "shortName": "DS18B20",
+  "vendor": "Analog Devices (Maxim)",
+  "category": "ic",
+  "summary": "1-Wire digital thermometer. Dozens share a single microcontroller pin, each with its own 64-bit address. Flat face toward you, pins down.",
+  "logic": "3.0-5.5 V",
+  "package": "TO-92 / SOIC-8 / waterproof probe",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 3,
+    "sideLabels": [
+      "TO-92, flat face toward you",
+      ""
+    ]
+  },
+  "keywords": [
+    "ds18b20",
+    "1-wire",
+    "onewire",
+    "temperature sensor",
+    "ds18s20",
+    "waterproof probe",
+    "dallas"
+  ],
+  "notes": [
+    "DQ needs a 4.7k pull-up to VDD. One resistor for the whole bus, not one per sensor.",
+    "Every device has a unique 64-bit ROM address, so many sensors share one pin. Read the addresses once and hard-code them, or the order can change between boots.",
+    "Parasitic power ties VDD to GND and runs the sensor off DQ. It works, but conversion needs a hard pull-up on the data line during those 750 ms, which usually means a MOSFET. Running a third wire is nearly always easier.",
+    "A 12-bit conversion takes up to 750 ms. Asking for the value immediately after requesting it returns the previous reading, which looks like lag that tracks your loop rate.",
+    "Counterfeits are everywhere, especially in cheap waterproof probes. They typically fail at the extremes, ignore the resolution setting, or report in 0.5 degree steps. If readings look quantized, that is why.",
+    "Rated minus 55 to 125 C, but the waterproof probes are only good to about 100 C because of the cable and the potting.",
+    "On a Raspberry Pi the w1-gpio overlay expects GPIO4, pin 7 on the header."
+  ],
+  "docs": [
+    {
+      "label": "DS18B20 datasheet (Analog Devices)",
+      "url": "https://www.analog.com/en/products/ds18b20.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "Leftmost with the flat face toward you.",
+      "side": "left",
+      "row": 1
+    },
+    {
+      "number": 2,
+      "name": "DQ",
+      "primary": "gpio",
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "1-Wire data"
+      ],
+      "note": "Open drain. One 4.7k pull-up to VDD for the whole bus.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "number": 3,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "3.0-5.5 V",
+      "note": "Tie to GND for parasitic power, which then needs a strong pull-up on DQ during conversion.",
+      "side": "left",
+      "row": 3
+    }
+  ],
+  "circuit": {
+    "title": "1-Wire bus",
+    "parts": [
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "3",
+        "required": true,
+        "why": "One pull-up for the whole bus, not one per sensor."
+      }
+    ],
+    "note": "In parasitic power mode VDD ties to GND and the sensor runs off DQ, but conversion then needs a hard pull-up on the data line, usually a MOSFET. A third wire is easier."
+  }
+}

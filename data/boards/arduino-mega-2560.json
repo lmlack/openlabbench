@@ -1,0 +1,798 @@
+{
+  "slug": "arduino-mega-2560",
+  "name": "Arduino Mega 2560 (main headers)",
+  "shortName": "Mega 2560",
+  "vendor": "Arduino",
+  "category": "mcu-board",
+  "summary": "ATmega2560 with 54 digital pins, 16 analog inputs and four hardware serial ports. These are the Uno-compatible side headers; D22 to D53 live on the separate double-row header at the end of the board.",
+  "logic": "5 V",
+  "package": "Mega shield form factor, 101.5 x 53.3 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 28,
+    "sideLabels": [
+      "Power + Analog headers",
+      "Digital + Communication headers"
+    ]
+  },
+  "keywords": [
+    "arduino mega",
+    "mega 2560",
+    "atmega2560",
+    "mega2560",
+    "ramps",
+    "3d printer",
+    "marlin"
+  ],
+  "notes": [
+    "Four hardware serial ports is the reason to pick a Mega. Serial0 on D0 and D1 is shared with USB; Serial1, Serial2 and Serial3 on D18/D19, D16/D17 and D14/D15 are free.",
+    "SPI is NOT on these headers. MISO, MOSI, SCK and SS are D50 to D53 on the double-row header, and also on the 6-pin ICSP header in the Uno-standard position.",
+    "I2C is D20 and D21, not A4 and A5. Uno code that assumes the analog pins will not find the bus. D20 and D21 appear twice on the header; both positions are the same net.",
+    "PWM is available on D2 to D13 and on D44, D45 and D46, which are on the double-row header. Fifteen in total.",
+    "The analog pins double as digital D54 to D69, so A0 is also pin 54 in code.",
+    "20 mA per I/O pin maximum and 50 mA total from the 3V3 pin, which comes from the USB bridge rather than a real regulator.",
+    "VIN takes 6 to 20 V, with 7 to 12 V recommended. Above that the linear regulator cooks under any real load.",
+    "This is the board inside most RAMPS-based 3D printers, which is why it stays in production long after an ESP32 would do the job for less."
+  ],
+  "docs": [
+    {
+      "label": "Arduino Mega 2560 Rev3 documentation",
+      "url": "https://docs.arduino.cc/hardware/mega-2560/"
+    },
+    {
+      "label": "Official pinout diagram (PDF)",
+      "url": "https://docs.arduino.cc/resources/pinouts/A000067-full-pinout.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "IOREF",
+      "primary": "power5",
+      "functions": [
+        "I/O reference voltage"
+      ],
+      "voltage": "5 V",
+      "note": "Tells a shield the board's logic level.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V",
+      "note": "50 mA maximum, from the USB bridge regulator.",
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "5 V supply out"
+      ],
+      "voltage": "5 V",
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "VIN",
+      "primary": "vin",
+      "functions": [
+        "Unregulated supply in"
+      ],
+      "voltage": "6-20 V",
+      "note": "7 to 12 V recommended. The barrel jack lands here.",
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "A0",
+      "primary": "gpio",
+      "aliases": [
+        "D54",
+        "PF0",
+        "ADC0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 0"
+      ],
+      "note": "The analog pins double as digital D54 to D69.",
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "A1",
+      "primary": "gpio",
+      "aliases": [
+        "D55",
+        "PF1",
+        "ADC1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 1"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "A2",
+      "primary": "gpio",
+      "aliases": [
+        "D56",
+        "PF2",
+        "ADC2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 2"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "A3",
+      "primary": "gpio",
+      "aliases": [
+        "D57",
+        "PF3",
+        "ADC3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 3"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "A4",
+      "primary": "gpio",
+      "aliases": [
+        "D58",
+        "PF4",
+        "ADC4"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 4"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "A5",
+      "primary": "gpio",
+      "aliases": [
+        "D59",
+        "PF5",
+        "ADC5"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 5"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "A6",
+      "primary": "gpio",
+      "aliases": [
+        "D60",
+        "PF6",
+        "ADC6"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 6"
+      ],
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "A7",
+      "primary": "gpio",
+      "aliases": [
+        "D61",
+        "PF7",
+        "ADC7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 7"
+      ],
+      "side": "left",
+      "row": 17
+    },
+    {
+      "name": "A8",
+      "primary": "gpio",
+      "aliases": [
+        "D62",
+        "PK0",
+        "ADC8"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 8"
+      ],
+      "side": "left",
+      "row": 19
+    },
+    {
+      "name": "A9",
+      "primary": "gpio",
+      "aliases": [
+        "D63",
+        "PK1",
+        "ADC9"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 9"
+      ],
+      "side": "left",
+      "row": 20
+    },
+    {
+      "name": "A10",
+      "primary": "gpio",
+      "aliases": [
+        "D64",
+        "PK2",
+        "ADC10"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 10"
+      ],
+      "side": "left",
+      "row": 21
+    },
+    {
+      "name": "A11",
+      "primary": "gpio",
+      "aliases": [
+        "D65",
+        "PK3",
+        "ADC11"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 11"
+      ],
+      "side": "left",
+      "row": 22
+    },
+    {
+      "name": "A12",
+      "primary": "gpio",
+      "aliases": [
+        "D66",
+        "PK4",
+        "ADC12"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 12"
+      ],
+      "side": "left",
+      "row": 23
+    },
+    {
+      "name": "A13",
+      "primary": "gpio",
+      "aliases": [
+        "D67",
+        "PK5",
+        "ADC13"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 13"
+      ],
+      "side": "left",
+      "row": 24
+    },
+    {
+      "name": "A14",
+      "primary": "gpio",
+      "aliases": [
+        "D68",
+        "PK6",
+        "ADC14"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 14"
+      ],
+      "side": "left",
+      "row": 25
+    },
+    {
+      "name": "A15",
+      "primary": "gpio",
+      "aliases": [
+        "D69",
+        "PK7",
+        "ADC15"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 15"
+      ],
+      "side": "left",
+      "row": 26
+    },
+    {
+      "name": "D21",
+      "primary": "gpio",
+      "aliases": [
+        "SCL",
+        "PD0"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SCL"
+      ],
+      "note": "Same net as D21 lower down the header. Duplicated for shield compatibility.",
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "D20",
+      "primary": "gpio",
+      "aliases": [
+        "SDA",
+        "PD1"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SDA"
+      ],
+      "note": "Same net as D20 lower down the header.",
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "AREF",
+      "primary": "ctrl",
+      "functions": [
+        "ADC reference in"
+      ],
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "aliases": [
+        "PB7"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "note": "D13 drives the on-board LED through a resistor.",
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "aliases": [
+        "PB6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "D11",
+      "primary": "gpio",
+      "aliases": [
+        "PB5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "aliases": [
+        "PB4"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "aliases": [
+        "PH6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "D8",
+      "primary": "gpio",
+      "aliases": [
+        "PH5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "D7",
+      "primary": "gpio",
+      "aliases": [
+        "PH4"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "aliases": [
+        "PH3"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "PE3"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "PG5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 15
+    },
+    {
+      "name": "D3",
+      "primary": "gpio",
+      "aliases": [
+        "PE5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 16
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "PE4"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM"
+      ],
+      "side": "right",
+      "row": 17
+    },
+    {
+      "name": "D1",
+      "primary": "gpio",
+      "aliases": [
+        "TX0",
+        "PE1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial0 TXD"
+      ],
+      "note": "Shared with the USB bridge.",
+      "side": "right",
+      "row": 18
+    },
+    {
+      "name": "D0",
+      "primary": "gpio",
+      "aliases": [
+        "RX0",
+        "PE0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial0 RXD"
+      ],
+      "note": "Shared with the USB bridge.",
+      "side": "right",
+      "row": 19
+    },
+    {
+      "name": "D14",
+      "primary": "gpio",
+      "aliases": [
+        "TX3",
+        "PJ1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial3 TXD"
+      ],
+      "note": "Four hardware serial ports is the Mega's real advantage over an Uno.",
+      "side": "right",
+      "row": 21
+    },
+    {
+      "name": "D15",
+      "primary": "gpio",
+      "aliases": [
+        "RX3",
+        "PJ0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial3 RXD"
+      ],
+      "side": "right",
+      "row": 22
+    },
+    {
+      "name": "D16",
+      "primary": "gpio",
+      "aliases": [
+        "TX2",
+        "PH1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial2 TXD"
+      ],
+      "side": "right",
+      "row": 23
+    },
+    {
+      "name": "D17",
+      "primary": "gpio",
+      "aliases": [
+        "RX2",
+        "PH0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial2 RXD"
+      ],
+      "side": "right",
+      "row": 24
+    },
+    {
+      "name": "D18",
+      "primary": "gpio",
+      "aliases": [
+        "TX1",
+        "PD3"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial1 TXD"
+      ],
+      "side": "right",
+      "row": 25
+    },
+    {
+      "name": "D19",
+      "primary": "gpio",
+      "aliases": [
+        "RX1",
+        "PD2"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Serial1 RXD"
+      ],
+      "side": "right",
+      "row": 26
+    },
+    {
+      "name": "D20",
+      "primary": "gpio",
+      "aliases": [
+        "SDA",
+        "PD1"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SDA"
+      ],
+      "side": "right",
+      "row": 27
+    },
+    {
+      "name": "D21",
+      "primary": "gpio",
+      "aliases": [
+        "SCL",
+        "PD0"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SCL"
+      ],
+      "side": "right",
+      "row": 28
+    }
+  ]
+}

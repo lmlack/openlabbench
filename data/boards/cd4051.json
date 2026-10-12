@@ -1,0 +1,264 @@
+{
+  "slug": "cd4051",
+  "name": "CD4051 8-Channel Analog Mux",
+  "shortName": "CD4051",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "One analog pin becomes eight. Bidirectional, so it multiplexes sensors into an ADC or fans a signal back out.",
+  "logic": "3-18 V (CD4051), 2-10 V (74HC4051)",
+  "package": "PDIP-16 / SOIC-16",
+  "keywords": [
+    "cd4051",
+    "4051",
+    "74hc4051",
+    "analog mux",
+    "multiplexer",
+    "8 channel",
+    "adc expander"
+  ],
+  "notes": [
+    "It is a set of analog switches, not a buffer, so it works in both directions. The same chip reads eight sensors into one ADC pin or routes one DAC out to eight places.",
+    "On-resistance is around 125 ohm for the CD4051 and under 100 for the 74HC4051, and it varies with the signal level. Feeding a high-impedance load is fine; feeding anything that draws current puts a voltage across that resistance and the reading is wrong.",
+    "An ADC with a sample-and-hold needs time to charge through that resistance. Settle for a few microseconds after switching channels before sampling, or every reading carries a smear of the previous channel.",
+    "Three address pins select the channel, A is the low bit. INH high disconnects everything, which is how you parallel several chips onto one bus.",
+    "VEE is the negative analog rail. Tie it to ground for single-supply work; tie it to a negative rail and the chip will pass signals that swing below ground, which no microcontroller input can do alone.",
+    "The channel pins are scattered around the package in no sensible order. Wire from the numbers.",
+    "For 16 channels the CD4067 is the same idea with four address pins."
+  ],
+  "docs": [
+    {
+      "label": "TI CD4051B datasheet",
+      "url": "https://www.ti.com/product/CD4051B"
+    },
+    {
+      "label": "TI CD74HC4051 (faster, lower Ron)",
+      "url": "https://www.ti.com/product/CD74HC4051"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "CH4",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 4"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "CH6",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 6"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "COM",
+      "primary": "gpio",
+      "aliases": [
+        "Z",
+        "COMMON"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Common in/out"
+      ],
+      "note": "The single pin that connects to whichever channel is selected."
+    },
+    {
+      "number": 4,
+      "name": "CH7",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 7"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "CH5",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 5"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "INH",
+      "primary": "ctrl",
+      "aliases": [
+        "E",
+        "ENABLE"
+      ],
+      "functions": [
+        "Inhibit, active high"
+      ],
+      "note": "Ground it to enable. High disconnects all eight channels."
+    },
+    {
+      "number": 7,
+      "name": "VEE",
+      "primary": "vin",
+      "functions": [
+        "Negative analog supply"
+      ],
+      "voltage": "VSS to -VDD",
+      "note": "Tie to ground for single supply. A negative rail here lets signals swing below ground."
+    },
+    {
+      "number": 8,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "C",
+      "primary": "ctrl",
+      "aliases": [
+        "S3",
+        "A2"
+      ],
+      "functions": [
+        "Address bit 2"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "B",
+      "primary": "ctrl",
+      "aliases": [
+        "S2",
+        "A1"
+      ],
+      "functions": [
+        "Address bit 1"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "A",
+      "primary": "ctrl",
+      "aliases": [
+        "S1",
+        "A0"
+      ],
+      "functions": [
+        "Address bit 0"
+      ],
+      "note": "Low bit of the channel number."
+    },
+    {
+      "number": 12,
+      "name": "CH3",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 3"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "CH0",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 0"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "CH1",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 1"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "CH2",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel 2"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "3-18 V",
+      "note": "Sets the maximum signal the switches will pass. 100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "7",
+        "to": "GND",
+        "required": true,
+        "why": "VEE sets the bottom of the analog range. On a single supply it goes to ground, and it must go somewhere."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "GND",
+        "required": true,
+        "why": "Inhibit is active high. Held high, all eight channels stay disconnected."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "VDD sets the largest signal the switches will pass, and the three address pins are digital inputs that must be driven, never left floating. With VEE on a negative rail the part switches signals that swing below ground, which is the reason to choose a 4051 over a 74HC4051."
+  }
+}

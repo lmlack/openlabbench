@@ -1,0 +1,301 @@
+{
+  "slug": "xiao-esp32c3",
+  "name": "Seeed XIAO ESP32C3",
+  "shortName": "XIAO ESP32C3",
+  "vendor": "Seeed Studio",
+  "category": "mcu-board",
+  "summary": "A thumbnail-sized RISC-V board with WiFi, BLE and a battery charger. The 14-pin XIAO footprint is shared across the whole family, so a SAMD21, RP2040 or nRF52840 drops into the same socket. USB-C at the top.",
+  "logic": "3.3 V",
+  "package": "2x7 2.54 mm, 21 x 17.5 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 7,
+    "sideLabels": [
+      "Left (USB-C at top)",
+      "Right (USB-C at top)"
+    ]
+  },
+  "keywords": [
+    "xiao",
+    "seeed xiao",
+    "esp32c3",
+    "esp32-c3",
+    "risc-v",
+    "xiao esp32",
+    "seeeduino xiao",
+    "samd21",
+    "rp2040"
+  ],
+  "notes": [
+    "The footprint is the point. D0 to D10, 5V, GND and 3V3 sit in the same places on the XIAO SAMD21, RP2040, ESP32C3, ESP32S3 and nRF52840, so a carrier board outlives whichever chip you started with. Only the peripheral mapping behind each pin changes.",
+    "The silkscreen D numbers are not GPIO numbers. D0 is GPIO2, D6 is GPIO21, D7 is GPIO20. Arduino code uses D0 to D10; anything touching the ESP-IDF or raw registers needs the GPIO column.",
+    "Three strapping pins are on the header: D0 (GPIO2), D8 (GPIO8) and D9 (GPIO9). D9 is also the BOOT button. Hang a pull-down on any of them and uploads start failing.",
+    "Four analog inputs, D0 to D3, but only D0 to D2 are on ADC1. D3 is ADC2, which the radio takes over, so an analog read there stops working once WiFi is up.",
+    "There is a lithium battery charger on board, with pads on the underside rather than a connector. The charge LED is on its own pin, not a GPIO.",
+    "5V is VBUS, straight from the USB connector. It is an input when you power the board that way and an output when USB is connected, and it is not regulated.",
+    "Only D0 to D3 can wake the chip from deep sleep.",
+    "There is a U.FL connector for an external antenna next to the PCB trace antenna. A solder jumper selects between them; moving it is worth several dB.",
+    "Adafruit's QT Py uses this same 14-pin footprint, so the two are interchangeable in a carrier. The larger Adafruit Feather footprint is a different thing entirely and FeatherWings will not fit."
+  ],
+  "docs": [
+    {
+      "label": "Seeed XIAO ESP32C3 wiki",
+      "url": "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/"
+    },
+    {
+      "label": "ESP32-C3 datasheet (Espressif)",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "D0",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO2",
+        "A0",
+        "ADC1_CH2"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 channel 2",
+        "Deep-sleep wake"
+      ],
+      "side": "left",
+      "row": 1,
+      "note": "Strapping pin. Also the usual place to hang a battery voltage divider."
+    },
+    {
+      "name": "D1",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO3",
+        "A1",
+        "ADC1_CH3"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 channel 3",
+        "Deep-sleep wake"
+      ],
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO4",
+        "A2",
+        "ADC1_CH4"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 channel 4",
+        "JTAG MTMS",
+        "Deep-sleep wake"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "D3",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO5",
+        "A3",
+        "ADC2_CH0"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC2 channel 0",
+        "JTAG MTDI",
+        "Deep-sleep wake"
+      ],
+      "side": "left",
+      "row": 4,
+      "note": "ADC2, which the radio takes over. Analog reads here stop working once WiFi is connected."
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO6",
+        "SDA"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "Default I2C SDA",
+        "JTAG MTCK"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO7",
+        "SCL"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "Default I2C SCL",
+        "JTAG MTDO"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO21",
+        "TX",
+        "U0TXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 TXD"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "USB VBUS"
+      ],
+      "side": "right",
+      "row": 1,
+      "note": "Unregulated, straight to the USB connector. Input or output depending on how the board is powered."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V regulated out"
+      ],
+      "side": "right",
+      "row": 3,
+      "note": "Output from the on-board regulator, about 700 mA before the radio takes its share."
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO10",
+        "MOSI"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MOSI"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO9",
+        "MISO",
+        "BOOT"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MISO",
+        "Boot button"
+      ],
+      "side": "right",
+      "row": 5,
+      "note": "Strapping pin and the BOOT button. Pulling it low at reset enters the bootloader."
+    },
+    {
+      "name": "D8",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO8",
+        "SCK"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI clock"
+      ],
+      "side": "right",
+      "row": 6,
+      "note": "Strapping pin: must be high at boot."
+    },
+    {
+      "name": "D7",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO20",
+        "RX",
+        "U0RXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 RXD"
+      ],
+      "side": "right",
+      "row": 7
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin and read an analog input",
+      "toolchain": "ESP-IDF v5",
+      "lang": "c",
+      "code": "#include \"driver/gpio.h\"\n#include \"esp_adc/adc_oneshot.h\"\n\n/* Silkscreen D numbers are not GPIO numbers: D0 is GPIO2. */\ngpio_reset_pin(GPIO_NUM_2);\ngpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);\ngpio_set_level(GPIO_NUM_2, 1);\n\nadc_oneshot_unit_handle_t adc1;\nadc_oneshot_unit_init_cfg_t unit = { .unit_id = ADC_UNIT_1 };\nadc_oneshot_new_unit(&unit, &adc1);\n\nadc_oneshot_chan_cfg_t ch = {\n    .atten    = ADC_ATTEN_DB_12,   /* full 0 to ~3.1 V range */\n    .bitwidth = ADC_BITWIDTH_DEFAULT,\n};\nadc_oneshot_config_channel(adc1, ADC_CHANNEL_2, &ch);   /* GPIO2 = D0 */\n\nint raw;\nadc_oneshot_read(adc1, ADC_CHANNEL_2, &raw);",
+      "gotcha": "Only D0 to D2 are on ADC1. D3 is ADC2, which the WiFi driver takes over, so a read there starts failing the moment the radio connects."
+    }
+  ]
+}

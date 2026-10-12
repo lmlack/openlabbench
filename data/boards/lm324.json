@@ -1,0 +1,226 @@
+{
+  "slug": "lm324",
+  "name": "LM324 Quad Op-Amp",
+  "shortName": "LM324",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "Four LM358s in a DIP-14, and a completely different pin arrangement from the dual. Note the supply pins are not at the corners.",
+  "logic": "3-32 V single or +/-1.5-16 V split",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "lm324",
+    "quad op amp",
+    "lm358",
+    "lm339",
+    "opamp",
+    "jellybean"
+  ],
+  "notes": [
+    "VCC is pin 4 and GND is pin 11, in the middle of each side rather than at the corners. Every other jellybean in this package puts them at 14 and 7, so this one catches people out.",
+    "Same amplifier as the LM358: single supply, output reaches near ground but stops about 1.5 V below V+, 1 MHz gain bandwidth, crossover distortion in the output stage.",
+    "Not rail to rail. On a 3.3 V rail you have almost no usable output swing, which is why modern designs reach for an MCP6004 instead.",
+    "The LM339 is the comparator in this package and is NOT pin compatible with the LM324. Its supply pins are 3 and 12, and its outputs are open collector.",
+    "Unused amplifiers should be wired as unity-gain followers with the input tied to a mid-rail reference, not left floating."
+  ],
+  "docs": [
+    {
+      "label": "TI LM324 datasheet",
+      "url": "https://www.ti.com/product/LM324"
+    },
+    {
+      "label": "Microchip MCP6004 (rail-to-rail quad)",
+      "url": "https://www.microchip.com/en-us/product/MCP6004"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "OUT1",
+      "primary": "gpio",
+      "functions": [
+        "Amplifier 1 output"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "IN1-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 1 inverting input"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "IN1+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 1 non-inverting input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "3-32 V",
+      "note": "Pin 4, not pin 14. 100 nF to ground here."
+    },
+    {
+      "number": 5,
+      "name": "IN2+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 2 non-inverting input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "IN2-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 2 inverting input"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "OUT2",
+      "primary": "gpio",
+      "functions": [
+        "Amplifier 2 output"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "OUT3",
+      "primary": "gpio",
+      "functions": [
+        "Amplifier 3 output"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "IN3-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 3 inverting input"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "IN3+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 3 non-inverting input"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "V-"
+      ],
+      "functions": [
+        "Negative supply"
+      ],
+      "note": "Pin 11, not pin 7."
+    },
+    {
+      "number": 12,
+      "name": "IN4+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 4 non-inverting input"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "IN4-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Amplifier 4 inverting input"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "OUT4",
+      "primary": "gpio",
+      "functions": [
+        "Amplifier 4 output"
+      ]
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Single-supply follower",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "2",
+        "required": true,
+        "why": "Output back to the inverting input. One of the four amplifiers wired as a unity-gain buffer."
+      },
+      {
+        "part": "100 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "VCC",
+        "required": false,
+        "why": "Half-rail bias, so a single-supply input sits in a range the amplifier can follow."
+      },
+      {
+        "part": "100 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "GND",
+        "required": false,
+        "why": "The lower half of the same divider."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Same die family as the LM358, with four amplifiers instead of two. The output cannot reach the positive rail, so a follower biased at exactly half supply clips the top of a large signal first."
+  }
+}

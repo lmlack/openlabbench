@@ -1,0 +1,264 @@
+{
+  "slug": "pcf8574",
+  "name": "PCF8574 I2C I/O Expander",
+  "shortName": "PCF8574",
+  "vendor": "TI / NXP",
+  "category": "ic",
+  "summary": "Eight more pins over two wires, and the chip on every I2C LCD backpack. Quasi-bidirectional outputs, which is the catch.",
+  "logic": "2.5-6 V",
+  "package": "PDIP-16 / SOIC-16 / TSSOP-16",
+  "keywords": [
+    "pcf8574",
+    "pcf8574a",
+    "i2c expander",
+    "io expander",
+    "lcd backpack",
+    "mcp23017",
+    "8574"
+  ],
+  "notes": [
+    "There are no registers. You write one byte and you read one byte, which makes it trivial to drive and impossible to configure.",
+    "Outputs are quasi-bidirectional: a strong pull-down but only a weak 100 uA pull-up. They sink 25 mA happily and source almost nothing, so wire LEDs to the positive rail and sink through the pin.",
+    "To use a pin as an input, write a 1 to it first. That releases it to the weak pull-up, and an external switch to ground then reads as 0. Writing a 0 and then reading gives you 0 forever.",
+    "A0, A1 and A2 set the low three address bits: 0x20 to 0x27 on the PCF8574, and 0x38 to 0x3F on the PCF8574A. Sellers mix the two parts freely, so scan the bus before assuming.",
+    "INT (pin 13) is open drain and pulses on any input change, which saves polling. It needs its own pull-up.",
+    "If you need real configurable pull-ups, push-pull outputs or per-pin direction, the MCP23017 does all three for a little more money and a register map."
+  ],
+  "docs": [
+    {
+      "label": "TI PCF8574 datasheet",
+      "url": "https://www.ti.com/product/PCF8574"
+    },
+    {
+      "label": "Microchip MCP23017 (register-based alternative)",
+      "url": "https://www.microchip.com/en-us/product/MCP23017"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "A0",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 0"
+      ],
+      "note": "Tie high or low. Never leave floating."
+    },
+    {
+      "number": 2,
+      "name": "A1",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "A2",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 2"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "P0",
+      "primary": "gpio",
+      "functions": [
+        "I/O 0"
+      ],
+      "note": "Sinks 25 mA, sources 100 uA. Wire loads to the positive rail."
+    },
+    {
+      "number": 5,
+      "name": "P1",
+      "primary": "gpio",
+      "functions": [
+        "I/O 1"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "P2",
+      "primary": "gpio",
+      "functions": [
+        "I/O 2"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "P3",
+      "primary": "gpio",
+      "functions": [
+        "I/O 3"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "P4",
+      "primary": "gpio",
+      "functions": [
+        "I/O 4"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "P5",
+      "primary": "gpio",
+      "functions": [
+        "I/O 5"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "P6",
+      "primary": "gpio",
+      "functions": [
+        "I/O 6"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "P7",
+      "primary": "gpio",
+      "functions": [
+        "I/O 7"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "INT",
+      "primary": "ctrl",
+      "aliases": [
+        "/INT"
+      ],
+      "functions": [
+        "Interrupt, open drain"
+      ],
+      "note": "Pulses low on any input change. Needs a pull-up."
+    },
+    {
+      "number": 14,
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C clock"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C data"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2.5-6 V",
+      "note": "100 nF to ground at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "snippets": [
+    {
+      "title": "Read and write the port over I2C",
+      "toolchain": "Linux i2c-dev",
+      "lang": "c",
+      "code": "#include <fcntl.h>\n#include <unistd.h>\n#include <linux/i2c-dev.h>\n#include <sys/ioctl.h>\n\nint fd = open(\"/dev/i2c-1\", O_RDWR);\nioctl(fd, I2C_SLAVE, 0x20);        /* A2..A0 all grounded */\n\nuint8_t out = 0x0F;                /* low nibble low, high nibble released */\nwrite(fd, &out, 1);\n\n/* To read a pin you must first write a 1 to it, which releases it\n   to the weak pull-up. A pin you last wrote 0 reads 0 forever. */\nuint8_t mask = 0xF0;\nwrite(fd, &mask, 1);\nuint8_t in;\nread(fd, &in, 1);",
+      "gotcha": "There are no registers and no direction bits. Writing 1 releases a pin to a weak 100 uA pull-up so it can be read; writing 0 pulls it hard low. Outputs sink 25 mA but barely source, so wire LEDs to the positive rail."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "15",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C data is open drain and there are no internal pull-ups on the bus."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "14",
+        "to": "VCC",
+        "required": true,
+        "why": "The matching pull-up for the clock line."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 0. These three pins set the I2C address and must not be left floating."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 1. All three low gives 0x20 on the PCF8574, 0x38 on the PCF8574A."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 2. Eight devices fit on one bus, which is the point of the part."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "13",
+        "to": "VCC",
+        "required": false,
+        "why": "INT is open drain too. Only needed if you use the change interrupt."
+      }
+    ],
+    "note": "The outputs are quasi-bidirectional: they can only sink 25 mA and source about 100 uA. Drive LEDs to ground, not from the pin, and write a 1 to a pin before using it as an input."
+  }
+}

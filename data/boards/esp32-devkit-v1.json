@@ -1,0 +1,607 @@
+{
+  "slug": "esp32-devkit-v1",
+  "name": "ESP32 DevKit V1 (30-pin)",
+  "shortName": "ESP32 DevKit",
+  "vendor": "DOIT / clones",
+  "category": "mcu-board",
+  "summary": "The common 30-pin ESP32-WROOM-32 board. Plenty of GPIO, but four are input only, five are strapping pins and half the ADC stops working the moment WiFi comes up.",
+  "logic": "3.3 V",
+  "package": "2x15 2.54 mm, 51 x 28 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 15,
+    "sideLabels": [
+      "Left (USB at bottom)",
+      "Right (USB at bottom)"
+    ]
+  },
+  "keywords": [
+    "esp32",
+    "devkit",
+    "doit",
+    "wroom",
+    "esp-wroom-32",
+    "nodemcu-32s",
+    "esp32 devkit v1"
+  ],
+  "notes": [
+    "GPIO34, 35, 36 and 39 are input only. No output driver and no internal pull-up or pull-down, so every button on them needs an external resistor.",
+    "ADC2 (GPIO 0, 2, 4, 12, 13, 14, 15, 25, 26, 27) is taken over by the radio. Anything you read while WiFi is connected has to be on ADC1: GPIO 32 to 39.",
+    "GPIO12 must be LOW at boot. It selects the flash voltage, and a pull-up there stops the board starting at all. It is the worst pin on the module to hang a device on.",
+    "Other strapping pins: GPIO0 low enters flash mode (the BOOT button), GPIO2 must be low or floating, GPIO5 and GPIO15 are pulled high at boot and emit a PWM burst as they do.",
+    "GPIO6 to GPIO11 wire to the SPI flash inside the module. They are not on the 30-pin header, and the 38-pin version that does expose them should not be used.",
+    "Any output-capable pin can do PWM: the LEDC block has 16 channels and routes to any GPIO, so the usual PWM pin lists do not apply.",
+    "VIN takes 5 V. The onboard regulator handles about 600 mA, and the radio pulls 250 mA spikes, so a thin USB cable shows up as random reboots."
+  ],
+  "docs": [
+    {
+      "label": "ESP32 datasheet (Espressif)",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf"
+    },
+    {
+      "label": "ESP32-WROOM-32 datasheet",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "EN",
+      "primary": "ctrl",
+      "aliases": [
+        "RST",
+        "CHIP_PU"
+      ],
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "left",
+      "row": 1,
+      "note": "Pulled high on board. A 100 nF cap to GND here fixes boards that will not auto-reset into the bootloader."
+    },
+    {
+      "name": "VP",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO36",
+        "SENSOR_VP",
+        "ADC1_CH0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 CH0"
+      ],
+      "side": "left",
+      "row": 2,
+      "note": "Input only. No pull-up or pull-down."
+    },
+    {
+      "name": "VN",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO39",
+        "SENSOR_VN",
+        "ADC1_CH3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 CH3"
+      ],
+      "side": "left",
+      "row": 3,
+      "note": "Input only. No pull-up or pull-down."
+    },
+    {
+      "name": "D34",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO34",
+        "ADC1_CH6"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 CH6"
+      ],
+      "side": "left",
+      "row": 4,
+      "note": "Input only. No pull-up or pull-down."
+    },
+    {
+      "name": "D35",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO35",
+        "ADC1_CH7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 CH7"
+      ],
+      "side": "left",
+      "row": 5,
+      "note": "Input only. No pull-up or pull-down."
+    },
+    {
+      "name": "D32",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO32",
+        "ADC1_CH4",
+        "TOUCH9"
+      ],
+      "tags": [
+        "analog",
+        "touch",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "ADC1 CH4",
+        "Touch 9",
+        "XTAL32 in"
+      ],
+      "side": "left",
+      "row": 6,
+      "note": "Safe general-purpose pin, and its ADC keeps working with WiFi on."
+    },
+    {
+      "name": "D33",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO33",
+        "ADC1_CH5",
+        "TOUCH8"
+      ],
+      "tags": [
+        "analog",
+        "touch",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "ADC1 CH5",
+        "Touch 8",
+        "XTAL32 out"
+      ],
+      "side": "left",
+      "row": 7,
+      "note": "Safe general-purpose pin, ADC1 so WiFi-safe."
+    },
+    {
+      "name": "D25",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO25",
+        "DAC1",
+        "ADC2_CH8"
+      ],
+      "tags": [
+        "dac",
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "DAC1",
+        "ADC2 CH8"
+      ],
+      "side": "left",
+      "row": 8,
+      "note": "One of only two true analog outputs, 8-bit."
+    },
+    {
+      "name": "D26",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO26",
+        "DAC2",
+        "ADC2_CH9"
+      ],
+      "tags": [
+        "dac",
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "DAC2",
+        "ADC2 CH9"
+      ],
+      "side": "left",
+      "row": 9,
+      "note": "The other 8-bit DAC."
+    },
+    {
+      "name": "D27",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO27",
+        "ADC2_CH7",
+        "TOUCH7"
+      ],
+      "tags": [
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "ADC2 CH7",
+        "Touch 7"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "D14",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO14",
+        "HSPI_CLK",
+        "ADC2_CH6",
+        "TOUCH6"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "HSPI CLK",
+        "ADC2 CH6",
+        "Touch 6"
+      ],
+      "side": "left",
+      "row": 11,
+      "note": "Outputs a PWM burst at boot."
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO12",
+        "HSPI_MISO",
+        "ADC2_CH5",
+        "TOUCH5"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "HSPI MISO",
+        "ADC2 CH5",
+        "Touch 5"
+      ],
+      "side": "left",
+      "row": 12,
+      "note": "Strapping pin, must be LOW at boot. A pull-up here selects 1.8 V flash and the board will not start."
+    },
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO13",
+        "HSPI_MOSI",
+        "ADC2_CH4",
+        "TOUCH4"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "HSPI MOSI",
+        "ADC2 CH4",
+        "Touch 4"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "VIN",
+      "primary": "vin",
+      "voltage": "5 V",
+      "functions": [
+        "5 V supply in"
+      ],
+      "side": "left",
+      "row": 15,
+      "note": "Same net as USB 5 V, upstream of the 3V3 regulator."
+    },
+    {
+      "name": "D23",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO23",
+        "VSPI_MOSI"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "VSPI MOSI"
+      ],
+      "side": "right",
+      "row": 1,
+      "note": "Default MOSI in the Arduino core."
+    },
+    {
+      "name": "D22",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO22",
+        "SCL"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "Default I2C SCL"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "TX0",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO1",
+        "U0TXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 TXD"
+      ],
+      "side": "right",
+      "row": 3,
+      "note": "Shared with the USB bridge and the boot log."
+    },
+    {
+      "name": "RX0",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO3",
+        "U0RXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 RXD"
+      ],
+      "side": "right",
+      "row": 4,
+      "note": "Shared with the USB bridge. High at boot."
+    },
+    {
+      "name": "D21",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO21",
+        "SDA"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "Default I2C SDA"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "D19",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO19",
+        "VSPI_MISO"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "VSPI MISO"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "D18",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO18",
+        "VSPI_CLK",
+        "SCK"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "VSPI CLK"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO5",
+        "VSPI_CS",
+        "SS"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "VSPI CS"
+      ],
+      "side": "right",
+      "row": 8,
+      "note": "Strapping pin: pulled high at boot and emits a PWM burst as it starts."
+    },
+    {
+      "name": "TX2",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO17",
+        "U2TXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART2 TXD"
+      ],
+      "side": "right",
+      "row": 9,
+      "note": "Free second serial port. Nothing else uses it."
+    },
+    {
+      "name": "RX2",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO16",
+        "U2RXD"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART2 RXD"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO4",
+        "ADC2_CH0",
+        "TOUCH0"
+      ],
+      "tags": [
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "ADC2 CH0",
+        "Touch 0"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO2",
+        "ADC2_CH2",
+        "TOUCH2",
+        "LED_BUILTIN"
+      ],
+      "tags": [
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "On-board LED",
+        "ADC2 CH2",
+        "Touch 2"
+      ],
+      "side": "right",
+      "row": 12,
+      "note": "Strapping pin: must be low or floating at boot. Also the blue on-board LED."
+    },
+    {
+      "name": "D15",
+      "primary": "gpio",
+      "aliases": [
+        "GPIO15",
+        "HSPI_CS",
+        "ADC2_CH3",
+        "TOUCH3"
+      ],
+      "tags": [
+        "spi",
+        "analog",
+        "touch",
+        "pwm"
+      ],
+      "functions": [
+        "HSPI CS",
+        "ADC2 CH3",
+        "Touch 3"
+      ],
+      "side": "right",
+      "row": 13,
+      "note": "Strapping pin: high at boot. Pull it low to silence the boot log on TX0."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "side": "right",
+      "row": 15,
+      "note": "About 600 mA from the on-board regulator, less the radio's draw."
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin and read one",
+      "toolchain": "ESP-IDF v5",
+      "lang": "c",
+      "code": "#include \"driver/gpio.h\"\n\ngpio_reset_pin(GPIO_NUM_2);    /* clears any leftover mux setting */\ngpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);\ngpio_set_level(GPIO_NUM_2, 1);\n\ngpio_config_t in = {\n    .pin_bit_mask = 1ULL << GPIO_NUM_4,\n    .mode         = GPIO_MODE_INPUT,\n    .pull_up_en   = GPIO_PULLUP_ENABLE,\n    .intr_type    = GPIO_INTR_NEGEDGE,\n};\ngpio_config(&in);",
+      "gotcha": "pin_bit_mask is 64-bit. Writing 1 << GPIO_NUM_34 instead of 1ULL << overflows a 32-bit int and silently configures nothing."
+    }
+  ]
+}

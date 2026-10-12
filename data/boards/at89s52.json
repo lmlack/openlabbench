@@ -1,0 +1,536 @@
+{
+  "slug": "at89s52",
+  "name": "AT89S52 (8051)",
+  "shortName": "AT89S52",
+  "vendor": "Atmel / Microchip",
+  "category": "mcu-chip",
+  "summary": "The 8051 that is still buyable and still in every embedded syllabus. Four 8-bit ports, in-system programmable, DIP-40.",
+  "logic": "4.0-5.5 V",
+  "package": "PDIP-40 / PLCC-44 / TQFP-44",
+  "keywords": [
+    "at89s52",
+    "8051",
+    "at89c51",
+    "8052",
+    "mcs-51",
+    "keil",
+    "intel 8051"
+  ],
+  "notes": [
+    "Port 0 is open drain with no internal pull-ups. To use it as ordinary output you need an external pull-up resistor on every bit, typically a 10k resistor network. Ports 1, 2 and 3 have internal pull-ups and do not.",
+    "EA must be tied HIGH to run from internal flash. Tied low the chip ignores its own memory and fetches from an external ROM. Floating is why a freshly wired 8051 does nothing at all.",
+    "RESET is ACTIVE HIGH, which is backwards from nearly every other microcontroller. The standard circuit is a 10 uF cap from VCC to the pin and a 10k resistor to ground.",
+    "11.0592 MHz is the traditional crystal because it divides exactly into 9600 and the other standard baud rates. 12 MHz gives round instruction timings but ugly baud rates.",
+    "The classic 8051 takes 12 clock cycles per machine cycle, so an 11.0592 MHz part runs under a million instructions a second. Single-cycle cores like the STC and the Silicon Labs C8051 are an order of magnitude faster at the same crystal.",
+    "The S in AT89S52 means in-system programmable over SPI, using MOSI, MISO and SCK on P1.5, P1.6 and P1.7. The older AT89C52 needs a parallel programmer.",
+    "Ports 0 and 2 become the address and data bus if you attach external memory, which leaves you Port 1 and Port 3 for everything else."
+  ],
+  "docs": [
+    {
+      "label": "Microchip AT89S52 product page",
+      "url": "https://www.microchip.com/en-us/product/AT89S52"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "P1.0",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 0"
+      ],
+      "note": "Port 1 has internal pull-ups and is the only port that is plain I/O with no second job."
+    },
+    {
+      "number": 2,
+      "name": "P1.1",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "P1.2",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 2"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "P1.3",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 3"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "P1.4",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 4"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "P1.5",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 5"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "P1.6",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 6"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "P1.7",
+      "primary": "gpio",
+      "functions": [
+        "Port 1 bit 7"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "RST",
+      "primary": "ctrl",
+      "functions": [
+        "Reset, active HIGH"
+      ],
+      "note": "Active high, unlike almost every other microcontroller. Hold high for two machine cycles. A cap to VCC and a resistor to ground is the standard power-on circuit."
+    },
+    {
+      "number": 10,
+      "name": "P3.0",
+      "primary": "gpio",
+      "aliases": [
+        "RXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Port 3 bit 0",
+        "Serial receive"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "P3.1",
+      "primary": "gpio",
+      "aliases": [
+        "TXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Port 3 bit 1",
+        "Serial transmit"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "P3.2",
+      "primary": "gpio",
+      "aliases": [
+        "INT0"
+      ],
+      "functions": [
+        "Port 3 bit 2",
+        "External interrupt 0"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "P3.3",
+      "primary": "gpio",
+      "aliases": [
+        "INT1"
+      ],
+      "functions": [
+        "Port 3 bit 3",
+        "External interrupt 1"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "P3.4",
+      "primary": "gpio",
+      "aliases": [
+        "T0"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port 3 bit 4",
+        "Timer 0 external input"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "P3.5",
+      "primary": "gpio",
+      "aliases": [
+        "T1"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port 3 bit 5",
+        "Timer 1 external input"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "P3.6",
+      "primary": "gpio",
+      "aliases": [
+        "WR"
+      ],
+      "functions": [
+        "Port 3 bit 6",
+        "External memory write"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "P3.7",
+      "primary": "gpio",
+      "aliases": [
+        "RD"
+      ],
+      "functions": [
+        "Port 3 bit 7",
+        "External memory read"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "XTAL2",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "XTAL1",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in"
+      ],
+      "note": "11.0592 MHz is the traditional choice because it divides exactly into standard baud rates."
+    },
+    {
+      "number": 20,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "VSS"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "P2.0",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 0",
+        "External memory address high byte"
+      ],
+      "note": "Port 2 carries A8 to A15 when external memory is in use."
+    },
+    {
+      "number": 22,
+      "name": "P2.1",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 1",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "P2.2",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 2",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "P2.3",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 3",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "P2.4",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 4",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "P2.5",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 5",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "P2.6",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 6",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "P2.7",
+      "primary": "gpio",
+      "functions": [
+        "Port 2 bit 7",
+        "External memory address high byte"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "PSEN",
+      "primary": "ctrl",
+      "aliases": [
+        "/PSEN"
+      ],
+      "functions": [
+        "Program store enable"
+      ],
+      "note": "Strobe for reading external program memory. Leave open when running from internal flash."
+    },
+    {
+      "number": 30,
+      "name": "ALE",
+      "primary": "ctrl",
+      "aliases": [
+        "ALE/PROG"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Address latch enable"
+      ],
+      "note": "Pulses at one sixth of the crystal frequency, which makes a handy clock source if you need one."
+    },
+    {
+      "number": 31,
+      "name": "EA",
+      "primary": "ctrl",
+      "aliases": [
+        "/EA",
+        "VPP"
+      ],
+      "functions": [
+        "External access"
+      ],
+      "note": "Tie HIGH to run from internal flash. Tie low and the chip ignores its own memory entirely and fetches from an external ROM. Leaving it floating is why a fresh 8051 does nothing."
+    },
+    {
+      "number": 32,
+      "name": "P0.7",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 7",
+        "External memory address/data low byte"
+      ],
+      "note": "Port 0 is open drain with NO internal pull-ups. It needs external pull-ups to work as ordinary output, which catches everyone once."
+    },
+    {
+      "number": 33,
+      "name": "P0.6",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 6",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "P0.5",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 5",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "P0.4",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 4",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "P0.3",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 3",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 37,
+      "name": "P0.2",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 2",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 38,
+      "name": "P0.1",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 1",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "P0.0",
+      "primary": "gpio",
+      "functions": [
+        "Port 0 bit 0",
+        "External memory address/data low byte"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "4.0-5.5 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "snippets": [
+    {
+      "title": "Use the quasi-bidirectional ports",
+      "toolchain": "SDCC or Keil C51",
+      "lang": "c",
+      "code": "#include <reg52.h>\n\n/* There is no direction register. Write 1 to a bit to release it\n   so it can be read, write 0 to pull it low. */\n\nP2 = 0x00;                     /* drive all of Port 2 low  */\nP2 = 0xFF;                     /* release it, weakly high  */\n\nP1 = 0xFF;                     /* release Port 1 to read it */\nif ((P1 & 0x01) == 0) {        /* P1.0 pulled to ground     */\n}\n\nsbit LED = P2 ^ 0;             /* single bit access */\nLED = 0;",
+      "gotcha": "Port 0 has no internal pull-ups at all, so it cannot drive a logic high without an external resistor on every bit. Ports 1, 2 and 3 have weak ones and can."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "31",
+        "to": "VCC",
+        "required": true,
+        "why": "EA low makes the chip fetch all code from external memory. Tie it high or the flash is ignored."
+      },
+      {
+        "part": "10 uF",
+        "symbol": "cap",
+        "from": "VCC",
+        "to": "9",
+        "required": true,
+        "why": "Power-on reset. Reset is active high on the 8051, so the capacitor pulls RST up at power-up."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "9",
+        "to": "GND",
+        "required": true,
+        "why": "Discharges the reset capacitor so RST settles low once the supply is stable."
+      },
+      {
+        "part": "11.0592 MHz crystal",
+        "symbol": "xtal",
+        "from": "19",
+        "to": "18",
+        "required": true,
+        "why": "No internal oscillator. That frequency divides to exact standard baud rates, which is why it is everywhere."
+      },
+      {
+        "part": "30 pF",
+        "symbol": "cap",
+        "from": "19",
+        "to": "GND",
+        "required": true,
+        "why": "Crystal load capacitor."
+      },
+      {
+        "part": "30 pF",
+        "symbol": "cap",
+        "from": "18",
+        "to": "GND",
+        "required": true,
+        "why": "The matching load capacitor."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "40",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "39",
+        "to": "VCC",
+        "required": false,
+        "why": "Port 0 is open drain with no internal pull-ups. One resistor to VCC per P0 line you actually use."
+      }
+    ],
+    "note": "Reset is active high here, the opposite of almost every other micro on this site. Holding RST high holds the chip in reset."
+  }
+}

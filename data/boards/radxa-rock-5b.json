@@ -1,0 +1,607 @@
+{
+  "slug": "radxa-rock-5b",
+  "name": "Radxa ROCK 5B",
+  "shortName": "ROCK 5B",
+  "vendor": "Radxa",
+  "category": "sbc",
+  "summary": "RK3588S octa-core board with a Raspberry-Pi-shaped 40-pin header. The holes line up; almost nothing else does.",
+  "logic": "3.3 V GPIO, 1.8 V ADC",
+  "package": "2x20 2.54 mm header",
+  "layout": {
+    "kind": "header",
+    "numbering": "zigzag",
+    "rows": 20,
+    "sideLabels": [
+      "Odd pins",
+      "Even pins"
+    ]
+  },
+  "keywords": [
+    "rock 5b",
+    "rock5b",
+    "radxa",
+    "rk3588",
+    "rk3588s",
+    "rock 5",
+    "orange pi 5 alternative",
+    "sbc"
+  ],
+  "notes": [
+    "Pin 22 is an analog input with a 1.8 V ceiling, where a Raspberry Pi has GPIO25. Any HAT that drives pin 22 at 3.3 V will damage it. This is the most dangerous difference between the two headers.",
+    "Power and ground land in the Raspberry Pi positions, so a HAT will power up. Everything else is Rockchip's own mapping and no Pi GPIO number means anything here.",
+    "Pin names are GPIO<bank>_<group><index>. The sysfs number is bank x 32 plus group x 8 plus index, with A=0 and D=3, so GPIO4_B3 is 139. Nothing in Pi tutorials translates.",
+    "The _M0, _M1, _M2 suffixes in Rockchip's documentation are mux variants: the same peripheral can appear on several pin groups, and which one is live depends on the device tree overlay. A pin listing SPI1_MOSI_M1 only does that once the matching overlay is enabled.",
+    "Pins 29 and 31 differ between the ROCK 5B and the ROCK 5B+. The 5B+ has GPIO1_A3 and GPIO1_A2 there, carrying I2C4 and PWM0/1 instead.",
+    "GPIO is 3.3 V with an absolute maximum of 3.63 V, so there is very little headroom. Nothing on the header is 5 V tolerant.",
+    "Software support is the real cost against a Raspberry Pi. Vendor kernels, fewer overlays, and far less of the internet has hit your problem before."
+  ],
+  "docs": [
+    {
+      "label": "Radxa ROCK 5B hardware interface",
+      "url": "https://docs.radxa.com/en/rock5/rock5b/hardware-design/hardware-interface"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V"
+    },
+    {
+      "number": 2,
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "5 V supply out"
+      ],
+      "voltage": "5 V"
+    },
+    {
+      "number": 3,
+      "name": "GPIO4_B3",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 139"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C7 SDA",
+        "I2S1 SDO2",
+        "UART8 CTS",
+        "PWM15"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "5 V supply out"
+      ],
+      "voltage": "5 V"
+    },
+    {
+      "number": 5,
+      "name": "GPIO4_B2",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 138"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C7 SCL",
+        "I2S1 SDO1",
+        "UART8 RTS",
+        "PWM14"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GPIO3_C3",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 115"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "SPI1 CS1",
+        "I2C8 SDA",
+        "UART7 CTS",
+        "PWM15"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GPIO0_B5",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 13"
+      ],
+      "tags": [
+        "uart",
+        "i2c"
+      ],
+      "functions": [
+        "UART2 TX",
+        "I2C1 SCL",
+        "I2S1 MCLK"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "GPIO0_B6",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 14"
+      ],
+      "tags": [
+        "uart",
+        "i2c"
+      ],
+      "functions": [
+        "UART2 RX",
+        "I2C1 SDA",
+        "I2S1 SCLK"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GPIO3_C1",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 113"
+      ],
+      "tags": [
+        "spi",
+        "uart",
+        "clock"
+      ],
+      "functions": [
+        "SPI1 CLK",
+        "UART7 RX"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GPIO3_B5",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 109"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "PWM12",
+        "UART3 TX",
+        "I2S2 SCLK"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "GPIO3_B7",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 111"
+      ],
+      "tags": [
+        "spi",
+        "i2c"
+      ],
+      "functions": [
+        "SPI1 MOSI",
+        "I2C3 SCL"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GPIO3_C0",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 112"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "SPI1 MISO",
+        "I2C3 SDA",
+        "UART7 TX"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "GPIO3_A4",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 100"
+      ],
+      "functions": [
+        "GPIO only"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V"
+    },
+    {
+      "number": 18,
+      "name": "GPIO4_C4",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 148"
+      ],
+      "tags": [
+        "pwm",
+        "spi"
+      ],
+      "functions": [
+        "PWM5",
+        "SPI3 MISO"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "GPIO1_B2",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 42"
+      ],
+      "tags": [
+        "spi",
+        "uart"
+      ],
+      "functions": [
+        "SPI0 MOSI",
+        "UART4 RX"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "GPIO1_B1",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 41"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 MISO"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "SARADC_IN4",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC input 4"
+      ],
+      "voltage": "1.8 V max",
+      "note": "1.8 V MAXIMUM, absolute max 1.98 V. A Raspberry Pi has GPIO25 here, so a HAT that drives pin 22 will destroy this input."
+    },
+    {
+      "number": 23,
+      "name": "GPIO1_B3",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 43"
+      ],
+      "tags": [
+        "spi",
+        "uart",
+        "clock"
+      ],
+      "functions": [
+        "SPI0 CLK",
+        "UART4 TX"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "GPIO1_B4",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 44"
+      ],
+      "tags": [
+        "uart",
+        "spi"
+      ],
+      "functions": [
+        "UART7 RX",
+        "SPI0 CS0"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "GPIO1_B5",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 45"
+      ],
+      "tags": [
+        "uart",
+        "spi"
+      ],
+      "functions": [
+        "UART7 TX",
+        "SPI0 CS1"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "GPIO4_C6",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 150"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI3 CLK",
+        "I2C0 SDA",
+        "PWM7"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "GPIO4_C5",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 149"
+      ],
+      "tags": [
+        "pwm",
+        "i2c",
+        "spi"
+      ],
+      "functions": [
+        "PWM6",
+        "I2C0 SCL",
+        "SPI3 MOSI"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "GPIO1_D7",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 63"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "UART1 CTS",
+        "PWM15"
+      ],
+      "note": "Differs on the ROCK 5B+, which has GPIO1_A3 (I2C4 SCL, PWM1) here."
+    },
+    {
+      "number": 30,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "GPIO1_B7",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 47"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "SPDIF TX",
+        "UART1 RX",
+        "PWM13"
+      ],
+      "note": "Differs on the ROCK 5B+, which has GPIO1_A2 (I2C4 SDA, PWM0) here."
+    },
+    {
+      "number": 32,
+      "name": "GPIO3_C2",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 114"
+      ],
+      "tags": [
+        "pwm",
+        "uart",
+        "i2c",
+        "spi"
+      ],
+      "functions": [
+        "PWM14",
+        "UART7 RTS",
+        "I2C8 SCL",
+        "SPI1 CS0"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "GPIO3_A7",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 103"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM8"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "GPIO3_B6",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 110"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2S2 LRCK",
+        "UART3 RX",
+        "PWM13"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "GPIO3_B1",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 105"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "PWM2",
+        "UART2 TX"
+      ]
+    },
+    {
+      "number": 37,
+      "name": "GPIO0_A0",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 0"
+      ],
+      "functions": [
+        "GPIO only"
+      ]
+    },
+    {
+      "number": 38,
+      "name": "GPIO3_B2",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 106"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "PWM3",
+        "UART2 RX",
+        "I2S2 SDI"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "GPIO3_B3",
+      "primary": "gpio",
+      "aliases": [
+        "sysfs 107"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART2 RTS",
+        "I2S2 SDO"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,530 @@
+{
+  "slug": "teensy-4-0",
+  "name": "Teensy 4.0",
+  "shortName": "Teensy 4.0",
+  "vendor": "PJRC",
+  "category": "mcu-board",
+  "summary": "600 MHz Cortex-M7 on a board the size of a postage stamp. Nothing else in the hobby space is close on raw speed. USB at the top.",
+  "logic": "3.3 V, not 5 V tolerant",
+  "package": "2x14 2.54 mm, 35 x 18 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 14,
+    "sideLabels": [
+      "Left (USB at top)",
+      "Right (USB at top)"
+    ]
+  },
+  "keywords": [
+    "teensy",
+    "teensy 4.0",
+    "teensy40",
+    "imxrt1062",
+    "pjrc",
+    "audio library",
+    "cortex-m7",
+    "teensy 4.1"
+  ],
+  "notes": [
+    "Not 5 V tolerant. The pins take 0 to 3.3 V and nothing more, which catches people moving over from an Uno or a Mega.",
+    "600 MHz with 1 MB of RAM, which is roughly thirty times an Arduino Due and in a smaller package. The Audio Library is the usual reason to pick one.",
+    "Seven hardware serial ports, three SPI and three I2C. Serial1 is on pins 0 and 1, Serial2 on 7 and 8, Serial3 on 15 and 14, Serial4 on 16 and 17, Serial5 on 21 and 20.",
+    "Wire is on pins 18 and 19, Wire1 on 17 and 16. The second I2C bus shares pins with Serial4, so you get one or the other.",
+    "Pin 13 is the on-board LED and the SPI clock at once. PJRC warn against INPUT_PULLUP on it.",
+    "Vin accepts 3.6 to 5.5 V, and the 3.3 V output is good for 250 mA. To run from an external supply with USB also plugged in, cut the VUSB pad on the underside first.",
+    "Another sixteen pads sit on the underside for pins 24 to 39, plus five on the back edge for program, on/off, ground and VBat. Those are not on this diagram.",
+    "Every digital pin can raise an interrupt and 31 of them do PWM, so the usual hunt for a free interrupt or timer pin does not apply here.",
+    "The Teensy 4.1 is the longer version of the same chip, adding Ethernet, a microSD slot, a USB host port and 55 I/O."
+  ],
+  "docs": [
+    {
+      "label": "PJRC Teensy 4.0 product page",
+      "url": "https://www.pjrc.com/store/teensy40.html"
+    },
+    {
+      "label": "Official pinout card (PDF)",
+      "url": "https://www.pjrc.com/teensy/card10a_rev2_web.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "0",
+      "primary": "gpio",
+      "aliases": [
+        "RX1",
+        "CRX2"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "Serial1 RX",
+        "CAN2 RX"
+      ],
+      "note": "Serial1 RX and CAN2 RX. Not printed on the reference card's front.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "1",
+      "primary": "gpio",
+      "aliases": [
+        "TX1",
+        "CTX2"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "Serial1 TX",
+        "CAN2 TX"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "2",
+      "primary": "gpio",
+      "aliases": [
+        "OUT2"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S2 OUT"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "3",
+      "primary": "gpio",
+      "aliases": [
+        "LRCLK2"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S2 LRCLK"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "4",
+      "primary": "gpio",
+      "aliases": [
+        "BCLK2"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S2 BCLK"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "5",
+      "primary": "gpio",
+      "aliases": [
+        "IN2"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S2 IN"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "6",
+      "primary": "gpio",
+      "aliases": [
+        "OUT1D"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S1 OUT1D"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "7",
+      "primary": "gpio",
+      "aliases": [
+        "RX2",
+        "OUT1A"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "Serial2 RX",
+        "I2S1 OUT1A"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "8",
+      "primary": "gpio",
+      "aliases": [
+        "TX2",
+        "IN1"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "Serial2 TX",
+        "I2S1 IN"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "9",
+      "primary": "gpio",
+      "aliases": [
+        "OUT1C"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "I2S1 OUT1C"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "10",
+      "primary": "gpio",
+      "aliases": [
+        "CS",
+        "MQSR"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI CS",
+        "Medium quality sound R"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "11",
+      "primary": "gpio",
+      "aliases": [
+        "MOSI",
+        "CTX1"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MOSI",
+        "CAN1 TX alt"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "12",
+      "primary": "gpio",
+      "aliases": [
+        "MISO",
+        "MQSL"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MISO",
+        "Medium quality sound L"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "Vin",
+      "primary": "vin",
+      "functions": [
+        "Supply in"
+      ],
+      "voltage": "3.6-5.5 V",
+      "note": "Cut the VUSB pad on the back before feeding this from an external supply while USB is also connected.",
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "3.3V",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V",
+      "note": "250 mA maximum. The regulator is small; a hungry peripheral needs its own.",
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "23",
+      "primary": "gpio",
+      "aliases": [
+        "A9",
+        "CRX1"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 9",
+        "CAN1 RX",
+        "I2S MCLK1"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "22",
+      "primary": "gpio",
+      "aliases": [
+        "A8",
+        "CTX1"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 8",
+        "CAN1 TX"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "21",
+      "primary": "gpio",
+      "aliases": [
+        "A7",
+        "RX5"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 7",
+        "Serial5 RX",
+        "I2S BCLK1"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "20",
+      "primary": "gpio",
+      "aliases": [
+        "A6",
+        "TX5"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 6",
+        "Serial5 TX",
+        "I2S LRCLK1"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "19",
+      "primary": "gpio",
+      "aliases": [
+        "A5",
+        "SCL0"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 5",
+        "Wire SCL"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "18",
+      "primary": "gpio",
+      "aliases": [
+        "A4",
+        "SDA0"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 4",
+        "Wire SDA"
+      ],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "17",
+      "primary": "gpio",
+      "aliases": [
+        "A3",
+        "SDA1",
+        "TX4"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 3",
+        "Wire1 SDA",
+        "Serial4 TX"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "16",
+      "primary": "gpio",
+      "aliases": [
+        "A2",
+        "SCL1",
+        "RX4"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 2",
+        "Wire1 SCL",
+        "Serial4 RX"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "15",
+      "primary": "gpio",
+      "aliases": [
+        "A1",
+        "RX3"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 1",
+        "Serial3 RX",
+        "S/PDIF IN"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "14",
+      "primary": "gpio",
+      "aliases": [
+        "A0",
+        "TX3"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC 0",
+        "Serial3 TX",
+        "S/PDIF OUT"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "13",
+      "primary": "gpio",
+      "aliases": [
+        "LED",
+        "SCK",
+        "CRX1"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI clock",
+        "On-board LED",
+        "CAN1 RX alt"
+      ],
+      "note": "On-board orange LED. Do not use INPUT_PULLUP on this pin.",
+      "side": "right",
+      "row": 14
+    }
+  ]
+}

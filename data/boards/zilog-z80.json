@@ -1,0 +1,467 @@
+{
+  "slug": "zilog-z80",
+  "name": "Zilog Z80",
+  "shortName": "Z80",
+  "vendor": "Zilog",
+  "category": "mcu-chip",
+  "summary": "8-bit CPU of the ZX Spectrum, MSX and CP/M era, with a scattered data bus that catches everyone wiring one by hand.",
+  "logic": "5 V",
+  "package": "PDIP-40",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "z80",
+    "z84c00",
+    "cp/m",
+    "zx spectrum",
+    "msx",
+    "8-bit cpu",
+    "homebrew computer",
+    "retro"
+  ],
+  "notes": [
+    "The data bus is not in order on the package: pins 7 to 15 run D4, D3, D5, D6, VCC, D2, D7, D0, D1. Wire it from the numbers, never by eye.",
+    "Unlike the 6502 the Z80 has a separate I/O address space. IORQ picks I/O, MREQ picks memory, and both are qualified with RD or WR.",
+    "RFSH plus MREQ marks the DRAM refresh cycle the CPU runs during every opcode fetch. With static RAM you can ignore it, which is what most new builds do.",
+    "M1 low marks an opcode fetch. M1 with IORQ is the interrupt acknowledge cycle, not an I/O read.",
+    "RESET must be held low for at least three full clock cycles. The CPU then starts at address 0000.",
+    "The CPU needs a single phase clock with a fast rise time and, on the original NMOS part, a pull-up to get near 5 V. The CMOS Z84C00 is happier with ordinary logic and is fully static, so you can single-step it.",
+    "BUSREQ and BUSACK give you real DMA, and WAIT lets slow memory stretch a cycle. Tie INT, NMI, WAIT and BUSREQ high through resistors if you are not using them."
+  ],
+  "docs": [
+    {
+      "label": "Zilog Z80 CPU user manual",
+      "url": "https://www.zilog.com/docs/z80/um0080.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "A11",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 11"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "A12",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 12"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "A13",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 13"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "A14",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 14"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "A15",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 15"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "CLK",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Clock in"
+      ],
+      "note": "Single phase. The NMOS part wants a pull-up to reach a valid high."
+    },
+    {
+      "number": 7,
+      "name": "D4",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 4"
+      ],
+      "note": "The data bus order on the package is scrambled. Start here."
+    },
+    {
+      "number": 8,
+      "name": "D3",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 3"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "D5",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 5"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "D6",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 6"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "5 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "Sits in the middle of the data bus, not at a corner."
+    },
+    {
+      "number": 12,
+      "name": "D2",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 2"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "D7",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 7"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "D0",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 0"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "D1",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 1"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "INT",
+      "primary": "ctrl",
+      "functions": [
+        "Maskable interrupt, active low"
+      ],
+      "note": "Sampled at the end of an instruction. Tie high if unused."
+    },
+    {
+      "number": 17,
+      "name": "NMI",
+      "primary": "ctrl",
+      "functions": [
+        "Non-maskable interrupt, active low"
+      ],
+      "note": "Edge triggered, vectors to 0066. Tie high if unused."
+    },
+    {
+      "number": 18,
+      "name": "HALT",
+      "primary": "gpio",
+      "functions": [
+        "Halt state, active low"
+      ],
+      "note": "The CPU executes NOPs until an interrupt arrives."
+    },
+    {
+      "number": 19,
+      "name": "MREQ",
+      "primary": "gpio",
+      "functions": [
+        "Memory request, active low"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "IORQ",
+      "primary": "gpio",
+      "functions": [
+        "I/O request, active low"
+      ],
+      "note": "With M1 this is an interrupt acknowledge, not an I/O cycle."
+    },
+    {
+      "number": 21,
+      "name": "RD",
+      "primary": "gpio",
+      "functions": [
+        "Read strobe, active low"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "WR",
+      "primary": "gpio",
+      "functions": [
+        "Write strobe, active low"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "BUSACK",
+      "primary": "gpio",
+      "aliases": [
+        "BUSAK"
+      ],
+      "functions": [
+        "Bus acknowledge, active low"
+      ],
+      "note": "Address, data and control go high impedance while this is low."
+    },
+    {
+      "number": 24,
+      "name": "WAIT",
+      "primary": "ctrl",
+      "functions": [
+        "Wait request, active low"
+      ],
+      "note": "Hold low to stretch the current cycle for slow memory. Tie high if unused."
+    },
+    {
+      "number": 25,
+      "name": "BUSREQ",
+      "primary": "ctrl",
+      "aliases": [
+        "BUSRQ"
+      ],
+      "functions": [
+        "Bus request, active low"
+      ],
+      "note": "Tie high if unused."
+    },
+    {
+      "number": 26,
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Reset, active low"
+      ],
+      "note": "Hold low for at least three clock cycles. Starts execution at 0000."
+    },
+    {
+      "number": 27,
+      "name": "M1",
+      "primary": "gpio",
+      "functions": [
+        "Machine cycle one, active low"
+      ],
+      "note": "Low during an opcode fetch."
+    },
+    {
+      "number": 28,
+      "name": "RFSH",
+      "primary": "gpio",
+      "functions": [
+        "DRAM refresh, active low"
+      ],
+      "note": "Ignorable with static RAM."
+    },
+    {
+      "number": 29,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "A0",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 0"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "A1",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 1"
+      ]
+    },
+    {
+      "number": 32,
+      "name": "A2",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 2"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "A3",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 3"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "A4",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 4"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "A5",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 5"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "A6",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 6"
+      ]
+    },
+    {
+      "number": 37,
+      "name": "A7",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 7"
+      ]
+    },
+    {
+      "number": 38,
+      "name": "A8",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 8"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "A9",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 9"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "A10",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 10"
+      ]
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "Clock oscillator",
+        "symbol": "osc",
+        "from": "6",
+        "to": "GND",
+        "required": true,
+        "why": "A single-phase 5 V clock. The NMOS part also has a minimum clock speed, so it cannot be single-stepped slowly."
+      },
+      {
+        "part": "330 Ohm",
+        "symbol": "res",
+        "from": "6",
+        "to": "VCC",
+        "required": false,
+        "why": "The NMOS Z80 wants the clock pulled close to VCC. CMOS parts, the Z84C00, do not need this."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "26",
+        "to": "VCC",
+        "required": true,
+        "why": "Reset pull-up, with a capacitor to ground for a power-on reset of at least three clocks."
+      },
+      {
+        "part": "10 uF",
+        "symbol": "cap",
+        "from": "26",
+        "to": "GND",
+        "required": true,
+        "why": "Holds RESET low while the supply comes up."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "16",
+        "to": "VCC",
+        "required": true,
+        "why": "An unused interrupt input must be held high or you take interrupts that never happened."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "17",
+        "to": "VCC",
+        "required": true,
+        "why": "NMI is edge triggered and cannot be masked, so a floating pin is worse than a floating INT."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "24",
+        "to": "VCC",
+        "required": true,
+        "why": "WAIT held low stretches every machine cycle forever. The bus simply stops."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "25",
+        "to": "VCC",
+        "required": true,
+        "why": "BUSREQ held low floats the address and data buses and hands them to nobody."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "11",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Qualify memory and I/O decoding with MREQ (19) and IORQ (20). The Z80 puts the refresh address on A0-A6 during the second half of every M1 cycle, so raw address lines are not a valid chip select."
+  }
+}

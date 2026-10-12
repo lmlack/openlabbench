@@ -1,0 +1,185 @@
+{
+  "slug": "24lc256",
+  "name": "24LC256 I2C EEPROM",
+  "shortName": "24LC256",
+  "vendor": "Microchip / Atmel / ST",
+  "category": "ic",
+  "summary": "32 KB of non-volatile storage on two wires. The same pinout covers the whole 24Cxx family from 1 Kbit to 512 Kbit.",
+  "logic": "1.7-5.5 V",
+  "package": "PDIP-8 / SOIC-8 / TSSOP-8",
+  "keywords": [
+    "24lc256",
+    "24c256",
+    "at24c32",
+    "24c02",
+    "eeprom",
+    "i2c eeprom",
+    "ds3231 module"
+  ],
+  "notes": [
+    "Pins are identical across the 24Cxx family, so a 24C02 and a 24LC512 drop into the same socket. Only the capacity, the page size and the number of address bits used actually change.",
+    "Writes happen a page at a time, 64 bytes on the 24LC256. A write that crosses a page boundary wraps around to the start of the same page instead of continuing, silently corrupting what you thought you stored.",
+    "A page write takes up to 5 ms, during which the chip does not acknowledge. Poll for an ACK rather than guessing a delay.",
+    "A0 to A2 set the low address bits, giving 0x50 to 0x57. On parts of 512 Kbit and above some of those pins become extra memory address bits instead.",
+    "WP (pin 7) must be grounded to allow writes. Tied high it is read-only, which is useful for calibration data you do not want a bug to overwrite.",
+    "Rated for a million write cycles per page, not per byte. Wear-level anything you update often, or use FRAM such as the FM24CL64, which is pin-compatible and effectively unlimited.",
+    "The cheap DS3231 RTC modules carry an AT24C32 on the same bus, at 0x57. Free storage if you already have one wired up."
+  ],
+  "docs": [
+    {
+      "label": "Microchip 24LC256 datasheet",
+      "url": "https://www.microchip.com/en-us/product/24LC256"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "A0",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 0"
+      ],
+      "note": "Tie high or low, never floating."
+    },
+    {
+      "number": 2,
+      "name": "A1",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "A2",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 2"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C data"
+      ],
+      "note": "Open drain. Needs a bus pull-up, 4k7 is typical."
+    },
+    {
+      "number": 6,
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C clock"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "WP",
+      "primary": "ctrl",
+      "functions": [
+        "Write protect"
+      ],
+      "note": "Ground to allow writes. High makes the whole device read-only."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "1.7-5.5 V",
+      "note": "100 nF to ground at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "5",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C data is open drain and the bus has no internal pull-ups."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "6",
+        "to": "VCC",
+        "required": true,
+        "why": "The matching pull-up for the clock line."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 0, low. The three address pins must be tied, never left floating."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 1. Tied low here, but it is a real pin: eight of these fit on one bus."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "Address bit 2, low. All three low gives the base address 0x50."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "7",
+        "to": "GND",
+        "required": true,
+        "why": "Write protect. Held high the part answers reads and silently ignores writes."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Writes land a page at a time, 64 bytes on the 24LC256. A write that crosses a page boundary wraps to the start of the same page instead of continuing."
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "slug": "ds1307",
+  "name": "DS1307 Real-Time Clock",
+  "shortName": "DS1307",
+  "vendor": "Analog Devices (Maxim)",
+  "category": "ic",
+  "summary": "The cheap I2C clock chip. Keeps time on a coin cell for years and drifts minutes a month, because the crystal is bare and uncompensated.",
+  "logic": "4.5-5.5 V",
+  "package": "PDIP-8 / SOIC-8",
+  "keywords": [
+    "ds1307",
+    "rtc",
+    "real time clock",
+    "ds3231",
+    "tiny rtc",
+    "32.768",
+    "i2c clock"
+  ],
+  "notes": [
+    "The crystal is external and uncompensated, so accuracy is whatever your 32.768 kHz part and its stray capacitance give you. Expect minutes of drift per month, and more as the temperature swings. The DS3231 has the crystal and a temperature compensator on-die and drifts minutes per year.",
+    "5 V only. It will not run from 3.3 V, which rules it out on an ESP32, a Pico or any modern board without a level shifter and a 5 V rail.",
+    "Fixed I2C address 0x68, not selectable. That clashes with an MPU6050, which also sits at 0x68.",
+    "The crystal must be a 32.768 kHz part with 12.5 pF load capacitance, mounted as close to pins 1 and 2 as possible, with no ground pour underneath. Stray capacitance here is the main reason a hand-built DS1307 runs fast or slow.",
+    "SQW/OUT is open drain and can emit 1 Hz, 4.096 kHz, 8.192 kHz or 32.768 kHz, which makes a free interrupt tick. It needs a pull-up.",
+    "There are 56 bytes of battery-backed RAM above the clock registers, which is handy for storing a few settings.",
+    "On power-up the clock halt bit is set and the chip is NOT running. Clear bit 7 of register 0 or it sits there reading the same time forever, which is the usual first-time confusion."
+  ],
+  "docs": [
+    {
+      "label": "DS1307 datasheet (Analog Devices)",
+      "url": "https://www.analog.com/en/products/ds1307.html"
+    },
+    {
+      "label": "DS3231 (temperature-compensated alternative)",
+      "url": "https://www.analog.com/en/products/ds3231.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "X1",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in"
+      ],
+      "note": "32.768 kHz, 12.5 pF load. Keep the traces short and the ground pour away."
+    },
+    {
+      "number": 2,
+      "name": "X2",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "VBAT",
+      "primary": "vin",
+      "functions": [
+        "Backup battery"
+      ],
+      "voltage": "2.0-3.5 V",
+      "note": "A CR2032 lasts years. Tie to ground if unused, never leave floating."
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C data"
+      ],
+      "note": "Open drain. Needs a bus pull-up."
+    },
+    {
+      "number": 6,
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C clock"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "SQW",
+      "primary": "gpio",
+      "aliases": [
+        "SQW/OUT"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Square wave output"
+      ],
+      "note": "Open drain. 1 Hz, 4.096 kHz, 8.192 kHz or 32.768 kHz. Needs a pull-up."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "4.5-5.5 V",
+      "note": "5 V only. Below about 4.25 V it switches to the battery and stops answering on I2C."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "32.768 kHz crystal",
+        "symbol": "xtal",
+        "from": "1",
+        "to": "2",
+        "required": true,
+        "why": "12.5 pF load type. Keep the traces short and any ground pour away from them."
+      },
+      {
+        "part": "CR2032 cell",
+        "symbol": "cell",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "Keeps time with the supply off. Tie VBAT to ground if you fit no cell, never leave it floating."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "5",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C data is open drain and the bus has no internal pull-ups."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "6",
+        "to": "VCC",
+        "required": true,
+        "why": "The matching pull-up for the clock line."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Stray capacitance around the crystal is the main reason a hand-built DS1307 runs fast or slow. The DS3231 puts the crystal on-die and avoids the problem."
+  }
+}

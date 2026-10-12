@@ -1,0 +1,494 @@
+{
+  "slug": "frdm-k64f",
+  "name": "NXP FRDM-K64F",
+  "shortName": "FRDM-K64F",
+  "vendor": "NXP",
+  "category": "mcu-board",
+  "summary": "120 MHz Cortex-M4F with Ethernet, an accelerometer, a microSD slot and an on-board debugger, in the Arduino Uno R3 footprint, but it is a 3.3 V board.",
+  "logic": "3.3 V, not 5 V tolerant",
+  "package": "Arduino Uno R3 form factor, 81 x 53 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 19,
+    "sideLabels": [
+      "Digital headers",
+      "Power + Analog headers"
+    ]
+  },
+  "keywords": [
+    "frdm-k64f",
+    "k64f",
+    "mk64fn1m0vll12",
+    "kinetis",
+    "freedom board",
+    "nxp",
+    "openSDA",
+    "mbed",
+    "zephyr"
+  ],
+  "notes": [
+    "It takes Arduino shields mechanically and will be damaged by plenty of them. The I/O is 3.3 V and not 5 V tolerant, and IOREF reports 3.3 V. Any shield that drives a signal from its own 5 V rail puts 5 V into a 3.3 V pin.",
+    "D8 moved between board revisions. Rev E and later route it to PTC12; Rev D and earlier use PTA0, which is also the SWD clock line. Code and overlays written for one revision quietly do the wrong thing on the other.",
+    "The Arduino serial pins D0 and D1 are UART3, not the debug console. The console is UART0 on PTB16 and PTB17, which goes to the OpenSDA chip and out over the USB port.",
+    "UART3 is shared three ways: the D0/D1 header pins, the Bluetooth HCI header, and the Ethernet IEEE 1588 timer pins PTC16 to PTC19. Enabling Ethernet and the header serial together will not work.",
+    "I2C0 on D14 and D15 is shared with the on-board FXOS8700 accelerometer and magnetometer at address 0x1D. It is a real bus with real pull-ups, so extra devices are fine as long as the address does not clash.",
+    "SPI0 follows the Arduino convention: D10 is chip select, D11 is MOSI, D12 is MISO, D13 is SCK. The microSD slot is on the same bus.",
+    "OpenSDAv2 gives you drag-and-drop flashing over USB mass storage, a CMSIS-DAP debug interface and a serial console on one cable. No external programmer needed.",
+    "There are extra pins outside the Arduino footprint, on the outer rows of the same headers, carrying the rest of the Ethernet and the CAN pins. Those are not shown here."
+  ],
+  "docs": [
+    {
+      "label": "NXP FRDM-K64F product page",
+      "url": "https://www.nxp.com/design/design-center/development-boards-and-designs/FRDM-K64F"
+    },
+    {
+      "label": "Zephyr board documentation",
+      "url": "https://docs.zephyrproject.org/latest/boards/nxp/frdm_k64f/doc/index.html"
+    }
+  ],
+  "pins": [
+    {
+      "name": "D15",
+      "primary": "gpio",
+      "aliases": [
+        "SCL",
+        "PTE24"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C0 SCL"
+      ],
+      "note": "Shared with the on-board FXOS8700 accelerometer and magnetometer.",
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "D14",
+      "primary": "gpio",
+      "aliases": [
+        "SDA",
+        "PTE25"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C0 SDA"
+      ],
+      "note": "Shared with the on-board FXOS8700.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "AREF",
+      "primary": "ctrl",
+      "functions": [
+        "ADC reference"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "aliases": [
+        "PTD1",
+        "SCK"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI0 SCK"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "aliases": [
+        "PTD3",
+        "MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 SIN"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "D11",
+      "primary": "gpio",
+      "aliases": [
+        "PTD2",
+        "MOSI"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 SOUT"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "aliases": [
+        "PTD0",
+        "SS"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 PCS0"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "aliases": [
+        "PTC4"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "FTM0 channel 3"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "D8",
+      "primary": "gpio",
+      "aliases": [
+        "PTC12"
+      ],
+      "functions": [
+        "GPIO"
+      ],
+      "note": "Rev E and later is PTC12. Rev D and earlier is PTA0, which is also the SWD clock. Check the board revision before trusting this one.",
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "D7",
+      "primary": "gpio",
+      "aliases": [
+        "PTC3"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "FTM0 channel 2"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "aliases": [
+        "PTC2"
+      ],
+      "tags": [
+        "pwm",
+        "analog"
+      ],
+      "functions": [
+        "FTM0 channel 1",
+        "ADC0 channel 4b"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "PTA2"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "FTM0 channel 7"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "PTB23"
+      ],
+      "functions": [
+        "GPIO"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "D3",
+      "primary": "gpio",
+      "aliases": [
+        "PTA1"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "FTM0 channel 6"
+      ],
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "PTB9"
+      ],
+      "functions": [
+        "GPIO"
+      ],
+      "side": "left",
+      "row": 17
+    },
+    {
+      "name": "D1",
+      "primary": "gpio",
+      "aliases": [
+        "PTC17",
+        "TX"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART3 TXD"
+      ],
+      "note": "UART3 also goes to the Bluetooth HCI header and to the Ethernet 1588 timers. Only one at a time.",
+      "side": "left",
+      "row": 18
+    },
+    {
+      "name": "D0",
+      "primary": "gpio",
+      "aliases": [
+        "PTC16",
+        "RX"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART3 RXD"
+      ],
+      "note": "Not the console. The OpenSDA debug serial is UART0 on PTB16 and PTB17, which are not on this header.",
+      "side": "left",
+      "row": 19
+    },
+    {
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "IOREF",
+      "primary": "power3",
+      "functions": [
+        "I/O reference voltage"
+      ],
+      "voltage": "3.3 V",
+      "note": "3.3 V, not 5 V. A shield that reads this will configure itself correctly; one that ignores it will not.",
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "5 V from USB"
+      ],
+      "voltage": "5 V",
+      "note": "Supply rail only. No I/O pin on this board is 5 V tolerant.",
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "VIN",
+      "primary": "vin",
+      "functions": [
+        "Unregulated supply in"
+      ],
+      "voltage": "4.3-9 V",
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "A0",
+      "primary": "gpio",
+      "aliases": [
+        "PTB2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC0 channel 12"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "A1",
+      "primary": "gpio",
+      "aliases": [
+        "PTB3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC0 channel 13"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "A2",
+      "primary": "gpio",
+      "aliases": [
+        "PTB10"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 channel 14"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "A3",
+      "primary": "gpio",
+      "aliases": [
+        "PTB11"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 channel 15"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "A4",
+      "primary": "gpio",
+      "aliases": [
+        "PTC11"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 channel 7b"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "A5",
+      "primary": "gpio",
+      "aliases": [
+        "PTC10"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1 channel 6b"
+      ],
+      "side": "right",
+      "row": 15
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Blink the red LED on PTB22",
+      "toolchain": "CMSIS device headers",
+      "lang": "c",
+      "code": "#include \"MK64F12.h\"\n\n/* Kinetis splits this in two: SIM gates the clock, PORT muxes the\n   pin, GPIO drives it. Miss the SIM line and the PORT writes do\n   nothing at all. */\nSIM->SCGC5 |= SIM_SCGC5_PORTB_MASK;\n\nPORTB->PCR[22] = PORT_PCR_MUX(1);     /* ALT1 = plain GPIO */\n\nGPIOB->PDDR |= (1u << 22);            /* 1 = output */\nGPIOB->PCOR  = (1u << 22);            /* clear, LED on  */\nGPIOB->PSOR  = (1u << 22);            /* set,   LED off */\nGPIOB->PTOR  = (1u << 22);            /* toggle */",
+      "gotcha": "PORT and GPIO are separate peripherals with separate clock gates. Writing PCR without first setting the SIM_SCGC5 bit silently does nothing, which looks exactly like a dead pin."
+    }
+  ]
+}

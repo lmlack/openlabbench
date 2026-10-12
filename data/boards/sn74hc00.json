@@ -1,0 +1,205 @@
+{
+  "slug": "sn74hc00",
+  "name": "74HC00 Quad NAND Gate",
+  "shortName": "74HC00",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Four 2-input NAND gates, the cheapest way to build any logic function at all.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc00",
+    "7400",
+    "nand",
+    "quad nand",
+    "logic gate",
+    "74hct00",
+    "74ls00"
+  ],
+  "notes": [
+    "NAND is functionally complete: tie both inputs together for an inverter, NAND two NANDs for AND, invert both inputs for OR. Four gates on one chip covers most glue logic.",
+    "Unused inputs must be tied high or low. Floating CMOS inputs oscillate, draw supply current and couple noise into the gates you are using.",
+    "The pin order runs gate 1 and 2 down the left (inputs then output), gates 3 and 4 up the right with the output FIRST. Wiring the right-hand gates by analogy with the left is the usual mistake.",
+    "HC needs an input within about 1 V of its own rail. Driving a 5 V 74HC00 from 3.3 V logic is out of spec; use 74HCT00, which has TTL thresholds.",
+    "Propagation delay is roughly 9 ns at 5 V. For anything slower, the cheaper 74LS00 still exists but draws far more current.",
+    "100 nF across pins 7 and 14, at the chip. Four gates switching together pull a current spike the supply trace will not like."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC00 datasheet",
+      "url": "https://www.ti.com/product/SN74HC00"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input A"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input B"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 output"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input A"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "2B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input B"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 output"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 output"
+      ],
+      "note": "Output comes first on this side, unlike gates 1 and 2."
+    },
+    {
+      "number": 9,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input A"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "3B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input B"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 output"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input A"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "4B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input B"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF to GND at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Set-reset latch",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "3",
+        "to": "4",
+        "required": true,
+        "why": "Gate 1 output into gate 2 input. The cross-coupling is what gives the pair memory."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "2",
+        "required": true,
+        "why": "Gate 2 output back into gate 1. Now each gate holds the other."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "Set input, active low. Pull it down to set, and the pull-up keeps it idle high."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "5",
+        "to": "VCC",
+        "required": true,
+        "why": "Reset input, active low. Taking both inputs low at once is the state the latch has no answer for."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Two NAND gates and two resistors debounce a changeover switch perfectly, with no timing constant to tune. It is the oldest trick in the book and still the right one for a SPDT button."
+  }
+}

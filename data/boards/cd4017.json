@@ -1,0 +1,230 @@
+{
+  "slug": "cd4017",
+  "name": "CD4017 Decade Counter",
+  "shortName": "CD4017",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "Ten outputs, one high at a time, advancing on each clock. Pair it with a 555 and you have a chaser with no code at all.",
+  "logic": "3-18 V (CMOS)",
+  "package": "PDIP-16 / SOIC-16",
+  "keywords": [
+    "cd4017",
+    "4017",
+    "decade counter",
+    "johnson counter",
+    "led chaser",
+    "555",
+    "sequencer"
+  ],
+  "notes": [
+    "The outputs are scattered across the package in no useful order: Q0 is pin 3, Q1 is pin 2, Q2 is pin 4, Q3 is pin 7, Q4 is pin 10, Q5 is pin 1, Q6 is pin 5, Q7 is pin 6, Q8 is pin 9, Q9 is pin 11. Wire from the numbers and check twice.",
+    "Exactly one output is high at a time, which is what makes it a chaser rather than a binary counter. For a binary count use the CD4024 or a 74HC393.",
+    "To count fewer than ten, wire the output after your last wanted step back to RST (pin 15). Q4 into RST gives a four-step sequence.",
+    "RST (15) and CLK INH (13) must both be grounded for normal counting. Leaving either floating is why a breadboarded 4017 sits still or counts randomly.",
+    "CO (pin 12) goes high for counts 0 to 4 and low for 5 to 9, so it is a divide-by-ten output for chaining a second chip.",
+    "It runs from 3 to 18 V, which is the real reason to reach for CMOS 4000-series over 74HC here. Output drive is weak, a few mA, so LEDs want a transistor above about 5 mA."
+  ],
+  "docs": [
+    {
+      "label": "TI CD4017B datasheet",
+      "url": "https://www.ti.com/product/CD4017B"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "Q5",
+      "primary": "gpio",
+      "functions": [
+        "Output 5"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "Q1",
+      "primary": "gpio",
+      "functions": [
+        "Output 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "Q0",
+      "primary": "gpio",
+      "functions": [
+        "Output 0"
+      ],
+      "note": "High at reset and on the first count."
+    },
+    {
+      "number": 4,
+      "name": "Q2",
+      "primary": "gpio",
+      "functions": [
+        "Output 2"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Q6",
+      "primary": "gpio",
+      "functions": [
+        "Output 6"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "Q7",
+      "primary": "gpio",
+      "functions": [
+        "Output 7"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Q3",
+      "primary": "gpio",
+      "functions": [
+        "Output 3"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Q8",
+      "primary": "gpio",
+      "functions": [
+        "Output 8"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Q4",
+      "primary": "gpio",
+      "functions": [
+        "Output 4"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "Q9",
+      "primary": "gpio",
+      "functions": [
+        "Output 9"
+      ],
+      "note": "Wire this to RST for a nine-step sequence, or any earlier output for a shorter one."
+    },
+    {
+      "number": 12,
+      "name": "CO",
+      "primary": "gpio",
+      "aliases": [
+        "CARRY OUT",
+        "Q5-9"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Divide-by-ten output"
+      ],
+      "note": "Feeds the clock of the next 4017 when chaining."
+    },
+    {
+      "number": 13,
+      "name": "CLK INH",
+      "primary": "ctrl",
+      "aliases": [
+        "CE"
+      ],
+      "functions": [
+        "Clock inhibit, active high"
+      ],
+      "note": "Ground it for normal counting."
+    },
+    {
+      "number": 14,
+      "name": "CLK",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Clock in"
+      ],
+      "note": "Counts on the rising edge. Needs a clean edge; a slow RC ramp makes it skip."
+    },
+    {
+      "number": 15,
+      "name": "RST",
+      "primary": "ctrl",
+      "aliases": [
+        "MR",
+        "RESET"
+      ],
+      "functions": [
+        "Reset, active high"
+      ],
+      "note": "Ground it for normal counting. High forces Q0."
+    },
+    {
+      "number": 16,
+      "name": "VDD",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "3-18 V",
+      "note": "100 nF to GND at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "15",
+        "to": "GND",
+        "required": true,
+        "why": "Reset is active high. Floating, the counter restarts at random and looks like it is skipping steps."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "Clock inhibit is active high too. Left floating the counter may simply never advance."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Drive the clock from something with clean edges. A slow or noisy edge counts several times, which is why a 4017 fed straight from a button jumps three or four outputs per press."
+  }
+}
