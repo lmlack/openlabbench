@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Cheat sheets",
   description:
     "Printable vector cheat sheets for every pinout in the database. Plain SVG, sharp at any size.",
-  alternates: { canonical: "/cheat-sheets" },
+  alternates: { canonical: asset("/cheat-sheets") },
 };
 
 export default function CheatSheetsPage() {

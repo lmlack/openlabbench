@@ -3,7 +3,7 @@ import { Atkinson_Hyperlegible_Mono, Source_Serif_4 } from "next/font/google";
 import { ParentSiteBar } from "@/components/ParentSiteBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SITE_ORIGIN } from "@/lib/base-path";
+import { SITE_ORIGIN, asset } from "@/lib/base-path";
 import { getBoards } from "@/lib/boards";
 import { getParts } from "@/lib/parts";
 import "./globals.css";
@@ -51,13 +51,16 @@ export const metadata: Metadata = {
     "datasheet reference",
     "electronics cheat sheet",
   ],
+  alternates: { canonical: asset("/") },
   openGraph: {
     type: "website",
     siteName: "openlabbench",
     title: "openlabbench, hardware pinouts and cross-references",
     description:
       "Interactive pinouts, searchable part equivalents and printable cheat sheets for your bench.",
+    images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "openlabbench: hardware pinouts, part swaps and printable cheat sheets." }],
   },
+  twitter: { card: "summary_large_image" },
 };
 
 // Applied before first paint so a pinned theme never flashes the wrong palette.

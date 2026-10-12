@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GwarkMark } from "./GwarkMark";
+import { SITE_ORIGIN } from "@/lib/base-path";
 
 export function SiteFooter({ boards, parts }: { boards: number; parts: number }) {
   return (
@@ -14,7 +15,7 @@ export function SiteFooter({ boards, parts }: { boards: number; parts: number })
             the repo.
           </p>
           <a
-            href="https://gwark.dev"
+            href={`${SITE_ORIGIN}/#projects`}
             className="mt-4 inline-flex h-10 items-center gap-2 rounded-full border-[1.5px] border-line-strong px-4 text-sm font-semibold transition-colors hover:border-fg"
           >
             <GwarkMark className="size-5 shrink-0" />
@@ -65,7 +66,7 @@ export function SiteFooter({ boards, parts }: { boards: number; parts: number })
               </Link>
             </li>
             <li>
-              <a href="https://gwark.dev" className="text-muted hover:text-fg">
+              <a href={`${SITE_ORIGIN}/#projects`} className="text-muted hover:text-fg">
                 gwark.dev
               </a>
             </li>

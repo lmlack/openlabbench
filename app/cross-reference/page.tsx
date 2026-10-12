@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { CrossReferenceExplorer } from "@/components/CrossReferenceExplorer";
 import { CONFIDENCE_META, CONFIDENCE_ORDER, confidenceStyle } from "@/lib/labels";
 import { getParts } from "@/lib/parts";
+import { asset } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "Part cross-reference",
   description:
     "Searchable equivalents for microcontrollers, transceivers, sensors, logic and power parts, each with the caveat that actually matters.",
-  alternates: { canonical: "/cross-reference" },
+  alternates: { canonical: asset("/cross-reference") },
 };
 
 export default function CrossReferencePage() {
