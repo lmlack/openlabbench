@@ -28,11 +28,15 @@ export async function generateMetadata({
   return {
     title: `${board.name} pinout`,
     description: `${board.summary} Interactive diagram, full pin table and a printable cheat sheet.`,
-    alternates: { canonical: `/pinouts/${board.slug}` },
+    alternates: { canonical: asset(`/pinouts/${board.slug}`) },
     openGraph: {
       title: `${board.name} pinout`,
       description: board.summary,
-      images: [{ url: asset(`/cheatsheets/${board.slug}.svg`) }],
+      // The site card, not the board's own cheat sheet: that one is an SVG,
+      // and no social scraper renders SVG. Named explicitly because Next
+      // replaces the parent openGraph object here rather than merging into
+      // it, so leaving images out means no image at all.
+      images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "openlabbench: hardware pinouts, part swaps and printable cheat sheets." }],
     },
   };
 }

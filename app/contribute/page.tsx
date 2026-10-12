@@ -3,12 +3,13 @@ import Link from "next/link";
 import { getBoards } from "@/lib/boards";
 import { contributingUrl, editCrossRefUrl, hasRepo, newBoardUrl, repoUrl } from "@/lib/repo";
 import { LEGEND_ORDER, PRIMARY_ROLES, SIGNAL_TAGS, signal } from "@/lib/signals";
+import { asset } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "Contribute",
   description:
     "How the pinout and cross-reference data is structured, and how to add a board or fix an error.",
-  alternates: { canonical: "/contribute" },
+  alternates: { canonical: asset("/contribute") },
 };
 
 const PIN_EXAMPLE = `{
