@@ -34,17 +34,20 @@ cheat sheets. Bad data fails the build rather than rendering a wrong pinout.
 
 ## Pointing it at a repository
 
-Contribution links are off until you say where the repo is:
+Contribution links point at `lmlack/openlabbench` by default, so they work in
+dev and in any build with nothing to remember. Point them somewhere else, or
+switch them off, with:
 
 ```bash
 NEXT_PUBLIC_REPO=owner/name npm run build      # NEXT_PUBLIC_REPO_BRANCH defaults to main
+NEXT_PUBLIC_REPO= npm run build                # empty: hide the links entirely
 ```
 
-With it set, every board page gains an "Edit this file on GitHub" link aimed at
-that board's JSON, and `/contribute` turns into one-click add and edit forms.
-GitHub forks the repo for a stranger and opens its web editor, so a drive-by pin
-correction needs no clone and no toolchain. With it unset the site says there is
-nowhere to send a patch rather than linking into a void.
+Every board page carries an "Edit this file on GitHub" link aimed at that
+board's JSON, and `/contribute` offers one-click add and edit forms. GitHub
+forks the repo for a stranger and opens its web editor, so a drive-by pin
+correction needs no clone and no toolchain. Set to empty, the site says this
+build has no repository configured rather than linking into a void.
 
 ## Layout
 

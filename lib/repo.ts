@@ -1,13 +1,16 @@
 /**
  * Where contributions actually go.
  *
- * Until this points at a real repository, /contribute can describe the data
- * format but there is nowhere to send a fix, so the site hides every "edit
- * this" link rather than offering a dead end. Set REPO to "owner/name" once
- * the repo exists and the links appear everywhere at once: a per-board edit
- * link, a new-file link for a new pinout, and an issue link for a wrong pin.
+ * This defaults to the project's own public repository, so the edit links are
+ * on in dev and in any build without remembering an environment variable. A
+ * fork overrides it with NEXT_PUBLIC_REPO, and setting it to an empty string
+ * turns every "edit this" link off rather than offering a dead end.
+ *
+ * It used to default to empty, from when there was no repository to point at.
+ * That meant a build made without the variable quietly shipped a site with no
+ * way to contribute to it, which is a bad failure to have as the default.
  */
-export const REPO = process.env.NEXT_PUBLIC_REPO ?? "";
+export const REPO = process.env.NEXT_PUBLIC_REPO ?? "lmlack/openlabbench";
 
 export const BRANCH = process.env.NEXT_PUBLIC_REPO_BRANCH ?? "main";
 
