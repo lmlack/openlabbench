@@ -1,0 +1,434 @@
+{
+  "slug": "pca9685",
+  "name": "PCA9685 16-Channel 12-Bit PWM Driver",
+  "shortName": "PCA9685",
+  "vendor": "NXP",
+  "category": "ic",
+  "summary": "Sixteen independent 12-bit PWM channels over I2C, each with its own start and stop point. The chip under every servo and LED driver breakout.",
+  "logic": "2.3-5.5 V",
+  "package": "TSSOP-28 / HVQFN-28",
+  "keywords": [
+    "pca9685",
+    "servo driver",
+    "pwm driver",
+    "16 channel",
+    "led driver",
+    "adafruit servo shield",
+    "tlc5947",
+    "i2c pwm"
+  ],
+  "notes": [
+    "OE (pin 23) is active LOW. Ground it for normal operation. It is a hardware kill for all sixteen outputs at once, which is what you want wired to a panic button rather than left floating.",
+    "EXTCLK (pin 25) must be grounded when you are not feeding it a clock. It is not a pin you can leave open.",
+    "There are no internal pull-ups on A0 to A5. Every address pin has to be driven high or low. Six pins give 64 addresses, of which 62 are usable: Software Reset and LED All Call are both on at power-up and cannot be used as device addresses.",
+    "The PWM frequency is global. All sixteen channels share one prescaler, so you cannot run servos at 50 Hz and dim LEDs at 1 kHz from the same chip.",
+    "PRE_SCALE cannot be written unless the SLEEP bit in MODE1 is set. Writes are silently blocked otherwise, which is why so much servo code mysteriously runs at the 200 Hz default. Sleep, set the prescaler, wake, then wait 500 us before clearing RESTART.",
+    "Each channel has a 12-bit ON time and a 12-bit OFF time, not just a duty cycle. Staggering the ON points spreads the current draw across the cycle instead of switching all sixteen at once.",
+    "Outputs are totem pole by default, sinking 25 mA and sourcing 10 mA at 5 V, and can be switched to open drain in software. That is enough for an LED or a servo signal wire, not for a servo's power. On breakout boards the V+ screw terminal is a separate supply for the loads and is not a pin on the chip.",
+    "Frequency range is about 24 Hz to 1526 Hz from the internal 25 MHz oscillator. An external clock up to 50 MHz on EXTCLK raises that and lets several chips share one timebase."
+  ],
+  "docs": [
+    {
+      "label": "NXP PCA9685 datasheet (Rev. 4)",
+      "url": "https://cdn-shop.adafruit.com/datasheets/PCA9685.pdf"
+    },
+    {
+      "label": "Adafruit 16-channel PWM/servo driver guide",
+      "url": "https://learn.adafruit.com/16-channel-pwm-servo-driver"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 14,
+    "sideLabels": [
+      "Pins 1-14",
+      "Pins 15-28"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "28",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin. Sixteen outputs switching together is a sharp current step."
+      },
+      {
+        "part": "Enable link",
+        "symbol": "link",
+        "from": "23",
+        "to": "GND",
+        "required": true,
+        "why": "OE is active low, so grounding it enables the outputs. Leaving it floating leaves them undefined."
+      },
+      {
+        "part": "Clock link",
+        "symbol": "link",
+        "from": "25",
+        "to": "GND",
+        "required": true,
+        "why": "EXTCLK must be grounded when the internal 25 MHz oscillator is used, which is almost always."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "27",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SDA. The bus is open drain and cannot pull itself high."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "26",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SCL. One pair per bus, not per device."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "A0 tied low. No address pin has an internal pull-up, so each one is a wire you have to actually run."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "A1 tied low. Tie it to VDD instead and the address goes up by 2."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "A2 tied low. Tie it to VDD instead and the address goes up by 4."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "A3 tied low. Tie it to VDD instead and the address goes up by 8."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "A4 tied low. Tie it to VDD instead and the address goes up by 16."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "24",
+        "to": "GND",
+        "required": true,
+        "why": "A5 tied low, the most significant bit. All six low puts the chip at 0x40."
+      }
+    ],
+    "note": "Tie each address pin to VDD instead of ground to move the chip up from 0x40. The load supply is separate: an LED needs its own series resistor, and a servo takes its power from a rail the chip never touches."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "A0",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 0"
+      ],
+      "note": "No internal pull-up. Must be tied high or low."
+    },
+    {
+      "number": 2,
+      "name": "A1",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "A2",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 2"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "A3",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 3"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "A4",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 4"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "LED0",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 0"
+      ],
+      "note": "Totem pole by default: sinks 25 mA, sources 10 mA at 5 V."
+    },
+    {
+      "number": 7,
+      "name": "LED1",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 1"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "LED2",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 2"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "LED3",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 3"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "LED4",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 4"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "LED5",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 5"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "LED6",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 6"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "LED7",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 7"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "LED8",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 8"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "LED9",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 9"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "LED10",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 10"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "LED11",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 11"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "LED12",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 12"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "LED13",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 13"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "LED14",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 14"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "LED15",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "PWM channel 15"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "OE",
+      "primary": "ctrl",
+      "aliases": [
+        "/OE",
+        "OE#"
+      ],
+      "functions": [
+        "Output enable, active low"
+      ],
+      "note": "Low enables all outputs. High disables them in one step, with no I2C transaction."
+    },
+    {
+      "number": 24,
+      "name": "A5",
+      "primary": "ctrl",
+      "functions": [
+        "Address bit 5"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "EXTCLK",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "External clock in, 50 MHz max"
+      ],
+      "note": "Ground it when unused. Driving it lets several chips share one timebase."
+    },
+    {
+      "number": 26,
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C clock"
+      ],
+      "note": "Fast-mode Plus, to 1 MHz."
+    },
+    {
+      "number": 27,
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C data"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "VDD",
+      "primary": "vcc",
+      "voltage": "2.3-5.5 V",
+      "note": "Powers the chip and sets the output high level. Not the load supply."
+    }
+  ]
+}

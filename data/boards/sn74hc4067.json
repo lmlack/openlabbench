@@ -1,0 +1,145 @@
+{
+  "slug": "sn74hc4067",
+  "name": "74HC4067 16-Channel Analog Multiplexer",
+  "shortName": "74HC4067",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Turns one ADC pin into sixteen. An analog switch, not a buffer, so it passes signals both ways and brings its own resistance along.",
+  "logic": "2-6 V",
+  "package": "PDIP-24 / SOIC-24 / SSOP-24",
+  "keywords": [
+    "74hc4067",
+    "cd74hc4067",
+    "4067",
+    "analog multiplexer",
+    "mux",
+    "16 channel",
+    "cd4051",
+    "74hc4051",
+    "demux"
+  ],
+  "notes": [
+    "S2 and S3 are not in the order you expect. Going down the package it reads S0 (10), S1 (11), GND (12), S3 (13), S2 (14). Wire by name, not by walking the pins, or channel 4 and channel 8 will swap on you.",
+    "S0 is the least significant select bit and S3 the most, so the channel number is just the four bits read as a binary number.",
+    "E (pin 15) is active low. High turns every switch off, which is useful for sharing one ADC between several of these. Tie it to ground if you are not using it; it must not float.",
+    "This is a switch, not an amplifier. The signal has to stay between GND and VCC, so it cannot pass a waveform that swings negative without biasing it first.",
+    "On resistance is about 80 ohms at 6 V and 90 at 4.5 V, up to 180 at worst case, and it changes with the signal level. Into a high-impedance ADC that does not matter; driving anything that draws current, it is a divider you did not design.",
+    "After switching channels, give the ADC time. The sample capacitor has to charge through that on resistance, and reading immediately gives you a blend of the last channel and this one.",
+    "It is bidirectional, so the same part is a 1-to-16 demultiplexer with the signal going the other way. The CD4051 is the 8-channel version of the same idea."
+  ],
+  "docs": [
+    {
+      "label": "TI CD74HC4067 datasheet",
+      "url": "https://www.ti.com/lit/ds/symlink/cd74hc4067.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 12,
+    "sideLabels": ["Pins 1-12", "Pins 13-24"]
+  },
+  "circuit": {
+    "title": "Minimum circuit as a 16-input expander",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "24",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin. Switching all sixteen channels pulls charge out of the rail in steps."
+      },
+      {
+        "part": "Enable link",
+        "symbol": "link",
+        "from": "15",
+        "to": "GND",
+        "required": true,
+        "why": "E is active low, so grounding it keeps the selected switch on. Floating leaves the whole chip in an undefined state."
+      },
+      {
+        "part": "To the ADC",
+        "symbol": "link",
+        "from": "1",
+        "to": "MCU",
+        "required": true,
+        "why": "The common pin is the one analog input all sixteen channels share. S0 to S3 pick which one reaches it."
+      }
+    ],
+    "note": "S0 to S3 go to four ordinary GPIOs. Nothing else is needed: the channels connect straight to whatever you are measuring, as long as it sits between GND and VCC."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "COM",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "aliases": ["COMMON", "SIG", "Z"],
+      "functions": ["Common input/output"],
+      "note": "The shared end. To your ADC pin when multiplexing in, from your source when demultiplexing out."
+    },
+    { "number": 2, "name": "I7", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 7"] },
+    { "number": 3, "name": "I6", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 6"] },
+    { "number": 4, "name": "I5", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 5"] },
+    { "number": 5, "name": "I4", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 4"] },
+    { "number": 6, "name": "I3", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 3"] },
+    { "number": 7, "name": "I2", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 2"] },
+    { "number": 8, "name": "I1", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 1"] },
+    { "number": 9, "name": "I0", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 0"] },
+    {
+      "number": 10,
+      "name": "S0",
+      "primary": "ctrl",
+      "aliases": ["A"],
+      "functions": ["Select bit 0"],
+      "note": "Least significant bit of the channel number."
+    },
+    {
+      "number": 11,
+      "name": "S1",
+      "primary": "ctrl",
+      "aliases": ["B"],
+      "functions": ["Select bit 1"]
+    },
+    { "number": 12, "name": "GND", "primary": "gnd" },
+    {
+      "number": 13,
+      "name": "S3",
+      "primary": "ctrl",
+      "aliases": ["D"],
+      "functions": ["Select bit 3"],
+      "note": "Most significant bit, and it comes before S2 in the package. This is the pin people miswire."
+    },
+    {
+      "number": 14,
+      "name": "S2",
+      "primary": "ctrl",
+      "aliases": ["C"],
+      "functions": ["Select bit 2"]
+    },
+    {
+      "number": 15,
+      "name": "E",
+      "primary": "ctrl",
+      "aliases": ["EN", "INH"],
+      "functions": ["Enable, active low"],
+      "note": "Low enables. High disconnects all sixteen channels."
+    },
+    { "number": 16, "name": "I15", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 15"] },
+    { "number": 17, "name": "I14", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 14"] },
+    { "number": 18, "name": "I13", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 13"] },
+    { "number": 19, "name": "I12", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 12"] },
+    { "number": 20, "name": "I11", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 11"] },
+    { "number": 21, "name": "I10", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 10"] },
+    { "number": 22, "name": "I9", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 9"] },
+    { "number": 23, "name": "I8", "primary": "gpio", "tags": ["analog"], "functions": ["Channel 8"] },
+    {
+      "number": 24,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "2-6 V",
+      "note": "Also the upper limit on any signal passing through the switches."
+    }
+  ]
+}

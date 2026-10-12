@@ -1,0 +1,82 @@
+{
+  "slug": "arduino-uno-r4-minima",
+  "name": "Arduino Uno R4 Minima",
+  "shortName": "Uno R4 Minima",
+  "vendor": "Arduino",
+  "category": "mcu-board",
+  "summary": "The Uno shape and 5 V logic, with a 48 MHz Renesas RA4M1 underneath: a real DAC, an op-amp, CAN, and 14-bit ADC.",
+  "logic": "5 V",
+  "package": "Uno form factor, 2.54 mm headers",
+  "keywords": [
+    "uno r4",
+    "uno r4 minima",
+    "abx00080",
+    "ra4m1",
+    "renesas",
+    "arduino uno",
+    "uno r3",
+    "cortex-m4"
+  ],
+  "notes": [
+    "Still 5 V logic, which is the reason to pick this over almost any other modern board. Uno R3 shields and 5 V sensors work without level shifting, and IOREF is tied to 5 V to say so.",
+    "A0 is a real 12-bit DAC, not PWM with a filter. It is the only pin that can do it, and the first analog output on any Uno.",
+    "A1, A2 and A3 are the on-chip op-amp: plus input, minus input and output, in that order. Leave the op-amp disabled and they are ordinary analog inputs.",
+    "CAN is on D4 and D5, and the official datasheet gets this backwards in its description column. The pinout diagram's peripheral table is right: D4 is CTX0, the transmitter, and D5 is CRX0, the receiver. Either way you still need an external transceiver; these are logic-level pins.",
+    "Not every pin can raise an interrupt. The RA4M1 routes IRQ lines to D0, D1, D2, D3, D8, D12, D13, A4 and A5 only, which is a trap if you are porting code from a board where every pin could.",
+    "PWM is on D3, D5, D6, D9, D10 and D11. D13 cannot do it any more, which breaks a surprising amount of old Uno example code.",
+    "A4 and A5 are the same silicon pins as D18 and D19, and they carry I2C. You get the analog input or the I2C bus, not both at once.",
+    "The ADC will do 14 bits if you ask for it with analogReadResolution. It defaults to 10 for compatibility with code written for the R3.",
+    "Position 1 on the power header is BOOT on this board, where the R3 had an unconnected pin. The barrel jack takes 6 to 24 V, a much wider range than the R3 was happy with."
+  ],
+  "docs": [
+    {
+      "label": "Arduino UNO R4 Minima datasheet",
+      "url": "https://docs.arduino.cc/resources/datasheets/ABX00080-datasheet.pdf"
+    },
+    {
+      "label": "Arduino UNO R4 Minima full pinout",
+      "url": "https://docs.arduino.cc/resources/pinouts/ABX00080-full-pinout.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 18,
+    "sideLabels": ["Digital header", "Power + Analog headers"]
+  },
+  "pins": [
+    { "name": "SCL", "primary": "gpio", "aliases": ["D19", "A5", "P100"], "tags": ["i2c"], "functions": ["I2C SCL"], "note": "Same silicon pin as A5, duplicated on the header for shields.", "side": "left", "row": 1 },
+    { "name": "SDA", "primary": "gpio", "aliases": ["D18", "A4", "P101"], "tags": ["i2c"], "functions": ["I2C SDA"], "note": "Same silicon pin as A4.", "side": "left", "row": 2 },
+    { "name": "AREF", "primary": "ctrl", "functions": ["ADC reference in"], "note": "Only drive this after switching the reference in software.", "side": "left", "row": 3 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "left", "row": 4 },
+    { "name": "D13", "primary": "gpio", "aliases": ["SCK", "P111"], "tags": ["spi", "clock"], "functions": ["SPI clock", "On-board LED", "IRQ4"], "note": "The LED pin, and no longer PWM capable.", "side": "left", "row": 5 },
+    { "name": "D12", "primary": "gpio", "aliases": ["CIPO", "MISO", "P110"], "tags": ["spi"], "functions": ["SPI CIPO", "IRQ3"], "side": "left", "row": 6 },
+    { "name": "D11", "primary": "gpio", "aliases": ["COPI", "MOSI", "P109"], "tags": ["spi", "pwm"], "functions": ["SPI COPI", "PWM"], "side": "left", "row": 7 },
+    { "name": "D10", "primary": "gpio", "aliases": ["CS", "SS", "P112"], "tags": ["spi", "pwm"], "functions": ["SPI chip select", "PWM"], "side": "left", "row": 8 },
+    { "name": "D9", "primary": "gpio", "aliases": ["P303"], "tags": ["pwm"], "functions": ["PWM"], "side": "left", "row": 9 },
+    { "name": "D8", "primary": "gpio", "aliases": ["P304"], "functions": ["IRQ9"], "side": "left", "row": 10 },
+    { "name": "D7", "primary": "gpio", "aliases": ["P107"], "functions": ["GPIO"], "side": "left", "row": 11 },
+    { "name": "D6", "primary": "gpio", "aliases": ["P106"], "tags": ["pwm"], "functions": ["PWM"], "side": "left", "row": 12 },
+    { "name": "D5", "primary": "gpio", "aliases": ["CANRX0", "P102"], "tags": ["pwm", "analog"], "functions": ["CAN RX", "PWM", "Comparator in"], "note": "CAN receive, despite what the datasheet's description column says.", "side": "left", "row": 13 },
+    { "name": "D4", "primary": "gpio", "aliases": ["CANTX0", "P103"], "tags": ["analog"], "functions": ["CAN TX", "Comparator reference"], "note": "CAN transmit. Needs an external transceiver to reach a bus.", "side": "left", "row": 14 },
+    { "name": "D3", "primary": "gpio", "aliases": ["P104"], "tags": ["pwm"], "functions": ["PWM", "IRQ1"], "side": "left", "row": 15 },
+    { "name": "D2", "primary": "gpio", "aliases": ["P105"], "functions": ["IRQ0"], "side": "left", "row": 16 },
+    { "name": "D1", "primary": "gpio", "aliases": ["TX", "TX0", "P302"], "tags": ["uart"], "functions": ["Serial1 TX", "IRQ5"], "side": "left", "row": 17 },
+    { "name": "D0", "primary": "gpio", "aliases": ["RX", "RX0", "P301"], "tags": ["uart"], "functions": ["Serial1 RX", "IRQ6"], "note": "Receive, not transmit. The datasheet's pin table misprints this one as TX0.", "side": "left", "row": 18 },
+
+    { "name": "BOOT", "primary": "ctrl", "functions": ["Boot mode select"], "note": "Where the R3 had an unconnected pin. It picks the boot mode at reset.", "side": "right", "row": 1 },
+    { "name": "IOREF", "primary": "ctrl", "functions": ["Logic level reference"], "note": "Tied to 5 V. A shield reads this to find out what levels the board speaks.", "side": "right", "row": 2 },
+    { "name": "RESET", "primary": "ctrl", "functions": ["Reset, active low"], "side": "right", "row": 3 },
+    { "name": "3V3", "primary": "power3", "functions": ["3.3 V out"], "side": "right", "row": 4 },
+    { "name": "5V", "primary": "power5", "functions": ["5 V out"], "side": "right", "row": 5 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 6 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 7 },
+    { "name": "VIN", "primary": "vin", "voltage": "6-24 V", "functions": ["Supply in"], "note": "Shared with the barrel jack, through a buck converter rather than a linear regulator.", "side": "right", "row": 8 },
+    { "name": "A0", "primary": "gpio", "aliases": ["D14", "P014", "DAC"], "tags": ["analog", "dac"], "functions": ["ADC 9", "12-bit DAC out"], "note": "The only true analog output on the board.", "side": "right", "row": 10 },
+    { "name": "A1", "primary": "gpio", "aliases": ["D15", "P000"], "tags": ["analog"], "functions": ["ADC 0", "Op-amp +"], "side": "right", "row": 11 },
+    { "name": "A2", "primary": "gpio", "aliases": ["D16", "P001"], "tags": ["analog"], "functions": ["ADC 1", "Op-amp -"], "side": "right", "row": 12 },
+    { "name": "A3", "primary": "gpio", "aliases": ["D17", "P002"], "tags": ["analog"], "functions": ["ADC 2", "Op-amp out"], "side": "right", "row": 13 },
+    { "name": "A4", "primary": "gpio", "aliases": ["D18", "SDA", "P101"], "tags": ["analog", "i2c"], "functions": ["ADC 21", "I2C SDA", "IRQ1"], "side": "right", "row": 14 },
+    { "name": "A5", "primary": "gpio", "aliases": ["D19", "SCL", "P100"], "tags": ["analog", "i2c"], "functions": ["ADC 22", "I2C SCL", "IRQ2"], "side": "right", "row": 15 }
+  ]
+}

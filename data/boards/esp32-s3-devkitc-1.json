@@ -1,0 +1,93 @@
+{
+  "slug": "esp32-s3-devkitc-1",
+  "name": "ESP32-S3-DevKitC-1",
+  "shortName": "ESP32-S3 DevKitC",
+  "vendor": "Espressif",
+  "category": "mcu-board",
+  "summary": "Espressif's reference board for the S3: dual-core Xtensa at 240 MHz, native USB, and 45 GPIOs on two 22-pin headers. Three of them may not be yours.",
+  "logic": "3.3 V",
+  "package": "2x22 2.54 mm",
+  "keywords": [
+    "esp32-s3",
+    "esp32s3",
+    "devkitc",
+    "esp32-s3-devkitc-1",
+    "wroom-1",
+    "n8r8",
+    "esp32-s3-wroom",
+    "xtensa"
+  ],
+  "notes": [
+    "GPIO35, GPIO36 and GPIO37 are not available on modules with octal SPI PSRAM or flash, which covers the N8R8 and N16R8 WROOM-1 variants and every WROOM-2. On those boards the three pins are wired to the memory and using them crashes the chip. Check the module label before you design them in.",
+    "The RGB LED moved between revisions: GPIO38 on v1.1, GPIO48 on v1.0. Example code that blinks nothing is usually this and not a broken LED.",
+    "GPIO19 and GPIO20 are the native USB data lines. Use them as GPIOs and the ESP32-S3 USB port stops working, which also costs you USB-serial-JTAG debugging.",
+    "Strapping pins are GPIO0 (BOOT), GPIO3, GPIO45 and GPIO46. They are sampled at reset, so what you hang on them decides how the chip boots. GPIO0 is the one wired to the BOOT button.",
+    "ADC2 channels are unusable while Wi-Fi is running. That takes out GPIO11 through GPIO20 for analog, so put anything you need to measure on ADC1, which is GPIO1 to GPIO10.",
+    "There are two USB ports. The one marked UART goes through a CP2102 bridge and always works for flashing. The one marked USB is the chip's own, and it is the one that disappears if you repurpose GPIO19 and GPIO20.",
+    "The three ways to power the board are mutually exclusive: the USB ports, the 5V and G pins, or the 3V3 and G pins. Feeding two at once is how regulators die.",
+    "Pin 1 of each header is at the antenna end, which is the top of this diagram, with both USB connectors at the bottom."
+  ],
+  "docs": [
+    {
+      "label": "Espressif ESP32-S3-DevKitC-1 v1.1 user guide",
+      "url": "https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.1.html"
+    },
+    {
+      "label": "ESP32-S3 datasheet",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 22,
+    "sideLabels": ["J1, left (antenna at top)", "J3, right (antenna at top)"]
+  },
+  "pins": [
+    { "name": "3V3", "primary": "power3", "functions": ["3.3 V power"], "side": "left", "row": 1 },
+    { "name": "3V3", "primary": "power3", "functions": ["3.3 V power"], "note": "Two 3V3 pins, both the same net.", "side": "left", "row": 2 },
+    { "name": "RST", "primary": "ctrl", "aliases": ["EN"], "functions": ["Chip enable, active low"], "note": "Pull low to reset. The RESET button is on this net.", "side": "left", "row": 3 },
+    { "name": "4", "primary": "gpio", "aliases": ["GPIO4"], "tags": ["analog", "touch"], "functions": ["ADC1 CH3", "TOUCH4", "RTC GPIO4"], "side": "left", "row": 4 },
+    { "name": "5", "primary": "gpio", "aliases": ["GPIO5"], "tags": ["analog", "touch"], "functions": ["ADC1 CH4", "TOUCH5", "RTC GPIO5"], "side": "left", "row": 5 },
+    { "name": "6", "primary": "gpio", "aliases": ["GPIO6"], "tags": ["analog", "touch"], "functions": ["ADC1 CH5", "TOUCH6", "RTC GPIO6"], "side": "left", "row": 6 },
+    { "name": "7", "primary": "gpio", "aliases": ["GPIO7"], "tags": ["analog", "touch"], "functions": ["ADC1 CH6", "TOUCH7", "RTC GPIO7"], "side": "left", "row": 7 },
+    { "name": "15", "primary": "gpio", "aliases": ["GPIO15"], "tags": ["analog", "uart", "clock"], "functions": ["ADC2 CH4", "U0RTS", "XTAL_32K_P"], "note": "One half of the 32 kHz crystal pair if you fit one.", "side": "left", "row": 8 },
+    { "name": "16", "primary": "gpio", "aliases": ["GPIO16"], "tags": ["analog", "uart", "clock"], "functions": ["ADC2 CH5", "U0CTS", "XTAL_32K_N"], "side": "left", "row": 9 },
+    { "name": "17", "primary": "gpio", "aliases": ["GPIO17"], "tags": ["analog", "uart"], "functions": ["ADC2 CH6", "U1TXD"], "side": "left", "row": 10 },
+    { "name": "18", "primary": "gpio", "aliases": ["GPIO18"], "tags": ["analog", "uart", "clock"], "functions": ["ADC2 CH7", "U1RXD", "CLK_OUT3"], "side": "left", "row": 11 },
+    { "name": "8", "primary": "gpio", "aliases": ["GPIO8"], "tags": ["analog", "touch"], "functions": ["ADC1 CH7", "TOUCH8", "SUBSPICS1"], "side": "left", "row": 12 },
+    { "name": "3", "primary": "gpio", "aliases": ["GPIO3"], "tags": ["analog", "touch"], "functions": ["ADC1 CH2", "TOUCH3", "JTAG select"], "note": "Strapping pin. Sampled at reset.", "side": "left", "row": 13 },
+    { "name": "46", "primary": "gpio", "aliases": ["GPIO46"], "functions": ["ROM log control"], "note": "Strapping pin. Decides whether the ROM bootloader prints over serial.", "side": "left", "row": 14 },
+    { "name": "9", "primary": "gpio", "aliases": ["GPIO9"], "tags": ["analog", "touch", "spi"], "functions": ["ADC1 CH8", "TOUCH9", "FSPIHD"], "side": "left", "row": 15 },
+    { "name": "10", "primary": "gpio", "aliases": ["GPIO10"], "tags": ["analog", "touch", "spi"], "functions": ["ADC1 CH9", "TOUCH10", "FSPICS0"], "side": "left", "row": 16 },
+    { "name": "11", "primary": "gpio", "aliases": ["GPIO11"], "tags": ["analog", "touch", "spi"], "functions": ["ADC2 CH0", "TOUCH11", "FSPID"], "side": "left", "row": 17 },
+    { "name": "12", "primary": "gpio", "aliases": ["GPIO12"], "tags": ["analog", "touch", "spi", "clock"], "functions": ["ADC2 CH1", "TOUCH12", "FSPICLK"], "side": "left", "row": 18 },
+    { "name": "13", "primary": "gpio", "aliases": ["GPIO13"], "tags": ["analog", "touch", "spi"], "functions": ["ADC2 CH2", "TOUCH13", "FSPIQ"], "side": "left", "row": 19 },
+    { "name": "14", "primary": "gpio", "aliases": ["GPIO14"], "tags": ["analog", "touch", "spi"], "functions": ["ADC2 CH3", "TOUCH14", "FSPIWP"], "side": "left", "row": 20 },
+    { "name": "5V", "primary": "power5", "functions": ["5 V power"], "note": "In or out, but never while a USB cable is also feeding the board.", "side": "left", "row": 21 },
+    { "name": "G", "primary": "gnd", "aliases": ["GND"], "functions": ["Ground"], "side": "left", "row": 22 },
+
+    { "name": "G", "primary": "gnd", "aliases": ["GND"], "functions": ["Ground"], "side": "right", "row": 1 },
+    { "name": "TX", "primary": "gpio", "aliases": ["GPIO43", "U0TXD"], "tags": ["uart", "clock"], "functions": ["UART0 TX", "CLK_OUT1"], "note": "The console port. Also reachable through the UART USB socket.", "side": "right", "row": 2 },
+    { "name": "RX", "primary": "gpio", "aliases": ["GPIO44", "U0RXD"], "tags": ["uart", "clock"], "functions": ["UART0 RX", "CLK_OUT2"], "side": "right", "row": 3 },
+    { "name": "1", "primary": "gpio", "aliases": ["GPIO1"], "tags": ["analog", "touch"], "functions": ["ADC1 CH0", "TOUCH1", "RTC GPIO1"], "side": "right", "row": 4 },
+    { "name": "2", "primary": "gpio", "aliases": ["GPIO2"], "tags": ["analog", "touch"], "functions": ["ADC1 CH1", "TOUCH2", "RTC GPIO2"], "side": "right", "row": 5 },
+    { "name": "42", "primary": "gpio", "aliases": ["GPIO42", "MTMS"], "functions": ["JTAG TMS"], "side": "right", "row": 6 },
+    { "name": "41", "primary": "gpio", "aliases": ["GPIO41", "MTDI"], "tags": ["clock"], "functions": ["JTAG TDI", "CLK_OUT1"], "side": "right", "row": 7 },
+    { "name": "40", "primary": "gpio", "aliases": ["GPIO40", "MTDO"], "tags": ["clock"], "functions": ["JTAG TDO", "CLK_OUT2"], "side": "right", "row": 8 },
+    { "name": "39", "primary": "gpio", "aliases": ["GPIO39", "MTCK"], "tags": ["clock"], "functions": ["JTAG TCK", "CLK_OUT3"], "side": "right", "row": 9 },
+    { "name": "38", "primary": "gpio", "aliases": ["GPIO38"], "tags": ["spi"], "functions": ["RGB LED (v1.1)", "FSPIWP"], "note": "Drives the on-board addressable LED on v1.1. On v1.0 that job belongs to GPIO48.", "side": "right", "row": 10 },
+    { "name": "37", "primary": "gpio", "aliases": ["GPIO37"], "tags": ["spi"], "functions": ["SPIDQS", "FSPIQ"], "note": "Not available on octal PSRAM or flash modules.", "side": "right", "row": 11 },
+    { "name": "36", "primary": "gpio", "aliases": ["GPIO36"], "tags": ["spi", "clock"], "functions": ["SPIIO7", "FSPICLK"], "note": "Not available on octal PSRAM or flash modules.", "side": "right", "row": 12 },
+    { "name": "35", "primary": "gpio", "aliases": ["GPIO35"], "tags": ["spi"], "functions": ["SPIIO6", "FSPID"], "note": "Not available on octal PSRAM or flash modules.", "side": "right", "row": 13 },
+    { "name": "0", "primary": "gpio", "aliases": ["GPIO0", "BOOT"], "functions": ["Boot mode select", "RTC GPIO0"], "note": "Strapping pin, and the BOOT button. Low at reset enters the download bootloader.", "side": "right", "row": 14 },
+    { "name": "45", "primary": "gpio", "aliases": ["GPIO45"], "functions": ["Flash voltage select"], "note": "Strapping pin. It picks the SPI flash supply voltage at reset.", "side": "right", "row": 15 },
+    { "name": "48", "primary": "gpio", "aliases": ["GPIO48"], "tags": ["clock"], "functions": ["SPICLK_N", "RGB LED (v1.0)"], "note": "Drives the RGB LED on v1.0 boards only.", "side": "right", "row": 16 },
+    { "name": "47", "primary": "gpio", "aliases": ["GPIO47"], "tags": ["clock"], "functions": ["SPICLK_P"], "side": "right", "row": 17 },
+    { "name": "21", "primary": "gpio", "aliases": ["GPIO21"], "functions": ["RTC GPIO21"], "side": "right", "row": 18 },
+    { "name": "20", "primary": "gpio", "aliases": ["GPIO20", "USB_D+"], "tags": ["analog", "uart", "clock"], "functions": ["USB D+", "ADC2 CH9", "U1CTS"], "note": "Native USB. Reusing it as a GPIO removes the USB port and the JTAG that rides on it.", "side": "right", "row": 19 },
+    { "name": "19", "primary": "gpio", "aliases": ["GPIO19", "USB_D-"], "tags": ["analog", "uart", "clock"], "functions": ["USB D-", "ADC2 CH8", "U1RTS"], "note": "Native USB. Same warning as GPIO20.", "side": "right", "row": 20 },
+    { "name": "G", "primary": "gnd", "aliases": ["GND"], "functions": ["Ground"], "side": "right", "row": 21 },
+    { "name": "G", "primary": "gnd", "aliases": ["GND"], "functions": ["Ground"], "side": "right", "row": 22 }
+  ]
+}
