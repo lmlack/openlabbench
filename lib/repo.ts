@@ -38,3 +38,8 @@ export function issueUrl(title: string, body: string): string | null {
 export function repoUrl(): string | null {
   return hasRepo ? base() : null;
 }
+
+/** The contributing guide, which is where the accuracy rule actually lives. */
+export function contributingUrl(): string | null {
+  return hasRepo ? `${base()}/blob/${BRANCH}/CONTRIBUTING.md` : null;
+}

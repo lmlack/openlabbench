@@ -5,6 +5,11 @@ Pinouts, part equivalents, printable cheat sheets.
 A static Next.js site. No database and no CMS: every pinout is one JSON file, and
 the pages, the search index and the printable SVGs all come from it at build time.
 
+Live at **<https://gwark.dev/openlabbench>**. To fix a pin or add a board, see
+[CONTRIBUTING.md](CONTRIBUTING.md); the short version is that every pin has to
+come from a datasheet or a vendor diagram, and you can edit a board's JSON from
+the site without cloning anything.
+
 ## Running it
 
 ```bash
@@ -140,6 +145,10 @@ Transcribed from manufacturer datasheets and vendor pinout diagrams. The ESP32
 DevKit V1, both STM32 boards and the two BeagleBone headers were checked against
 published layouts rather than memory. Clones and revisions differ, so check your
 own silkscreen before applying power.
+
+This is the standard for new data too, not just a description of the old. If a
+source is ambiguous or two sources disagree, the board stays out until one of
+them wins. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
