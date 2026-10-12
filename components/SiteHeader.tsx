@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import type { SearchDoc } from "@/lib/search";
 import { SearchPalette } from "./SearchPalette";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -14,7 +13,7 @@ const NAV = [
   { href: "/contribute", label: "Contribute" },
 ];
 
-export function SiteHeader({ index }: { index: SearchDoc[] }) {
+export function SiteHeader({ count }: { count: number }) {
   const pathname = usePathname();
   const [menu, setMenu] = useState(false);
 
@@ -53,7 +52,7 @@ export function SiteHeader({ index }: { index: SearchDoc[] }) {
         </nav>
 
         <div className="flex flex-1 items-center justify-end gap-2">
-          <SearchPalette index={index} />
+          <SearchPalette count={count} />
           <ThemeToggle />
           <button
             type="button"

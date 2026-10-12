@@ -4,7 +4,34 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { asset } from "@/lib/base-path";
 import { search, type SearchDoc, type SearchHit } from "@/lib/search";
+
+/**
+ * The index is a static file, fetched the first time the palette is needed.
+ *
+ * It was once built in the layout and passed down as a prop, which put all
+ * 1,429 entries into the HTML of every page and again into the RSC payload
+ * beside it. Fetching costs one round trip on first use, bought back on every
+ * page load, and the file is cached from then on.
+ *
+ * The promise is module-level so a remount does not refetch, and is cleared on
+ * failure so the next attempt actually retries.
+ */
+let indexPromise: Promise<SearchDoc[]> | null = null;
+
+function loadIndex(): Promise<SearchDoc[]> {
+  indexPromise ??= fetch(asset("/search-index.json"))
+    .then((r) => {
+      if (!r.ok) throw new Error(`search index: ${r.status}`);
+      return r.json() as Promise<SearchDoc[]>;
+    })
+    .catch((e) => {
+      indexPromise = null;
+      throw e;
+    });
+  return indexPromise;
+}
 
 const KIND_LABEL: Record<SearchDoc["kind"], string> = {
   board: "Pinout",
@@ -21,20 +48,29 @@ const KIND_COLOR: Record<SearchDoc["kind"], string> = {
   part: "#a855f7",
 };
 
-export function SearchPalette({ index }: { index: SearchDoc[] }) {
+export function SearchPalette({ count }: { count: number }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const [docs, setDocs] = useState<SearchDoc[] | null>(null);
+  const [failed, setFailed] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
 
-  const hits = useMemo(() => search(index, query, 20), [index, query]);
+  const hits = useMemo(() => (docs ? search(docs, query, 20) : []), [docs, query]);
+
+  /** Safe to call as often as you like: the promise is cached after the first. */
+  const warm = useCallback(() => {
+    setFailed(false);
+    loadIndex().then(setDocs, () => setFailed(true));
+  }, []);
 
   const openPalette = useCallback(() => {
     setOpen(true);
     setActive(0);
-  }, []);
+    warm();
+  }, [warm]);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -87,6 +123,11 @@ export function SearchPalette({ index }: { index: SearchDoc[] }) {
       <button
         type="button"
         onClick={openPalette}
+        // Pointing at the button or tabbing to it is enough intent to start
+        // the fetch, so on a desktop the index has normally arrived by the
+        // time the box is open.
+        onPointerEnter={warm}
+        onFocus={warm}
         className="group flex size-9 items-center justify-center rounded-full border-[1.5px] border-line-strong bg-panel text-sm text-subtle transition-colors hover:border-fg hover:text-fg sm:w-44 sm:justify-between sm:px-3"
       >
         <span className="flex min-w-0 items-center gap-2">
@@ -166,7 +207,21 @@ export function SearchPalette({ index }: { index: SearchDoc[] }) {
               </button>
             </div>
 
-            {query && hits.length === 0 ? (
+            {query && failed ? (
+              <p className="px-5 py-10 text-center text-sm text-muted">
+                The index did not load.{" "}
+                <button
+                  type="button"
+                  onClick={warm}
+                  className="text-accent underline underline-offset-2"
+                >
+                  Try again
+                </button>
+                .
+              </p>
+            ) : query && !docs ? (
+              <p className="px-5 py-10 text-center text-sm text-muted">Loading the index.</p>
+            ) : query && hits.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-muted">
                 Nothing matches <span className="font-mono text-fg">{query}</span>. Missing a board?{" "}
                 <Link
@@ -226,7 +281,7 @@ export function SearchPalette({ index }: { index: SearchDoc[] }) {
             {!query && (
               <div className="px-5 py-8 text-center">
                 <p className="text-sm text-muted">
-                  {index.length.toLocaleString()} pins, boards and parts. Try:
+                  {count.toLocaleString()} pins, boards and parts. Try:
                 </p>
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
                   {EXAMPLES.map((q) => (
