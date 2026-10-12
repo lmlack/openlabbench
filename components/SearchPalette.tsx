@@ -48,7 +48,7 @@ const KIND_COLOR: Record<SearchDoc["kind"], string> = {
   part: "#a855f7",
 };
 
-export function SearchPalette({ count }: { count: number }) {
+export function SearchPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -280,9 +280,7 @@ export function SearchPalette({ count }: { count: number }) {
 
             {!query && (
               <div className="px-5 py-8 text-center">
-                <p className="text-sm text-muted">
-                  {count.toLocaleString()} pins, boards and parts. Try:
-                </p>
+                <p className="text-sm text-muted">Try:</p>
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
                   {EXAMPLES.map((q) => (
                     <button
