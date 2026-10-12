@@ -50,7 +50,7 @@ export default function PinoutsIndex() {
                     <p className="mt-2 text-sm text-muted">{board.summary}</p>
                     <div className="mt-auto flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1.5 border-t border-line pt-4">
                       <span className="text-sm text-subtle">
-                        {board.pins.length} pins · {board.logic}
+                        {board.logic}
                       </span>
                       <span className="flex gap-1">
                         {buses.map((k) => (

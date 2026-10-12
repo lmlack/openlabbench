@@ -244,7 +244,7 @@ function render(board: Board): string {
     `<text x="${PAD}" y="62" font-size="10.5" fill="${MUTED}">${esc(board.vendor)} · ${esc(board.package)}</text>`,
     `<text x="${PAD}" y="80" font-size="11" font-weight="700" fill="${INK}">Logic: ${esc(board.logic)}</text>`,
     `<text x="${W - PAD}" y="42" font-size="12" font-weight="700" fill="${INK}" text-anchor="end" font-family="${SERIF}" letter-spacing="1.5">OPENLABBENCH</text>`,
-    `<text x="${W - PAD}" y="58" font-size="9" fill="${FAINT}" text-anchor="end">${board.pins.length} pins · ${PUBLIC_URL}/pinouts/${esc(board.slug)}</text>`,
+    `<text x="${W - PAD}" y="58" font-size="9" fill="${FAINT}" text-anchor="end">${PUBLIC_URL}/pinouts/${esc(board.slug)}</text>`,
     `<line x1="${PAD}" y1="90" x2="${W - PAD}" y2="90" stroke="${INK}" stroke-width="1"/>` +
       `<line x1="${PAD}" y1="93" x2="${W - PAD}" y2="93" stroke="${INK}" stroke-width="0.6"/>`,
     legend(board, HEADER_H + 10),

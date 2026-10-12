@@ -18,7 +18,7 @@ export function buildSearchIndex(): SearchDoc[] {
     docs.push({
       kind: "board",
       title: board.name,
-      subtitle: `${CATEGORY_LABELS[board.category]} · ${board.pins.length} pins · ${board.logic}`,
+      subtitle: `${CATEGORY_LABELS[board.category]} · ${board.logic}`,
       href: `/pinouts/${board.slug}`,
       badge: board.vendor,
       weight: 1.6,

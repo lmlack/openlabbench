@@ -140,14 +140,9 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
         </nav>
       </header>
 
-      <dl className="mt-6 grid gap-px border-y border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="mt-6 grid gap-px border-y border-line bg-line sm:grid-cols-2">
         <Spec label="Logic level" value={board.logic} emphasis />
         <Spec label="Package" value={board.package} />
-        <Spec label="Pins" value={String(board.pins.length)} />
-        <Spec
-          label="Usable I/O"
-          value={String(board.pins.filter((p) => p.primary === "gpio").length)}
-        />
       </dl>
 
       <section id="diagram" className="mt-10 scroll-mt-20">
@@ -215,7 +210,7 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
         />
         <p className="mb-2 mt-4 text-center text-sm">
           <span className="font-semibold">Table {tableNo("pin-table")}.</span>{" "}
-          <span className="text-muted">Pin assignments, {board.pins.length} pins.</span>
+          <span className="text-muted">Pin assignments.</span>
         </p>
         <PinTable board={board} pins={placed} />
       </section>
