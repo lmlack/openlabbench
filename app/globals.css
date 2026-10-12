@@ -1,26 +1,217 @@
 @import "tailwindcss";
 
+/*
+  A Bell Labs technical memorandum, printed on the warm stock this site already
+  used: hairline rules, square corners, no shadows, and one ink color, a deep
+  blue, reserved for links and live state. The neutrals are the original warm
+  taupe set, unchanged, so .sig-text keeps the 56% mix that was measured
+  against this exact --bg. Every text token clears 4.5:1 on its own surface.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6efe2;
+  --panel: #fffdf8;
+  --raised: #ece0cd;
+  --line: #e6d9c4;
+  --line-strong: #ad9472;
+  --fg: #262018;
+  --fg-muted: #544736;
+  --fg-subtle: #685a46;
+  --accent: #0b4a8f;
+  --accent-soft: #dfe7f2;
+  --solid: #2b2419;
+  --solid-fg: #fffdf8;
+  --shadow: none;
+  color-scheme: light;
+}
+
+/* The same document under a desk lamp. Warm dark stock, the ink lifted to a
+   pale blue that still reads as the same color. */
+:root[data-theme="dark"] {
+  --bg: #16120e;
+  --panel: #201a15;
+  --raised: #2a231b;
+  --line: #352d24;
+  --line-strong: #574a3c;
+  --fg: #f2e9dd;
+  --fg-muted: #bcab97;
+  --fg-subtle: #9a8a76;
+  --accent: #9cc4ee;
+  --accent-soft: #1b2733;
+  --solid: #f2e9dd;
+  --solid-fg: #201a15;
+  --shadow: none;
+  color-scheme: dark;
+}
+
+@theme {
+  /* Five steps, each far enough from its neighbors to read as a level and
+     not a near-miss. 14px next to 15px next to 17px looked like three
+     mistakes, so there is one small size: sm. xs is aliased to it so a
+     stray text-xs cannot reintroduce a sixth size. */
+  --text-xs: 0.9375rem;
+  --text-xs--line-height: 1.4rem;
+  --text-sm: 0.9375rem;        /* 15px: UI, meta, badges, secondary prose */
+  --text-sm--line-height: 1.4rem;
+  --text-base: 1.0625rem;      /* 17px: body prose */
+  --text-base--line-height: 1.7rem;
+  --text-lg: 1.1875rem;        /* 19px: section headings */
+  --text-lg--line-height: 1.6rem;
+  --text-xl: 1.375rem;         /* 22px: lead paragraph, big numbers */
+  --text-xl--line-height: 1.85rem;
+  --text-4xl: 2.25rem;         /* 36px: page titles */
+  --text-4xl--line-height: 2.6rem;
+
+  /* A report is drawn with a straight edge. Zeroing the scale squares every
+     rounded-* utility in the project at once, including any added later. */
+  --radius-xs: 0rem;
+  --radius-sm: 0rem;
+  --radius-md: 0rem;
+  --radius-lg: 0rem;
+  --radius-xl: 0rem;
+  --radius-2xl: 0rem;
+  --radius-3xl: 0rem;
+  --radius-4xl: 0rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-solid: var(--solid);
+  --color-solid-fg: var(--solid-fg);
+  --font-sans: var(--font-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-hyper-mono), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* rounded-full is hardcoded to an infinite radius in Tailwind v4 rather than
+   read from the theme, so zeroing the radius scale cannot reach it. This is
+   unlayered, which is enough to outrank the utility layer without !important. */
+.rounded-full {
+  border-radius: 0;
+}
+
+/* The one label style: section eyebrows, spec labels, table headers.
+   Sans, always. Mono is reserved for literal identifiers (pin names, part
+   numbers, file paths, code) so it signals "type this exactly". */
+@utility eyebrow {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-subtle);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Text fields are left out: they show focus with their own border and the
+   caret, and most sit inside a framed box already. A ring there hugged the
+   text of the search palette input and read as broken alignment. Wrapping
+   this in @layer base to let outline-none win does not survive the Tailwind
+   build, it comes out unlayered. */
+:focus-visible:not(input, select, textarea) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Signal-colored chips. --sig is set inline per pin. */
+.sig-chip {
+  border-color: color-mix(in oklab, var(--sig) 50%, transparent);
+  background-color: color-mix(in oklab, var(--sig) 13%, transparent);
+}
+
+.sig-dot {
+  background-color: var(--sig);
+}
+
+/*
+  Signal hues are picked to separate from each other, which puts several of
+  them around 2:1 as text on cream. Mixing toward ink brings every one over
+  4.5:1 while keeping the hue recognizable. Dark mode uses the raw hue, which
+  already clears 4.5:1 on the dark panel. Dots and chip fills are never text,
+  so they keep full saturation in both themes.
+*/
+.sig-text {
+  color: var(--sig-ink, color-mix(in oklab, var(--sig) 56%, #1a130c));
+}
+
+:root[data-theme="dark"] .sig-text {
+  color: var(--sig);
+}
+
+/* A pin's gotcha. Warm amber that works on paper and on screen. */
+.callout-warn {
+  border-color: color-mix(in oklab, #b45309 35%, transparent);
+  background-color: color-mix(in oklab, #f59e0b 12%, transparent);
+  color: #7c4708;
+}
+
+:root[data-theme="dark"] .callout-warn {
+  color: #f3c27a;
+}
+
+/* Dimmed state while a signal filter or hover is active. */
+.pin-dim {
+  opacity: 0.2;
+  filter: saturate(0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  /* :root[data-theme="dark"] outweighs a bare :root, so the dark palette
+     survived into print and produced a black page. Match it here. */
+  :root,
+  :root[data-theme="dark"] {
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --raised: #ffffff;
+    --line: #d9d2c4;
+    --line-strong: #000000;
+    --fg: #000000;
+    --fg-muted: #2b2823;
+    --fg-subtle: #45413a;
+    --shadow: none;
+    color-scheme: light;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break-avoid {
+    break-inside: avoid;
+  }
+  .callout-warn {
+    color: #422006;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.7em;
+    color: #4a453d;
+  }
 }

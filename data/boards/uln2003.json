@@ -1,0 +1,250 @@
+{
+  "slug": "uln2003",
+  "name": "ULN2003 Darlington Array",
+  "shortName": "ULN2003",
+  "vendor": "TI / ST / Toshiba",
+  "category": "ic",
+  "summary": "Seven open-collector Darlington sinks with built-in clamp diodes, for relays, solenoids and 28BYJ-48 steppers.",
+  "logic": "Inputs 5 V TTL, outputs to 50 V",
+  "package": "PDIP-16 / SOIC-16",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "keywords": [
+    "uln2003",
+    "uln2803",
+    "darlington",
+    "relay driver",
+    "28byj-48",
+    "stepper",
+    "solenoid",
+    "tbd62083"
+  ],
+  "notes": [
+    "Outputs sink only. The load goes between your positive rail and the output pin, never between the output and ground. Getting this backwards is why nothing switches on.",
+    "Pin 9 is COM, the common cathode of the flyback diodes. Tie it to the load's positive rail or the diodes do nothing and inductive kick goes through the chip instead.",
+    "The output order is reversed against the inputs: IN1 on pin 1 drives OUT1 on pin 16, IN2 on pin 2 drives OUT2 on pin 15, and so on down to IN7 and OUT7 on pins 7 and 10.",
+    "500 mA per channel, but not on all seven at once. The package dissipation limit lands around 1.5 W total, so a full load of seven relays will overheat it.",
+    "Darlington saturation drop is about 1 V at 350 mA, wasted as heat. The TBD62083A is pin compatible, DMOS, and drops a third of a volt.",
+    "ULN2003 inputs are sized for 5 V logic. ULN2004 is the same part with input resistors for 6 to 15 V CMOS.",
+    "For eight channels use the ULN2803, which is DIP-18 with a different pinout rather than a wider version of this one."
+  ],
+  "docs": [
+    {
+      "label": "TI ULN2003A datasheet",
+      "url": "https://www.ti.com/product/ULN2003A"
+    },
+    {
+      "label": "Toshiba TBD62083A (DMOS replacement)",
+      "url": "https://toshiba.semicon-storage.com/ap-en/semiconductor/product/linear-ics/transistor-arrays/detail.TBD62083AFG.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "IN1",
+      "primary": "gpio",
+      "aliases": [
+        "1B"
+      ],
+      "functions": [
+        "Channel 1 input"
+      ],
+      "note": "Drives OUT1 on pin 16."
+    },
+    {
+      "number": 2,
+      "name": "IN2",
+      "primary": "gpio",
+      "aliases": [
+        "2B"
+      ],
+      "functions": [
+        "Channel 2 input"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "IN3",
+      "primary": "gpio",
+      "aliases": [
+        "3B"
+      ],
+      "functions": [
+        "Channel 3 input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "IN4",
+      "primary": "gpio",
+      "aliases": [
+        "4B"
+      ],
+      "functions": [
+        "Channel 4 input"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "IN5",
+      "primary": "gpio",
+      "aliases": [
+        "5B"
+      ],
+      "functions": [
+        "Channel 5 input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "IN6",
+      "primary": "gpio",
+      "aliases": [
+        "6B"
+      ],
+      "functions": [
+        "Channel 6 input"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "IN7",
+      "primary": "gpio",
+      "aliases": [
+        "7B"
+      ],
+      "functions": [
+        "Channel 7 input"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "E"
+      ],
+      "functions": [
+        "Ground, common emitter"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "COM",
+      "primary": "vin",
+      "voltage": "to 50 V",
+      "functions": [
+        "Flyback diode common"
+      ],
+      "note": "Connect to the load's supply rail. Without it the clamp diodes are not in circuit."
+    },
+    {
+      "number": 10,
+      "name": "OUT7",
+      "primary": "gpio",
+      "aliases": [
+        "7C"
+      ],
+      "functions": [
+        "Channel 7 output"
+      ],
+      "note": "Open collector sink, 500 mA."
+    },
+    {
+      "number": 11,
+      "name": "OUT6",
+      "primary": "gpio",
+      "aliases": [
+        "6C"
+      ],
+      "functions": [
+        "Channel 6 output"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "OUT5",
+      "primary": "gpio",
+      "aliases": [
+        "5C"
+      ],
+      "functions": [
+        "Channel 5 output"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "OUT4",
+      "primary": "gpio",
+      "aliases": [
+        "4C"
+      ],
+      "functions": [
+        "Channel 4 output"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "OUT3",
+      "primary": "gpio",
+      "aliases": [
+        "3C"
+      ],
+      "functions": [
+        "Channel 3 output"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "OUT2",
+      "primary": "gpio",
+      "aliases": [
+        "2C"
+      ],
+      "functions": [
+        "Channel 2 output"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "OUT1",
+      "primary": "gpio",
+      "aliases": [
+        "1C"
+      ],
+      "functions": [
+        "Channel 1 output"
+      ],
+      "note": "Driven by IN1 on pin 1, at the opposite corner."
+    }
+  ],
+  "circuit": {
+    "title": "Driving an inductive load",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "9",
+        "to": "VCC",
+        "required": true,
+        "why": "Connects the internal clamp diodes to the load's rail. Without it the flyback goes through the chip."
+      },
+      {
+        "part": "Load",
+        "symbol": "load",
+        "from": "9",
+        "to": "16",
+        "required": true,
+        "why": "Coil or solenoid from the positive rail to an output. The outputs sink only."
+      }
+    ],
+    "note": "500 mA per channel, but not on all seven at once. Package dissipation caps the total around 1.5 W."
+  }
+}

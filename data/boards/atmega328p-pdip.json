@@ -1,0 +1,541 @@
+{
+  "slug": "atmega328p-pdip",
+  "name": "ATmega328P (PDIP-28)",
+  "shortName": "ATmega328P",
+  "vendor": "Microchip (Atmel)",
+  "category": "mcu-chip",
+  "summary": "The chip inside the Uno and Nano, on its own in a 28-pin DIP. Useful when you want the Arduino toolchain on a bare board. The mapping between port pins and Arduino numbers is the part nobody remembers.",
+  "logic": "1.8-5.5 V",
+  "package": "PDIP-28 / TQFP-32 / MLF-32",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 14,
+    "sideLabels": [
+      "Pins 1-14",
+      "Pins 15-28"
+    ]
+  },
+  "keywords": [
+    "atmega328p",
+    "atmega328",
+    "328p",
+    "avr",
+    "arduino bare chip",
+    "standalone arduino",
+    "dip28"
+  ],
+  "notes": [
+    "Arduino numbers map to ports as: D0-D7 = PD0-PD7, D8-D13 = PB0-PB5, A0-A5 = PC0-PC5. The chip pin order does not follow either sequence.",
+    "A factory chip runs on the 8 MHz internal oscillator with CKDIV8 set, so it actually ticks at 1 MHz until you change the fuses. Arduino boards use an external 16 MHz crystal and fuses to match.",
+    "VCC (7) and AVCC (20) must both be connected, with 100 nF at each. AVCC feeds the ADC and port C; leaving it floating gives you garbage analog readings and sometimes a chip that will not start.",
+    "PB6/PB7 (9/10) are the crystal pins. On the internal oscillator they free up as two extra I/O, but the Arduino core does not expose them.",
+    "RESET (1) needs a 10k pull-up to VCC. It is also the dW debug pin, and disabling it via fuse locks out ISP programming.",
+    "20 mA per pin recommended, 40 mA absolute max, 200 mA total through VCC/GND.",
+    "The ATmega328PB is a newer die with extra peripherals, but it is not a silent drop-in: some register names and vector numbers changed.",
+    "The speed grade tracks the supply: 20 MHz needs at least 4.5 V, 10 MHz needs 2.7 V, and 4 MHz works down to 1.8 V. Running a 16 MHz crystal on 3.3 V is out of spec, which is why 3.3 V Pro Minis ship at 8 MHz."
+  ],
+  "docs": [
+    {
+      "label": "Microchip ATmega328P product page",
+      "url": "https://www.microchip.com/en-us/product/ATmega328P"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "PC6",
+      "primary": "ctrl",
+      "aliases": [
+        "RESET",
+        "dW"
+      ],
+      "functions": [
+        "Active-low reset",
+        "debugWIRE"
+      ],
+      "note": "10k pull-up to VCC required."
+    },
+    {
+      "number": 2,
+      "name": "PD0",
+      "primary": "gpio",
+      "aliases": [
+        "D0",
+        "RXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "USART RXD",
+        "PCINT16"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "PD1",
+      "primary": "gpio",
+      "aliases": [
+        "D1",
+        "TXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "USART TXD",
+        "PCINT17"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "PD2",
+      "primary": "gpio",
+      "aliases": [
+        "D2",
+        "INT0"
+      ],
+      "functions": [
+        "External interrupt 0",
+        "PCINT18"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "PD3",
+      "primary": "gpio",
+      "aliases": [
+        "D3",
+        "INT1",
+        "OC2B"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer2 OC2B",
+        "External interrupt 1"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "PD4",
+      "primary": "gpio",
+      "aliases": [
+        "D4",
+        "T0",
+        "XCK"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Timer0 external clock",
+        "USART clock"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "1.8-5.5 V",
+      "functions": [
+        "Digital supply"
+      ],
+      "note": "100 nF at the pin."
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "PB6",
+      "primary": "gpio",
+      "aliases": [
+        "XTAL1",
+        "TOSC1"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in / external clock"
+      ],
+      "note": "Free as I/O only on the internal oscillator."
+    },
+    {
+      "number": 10,
+      "name": "PB7",
+      "primary": "gpio",
+      "aliases": [
+        "XTAL2",
+        "TOSC2"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ],
+      "note": "Free as I/O only on the internal oscillator."
+    },
+    {
+      "number": 11,
+      "name": "PD5",
+      "primary": "gpio",
+      "aliases": [
+        "D5",
+        "T1",
+        "OC0B"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0B",
+        "Timer1 external clock"
+      ],
+      "note": "Timer0 also drives millis(), do not reprogram its prescaler."
+    },
+    {
+      "number": 12,
+      "name": "PD6",
+      "primary": "gpio",
+      "aliases": [
+        "D6",
+        "AIN0",
+        "OC0A"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0A",
+        "Analog comparator +"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "PD7",
+      "primary": "gpio",
+      "aliases": [
+        "D7",
+        "AIN1"
+      ],
+      "functions": [
+        "Analog comparator -"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "PB0",
+      "primary": "gpio",
+      "aliases": [
+        "D8",
+        "ICP1",
+        "CLKO"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Timer1 input capture",
+        "Clock output"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "PB1",
+      "primary": "gpio",
+      "aliases": [
+        "D9",
+        "OC1A"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer1 OC1A"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "PB2",
+      "primary": "gpio",
+      "aliases": [
+        "D10",
+        "SS",
+        "OC1B"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI SS",
+        "Timer1 OC1B"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "PB3",
+      "primary": "gpio",
+      "aliases": [
+        "D11",
+        "MOSI",
+        "OC2A"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MOSI",
+        "Timer2 OC2A",
+        "ISP data in"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "PB4",
+      "primary": "gpio",
+      "aliases": [
+        "D12",
+        "MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI MISO",
+        "ISP data out"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "PB5",
+      "primary": "gpio",
+      "aliases": [
+        "D13",
+        "SCK"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI SCK",
+        "ISP clock"
+      ],
+      "note": "The on-board LED pin on Arduino boards."
+    },
+    {
+      "number": 20,
+      "name": "AVCC",
+      "primary": "vcc",
+      "voltage": "= VCC ±0.3 V",
+      "functions": [
+        "Analog / port C supply"
+      ],
+      "note": "Must be connected even if the ADC is unused. 100 nF, or an LC filter from VCC for quiet readings."
+    },
+    {
+      "number": 21,
+      "name": "AREF",
+      "primary": "ctrl",
+      "functions": [
+        "ADC reference"
+      ],
+      "note": "100 nF to ground. Only drive it externally after selecting the external reference."
+    },
+    {
+      "number": 22,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Analog ground"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "PC0",
+      "primary": "gpio",
+      "aliases": [
+        "A0",
+        "ADC0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC0"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "PC1",
+      "primary": "gpio",
+      "aliases": [
+        "A1",
+        "ADC1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "PC2",
+      "primary": "gpio",
+      "aliases": [
+        "A2",
+        "ADC2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC2"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "PC3",
+      "primary": "gpio",
+      "aliases": [
+        "A3",
+        "ADC3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC3"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "PC4",
+      "primary": "gpio",
+      "aliases": [
+        "A4",
+        "ADC4",
+        "SDA"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC4",
+        "I2C SDA"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "PC5",
+      "primary": "gpio",
+      "aliases": [
+        "A5",
+        "ADC5",
+        "SCL"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC5",
+        "I2C SCL"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin, and read one with a pull-up",
+      "toolchain": "avr-libc",
+      "lang": "c",
+      "code": "#include <avr/io.h>\n\n/* Three registers per port. DDR picks direction, PORT writes the\n   output latch, PIN reads the physical pin. */\n\nDDRB  |=  (1 << PB5);          /* PB5 = Arduino D13 = output */\nPORTB |=  (1 << PB5);          /* high */\nPORTB &= ~(1 << PB5);          /* low  */\nPINB  |=  (1 << PB5);          /* writing PIN toggles the output */\n\nDDRD  &= ~(1 << PD2);          /* PD2 = D2 = input */\nPORTD |=  (1 << PD2);          /* PORT on an input enables the pull-up */\n\nif (!(PIND & (1 << PD2))) {    /* switch to ground reads 0 when pressed */\n}",
+      "gotcha": "On an input pin, PORT is the pull-up enable, not an output value. Forget it and a floating pin reads whatever the nearest mains cable is doing."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "7",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling, as close to the pins as the layout allows."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "20",
+        "to": "GND",
+        "required": true,
+        "why": "The analog supply needs its own decoupling even if you never use the ADC."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "20",
+        "to": "VCC",
+        "required": true,
+        "why": "AVCC must be powered or the ADC and all of port C misbehave."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "There is no internal pull-up strong enough. A floating RESET gives random restarts."
+      },
+      {
+        "part": "16 MHz crystal",
+        "symbol": "xtal",
+        "from": "9",
+        "to": "10",
+        "required": false,
+        "why": "Only if you want 16 MHz. The internal 8 MHz RC needs no parts at all."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "9",
+        "to": "GND",
+        "required": false,
+        "why": "Crystal load capacitor. Omit it and the oscillator may not start."
+      },
+      {
+        "part": "22 pF",
+        "symbol": "cap",
+        "from": "10",
+        "to": "GND",
+        "required": false,
+        "why": "The other crystal load capacitor."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "21",
+        "to": "GND",
+        "required": false,
+        "why": "Quietens the ADC reference."
+      }
+    ],
+    "note": "A factory chip runs on the internal 8 MHz RC with CKDIV8 set, so it ticks at 1 MHz until you change the fuses. Fitting the crystal is not enough on its own; the fuses have to select it."
+  }
+}

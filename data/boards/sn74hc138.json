@@ -1,0 +1,235 @@
+{
+  "slug": "sn74hc138",
+  "name": "74HC138 3-to-8 Decoder",
+  "shortName": "74HC138",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Three address lines in, one of eight outputs low. The standard way to generate chip selects in a homebrew computer.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-16 / SOIC-16",
+  "keywords": [
+    "74hc138",
+    "74138",
+    "decoder",
+    "demultiplexer",
+    "address decoding",
+    "chip select",
+    "6502",
+    "z80"
+  ],
+  "notes": [
+    "Outputs are ACTIVE LOW. Exactly one of Y0 to Y7 goes low, the rest stay high, which is exactly what an active-low chip select wants.",
+    "Three enables, and all three must agree: E1 and E2 are active low, E3 is active high. That is deliberate, because it lets you gate the decoder with the CPU clock and an address line without extra gates. On a 6502, E3 from PHI2 and E1 from a high address bit is the whole decode.",
+    "Cascade two by feeding a fourth address bit into E3 of one and an inverted copy into E2 of the other, which gives you 4-to-16 without a bigger part.",
+    "Leaving any enable floating means the decoder either never fires or fires constantly. This is the usual reason a breadboard bus has two devices driving at once.",
+    "For 4-to-16 in one package the 74HC154 does it directly, at 24 pins."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC138 datasheet",
+      "url": "https://www.ti.com/product/SN74HC138"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "A0",
+      "primary": "ctrl",
+      "aliases": [
+        "A"
+      ],
+      "functions": [
+        "Address bit 0"
+      ],
+      "note": "Low bit of the output number."
+    },
+    {
+      "number": 2,
+      "name": "A1",
+      "primary": "ctrl",
+      "aliases": [
+        "B"
+      ],
+      "functions": [
+        "Address bit 1"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "A2",
+      "primary": "ctrl",
+      "aliases": [
+        "C"
+      ],
+      "functions": [
+        "Address bit 2"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "E1",
+      "primary": "ctrl",
+      "aliases": [
+        "/G2A"
+      ],
+      "functions": [
+        "Enable 1, active low"
+      ],
+      "note": "Must be low. All three enables must agree or nothing happens."
+    },
+    {
+      "number": 5,
+      "name": "E2",
+      "primary": "ctrl",
+      "aliases": [
+        "/G2B"
+      ],
+      "functions": [
+        "Enable 2, active low"
+      ],
+      "note": "Must be low."
+    },
+    {
+      "number": 6,
+      "name": "E3",
+      "primary": "ctrl",
+      "aliases": [
+        "G1"
+      ],
+      "functions": [
+        "Enable 3, active high"
+      ],
+      "note": "Must be high. Drive from PHI2 to qualify the decode with the bus cycle."
+    },
+    {
+      "number": 7,
+      "name": "Y7",
+      "primary": "gpio",
+      "functions": [
+        "Output 7, active low"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Y6",
+      "primary": "gpio",
+      "functions": [
+        "Output 6, active low"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Y5",
+      "primary": "gpio",
+      "functions": [
+        "Output 5, active low"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "Y4",
+      "primary": "gpio",
+      "functions": [
+        "Output 4, active low"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "Y3",
+      "primary": "gpio",
+      "functions": [
+        "Output 3, active low"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "Y2",
+      "primary": "gpio",
+      "functions": [
+        "Output 2, active low"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "Y1",
+      "primary": "gpio",
+      "functions": [
+        "Output 1, active low"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "Y0",
+      "primary": "gpio",
+      "functions": [
+        "Output 0, active low"
+      ],
+      "note": "Selected when A2, A1 and A0 are all low."
+    },
+    {
+      "number": 16,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "Enable 1 is active low. Any enable left floating and all eight outputs stay high."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "Enable 2, also active low."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "VCC",
+        "required": true,
+        "why": "Enable 3 is the active high one. All three have to agree before an output goes low."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "The outputs are active low: the selected one goes low and the other seven stay high. Feed a real address line into an enable rather than tying it, and the decoder does the chip selecting for a whole bus."
+  }
+}

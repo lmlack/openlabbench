@@ -1,0 +1,116 @@
+{
+  "slug": "ws2812b",
+  "name": "WS2812B Addressable LED",
+  "shortName": "WS2812B",
+  "vendor": "Worldsemi",
+  "category": "ic",
+  "summary": "RGB LED with the controller on the die. Four pins, one data wire, and more ways to go wrong than any other four-pin part.",
+  "logic": "5 V data, 0.7 x VDD threshold",
+  "package": "5050 SMD, 4 pad",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 2,
+    "sideLabels": [
+      "Pins 1-2",
+      "Pins 3-4"
+    ]
+  },
+  "keywords": [
+    "ws2812b",
+    "neopixel",
+    "ws2812",
+    "sk6812",
+    "addressable led",
+    "led strip",
+    "ws2815"
+  ],
+  "notes": [
+    "The data threshold is 0.7 x VDD. On a 5 V strip that is 3.5 V, and a 3.3 V microcontroller does not clear it. It will often work on the bench and fail when the strip warms up. Level shift it, or drop the strip supply to about 4.3 V with a series diode so 3.3 V is enough.",
+    "A sacrificial first LED is the other standard fix: feed it 3.3 V data, run its supply from 5 V, and its DOUT comes out at a clean 5 V for the rest of the strip.",
+    "DIN and DOUT are directional and the strip is printed with arrows. Cut and solder in the wrong direction and nothing past the joint lights.",
+    "60 mA per LED at full white. A 1 m 60-LED strip is 3.6 A, which is far beyond any dev board's 5 V pin. Feed the strip directly and tie the grounds together.",
+    "300 to 500 ohm in series with DIN and 1000 uF across the supply at the head of the strip. Both are in the datasheet and both are usually skipped.",
+    "Long runs need power injected every meter or so, or the far end turns brown-red as the supply sags.",
+    "Bit timing is about 1.25 us and has no clock to resynchronize to, so an interrupt mid-frame corrupts the rest of the strip. On AVR that means interrupts off during a write; on RP2040 use PIO and on ESP32 use RMT.",
+    "SK6812 is the usual second source and adds an RGBW variant. WS2815 runs on 12 V with a backup data line so one dead LED does not kill the rest of the run."
+  ],
+  "docs": [
+    {
+      "label": "WS2812B datasheet (Worldsemi)",
+      "url": "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "VDD",
+      "primary": "power5",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "3.5-5.3 V",
+      "note": "100 nF per LED, and 1000 uF bulk at the head of the strip."
+    },
+    {
+      "number": 2,
+      "name": "DOUT",
+      "primary": "gpio",
+      "functions": [
+        "Data out to the next LED"
+      ],
+      "note": "Reshaped 5 V output. This is what makes a sacrificial first pixel work as a level shifter."
+    },
+    {
+      "number": 3,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ],
+      "note": "Must be common with the controller's ground, even when the strip has its own supply."
+    },
+    {
+      "number": 4,
+      "name": "DIN",
+      "primary": "gpio",
+      "functions": [
+        "Data in"
+      ],
+      "note": "Needs 0.7 x VDD to register. 300 to 500 ohm in series here."
+    }
+  ],
+  "circuit": {
+    "title": "Driving a strip",
+    "parts": [
+      {
+        "part": "300 to 500 Ohm",
+        "symbol": "res",
+        "from": "MCU",
+        "to": "4",
+        "required": true,
+        "why": "In series with the controller's data output. Damps the edge and protects the first LED's input."
+      },
+      {
+        "part": "1000 uF",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Absorbs the inrush when the whole strip lights at once."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": false,
+        "why": "Per LED, already on a finished strip. Only relevant if you lay out your own board."
+      }
+    ],
+    "note": "Data must clear 0.7 x VDD. From a 3.3 V controller into a 5 V strip it does not, so level shift, drop the strip supply with a series diode, or sacrifice the first LED as a shifter."
+  }
+}

@@ -1,0 +1,405 @@
+{
+  "slug": "adafruit-feather",
+  "name": "Adafruit Feather (standard footprint)",
+  "shortName": "Feather",
+  "vendor": "Adafruit",
+  "category": "mcu-board",
+  "summary": "Not one board: the footprint every Feather and FeatherWing shares, from the 32u4 to the RP2040 and ESP32-S3. USB at the top.",
+  "logic": "3.3 V, mandated by the specification",
+  "package": "16-pin and 12-pin headers, 0.9 x 2.0 in",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 16,
+    "sideLabels": [
+      "16-pin side (USB at top)",
+      "12-pin side (USB at top)"
+    ]
+  },
+  "keywords": [
+    "feather",
+    "adafruit feather",
+    "featherwing",
+    "feather m4",
+    "feather rp2040",
+    "feather esp32-s3",
+    "feather 32u4",
+    "qt py"
+  ],
+  "notes": [
+    "This is the specification, not a particular board. Positions and roles are fixed across the family; which physical port pin sits behind each name is not, so a D10 is a different silicon pin on a Feather M4 than on a Feather RP2040.",
+    "3.3 V is required by the spec. No Feather may need 5 V logic, which is what lets any Wing stack on any mainboard.",
+    "The digital pins skip: D13, D12, D11, D10, D9, then D6, D5. There is no D7 or D8 on the footprint, and code ported from another board that assumes a contiguous run will not fit.",
+    "Position 16 on the long side is a deliberate free pin. Every board puts something different there, so a Wing must not rely on it.",
+    "BAT is a LiPo rail, not a generic input. The spec obliges every mainboard to include charging and a JST-PH connector, which is why Feathers are the usual choice for a battery project.",
+    "EN pulls down to shut off the 3.3 V regulator, and only that. BAT and USB stay live, so it is a logic-off switch and not a power cut.",
+    "A0 is commonly the DAC output on Feathers that have one, which is worth knowing before using it as a plain analog input.",
+    "The QT Py and Seeed XIAO share a different, smaller 14-pin footprint. Feather Wings do not fit those."
+  ],
+  "docs": [
+    {
+      "label": "Adafruit Feather specification",
+      "url": "https://learn.adafruit.com/adafruit-feather/feather-specification"
+    },
+    {
+      "label": "Adafruit Feather overview",
+      "url": "https://learn.adafruit.com/adafruit-feather"
+    }
+  ],
+  "pins": [
+    {
+      "name": "RST",
+      "primary": "ctrl",
+      "aliases": [
+        "Rst"
+      ],
+      "functions": [
+        "Reset, active low"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "3.3 V regulated out"
+      ],
+      "voltage": "3.3 V",
+      "note": "Output to a FeatherWing, not an input.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "AREF",
+      "primary": "ctrl",
+      "aliases": [
+        "Aref"
+      ],
+      "functions": [
+        "ADC reference"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "A0",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 0"
+      ],
+      "note": "Often the only true DAC output on Feathers that have one.",
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "A1",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 1"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "A2",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 2"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "A3",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 3"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "A4",
+      "primary": "gpio",
+      "aliases": [
+        "D24"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 4"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "A5",
+      "primary": "gpio",
+      "aliases": [
+        "D25"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC 5"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "SCK",
+      "primary": "gpio",
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI clock"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "MO",
+      "primary": "gpio",
+      "aliases": [
+        "MOSI"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI microcontroller out"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "MI",
+      "primary": "gpio",
+      "aliases": [
+        "MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI microcontroller in"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "RX",
+      "primary": "gpio",
+      "aliases": [
+        "D0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART receive"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "TX",
+      "primary": "gpio",
+      "aliases": [
+        "D1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART transmit"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "*",
+      "primary": "gpio",
+      "functions": [
+        "Free pin"
+      ],
+      "note": "The one position the spec leaves open. What lands here differs on every Feather, so never assume it in a Wing.",
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "BAT",
+      "primary": "vin",
+      "aliases": [
+        "VBAT"
+      ],
+      "functions": [
+        "LiPo battery"
+      ],
+      "voltage": "3.0-3.7 V",
+      "note": "Every Feather mainboard has to carry LiPo charging and a JST-PH connector, so this is always a real battery rail.",
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "EN",
+      "primary": "ctrl",
+      "functions": [
+        "3.3 V regulator enable"
+      ],
+      "note": "Pulled high through 100k. Pull low to kill the 3.3 V rail. It does not cut BAT or USB.",
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "USB",
+      "primary": "power5",
+      "aliases": [
+        "VBUS"
+      ],
+      "functions": [
+        "USB bus voltage"
+      ],
+      "voltage": "4.5-5.5 V",
+      "note": "About 500 mA, and only live when USB is plugged in.",
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 13"
+      ],
+      "note": "The on-board LED on essentially every Feather.",
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 12"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "D11",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 11"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 10"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 9"
+      ],
+      "note": "The digital block jumps from D9 to D6. There is no D7 or D8 on the standard footprint.",
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 6"
+      ],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Digital 5"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C clock"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C data"
+      ],
+      "side": "right",
+      "row": 12
+    }
+  ]
+}

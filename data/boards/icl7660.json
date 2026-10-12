@@ -1,0 +1,160 @@
+{
+  "slug": "icl7660",
+  "name": "ICL7660 Charge Pump Inverter",
+  "shortName": "ICL7660",
+  "vendor": "Intersil / Analog Devices / many",
+  "category": "ic",
+  "summary": "Turns +5 V into -5 V with two capacitors and no inductor. The cheapest way to get a negative rail for an op-amp on a single-supply board.",
+  "logic": "1.5-10 V",
+  "package": "PDIP-8 / SOIC-8",
+  "keywords": [
+    "icl7660",
+    "max1044",
+    "7660",
+    "charge pump",
+    "negative voltage",
+    "voltage inverter",
+    "lm2662"
+  ],
+  "notes": [
+    "Two 10 uF capacitors and nothing else: one across CAP+ and CAP-, one from VOUT to ground. No inductor, no layout drama.",
+    "Output current is only about 20 mA, and the output sags as you draw it because the pump has real output impedance. It is for biasing op-amps and comparators, not for powering anything.",
+    "Default oscillator runs around 10 kHz, which lands squarely in the audio band. In an audio circuit tie BOOST (pin 1) to V+ to push it to about 45 kHz, or hang a capacitor on OSC to move it deliberately.",
+    "LV (pin 6) should be grounded below 3.5 V supply and left open above it. Getting this backwards is the usual reason a 7660 works at 5 V and not at 3 V, or latches up at 9 V.",
+    "It can also double a voltage instead of inverting it, by rearranging the capacitors. The datasheet has the connection; it is not the default.",
+    "Absolute maximum is 10.5 V on the original ICL7660. The LM2662 and MAX1044 variants take more and deliver more current; check the exact part before applying 12 V."
+  ],
+  "docs": [
+    {
+      "label": "Analog Devices ICL7660 datasheet",
+      "url": "https://www.analog.com/en/products/icl7660.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "BOOST",
+      "primary": "ctrl",
+      "aliases": [
+        "NC on some parts"
+      ],
+      "functions": [
+        "Oscillator boost"
+      ],
+      "note": "Tie to V+ to raise the oscillator to about 45 kHz, out of the audio band."
+    },
+    {
+      "number": 2,
+      "name": "CAP+",
+      "primary": "gpio",
+      "functions": [
+        "Flying capacitor positive"
+      ],
+      "note": "10 uF between CAP+ and CAP-."
+    },
+    {
+      "number": 3,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "CAP-",
+      "primary": "gpio",
+      "functions": [
+        "Flying capacitor negative"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "VOUT",
+      "primary": "vin",
+      "functions": [
+        "Negative output"
+      ],
+      "voltage": "-V+ approx",
+      "note": "Roughly minus the supply, minus the droop under load. 10 uF to ground here."
+    },
+    {
+      "number": 6,
+      "name": "LV",
+      "primary": "ctrl",
+      "functions": [
+        "Low voltage select"
+      ],
+      "note": "Ground it below 3.5 V supply, leave open above. The wrong choice is why it works at one rail and not another."
+    },
+    {
+      "number": 7,
+      "name": "OSC",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Oscillator"
+      ],
+      "note": "A capacitor here slows the pump; an external clock overrides it."
+    },
+    {
+      "number": 8,
+      "name": "V+",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "1.5-10 V",
+      "note": "10.5 V absolute maximum on the original part."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "circuit": {
+    "title": "Negative supply",
+    "parts": [
+      {
+        "part": "10 uF",
+        "symbol": "cap",
+        "from": "2",
+        "to": "4",
+        "required": true,
+        "why": "The charge pump capacitor. This is the one that actually moves the charge across."
+      },
+      {
+        "part": "10 uF",
+        "symbol": "cap",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "Reservoir on the output. Without it the negative rail is a sawtooth, not a supply."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "6",
+        "to": "GND",
+        "required": false,
+        "why": "LV bypasses the internal regulator below 3.5 V. Above 3.5 V it must be left open or the part can latch up."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": false,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Output impedance is around 55 ohms, so the negative rail sags under load: at 20 mA you lose more than a volt. It is a bias supply for op-amps and LCD contrast, not a power rail."
+  }
+}

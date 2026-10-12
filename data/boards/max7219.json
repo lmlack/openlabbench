@@ -1,0 +1,303 @@
+{
+  "slug": "max7219",
+  "name": "MAX7219 LED Display Driver",
+  "shortName": "MAX7219",
+  "vendor": "Analog Devices (Maxim)",
+  "category": "ic",
+  "summary": "Drives eight 7-segment digits or an 8x8 matrix over three wires, with its own BCD decoder, brightness control and scanning. No refresh code at all.",
+  "logic": "4.0-5.5 V",
+  "package": "PDIP-24 / SOIC-24",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 12,
+    "sideLabels": [
+      "Pins 1-12",
+      "Pins 13-24"
+    ]
+  },
+  "keywords": [
+    "max7219",
+    "max7221",
+    "7 segment",
+    "led matrix",
+    "8x8",
+    "display driver",
+    "ht7219"
+  ],
+  "notes": [
+    "Both GND pins, 4 and 9, must be connected. Wiring only one works on the bench and then flickers.",
+    "ISET takes a resistor to V+, not to ground. That resistor sets peak segment current: around 10k for 40 mA, 28k for about 20 mA. Leaving it open means no light; shorting it destroys the chip.",
+    "It scans the digits itself at about 800 Hz and holds the data, so you write once and walk away. There is no refresh loop to run.",
+    "The digit and segment pins are scattered around the package in no sensible order. A matrix wired by eye instead of by pin number comes out transposed or mirrored, which is the single most common MAX7219 complaint.",
+    "Brightness is both digital, 16 steps over SPI, and analog through ISET. Set the coarse level with the resistor and trim in software.",
+    "Decode mode turns raw segment control into BCD digits per position. Turn it off for a matrix or for custom glyphs, on for numeric displays.",
+    "The MAX7221 is the same part with SPI-compliant timing and slew-limited segment drivers for less RFI. It also respects CS properly, which matters on a shared bus.",
+    "Peak current across all eight digits can reach 330 mA. The cheap modules do not decouple well; add 100 uF if the display dims as digits light."
+  ],
+  "docs": [
+    {
+      "label": "MAX7219 datasheet (Analog Devices)",
+      "url": "https://www.analog.com/en/products/max7219.html"
+    },
+    {
+      "label": "Datasheet PDF (SparkFun mirror)",
+      "url": "https://cdn.sparkfun.com/assets/0/1/7/c/a/MAX7219.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "DIN",
+      "primary": "gpio",
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Serial data in"
+      ],
+      "note": "This is MOSI. Sampled on the rising edge of CLK."
+    },
+    {
+      "number": 2,
+      "name": "DIG0",
+      "primary": "gpio",
+      "functions": [
+        "Digit 0 drive"
+      ],
+      "note": "Digit drivers are scattered across the package in no useful order. Wire from the numbers."
+    },
+    {
+      "number": 3,
+      "name": "DIG4",
+      "primary": "gpio",
+      "functions": [
+        "Digit 4 drive"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "Both ground pins, 4 and 9, must be connected. One is not enough."
+    },
+    {
+      "number": 5,
+      "name": "DIG6",
+      "primary": "gpio",
+      "functions": [
+        "Digit 6 drive"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "DIG2",
+      "primary": "gpio",
+      "functions": [
+        "Digit 2 drive"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "DIG3",
+      "primary": "gpio",
+      "functions": [
+        "Digit 3 drive"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "DIG7",
+      "primary": "gpio",
+      "functions": [
+        "Digit 7 drive"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "The second ground. Connect it."
+    },
+    {
+      "number": 10,
+      "name": "DIG5",
+      "primary": "gpio",
+      "functions": [
+        "Digit 5 drive"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "DIG1",
+      "primary": "gpio",
+      "functions": [
+        "Digit 1 drive"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "LOAD",
+      "primary": "ctrl",
+      "aliases": [
+        "CS",
+        "/CS"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Load / chip select"
+      ],
+      "note": "Rising edge latches the last 16 bits. This is CS."
+    },
+    {
+      "number": 13,
+      "name": "CLK",
+      "primary": "gpio",
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "Serial clock"
+      ],
+      "note": "10 MHz maximum. This is SCK."
+    },
+    {
+      "number": 14,
+      "name": "SEG A",
+      "primary": "gpio",
+      "functions": [
+        "Segment A drive"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "SEG F",
+      "primary": "gpio",
+      "functions": [
+        "Segment F drive"
+      ],
+      "note": "Segment order on the package is scrambled too: A, F, B, G down this side."
+    },
+    {
+      "number": 16,
+      "name": "SEG B",
+      "primary": "gpio",
+      "functions": [
+        "Segment B drive"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "SEG G",
+      "primary": "gpio",
+      "functions": [
+        "Segment G drive"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "ISET",
+      "primary": "ctrl",
+      "functions": [
+        "Peak current set"
+      ],
+      "note": "A resistor from here to V+ sets segment current. 10k gives roughly 40 mA per segment; never leave it open or short it."
+    },
+    {
+      "number": 19,
+      "name": "V+",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "4.0-5.5 V",
+      "note": "5 V. Needs 10 uF and 100 nF right at the pin; eight digits strobing is a hard load."
+    },
+    {
+      "number": 20,
+      "name": "SEG C",
+      "primary": "gpio",
+      "functions": [
+        "Segment C drive"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "SEG E",
+      "primary": "gpio",
+      "functions": [
+        "Segment E drive"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "SEG DP",
+      "primary": "gpio",
+      "aliases": [
+        "DP"
+      ],
+      "functions": [
+        "Decimal point drive"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "SEG D",
+      "primary": "gpio",
+      "functions": [
+        "Segment D drive"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "DOUT",
+      "primary": "gpio",
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "Serial data out"
+      ],
+      "note": "Feed into the next chip's DIN to chain displays. Data appears 16.5 clocks later."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "12 kOhm",
+        "symbol": "res",
+        "from": "18",
+        "to": "VCC",
+        "required": true,
+        "why": "RSET sets the peak segment current, about 100 times the ISET current. Table 11 of the datasheet gives 11.8 kOhm for 40 mA into a 2 V LED."
+      },
+      {
+        "part": "10 uF",
+        "symbol": "cap",
+        "from": "19",
+        "to": "GND",
+        "required": true,
+        "why": "The datasheet asks for this next to the part. Scanning digits pull current in hard bursts."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "19",
+        "to": "GND",
+        "required": true,
+        "why": "The ceramic half of the same job, as close to the pin as it will go."
+      }
+    ],
+    "note": "Both GND pins, 4 and 9, must be connected. 40 mA per segment is the recommended maximum; above that you need external digit drivers."
+  }
+}

@@ -1,0 +1,374 @@
+{
+  "slug": "raspberry-pi-26-pin",
+  "name": "Raspberry Pi 26-pin GPIO Header",
+  "shortName": "RPi 26-pin",
+  "vendor": "Raspberry Pi",
+  "category": "sbc",
+  "summary": "The original Model A and Model B header. Pins 1 to 26 match the 40-pin layout, with three that moved between board revisions.",
+  "logic": "3.3 V",
+  "package": "2x13 2.54 mm (P1)",
+  "layout": {
+    "kind": "header",
+    "numbering": "zigzag",
+    "rows": 13,
+    "sideLabels": [
+      "Odd pins",
+      "Even pins"
+    ]
+  },
+  "keywords": [
+    "raspberry pi",
+    "rpi",
+    "26 pin",
+    "model a",
+    "model b",
+    "p1",
+    "rev1",
+    "rev2",
+    "original pi"
+  ],
+  "notes": [
+    "Pins 1 to 26 of the 40-pin header are electrically the same, so a 26-pin HAT or cape works on a modern Pi. The reverse is not true.",
+    "Rev 1 boards (the first Model B, 256 MB) use GPIO0, GPIO1 and GPIO21 where rev 2 and later use GPIO2, GPIO3 and GPIO27. Rev 1 also puts the I2C pins on bus 0 instead of bus 1, so `i2cdetect -y 0` on an old board and `-y 1` on everything since.",
+    "Rev 2 boards add a second 8-pin header, P5, that is not on this diagram. It carries GPIO28 to GPIO31 and is unpopulated from the factory.",
+    "3.3 V only, like every Pi. A 5 V output into any of these damages the SoC.",
+    "GPIO2 and GPIO3 carry fixed 1.8 kOhm pull-ups to 3V3 on the board."
+  ],
+  "docs": [
+    {
+      "label": "Raspberry Pi GPIO documentation",
+      "url": "https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#gpio"
+    },
+    {
+      "label": "pinout.xyz",
+      "url": "https://pinout.xyz"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "note": "~50 mA budget shared with pin 17."
+    },
+    {
+      "number": 2,
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "5 V supply out"
+      ],
+      "note": "Fed straight from the USB-C / micro-USB input, upstream of the 3V3 regulator."
+    },
+    {
+      "number": 3,
+      "name": "GPIO2",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 2",
+        "SDA1",
+        "I2C1 SDA",
+        "Rev 1: GPIO0"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SDA"
+      ],
+      "note": "Fixed 1.8 kΩ pull-up to 3V3. Rev 1 boards have GPIO0 here, on I2C0 rather than I2C1."
+    },
+    {
+      "number": 4,
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "5 V supply out"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "GPIO3",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 3",
+        "SCL1",
+        "I2C1 SCL",
+        "Rev 1: GPIO1"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SCL"
+      ],
+      "note": "Fixed 1.8 kΩ pull-up to 3V3. Also wakes the Pi from halt when pulled low. Rev 1 boards have GPIO1 here, on I2C0 rather than I2C1."
+    },
+    {
+      "number": 6,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GPIO4",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 4",
+        "GPCLK0"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "GPCLK0"
+      ],
+      "note": "Default 1-Wire bus pin (w1-gpio overlay), used by DS18B20 sensors."
+    },
+    {
+      "number": 8,
+      "name": "GPIO14",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 14",
+        "TXD0",
+        "TXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART0 TXD"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "GPIO15",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 15",
+        "RXD0",
+        "RXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART0 RXD"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GPIO17",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 17"
+      ],
+      "functions": [
+        "SPI1 CE1"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GPIO18",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 18",
+        "PCM_CLK"
+      ],
+      "tags": [
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "PWM0",
+        "PCM/I2S CLK",
+        "SPI1 CE0"
+      ],
+      "note": "The pin WS2812/NeoPixel libraries use, because it reaches PWM0 via DMA."
+    },
+    {
+      "number": 13,
+      "name": "GPIO27",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 27",
+        "Rev 1: GPIO21"
+      ],
+      "functions": [
+        "SD1 DAT3"
+      ],
+      "note": "Rev 1 boards have GPIO21 here. This is the pin that catches people reusing old code."
+    },
+    {
+      "number": 14,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GPIO22",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 22"
+      ],
+      "functions": [
+        "SD1 CLK"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "GPIO23",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 23"
+      ],
+      "functions": [
+        "SD1 CMD"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "GPIO24",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 24"
+      ],
+      "functions": [
+        "SD1 DAT0"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "GPIO10",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 10",
+        "MOSI"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 MOSI"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "GPIO9",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 9",
+        "MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 MISO"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "GPIO25",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 25"
+      ],
+      "functions": [
+        "SD1 DAT1"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "GPIO11",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 11",
+        "SCLK"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI0 SCLK"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "GPIO8",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 8",
+        "CE0"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 CE0"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "GPIO7",
+      "primary": "gpio",
+      "aliases": [
+        "BCM 7",
+        "CE1"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI0 CE1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "slug": "attiny85",
+  "name": "ATtiny85 (PDIP-8)",
+  "shortName": "ATtiny85",
+  "vendor": "Microchip (Atmel)",
+  "category": "mcu-chip",
+  "summary": "8 KB AVR in an 8-pin package with five usable I/O. Every pin does three or four jobs, so the whole design problem is deciding what each one gives up.",
+  "logic": "1.8-5.5 V",
+  "package": "PDIP-8 / SOIC-8 / TSSOP-8 / QFN-20",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "keywords": [
+    "attiny85",
+    "attiny45",
+    "attiny25",
+    "tiny85",
+    "digispark",
+    "avr",
+    "attinycore"
+  ],
+  "notes": [
+    "Arduino-style numbering under ATTinyCore / Digispark is PB0-PB5 = D0-D5, which is not the physical pin order. ADC channels are different again: ADC0 is on PB5, ADC1 on PB2, ADC2 on PB4, ADC3 on PB3.",
+    "PB5 is RESET by default, so you get four free I/O until you burn the RSTDISBL fuse. Doing that gives you a fifth pin but locks out ISP programming. After that you need a high-voltage programmer to recover the chip.",
+    "No hardware SPI or I2C. The USI block does the clocking, and the Arduino libraries (TinyWireM, USIWire) are built on it.",
+    "There is no hardware UART. Serial on an ATtiny85 is bit-banged software serial.",
+    "The USB bootloader boards (Digispark, micronucleus) take PB3 and PB4 for D- and D+, leaving PB0, PB1 and PB2.",
+    "Default fuses give 8 MHz internal with CKDIV8, so a fresh chip runs at 1 MHz. 16.5 MHz from the internal PLL is available and is what USB bootloaders use.",
+    "The speed grade tracks the supply, as on the ATmega328P: 20 MHz needs 4.5 V, 10 MHz needs 2.7 V."
+  ],
+  "docs": [
+    {
+      "label": "Microchip ATtiny85 product page",
+      "url": "https://www.microchip.com/en-us/product/ATtiny85"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "PB5",
+      "primary": "ctrl",
+      "aliases": [
+        "RESET",
+        "D5",
+        "A0",
+        "ADC0",
+        "dW"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Active-low reset",
+        "ADC0",
+        "debugWIRE"
+      ],
+      "note": "Reset by default; needs a 10k pull-up. Usable as I/O only after disabling reset by fuse."
+    },
+    {
+      "number": 2,
+      "name": "PB3",
+      "primary": "gpio",
+      "aliases": [
+        "D3",
+        "A3",
+        "ADC3",
+        "XTAL1",
+        "CLKI"
+      ],
+      "tags": [
+        "analog",
+        "clock"
+      ],
+      "functions": [
+        "ADC3",
+        "Crystal in",
+        "USB D- on Digispark"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "PB4",
+      "primary": "gpio",
+      "aliases": [
+        "D4",
+        "A2",
+        "ADC2",
+        "XTAL2",
+        "CLKO"
+      ],
+      "tags": [
+        "analog",
+        "clock",
+        "pwm"
+      ],
+      "functions": [
+        "ADC2",
+        "Crystal out",
+        "Timer1 OC1B",
+        "USB D+ on Digispark"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "PB0",
+      "primary": "gpio",
+      "aliases": [
+        "D0",
+        "MOSI",
+        "DI",
+        "SDA",
+        "AIN0",
+        "OC0A"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0A",
+        "USI DI / SDA",
+        "ISP MOSI"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "PB1",
+      "primary": "gpio",
+      "aliases": [
+        "D1",
+        "MISO",
+        "DO",
+        "AIN1",
+        "OC0B",
+        "OC1A"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0B",
+        "Timer1 OC1A",
+        "USI DO",
+        "ISP MISO"
+      ],
+      "note": "The LED pin on most ATtiny85 dev boards."
+    },
+    {
+      "number": 7,
+      "name": "PB2",
+      "primary": "gpio",
+      "aliases": [
+        "D2",
+        "SCK",
+        "USCK",
+        "SCL",
+        "A1",
+        "ADC1",
+        "INT0",
+        "T0"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "analog",
+        "clock"
+      ],
+      "functions": [
+        "ADC1",
+        "USI clock / SCL",
+        "External interrupt 0",
+        "ISP SCK"
+      ],
+      "note": "The only pin with a true external interrupt."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "1.8-5.5 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "100 nF at the pin."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "1",
+        "to": "VCC",
+        "required": true,
+        "why": "Needed unless you have burned the RSTDISBL fuse, which is a one-way trip without a high-voltage programmer."
+      }
+    ],
+    "note": "No crystal needed. The internal oscillator covers 1, 8 and 16.5 MHz, and the USB bootloader boards rely on it."
+  },
+  "snippets": [
+    {
+      "title": "Drive a pin on the only port there is",
+      "toolchain": "avr-libc",
+      "lang": "c",
+      "code": "#include <avr/io.h>\n\n/* Everything lives on port B. PB0 to PB4 are free; PB5 is RESET\n   until you burn a fuse you cannot easily undo. */\n\nDDRB  |=  (1 << PB1);          /* PB1 = pin 6, the LED on most boards */\nPORTB |=  (1 << PB1);\nPORTB &= ~(1 << PB1);\n\nDDRB  &= ~(1 << PB2);          /* PB2 = pin 7, input */\nPORTB |=  (1 << PB2);          /* internal pull-up */\n\nif (!(PINB & (1 << PB2))) {\n}",
+      "gotcha": "Arduino numbering under ATTinyCore is PB0 to PB5 = D0 to D5, which is not the physical pin order. PB1 is physical pin 6."
+    }
+  ]
+}

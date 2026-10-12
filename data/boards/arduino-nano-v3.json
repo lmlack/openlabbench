@@ -1,0 +1,486 @@
+{
+  "slug": "arduino-nano-v3",
+  "name": "Arduino Nano v3",
+  "shortName": "Nano v3",
+  "vendor": "Arduino",
+  "category": "mcu-board",
+  "summary": "The same ATmega328P as the Uno on a 18 x 45 mm breadboard-friendly footprint, plus two extra analog-only inputs. Orientation below has the USB connector at the top.",
+  "logic": "5 V",
+  "package": "2x15 2.54 mm DIL, 18 x 45 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 15,
+    "sideLabels": [
+      "Left (USB at top)",
+      "Right (USB at top)"
+    ]
+  },
+  "keywords": [
+    "arduino",
+    "nano",
+    "atmega328p",
+    "328",
+    "ch340",
+    "ft232",
+    "nano v3"
+  ],
+  "notes": [
+    "A6 and A7 are analog inputs only. They have no digital driver, so digitalRead/digitalWrite do nothing on them, a surprise that costs people an afternoon.",
+    "A4/A5 are the only I2C pins; D10-D13 are the SPI pins.",
+    "VIN takes 7-12 V. The regulator is small, so a 12 V supply plus a few peripherals will get hot.",
+    "Clones ship with a CH340 instead of the original FT232RL, which needs a different USB driver but is otherwise interchangeable.",
+    "RESET appears twice on the header, which is handy when the ICSP side is occupied.",
+    "The newer Nano Every, Nano 33 IoT and Nano ESP32 keep this footprint but are 3.3 V parts with different peripherals."
+  ],
+  "docs": [
+    {
+      "label": "Arduino Nano documentation",
+      "url": "https://docs.arduino.cc/hardware/nano"
+    },
+    {
+      "label": "ATmega328P product page",
+      "url": "https://www.microchip.com/en-us/product/ATmega328P"
+    }
+  ],
+  "pins": [
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "aliases": [
+        "SCK",
+        "PB5"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI SCK",
+        "On-board LED"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "side": "left",
+      "row": 2,
+      "note": "From the USB bridge, 50 mA at most."
+    },
+    {
+      "name": "AREF",
+      "primary": "ctrl",
+      "functions": [
+        "ADC reference in"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "A0",
+      "primary": "gpio",
+      "aliases": [
+        "D14",
+        "PC0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC0"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "A1",
+      "primary": "gpio",
+      "aliases": [
+        "D15",
+        "PC1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "A2",
+      "primary": "gpio",
+      "aliases": [
+        "D16",
+        "PC2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC2"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "A3",
+      "primary": "gpio",
+      "aliases": [
+        "D17",
+        "PC3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC3"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "A4",
+      "primary": "gpio",
+      "aliases": [
+        "D18",
+        "SDA",
+        "PC4"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC4",
+        "I2C SDA"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "A5",
+      "primary": "gpio",
+      "aliases": [
+        "D19",
+        "SCL",
+        "PC5"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC5",
+        "I2C SCL"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "A6",
+      "primary": "gpio",
+      "aliases": [
+        "ADC6"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC6"
+      ],
+      "side": "left",
+      "row": 10,
+      "note": "Analog input only, no digital I/O on this pin."
+    },
+    {
+      "name": "A7",
+      "primary": "gpio",
+      "aliases": [
+        "ADC7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC7"
+      ],
+      "side": "left",
+      "row": 11,
+      "note": "Analog input only, no digital I/O on this pin."
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "5 V supply out"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "VIN",
+      "primary": "vin",
+      "voltage": "7-12 V",
+      "functions": [
+        "Unregulated supply in"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "aliases": [
+        "MISO",
+        "PB4"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI MISO"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "D11",
+      "primary": "gpio",
+      "aliases": [
+        "MOSI",
+        "PB3",
+        "~D11"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MOSI",
+        "Timer2 OC2A"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "aliases": [
+        "SS",
+        "PB2",
+        "~D10"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI SS",
+        "Timer1 OC1B"
+      ],
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "aliases": [
+        "PB1",
+        "~D9"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer1 OC1A"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "D8",
+      "primary": "gpio",
+      "aliases": [
+        "PB0",
+        "ICP1"
+      ],
+      "functions": [
+        "Timer1 input capture"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "D7",
+      "primary": "gpio",
+      "aliases": [
+        "PD7"
+      ],
+      "functions": [],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "aliases": [
+        "PD6",
+        "~D6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0A"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "PD5",
+        "~D5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0B"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "PD4"
+      ],
+      "functions": [],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "D3",
+      "primary": "gpio",
+      "aliases": [
+        "PD3",
+        "INT1",
+        "~D3"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer2 OC2B",
+        "External interrupt 1"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "PD2",
+        "INT0"
+      ],
+      "functions": [
+        "External interrupt 0"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "right",
+      "row": 13,
+      "note": "Second reset pin, same net as the one opposite."
+    },
+    {
+      "name": "D0",
+      "primary": "gpio",
+      "aliases": [
+        "RX",
+        "PD0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART RXD"
+      ],
+      "side": "right",
+      "row": 14,
+      "note": "Shared with the USB bridge."
+    },
+    {
+      "name": "D1",
+      "primary": "gpio",
+      "aliases": [
+        "TX",
+        "PD1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART TXD"
+      ],
+      "side": "right",
+      "row": 15,
+      "note": "Shared with the USB bridge."
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin, and read one with a pull-up",
+      "toolchain": "avr-libc",
+      "lang": "c",
+      "code": "#include <avr/io.h>\n\n/* Three registers per port. DDR picks direction, PORT writes the\n   output latch, PIN reads the physical pin. */\n\nDDRB  |=  (1 << PB5);          /* PB5 = Arduino D13 = output */\nPORTB |=  (1 << PB5);          /* high */\nPORTB &= ~(1 << PB5);          /* low  */\nPINB  |=  (1 << PB5);          /* writing PIN toggles the output */\n\nDDRD  &= ~(1 << PD2);          /* PD2 = D2 = input */\nPORTD |=  (1 << PD2);          /* PORT on an input enables the pull-up */\n\nif (!(PIND & (1 << PD2))) {    /* switch to ground reads 0 when pressed */\n}",
+      "gotcha": "On an input pin, PORT is the pull-up enable, not an output value. Forget it and a floating pin reads whatever the nearest mains cable is doing."
+    }
+  ]
+}

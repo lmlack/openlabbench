@@ -1,0 +1,191 @@
+{
+  "slug": "max485",
+  "name": "MAX485 RS-485 Transceiver",
+  "shortName": "MAX485",
+  "vendor": "Maxim / TI / many",
+  "category": "ic",
+  "summary": "Half-duplex RS-485 driver and receiver, the usual way to get Modbus or a long serial run off a microcontroller.",
+  "logic": "5 V (MAX3485 is the 3.3 V part)",
+  "package": "PDIP-8 / SOIC-8",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": [
+      "Pins 1-4",
+      "Pins 5-8"
+    ]
+  },
+  "keywords": [
+    "max485",
+    "rs485",
+    "rs-485",
+    "modbus",
+    "sn75176",
+    "max3485",
+    "half duplex",
+    "differential"
+  ],
+  "notes": [
+    "Half duplex: only one device may drive the bus at a time. DE high enables the driver, RE low enables the receiver. Tie them together and drive both from one GPIO.",
+    "Release DE as soon as the last stop bit is on the wire, not when the UART buffer empties. Letting DE linger is the single most common RS-485 bug, and it makes the bus look dead to every other node.",
+    "A is the non-inverting line and B is the inverting one. Swapping them gives you clean idle levels and nothing but framing errors, so it is worth labeling the terminal block.",
+    "Terminate with 120 ohm across A and B at each end of the cable, and only at the ends. Mid-run terminators load the bus.",
+    "Idle bias matters: with every driver off the bus floats and receivers see noise as start bits. Add a pull-up on A and a pull-down on B, around 680 ohm, somewhere on the segment.",
+    "The plain MAX485 is a full unit load, so 32 nodes. MAX487 and friends are quarter unit load and reach 128.",
+    "This chip is 5 V. Driving its DI from 3.3 V logic works, but RO comes back at 5 V and needs a divider into a 3.3 V micro. The MAX3485 avoids the whole problem."
+  ],
+  "docs": [
+    {
+      "label": "Analog Devices MAX485 datasheet",
+      "url": "https://www.analog.com/en/products/max485.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "RO",
+      "primary": "gpio",
+      "aliases": [
+        "R",
+        "RXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Receiver output"
+      ],
+      "note": "Goes to your microcontroller's RX."
+    },
+    {
+      "number": 2,
+      "name": "RE",
+      "primary": "ctrl",
+      "aliases": [
+        "/RE",
+        "nRE"
+      ],
+      "functions": [
+        "Receiver enable, active low"
+      ],
+      "note": "Usually tied to DE and driven by one GPIO."
+    },
+    {
+      "number": 3,
+      "name": "DE",
+      "primary": "ctrl",
+      "functions": [
+        "Driver enable, active high"
+      ],
+      "note": "High to transmit. Drop it the moment the last stop bit is out."
+    },
+    {
+      "number": 4,
+      "name": "DI",
+      "primary": "gpio",
+      "aliases": [
+        "D",
+        "TXD"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "Driver input"
+      ],
+      "note": "Goes to your microcontroller's TX."
+    },
+    {
+      "number": 5,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "The bus needs a common ground reference as well as the differential pair."
+    },
+    {
+      "number": 6,
+      "name": "A",
+      "primary": "gpio",
+      "aliases": [
+        "D+",
+        "non-inverting"
+      ],
+      "functions": [
+        "Bus line A"
+      ],
+      "note": "Non-inverting. Idles high relative to B."
+    },
+    {
+      "number": 7,
+      "name": "B",
+      "primary": "gpio",
+      "aliases": [
+        "D-",
+        "inverting"
+      ],
+      "functions": [
+        "Bus line B"
+      ],
+      "note": "Inverting."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "4.75-5.25 V",
+      "functions": [
+        "Positive supply"
+      ],
+      "note": "100 nF at the pin."
+    }
+  ],
+  "circuit": {
+    "title": "Half-duplex RS-485 node",
+    "parts": [
+      {
+        "part": "120 Ohm",
+        "symbol": "res",
+        "from": "6",
+        "to": "7",
+        "required": false,
+        "why": "Termination, and only at the two physical ends of the cable. Mid-run terminators load the bus."
+      },
+      {
+        "part": "680 Ohm",
+        "symbol": "res",
+        "from": "6",
+        "to": "VCC",
+        "required": false,
+        "why": "Idle bias, so receivers see a defined state when no driver is enabled."
+      },
+      {
+        "part": "680 Ohm",
+        "symbol": "res",
+        "from": "7",
+        "to": "GND",
+        "required": false,
+        "why": "The other half of the idle bias pair."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "3",
+        "required": true,
+        "why": "Ties receive enable to drive enable so one GPIO controls direction."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Ground must be common across the bus as well as the differential pair. A and B alone work on the bench and fail over a long run."
+  }
+}

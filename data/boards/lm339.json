@@ -1,0 +1,219 @@
+{
+  "slug": "lm339",
+  "name": "LM339 Quad Comparator",
+  "shortName": "LM339",
+  "vendor": "TI / ON / many",
+  "category": "ic",
+  "summary": "Four open-collector comparators. Same package as the LM324 quad op-amp, but a different pinout.",
+  "logic": "2-36 V single or +/-1-18 V split",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "lm339",
+    "quad comparator",
+    "lm393",
+    "lm324",
+    "open collector",
+    "window comparator"
+  ],
+  "notes": [
+    "VCC is pin 3 and GND is pin 12. The LM324 in the same package uses pins 4 and 11. Dropping an LM339 into an LM324 socket connects power to two inputs.",
+    "All four outputs are open collector and do nothing without a pull-up. Tie several together on one pull-up for a wired-AND, which is how multi-channel fault detectors are built.",
+    "With no hysteresis a slow input chatters. Add positive feedback from output to the non-inverting input, a few hundred k, for a Schmitt trigger. Nearly every real circuit needs it.",
+    "Two comparators plus one AND gate gives you a window comparator, which is the classic use for a quad part.",
+    "Input common mode goes to ground but stops about 1.5 V below V+, same as the LM393 and LM324.",
+    "The LM393 is two of these in a DIP-8 with the same arrangement as the LM358."
+  ],
+  "docs": [
+    {
+      "label": "TI LM339 datasheet",
+      "url": "https://www.ti.com/product/LM339"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "OUT2",
+      "primary": "gpio",
+      "functions": [
+        "Comparator 2 output"
+      ],
+      "note": "Open collector. Needs a pull-up."
+    },
+    {
+      "number": 2,
+      "name": "OUT1",
+      "primary": "gpio",
+      "functions": [
+        "Comparator 1 output"
+      ],
+      "note": "Open collector. Needs a pull-up."
+    },
+    {
+      "number": 3,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-36 V",
+      "note": "Pin 3, where the LM324 has an input. 100 nF to ground."
+    },
+    {
+      "number": 4,
+      "name": "IN1-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 1 inverting input"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "IN1+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 1 non-inverting input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "IN2-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 2 inverting input"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "IN2+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 2 non-inverting input"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "IN3-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 3 inverting input"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "IN3+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 3 non-inverting input"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "IN4-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 4 inverting input"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "IN4+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Comparator 4 non-inverting input"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "V-"
+      ],
+      "functions": [
+        "Negative supply"
+      ],
+      "note": "Pin 12, where the LM324 has an input."
+    },
+    {
+      "number": 13,
+      "name": "OUT4",
+      "primary": "gpio",
+      "functions": [
+        "Comparator 4 output"
+      ],
+      "note": "Open collector."
+    },
+    {
+      "number": 14,
+      "name": "OUT3",
+      "primary": "gpio",
+      "functions": [
+        "Comparator 3 output"
+      ],
+      "note": "Open collector."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Comparator with hysteresis",
+    "parts": [
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "Open-collector output. Nothing inside the part pulls it up."
+      },
+      {
+        "part": "1 MOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "5",
+        "required": false,
+        "why": "Positive feedback from the output back to the non-inverting input, for a clean single transition."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Four comparators sharing one supply pin. Unused inputs still need to be tied somewhere: a floating pair can swing the output and inject noise into the others through the supply."
+  }
+}

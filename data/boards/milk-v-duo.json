@@ -1,0 +1,609 @@
+{
+  "slug": "milk-v-duo",
+  "name": "Milk-V Duo (CV1800B)",
+  "shortName": "Milk-V Duo",
+  "vendor": "Milk-V",
+  "category": "sbc",
+  "summary": "A five dollar board that boots Linux on a RISC-V core, in the Raspberry Pi Pico footprint. USB-C at the top, pin 1 top-left.",
+  "logic": "3.3 V GPIO, 1.8 V ADC",
+  "package": "2x20 castellated / 2.54 mm, 21 x 51 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "milk-v duo",
+    "milkv duo",
+    "cv1800b",
+    "risc-v",
+    "sg2002",
+    "duo 256m",
+    "linux sbc",
+    "pico footprint"
+  ],
+  "notes": [
+    "The ADC pins are 1.8 V, not 3.3 V. GP26 and GP27 will be damaged by a 3.3 V signal. This is the sharpest edge on the board and it is easy to miss because every other pin is 3.3 V.",
+    "It is the Pico footprint but not a Pico drop-in. Pins 34 and 35 are unpopulated where a Pico has GP28 and ADC_VREF, and the peripheral mapping behind every GP number is completely different.",
+    "GP16 to GP21 are the SPI NOR and NAND flash lines. Boot from microSD and leave the flash unused and you get them back; otherwise they are spoken for.",
+    "There is 100 Mbps Ethernet on five pads along the bottom edge: TX+, TX-, GND, RX+, RX-. They need an external magnetics module or an RJ45 jack with magnetics built in.",
+    "The serial console is UART0 on GP12 and GP13 at 3.3 V. With no display output, that console is how you talk to the board before networking comes up.",
+    "It boots from microSD. There is no on-board eMMC on the base Duo, so the card is not optional.",
+    "The CV1800B pairs a 1 GHz C906 RISC-V core with a 700 MHz one and a small 8051, and there is a camera socket on board. The later Duo 256M and Duo S use the SG2002 and change both the memory and some pin functions.",
+    "GPIO numbers in sysfs are the XGPIO and PWR_GPIO values listed per pin, not the GP number on the silkscreen. GP0 is 508, not 0."
+  ],
+  "docs": [
+    {
+      "label": "Milk-V Duo documentation",
+      "url": "https://milkv.io/docs/duo/getting-started/duo"
+    },
+    {
+      "label": "Official pinout diagram",
+      "url": "https://milkv.io/docs/duo/duo/duo-pinout-01.webp"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GP0",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[28]",
+        "508"
+      ],
+      "tags": [
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "I2C0 SCL",
+        "UART1/2 TX",
+        "JTAG TDI"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "GP1",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[29]",
+        "509"
+      ],
+      "tags": [
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "I2C0 SDA",
+        "UART1/2 RX",
+        "JTAG TDO"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "GP2",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[26]",
+        "378"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "PWM10",
+        "UART4 TX",
+        "SD1 GP1"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "GP3",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[25]",
+        "377"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "PWM11",
+        "UART4 RX",
+        "SD1 GP0"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "GP4",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[19]",
+        "371"
+      ],
+      "tags": [
+        "pwm",
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "PWM5",
+        "I2C1 SCL",
+        "UART2/3 TX",
+        "SD1 D2"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GP5",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[20]",
+        "372"
+      ],
+      "tags": [
+        "pwm",
+        "i2c",
+        "uart"
+      ],
+      "functions": [
+        "PWM6",
+        "I2C1 SDA",
+        "UART2/3 RX",
+        "SD1 D1"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "GP6",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[23]",
+        "375"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "i2c",
+        "clock"
+      ],
+      "functions": [
+        "SPI2 SCK",
+        "PWM9",
+        "I2C3 SDA",
+        "SD1 CLK"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "GP7",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[22]",
+        "374"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "i2c"
+      ],
+      "functions": [
+        "SPI2 SDO",
+        "PWM8",
+        "I2C3 SCL",
+        "SD1 CMD"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GP8",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[21]",
+        "373"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "i2c"
+      ],
+      "functions": [
+        "SPI2 SDI",
+        "PWM7",
+        "I2C1 SDA",
+        "SD1 D0"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GP9",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[18]",
+        "370"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "i2c"
+      ],
+      "functions": [
+        "SPI2 CS",
+        "PWM4",
+        "I2C1 SCL",
+        "SD1 D3"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "GP10",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOC[9]",
+        "425"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SDA"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GP11",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOC[10]",
+        "426"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SCL"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "GP12",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[16]",
+        "496"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "UART0/1 TX",
+        "PWM4",
+        "JTAG TMS"
+      ],
+      "note": "UART0 is the serial console by default, at 3.3 V."
+    },
+    {
+      "number": 17,
+      "name": "GP13",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[17]",
+        "497"
+      ],
+      "tags": [
+        "pwm",
+        "uart"
+      ],
+      "functions": [
+        "UART0/1 RX",
+        "PWM5",
+        "JTAG TCK"
+      ],
+      "note": "The other half of the console."
+    },
+    {
+      "number": 18,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "GP14",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[14]",
+        "494"
+      ],
+      "functions": [
+        "GPIO"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "GP15",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[15]",
+        "495"
+      ],
+      "functions": [
+        "GPIO"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "GP16",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[23]",
+        "503"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI NOR MISO",
+        "SPI NAND MISO"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 22,
+      "name": "GP17",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[24]",
+        "504"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI NOR CS",
+        "SPI NAND CS"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 23,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "GP18",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[22]",
+        "502"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI NOR SCK",
+        "SPI NAND SCK"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 25,
+      "name": "GP19",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[25]",
+        "505"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI NOR MOSI",
+        "SPI NAND MOSI"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 26,
+      "name": "GP20",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[27]",
+        "507"
+      ],
+      "functions": [
+        "SPI NOR WP",
+        "SPI NAND WP"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 27,
+      "name": "GP21",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOA[26]",
+        "506"
+      ],
+      "functions": [
+        "SPI NOR HOLD",
+        "SPI NAND HOLD"
+      ],
+      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+    },
+    {
+      "number": 28,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "GP22",
+      "primary": "gpio",
+      "aliases": [
+        "PWR_GPIO[4]",
+        "356"
+      ],
+      "functions": [
+        "GPIO"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "RUN",
+      "primary": "ctrl",
+      "aliases": [
+        "RESET"
+      ],
+      "functions": [
+        "Chip enable / reset"
+      ],
+      "note": "Pull low to reset, same position as the Pico's RUN pin."
+    },
+    {
+      "number": 31,
+      "name": "GP26",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOB[3]",
+        "451",
+        "ADC1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 1"
+      ],
+      "note": "1.8 V MAXIMUM, not 3.3 V. Feeding it a 3.3 V signal damages the input. Divide everything."
+    },
+    {
+      "number": 32,
+      "name": "GP27",
+      "primary": "gpio",
+      "aliases": [
+        "XGPIOB[6]",
+        "454",
+        "ADC2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 2"
+      ],
+      "note": "1.8 V MAXIMUM, not 3.3 V."
+    },
+    {
+      "number": 33,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "note": "Unpopulated. The Pico has GP28 here, which is why a Pico carrier does not map one to one."
+    },
+    {
+      "number": 35,
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "note": "Unpopulated. The Pico has ADC_VREF here."
+    },
+    {
+      "number": 36,
+      "name": "3V3(OUT)",
+      "primary": "power3",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "voltage": "3.3 V"
+    },
+    {
+      "number": 37,
+      "name": "3V3_EN",
+      "primary": "ctrl",
+      "functions": [
+        "Regulator enable"
+      ],
+      "note": "Pulled high on board. Pull low to shut the 3.3 V rail down."
+    },
+    {
+      "number": 38,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "VSYS",
+      "primary": "vin",
+      "functions": [
+        "System supply in"
+      ],
+      "voltage": "5 V"
+    },
+    {
+      "number": 40,
+      "name": "VBUS",
+      "primary": "power5",
+      "functions": [
+        "USB bus voltage"
+      ],
+      "voltage": "5 V"
+    }
+  ]
+}

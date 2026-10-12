@@ -1,0 +1,483 @@
+{
+  "slug": "mos-6502",
+  "name": "MOS 6502",
+  "shortName": "6502",
+  "vendor": "MOS / Rockwell / WDC",
+  "category": "mcu-chip",
+  "summary": "The 8-bit CPU behind the Apple II, C64, NES and BBC Micro, and still the usual first homebrew computer build.",
+  "logic": "5 V",
+  "package": "PDIP-40",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "6502",
+    "65c02",
+    "w65c02",
+    "6510",
+    "8-bit cpu",
+    "apple ii",
+    "commodore",
+    "nes",
+    "homebrew computer"
+  ],
+  "notes": [
+    "The address bus is output only and the data bus is bidirectional, steered by R/W. There is no bus request or acknowledge: on an NMOS 6502 nothing else can drive the bus, which is why DMA designs gate the clock instead.",
+    "Feed the clock into pin 37, phase 0 in. Pins 3 and 39 are the buffered phase 1 and phase 2 outputs; phase 2 is what peripherals and address decoding should be qualified with.",
+    "Reset needs to stay low for at least two clock cycles after the supply is stable. The CPU then reads the vector at FFFC and FFFD.",
+    "Vectors live at the top of memory: NMI at FFFA, RESET at FFFC, IRQ and BRK at FFFE.",
+    "IRQ is level sensitive and maskable with SEI. NMI is edge triggered and cannot be masked, so a noisy NMI line gives you interrupts you never asked for. Tie both high through a resistor if unused.",
+    "The NMOS 6502 has no minimum clock speed restriction going up but will lose state if clocked too slowly. The CMOS W65C02 is fully static, so you can single-step it by hand with a debounced switch. That alone makes it the better part to learn on.",
+    "On the W65C02 the unused pins change: pin 5 becomes ML, pin 36 becomes BE, and pin 38 becomes SOB. Pin 1 also becomes VPB on some variants."
+  ],
+  "docs": [
+    {
+      "label": "WDC W65C02S datasheet",
+      "url": "https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf"
+    },
+    {
+      "label": "6502 instruction set reference",
+      "url": "https://www.masswerk.at/6502/6502_instruction_set.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "VSS",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "RDY",
+      "primary": "ctrl",
+      "functions": [
+        "Ready"
+      ],
+      "note": "Pull low to freeze the CPU on a read cycle, for slow memory. Tie high if unused."
+    },
+    {
+      "number": 3,
+      "name": "PHI1O",
+      "primary": "gpio",
+      "aliases": [
+        "O1 OUT",
+        "phase 1 out"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Phase 1 clock out"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "IRQ",
+      "primary": "ctrl",
+      "aliases": [
+        "IRQB"
+      ],
+      "functions": [
+        "Maskable interrupt, active low"
+      ],
+      "note": "Level sensitive. Tie high through 3k3 if unused."
+    },
+    {
+      "number": 5,
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "note": "ML (memory lock) on the W65C02."
+    },
+    {
+      "number": 6,
+      "name": "NMI",
+      "primary": "ctrl",
+      "aliases": [
+        "NMIB"
+      ],
+      "functions": [
+        "Non-maskable interrupt, active low"
+      ],
+      "note": "Edge triggered and unmaskable. Tie high through 3k3 if unused."
+    },
+    {
+      "number": 7,
+      "name": "SYNC",
+      "primary": "gpio",
+      "functions": [
+        "Opcode fetch indicator"
+      ],
+      "note": "High during the first cycle of every instruction. The hook for single-stepping and for a hardware debugger."
+    },
+    {
+      "number": 8,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "5 V",
+      "functions": [
+        "Positive supply"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "A0",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 0"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "A1",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 1"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "A2",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 2"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "A3",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 3"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "A4",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 4"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "A5",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 5"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "A6",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 6"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "A7",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 7"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "A8",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 8"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "A9",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 9"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "A10",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 10"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "A11",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 11"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "VSS",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "A12",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 12"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "A13",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 13"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "A14",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 14"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "A15",
+      "primary": "gpio",
+      "functions": [
+        "Address bus bit 15"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "D7",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 7"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "D6",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 6"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "D5",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 5"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "D4",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 4"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "D3",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 3"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "D2",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 2"
+      ]
+    },
+    {
+      "number": 32,
+      "name": "D1",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 1"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "D0",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 0"
+      ],
+      "note": "The data bus runs D7 down to D0 as the pin numbers go up."
+    },
+    {
+      "number": 34,
+      "name": "RW",
+      "primary": "gpio",
+      "aliases": [
+        "R/W"
+      ],
+      "functions": [
+        "Read high, write low"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "note": "BE (bus enable) on the W65C02."
+    },
+    {
+      "number": 37,
+      "name": "PHI0",
+      "primary": "ctrl",
+      "aliases": [
+        "O0 IN",
+        "phase 0 in",
+        "CLK"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Clock in"
+      ],
+      "note": "This is the pin your oscillator drives."
+    },
+    {
+      "number": 38,
+      "name": "SO",
+      "primary": "ctrl",
+      "aliases": [
+        "S.O."
+      ],
+      "functions": [
+        "Set overflow flag"
+      ],
+      "note": "A falling edge sets V in the status register. Tie high if unused."
+    },
+    {
+      "number": 39,
+      "name": "PHI2O",
+      "primary": "gpio",
+      "aliases": [
+        "O2 OUT",
+        "phase 2 out"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Phase 2 clock out"
+      ],
+      "note": "Qualify address decoding and peripheral chip selects with this."
+    },
+    {
+      "number": 40,
+      "name": "RES",
+      "primary": "ctrl",
+      "aliases": [
+        "RESB",
+        "RESET"
+      ],
+      "functions": [
+        "Reset, active low"
+      ],
+      "note": "Hold low for at least two cycles after the supply settles."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "Clock oscillator",
+        "symbol": "osc",
+        "from": "37",
+        "to": "GND",
+        "required": true,
+        "why": "A can oscillator or a crystal and gate. The NMOS part also has a minimum clock speed."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "40",
+        "to": "VCC",
+        "required": true,
+        "why": "Reset pull-up, with a capacitor to ground for a power-on reset of at least two cycles."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "4",
+        "to": "VCC",
+        "required": true,
+        "why": "Unused interrupt inputs must be held high or you get interrupts you never asked for."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "6",
+        "to": "VCC",
+        "required": true,
+        "why": "NMI is edge triggered and cannot be masked, so a floating pin is worse than IRQ."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "RDY is an active input and must be tied off."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "38",
+        "to": "VCC",
+        "required": true,
+        "why": "Set-overflow is an active input and must be tied off."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Qualify address decoding with PHI2 (39), not with the raw address lines, or peripherals will see bus noise as accesses."
+  }
+}

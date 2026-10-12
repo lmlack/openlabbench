@@ -1,0 +1,192 @@
+{
+  "slug": "sn74hc32",
+  "name": "74HC32 Quad OR Gate",
+  "shortName": "74HC32",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Four 2-input OR gates, in the same pin arrangement as the 74HC00 and 74HC08.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc32",
+    "7432",
+    "quad or",
+    "or gate"
+  ],
+  "notes": [
+    "OR combines two active-high signals, which in practice most often means merging two interrupt or alarm sources.",
+    "Same pin arrangement as the 74HC00, 74HC08 and 74HC86. Only the part marking distinguishes them.",
+    "For active-low signals you usually want an AND instead, or just wire open-drain outputs together and save the chip.",
+    "HC inputs need a level near their own rail. Driving a 5 V part from 3.3 V logic wants the HCT version."
+  ],
+  "docs": [
+    {
+      "label": "TI 74HC32 datasheet",
+      "url": "https://www.ti.com/product/SN74HC32"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input A"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input B"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 output (OR)"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input A"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "2B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input B"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 output (OR)"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 output (OR)"
+      ],
+      "note": "Output comes first on this side."
+    },
+    {
+      "number": 9,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input A"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "3B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input B"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 output (OR)"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input A"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "4B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input B"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "One input low makes the gate a buffer for the other, the OR equivalent of tying an AND input high."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "12",
+        "to": "GND",
+        "required": true,
+        "why": "Unused inputs go to a rail. Floating CMOS inputs oscillate and draw supply current."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "The other input of the same unused gate."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "On an OR gate an unused input must go low, not high: tie it high and the output is stuck at 1 forever. The opposite of the rule for an AND gate."
+  }
+}

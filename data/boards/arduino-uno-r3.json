@@ -1,0 +1,512 @@
+{
+  "slug": "arduino-uno-r3",
+  "name": "Arduino Uno R3",
+  "shortName": "Uno R3",
+  "vendor": "Arduino",
+  "category": "mcu-board",
+  "summary": "The ATmega328P reference board. 5 V logic throughout, which is exactly why it still gets used for anything driving relays, LED strips or older 5 V peripherals.",
+  "logic": "5 V",
+  "package": "Uno shield form factor, 68.6 x 53.4 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 18,
+    "sideLabels": [
+      "Digital header",
+      "Power + Analog headers"
+    ]
+  },
+  "keywords": [
+    "arduino",
+    "uno",
+    "atmega328p",
+    "shield",
+    "r3",
+    "328"
+  ],
+  "notes": [
+    "20 mA per I/O pin is the design figure; 40 mA is the absolute maximum and 200 mA is the limit across the whole chip. Drive motors and strips through a transistor or driver.",
+    "D13 is wired to the on-board LED through a resistor, so it already has a load. It is a poor choice for an input.",
+    "A4/A5 are the only I2C pins. A0-A5 all work as ordinary digital pins (14-19) when you do not need the ADC.",
+    "D0/D1 are shared with the USB-serial bridge. Anything attached there fights the serial monitor and the bootloader.",
+    "VIN accepts 7-12 V through the barrel jack regulator. Feeding 5 V into the 5V pin bypasses the regulator and its protection.",
+    "The R3 and R4 have the same header layout, but the R4 is a 5 V RA4M1 (Minima) or RA4M1 + ESP32-S3 (WiFi) and its peripheral mapping differs."
+  ],
+  "docs": [
+    {
+      "label": "Arduino Uno R3 documentation",
+      "url": "https://docs.arduino.cc/hardware/uno-rev3"
+    },
+    {
+      "label": "ATmega328P product page",
+      "url": "https://www.microchip.com/en-us/product/ATmega328P"
+    }
+  ],
+  "pins": [
+    {
+      "name": "SCL",
+      "primary": "gpio",
+      "aliases": [
+        "D19",
+        "A5"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SCL"
+      ],
+      "side": "left",
+      "row": 1,
+      "note": "Same silicon pin as A5, duplicated on the header for shields."
+    },
+    {
+      "name": "SDA",
+      "primary": "gpio",
+      "aliases": [
+        "D18",
+        "A4"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C SDA"
+      ],
+      "side": "left",
+      "row": 2,
+      "note": "Same silicon pin as A4."
+    },
+    {
+      "name": "AREF",
+      "primary": "ctrl",
+      "functions": [
+        "ADC reference in"
+      ],
+      "side": "left",
+      "row": 3,
+      "note": "Only drive this after calling analogReference(EXTERNAL), or you short the internal reference."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "D13",
+      "primary": "gpio",
+      "aliases": [
+        "SCK",
+        "PB5"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI SCK",
+        "On-board LED"
+      ],
+      "side": "left",
+      "row": 5,
+      "note": "Driven by the LED circuit."
+    },
+    {
+      "name": "D12",
+      "primary": "gpio",
+      "aliases": [
+        "MISO",
+        "PB4"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI MISO"
+      ],
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "D11",
+      "primary": "gpio",
+      "aliases": [
+        "MOSI",
+        "PB3",
+        "~D11"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI MOSI",
+        "Timer2 OC2A"
+      ],
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "D10",
+      "primary": "gpio",
+      "aliases": [
+        "SS",
+        "PB2",
+        "~D10"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI SS",
+        "Timer1 OC1B"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "D9",
+      "primary": "gpio",
+      "aliases": [
+        "PB1",
+        "~D9"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer1 OC1A"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "D8",
+      "primary": "gpio",
+      "aliases": [
+        "PB0",
+        "ICP1"
+      ],
+      "functions": [
+        "Timer1 input capture"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "D7",
+      "primary": "gpio",
+      "aliases": [
+        "PD7"
+      ],
+      "functions": [],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "D6",
+      "primary": "gpio",
+      "aliases": [
+        "PD6",
+        "~D6"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0A"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "D5",
+      "primary": "gpio",
+      "aliases": [
+        "PD5",
+        "~D5"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer0 OC0B"
+      ],
+      "side": "left",
+      "row": 13,
+      "note": "Timer0 also runs millis(); changing its prescaler breaks timing functions."
+    },
+    {
+      "name": "D4",
+      "primary": "gpio",
+      "aliases": [
+        "PD4"
+      ],
+      "functions": [],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "D3",
+      "primary": "gpio",
+      "aliases": [
+        "PD3",
+        "INT1",
+        "~D3"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "Timer2 OC2B",
+        "External interrupt 1"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "D2",
+      "primary": "gpio",
+      "aliases": [
+        "PD2",
+        "INT0"
+      ],
+      "functions": [
+        "External interrupt 0"
+      ],
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "D1",
+      "primary": "gpio",
+      "aliases": [
+        "TX",
+        "PD1"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART TXD"
+      ],
+      "side": "left",
+      "row": 17,
+      "note": "Shared with the USB-serial bridge."
+    },
+    {
+      "name": "D0",
+      "primary": "gpio",
+      "aliases": [
+        "RX",
+        "PD0"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART RXD"
+      ],
+      "side": "left",
+      "row": 18,
+      "note": "Shared with the USB-serial bridge."
+    },
+    {
+      "name": "NC",
+      "primary": "nc",
+      "functions": [
+        "Not connected"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "IOREF",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "I/O reference voltage"
+      ],
+      "side": "right",
+      "row": 2,
+      "note": "Tells a shield what logic level the board runs at. 5 V here, 3.3 V on a Due or Zero."
+    },
+    {
+      "name": "RESET",
+      "primary": "ctrl",
+      "functions": [
+        "Active-low reset"
+      ],
+      "side": "right",
+      "row": 3,
+      "note": "Pull low to reset. The USB bridge toggles it through a 100 nF cap to start the bootloader."
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "side": "right",
+      "row": 4,
+      "note": "From the USB bridge regulator, 50 mA only. Not enough for a WiFi module."
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "5 V supply out"
+      ],
+      "side": "right",
+      "row": 5,
+      "note": "~500 mA on USB power, ~800 mA from the barrel jack before the regulator overheats."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "VIN",
+      "primary": "vin",
+      "voltage": "7-12 V",
+      "functions": [
+        "Unregulated supply in"
+      ],
+      "side": "right",
+      "row": 8,
+      "note": "Same net as the barrel jack center pin. Above 12 V the linear regulator cooks."
+    },
+    {
+      "name": "A0",
+      "primary": "gpio",
+      "aliases": [
+        "D14",
+        "PC0"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC0"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "A1",
+      "primary": "gpio",
+      "aliases": [
+        "D15",
+        "PC1"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC1"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "A2",
+      "primary": "gpio",
+      "aliases": [
+        "D16",
+        "PC2"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC2"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "A3",
+      "primary": "gpio",
+      "aliases": [
+        "D17",
+        "PC3"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC3"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "A4",
+      "primary": "gpio",
+      "aliases": [
+        "D18",
+        "SDA",
+        "PC4"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC4",
+        "I2C SDA"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "A5",
+      "primary": "gpio",
+      "aliases": [
+        "D19",
+        "SCL",
+        "PC5"
+      ],
+      "tags": [
+        "analog",
+        "i2c"
+      ],
+      "functions": [
+        "ADC5",
+        "I2C SCL"
+      ],
+      "side": "right",
+      "row": 15
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin, and read one with a pull-up",
+      "toolchain": "avr-libc",
+      "lang": "c",
+      "code": "#include <avr/io.h>\n\n/* Three registers per port. DDR picks direction, PORT writes the\n   output latch, PIN reads the physical pin. */\n\nDDRB  |=  (1 << PB5);          /* PB5 = Arduino D13 = output */\nPORTB |=  (1 << PB5);          /* high */\nPORTB &= ~(1 << PB5);          /* low  */\nPINB  |=  (1 << PB5);          /* writing PIN toggles the output */\n\nDDRD  &= ~(1 << PD2);          /* PD2 = D2 = input */\nPORTD |=  (1 << PD2);          /* PORT on an input enables the pull-up */\n\nif (!(PIND & (1 << PD2))) {    /* switch to ground reads 0 when pressed */\n}",
+      "gotcha": "On an input pin, PORT is the pull-up enable, not an output value. Forget it and a floating pin reads whatever the nearest mains cable is doing."
+    }
+  ]
+}

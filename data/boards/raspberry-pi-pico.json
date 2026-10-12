@@ -1,0 +1,611 @@
+{
+  "slug": "raspberry-pi-pico",
+  "name": "Raspberry Pi Pico (RP2040)",
+  "shortName": "Pico",
+  "vendor": "Raspberry Pi",
+  "category": "mcu-board",
+  "summary": "RP2040 board with 26 exposed GPIO, three ADC channels and the PIO blocks that make it unusually good at bit-banged protocols. Pin 1 is the top-left castellation with the USB connector facing up.",
+  "logic": "3.3 V",
+  "package": "2x20 castellated / 2.54 mm, 51 x 21 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "pico",
+    "pico w",
+    "pico h",
+    "pico 2",
+    "rp2040",
+    "rp2350",
+    "micropython",
+    "pio"
+  ],
+  "notes": [
+    "Every GPIO is 3.3 V and none are 5 V tolerant.",
+    "Peripheral mappings are not fixed: each pin lists the SPI/I2C/UART instance it can reach, and you pick one in software. Two pins on the same instance cannot be used for the same role at once.",
+    "GPIO23, 24, 25 and 29 exist on the RP2040 but are not on the header, they drive the SMPS mode, VBUS sense, the on-board LED and VSYS sense. On the Pico W they are taken over by the wireless chip, which is why the LED moves to the CYW43 on that model.",
+    "VSYS (pin 39) accepts 1.8-5.5 V and feeds the on-board buck-boost regulator. VBUS (pin 40) is USB 5 V directly.",
+    "ADC_VREF (pin 35) is a filtered 3.3 V reference; tie analog grounds to AGND (pin 33), not a digital GND pin, for quieter readings.",
+    "The Pico 2 uses the same header and the same GP numbers on an RP2350: more RAM, a choice of Arm or RISC-V cores, and 12 PWM slices instead of 8."
+  ],
+  "docs": [
+    {
+      "label": "Pico datasheet (PDF)",
+      "url": "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf"
+    },
+    {
+      "label": "RP2040 datasheet (PDF)",
+      "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GP0",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 TX",
+        "I2C0 SDA",
+        "SPI0 RX",
+        "PWM0 A"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "GP1",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 RX",
+        "I2C0 SCL",
+        "SPI0 CSn",
+        "PWM0 B"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "GP2",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "SPI0 SCK",
+        "PWM1 A"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "GP3",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "SPI0 TX",
+        "PWM1 B"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "GP4",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART1 TX",
+        "I2C0 SDA",
+        "SPI0 RX",
+        "PWM2 A"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GP5",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART1 RX",
+        "I2C0 SCL",
+        "SPI0 CSn",
+        "PWM2 B"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "GP6",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "SPI0 SCK",
+        "PWM3 A"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "GP7",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "SPI0 TX",
+        "PWM3 B"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "GP8",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART1 TX",
+        "I2C0 SDA",
+        "SPI1 RX",
+        "PWM4 A"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GP9",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART1 RX",
+        "I2C0 SCL",
+        "SPI1 CSn",
+        "PWM4 B"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "GP10",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "SPI1 SCK",
+        "PWM5 A"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GP11",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "SPI1 TX",
+        "PWM5 B"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "GP12",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 TX",
+        "I2C0 SDA",
+        "SPI1 RX",
+        "PWM6 A"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "GP13",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 RX",
+        "I2C0 SCL",
+        "SPI1 CSn",
+        "PWM6 B"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "GP14",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "SPI1 SCK",
+        "PWM7 A"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "GP15",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "SPI1 TX",
+        "PWM7 B"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "GP16",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 TX",
+        "I2C0 SDA",
+        "SPI0 RX",
+        "PWM0 A"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "GP17",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "UART0 RX",
+        "I2C0 SCL",
+        "SPI0 CSn",
+        "PWM0 B"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "GP18",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "SPI0 SCK",
+        "PWM1 A"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "GP19",
+      "primary": "gpio",
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "SPI0 TX",
+        "PWM1 B"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "GP20",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "UART1 TX",
+        "I2C0 SDA",
+        "PWM2 A",
+        "GPIN0"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "GP21",
+      "primary": "gpio",
+      "tags": [
+        "uart",
+        "i2c",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "UART1 RX",
+        "I2C0 SCL",
+        "PWM2 B",
+        "GPOUT0"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "GP22",
+      "primary": "gpio",
+      "tags": [
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "PWM3 A",
+        "GPIN1"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "RUN",
+      "primary": "ctrl",
+      "aliases": [
+        "RESET"
+      ],
+      "functions": [
+        "Chip enable / reset"
+      ],
+      "note": "Pull low to reset. Wire a button here to RESET without unplugging USB."
+    },
+    {
+      "number": 31,
+      "name": "GP26",
+      "primary": "gpio",
+      "aliases": [
+        "ADC0",
+        "A0"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "ADC0",
+        "I2C1 SDA",
+        "PWM5 A"
+      ]
+    },
+    {
+      "number": 32,
+      "name": "GP27",
+      "primary": "gpio",
+      "aliases": [
+        "ADC1",
+        "A1"
+      ],
+      "tags": [
+        "analog",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1",
+        "I2C1 SCL",
+        "PWM5 B"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "AGND",
+      "primary": "gnd",
+      "functions": [
+        "Analog ground"
+      ],
+      "note": "Return for ADC and ADC_VREF. Keep analog returns off the digital GND pins."
+    },
+    {
+      "number": 34,
+      "name": "GP28",
+      "primary": "gpio",
+      "aliases": [
+        "ADC2",
+        "A2"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC2",
+        "PWM6 A"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "ADC_VREF",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "ADC reference"
+      ],
+      "note": "Filtered 3V3. Do not load it; it is a reference, not a rail."
+    },
+    {
+      "number": 36,
+      "name": "3V3(OUT)",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply out"
+      ],
+      "note": "Up to ~300 mA for peripherals."
+    },
+    {
+      "number": 37,
+      "name": "3V3_EN",
+      "primary": "ctrl",
+      "functions": [
+        "Regulator enable"
+      ],
+      "note": "Pulled high on board. Pull low to shut the 3V3 regulator down."
+    },
+    {
+      "number": 38,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "VSYS",
+      "primary": "vin",
+      "voltage": "1.8-5.5 V",
+      "functions": [
+        "System supply in"
+      ],
+      "note": "Main input to the buck-boost regulator. Battery goes here, through a diode if USB may also be connected."
+    },
+    {
+      "number": 40,
+      "name": "VBUS",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "USB bus voltage"
+      ],
+      "note": "Straight from the micro-USB connector; floats when USB is unplugged."
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Drive a pin and read one",
+      "toolchain": "Pico SDK",
+      "lang": "c",
+      "code": "#include \"pico/stdlib.h\"\n\n#define LED 25                 /* on-board LED, not on the header */\n\ngpio_init(LED);\ngpio_set_dir(LED, GPIO_OUT);\ngpio_put(LED, 1);\n\ngpio_init(15);\ngpio_set_dir(15, GPIO_IN);\ngpio_pull_up(15);              /* pulls are off until you ask */\n\nif (!gpio_get(15)) {\n}",
+      "gotcha": "gpio_init resets the pin to SIO and clears both pulls, so call it before set_dir, not after. On a Pico W the LED is on the wireless chip and GPIO 25 does nothing."
+    }
+  ]
+}

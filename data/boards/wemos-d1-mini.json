@@ -1,0 +1,48 @@
+{
+  "slug": "wemos-d1-mini",
+  "name": "WEMOS D1 mini (ESP8266)",
+  "shortName": "D1 mini",
+  "vendor": "WEMOS / LOLIN",
+  "category": "mcu-board",
+  "summary": "ESP8266 WiFi board in a 34 x 25 mm footprint. Only one ADC and a handful of usable GPIO, several of which are boot strapping pins, the constraint that defines most D1 mini projects.",
+  "logic": "3.3 V",
+  "package": "2x8 2.54 mm, 34.2 x 25.6 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 8,
+    "sideLabels": ["Left (USB at bottom)", "Right (USB at bottom)"]
+  },
+  "keywords": ["wemos", "d1 mini", "lolin", "esp8266", "esp-12", "nodemcu", "esp8266ex"],
+  "notes": [
+    "The D-numbers on the silkscreen are not GPIO numbers. D1 is GPIO5, D2 is GPIO4, the opposite of what you would guess. Always check the GPIO column.",
+    "Boot strapping: GPIO0 (D3) must be high at boot for normal start and low for flash mode; GPIO2 (D4) must be high; GPIO15 (D8) must be low. Pull-ups and pull-downs on those pins decide whether the board boots at all.",
+    "A0 is the only analog input and reads 0-3.2 V through an on-board divider, giving roughly 0-1 V at the chip.",
+    "GPIO16 (D0) comes off a different peripheral block: no interrupts, no PWM, no I2C, and it has a weak internal pull-down rather than a pull-up. It is the pin that wakes the chip from deep sleep when tied to RST.",
+    "I2C is done in software on the ESP8266, so SDA/SCL can be any usable GPIO; D1/D2 are only the Arduino core defaults.",
+    "Pins are 3.3 V and not 5 V tolerant, though the 5V pin passes USB power straight through for peripherals."
+  ],
+  "docs": [
+    { "label": "WEMOS D1 mini documentation", "url": "https://www.wemos.cc/en/latest/d1/d1_mini.html" },
+    { "label": "ESP8266EX datasheet", "url": "https://www.espressif.com/en/products/socs/esp8266" }
+  ],
+  "pins": [
+    { "name": "RST", "primary": "ctrl", "aliases": ["RESET"], "functions": ["Active-low reset"], "side": "left", "row": 1, "note": "Tie to D0 (GPIO16) to wake from deep sleep." },
+    { "name": "A0", "primary": "gpio", "aliases": ["ADC0", "TOUT"], "tags": ["analog"], "functions": ["ADC0"], "side": "left", "row": 2, "note": "0-3.2 V input range through an on-board divider. 10-bit." },
+    { "name": "D0", "primary": "gpio", "aliases": ["GPIO16"], "functions": ["Deep-sleep wake"], "side": "left", "row": 3, "note": "No interrupt, no PWM, no I2C. Internal pull-down only." },
+    { "name": "D5", "primary": "gpio", "aliases": ["GPIO14", "SCLK"], "tags": ["spi", "pwm", "clock"], "functions": ["HSPI CLK"], "side": "left", "row": 4 },
+    { "name": "D6", "primary": "gpio", "aliases": ["GPIO12", "MISO"], "tags": ["spi", "pwm"], "functions": ["HSPI MISO"], "side": "left", "row": 5 },
+    { "name": "D7", "primary": "gpio", "aliases": ["GPIO13", "MOSI"], "tags": ["spi", "pwm"], "functions": ["HSPI MOSI"], "side": "left", "row": 6 },
+    { "name": "D8", "primary": "gpio", "aliases": ["GPIO15", "CS"], "tags": ["spi", "pwm"], "functions": ["HSPI CS"], "side": "left", "row": 7, "note": "Strapping pin: must be low at boot. Has a 10k pull-down on board." },
+    { "name": "3V3", "primary": "power3", "voltage": "3.3 V", "functions": ["3.3 V supply out"], "side": "left", "row": 8, "note": "~500 mA from the on-board regulator, minus what the radio draws in bursts." },
+
+    { "name": "TX", "primary": "gpio", "aliases": ["GPIO1", "D10", "TXD0"], "tags": ["uart"], "functions": ["UART0 TXD"], "side": "right", "row": 1, "note": "Shared with the USB bridge and the boot log." },
+    { "name": "RX", "primary": "gpio", "aliases": ["GPIO3", "D9", "RXD0"], "tags": ["uart"], "functions": ["UART0 RXD"], "side": "right", "row": 2, "note": "Shared with the USB bridge." },
+    { "name": "D1", "primary": "gpio", "aliases": ["GPIO5", "SCL"], "tags": ["i2c", "pwm"], "functions": ["Default I2C SCL"], "side": "right", "row": 3, "note": "One of the two safest general-purpose pins, no strapping role." },
+    { "name": "D2", "primary": "gpio", "aliases": ["GPIO4", "SDA"], "tags": ["i2c", "pwm"], "functions": ["Default I2C SDA"], "side": "right", "row": 4, "note": "The other safe general-purpose pin." },
+    { "name": "D3", "primary": "gpio", "aliases": ["GPIO0", "FLASH"], "tags": ["pwm"], "functions": ["Boot mode select"], "side": "right", "row": 5, "note": "Strapping pin: high to boot, low for flash mode. Has a 10k pull-up; a button to GND is fine, a steady load is not." },
+    { "name": "D4", "primary": "gpio", "aliases": ["GPIO2", "LED_BUILTIN", "TXD1"], "tags": ["pwm", "uart"], "functions": ["On-board LED (inverted)", "UART1 TXD"], "side": "right", "row": 6, "note": "Strapping pin: must be high at boot. LED is active-low." },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 7 },
+    { "name": "5V", "primary": "power5", "voltage": "5 V", "functions": ["USB 5 V in / out"], "side": "right", "row": 8, "note": "Straight to the micro-USB rail. Usable as a 5 V input to power the board." }
+  ]
+}

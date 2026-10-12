@@ -1,0 +1,706 @@
+{
+  "slug": "stm32f411-black-pill",
+  "name": "STM32F411CEU6 Black Pill",
+  "shortName": "Black Pill",
+  "vendor": "WeAct Studio",
+  "category": "mcu-board",
+  "summary": "100 MHz Cortex-M4F with USB-C that actually enumerates, the board most people move to after a Blue Pill. Pin 1 is top-left with USB-C up.",
+  "logic": "3.3 V",
+  "package": "2x20 2.54 mm, 53 x 21 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "black pill",
+    "blackpill",
+    "weact",
+    "stm32f411",
+    "f411ce",
+    "stm32f401",
+    "cortex-m4",
+    "minif4"
+  ],
+  "notes": [
+    "Every pin is 5 V tolerant on the F401. On the F411 two are not: PA0 and PB5 are 3.3 V only.",
+    "The USB-C works out of the box, with the right D+ pull-up fitted. That alone is the reason to pick this over a Blue Pill.",
+    "PC13 drives the blue LED and sinks it, so low turns it on. PC13, PC14 and PC15 are limited to 3 mA.",
+    "There is a user button labeled KEY on PA0, active low, and it is already debounced in hardware. Holding BOOT0 at reset enters the built-in DFU bootloader over USB, so you can flash with dfu-util and no programmer at all.",
+    "PA13 and PA14 are SWDIO and SWCLK on the 4-pin header at the bottom edge, not on the side headers.",
+    "PA4, PA5, PA7 and PB4 also go to the optional on-board SPI flash footprint. If your board has the chip fitted, those four are shared.",
+    "PB2 is BOOT1 and PC14 and PC15 carry the 32.768 kHz crystal, so treat all three as spoken for.",
+    "The 5V header pins tie straight to USB VBUS with no protection. Do not back-feed them while USB is plugged in."
+  ],
+  "docs": [
+    {
+      "label": "WeAct MiniSTM32F4x1 repo",
+      "url": "https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1"
+    },
+    {
+      "label": "STM32F411CE product page",
+      "url": "https://www.st.com/en/microcontrollers-microprocessors/stm32f411ce.html"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "PB12",
+      "primary": "gpio",
+      "aliases": [
+        "B12"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI2 NSS",
+        "TIM1 BKIN"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "PB13",
+      "primary": "gpio",
+      "aliases": [
+        "B13"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI2 SCK",
+        "TIM1 CH1N"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "PB14",
+      "primary": "gpio",
+      "aliases": [
+        "B14"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI2 MISO",
+        "TIM1 CH2N"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "PB15",
+      "primary": "gpio",
+      "aliases": [
+        "B15"
+      ],
+      "tags": [
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI2 MOSI",
+        "TIM1 CH3N",
+        "SDIO CK"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "PA8",
+      "primary": "gpio",
+      "aliases": [
+        "A8"
+      ],
+      "tags": [
+        "i2c",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "TIM1 CH1",
+        "I2C3 SCL",
+        "MCO1"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "PA9",
+      "primary": "gpio",
+      "aliases": [
+        "A9"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "USART1 TX",
+        "TIM1 CH2",
+        "USB VBUS sense"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "PA10",
+      "primary": "gpio",
+      "aliases": [
+        "A10"
+      ],
+      "tags": [
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "USART1 RX",
+        "TIM1 CH3",
+        "USB ID"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "PA11",
+      "primary": "gpio",
+      "aliases": [
+        "A11",
+        "USB_DM"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "USB D-",
+        "TIM1 CH4"
+      ],
+      "note": "USB D-."
+    },
+    {
+      "number": 9,
+      "name": "PA12",
+      "primary": "gpio",
+      "aliases": [
+        "A12",
+        "USB_DP"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "USB D+",
+        "TIM1 ETR"
+      ],
+      "note": "USB D+."
+    },
+    {
+      "number": 10,
+      "name": "PA15",
+      "primary": "gpio",
+      "aliases": [
+        "A15",
+        "JTDI"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI1 NSS",
+        "TIM2 CH1",
+        "JTAG JTDI"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "PB3",
+      "primary": "gpio",
+      "aliases": [
+        "B3",
+        "JTDO",
+        "SWO"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "SPI1 SCK",
+        "TIM2 CH2",
+        "I2C2 SDA",
+        "SWO trace"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "PB4",
+      "primary": "gpio",
+      "aliases": [
+        "B4",
+        "NJTRST"
+      ],
+      "tags": [
+        "spi",
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "SPI1 MISO",
+        "TIM3 CH1",
+        "I2C3 SDA"
+      ],
+      "note": "Shared with the optional on-board SPI flash."
+    },
+    {
+      "number": 13,
+      "name": "PB5",
+      "primary": "gpio",
+      "aliases": [
+        "B5"
+      ],
+      "tags": [
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "SPI1 MOSI",
+        "TIM3 CH2"
+      ],
+      "note": "Not 5 V tolerant on the F411."
+    },
+    {
+      "number": 14,
+      "name": "PB6",
+      "primary": "gpio",
+      "aliases": [
+        "B6"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SCL",
+        "TIM4 CH1",
+        "USART1 TX"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "PB7",
+      "primary": "gpio",
+      "aliases": [
+        "B7"
+      ],
+      "tags": [
+        "i2c",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "I2C1 SDA",
+        "TIM4 CH2",
+        "USART1 RX"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "PB8",
+      "primary": "gpio",
+      "aliases": [
+        "B8"
+      ],
+      "tags": [
+        "i2c",
+        "pwm"
+      ],
+      "functions": [
+        "TIM4 CH3",
+        "I2C1 SCL alt",
+        "SDIO D4"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "PB9",
+      "primary": "gpio",
+      "aliases": [
+        "B9"
+      ],
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "TIM4 CH4",
+        "I2C1 SDA alt",
+        "SPI2 NSS"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "USB VBUS"
+      ],
+      "note": "Unprotected, straight to the connector."
+    },
+    {
+      "number": 19,
+      "name": "G",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 20,
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply"
+      ]
+    },
+    {
+      "number": 21,
+      "name": "VB",
+      "primary": "vin",
+      "aliases": [
+        "VBAT"
+      ],
+      "voltage": "1.65-3.6 V",
+      "functions": [
+        "RTC backup supply"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "PC13",
+      "primary": "gpio",
+      "aliases": [
+        "C13",
+        "LED_BUILTIN"
+      ],
+      "functions": [
+        "Blue LED, active low"
+      ],
+      "note": "3 mA max. Fine for the LED, wrong for a load."
+    },
+    {
+      "number": 23,
+      "name": "PC14",
+      "primary": "gpio",
+      "aliases": [
+        "C14",
+        "OSC32_IN"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "LSE crystal in"
+      ],
+      "note": "3 mA max, and taken by the 32.768 kHz crystal."
+    },
+    {
+      "number": 24,
+      "name": "PC15",
+      "primary": "gpio",
+      "aliases": [
+        "C15",
+        "OSC32_OUT"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "LSE crystal out"
+      ],
+      "note": "3 mA max, and taken by the 32.768 kHz crystal."
+    },
+    {
+      "number": 25,
+      "name": "R",
+      "primary": "ctrl",
+      "aliases": [
+        "NRST",
+        "RESET"
+      ],
+      "functions": [
+        "Active-low reset"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "PA0",
+      "primary": "gpio",
+      "aliases": [
+        "A0",
+        "KEY",
+        "WKUP"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN0",
+        "TIM2 CH1",
+        "User button",
+        "Wake-up"
+      ],
+      "note": "The KEY button, active low and hardware debounced. Not 5 V tolerant on the F411."
+    },
+    {
+      "number": 27,
+      "name": "PA1",
+      "primary": "gpio",
+      "aliases": [
+        "A1"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN1",
+        "TIM2 CH2",
+        "USART2 RTS"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "PA2",
+      "primary": "gpio",
+      "aliases": [
+        "A2"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN2",
+        "USART2 TX",
+        "TIM2 CH3"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "PA3",
+      "primary": "gpio",
+      "aliases": [
+        "A3"
+      ],
+      "tags": [
+        "analog",
+        "uart",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN3",
+        "USART2 RX",
+        "TIM2 CH4"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "PA4",
+      "primary": "gpio",
+      "aliases": [
+        "A4"
+      ],
+      "tags": [
+        "analog",
+        "spi"
+      ],
+      "functions": [
+        "ADC1 IN4",
+        "SPI1 NSS",
+        "I2S2 CK"
+      ],
+      "note": "Shared with the optional on-board SPI flash."
+    },
+    {
+      "number": 31,
+      "name": "PA5",
+      "primary": "gpio",
+      "aliases": [
+        "A5"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "ADC1 IN5",
+        "SPI1 SCK",
+        "TIM2 CH1"
+      ],
+      "note": "Shared with the optional on-board SPI flash."
+    },
+    {
+      "number": 32,
+      "name": "PA6",
+      "primary": "gpio",
+      "aliases": [
+        "A6"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN6",
+        "SPI1 MISO",
+        "TIM3 CH1"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "PA7",
+      "primary": "gpio",
+      "aliases": [
+        "A7"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN7",
+        "SPI1 MOSI",
+        "TIM3 CH2"
+      ],
+      "note": "Shared with the optional on-board SPI flash."
+    },
+    {
+      "number": 34,
+      "name": "PB0",
+      "primary": "gpio",
+      "aliases": [
+        "B0"
+      ],
+      "tags": [
+        "analog",
+        "spi",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN8",
+        "TIM3 CH3",
+        "SPI5 SCK"
+      ]
+    },
+    {
+      "number": 35,
+      "name": "PB1",
+      "primary": "gpio",
+      "aliases": [
+        "B1"
+      ],
+      "tags": [
+        "analog",
+        "pwm"
+      ],
+      "functions": [
+        "ADC1 IN9",
+        "TIM3 CH4",
+        "TIM1 CH3N"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "PB2",
+      "primary": "ctrl",
+      "aliases": [
+        "B2",
+        "BOOT1"
+      ],
+      "functions": [
+        "BOOT1 strap"
+      ],
+      "note": "Boot mode select. Usable as GPIO, but it is sampled at reset."
+    },
+    {
+      "number": 37,
+      "name": "PB10",
+      "primary": "gpio",
+      "aliases": [
+        "B10"
+      ],
+      "tags": [
+        "i2c",
+        "spi",
+        "pwm",
+        "clock"
+      ],
+      "functions": [
+        "I2C2 SCL",
+        "SPI2 SCK",
+        "TIM2 CH3"
+      ]
+    },
+    {
+      "number": 38,
+      "name": "3V3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply"
+      ]
+    },
+    {
+      "number": 39,
+      "name": "G",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "5V",
+      "primary": "power5",
+      "voltage": "5 V",
+      "functions": [
+        "USB VBUS"
+      ],
+      "note": "Unprotected, straight to the connector."
+    }
+  ],
+  "snippets": [
+    {
+      "title": "Blink the on-board LED on PC13",
+      "toolchain": "CMSIS, no HAL",
+      "lang": "c",
+      "code": "#include \"stm32f4xx.h\"\n\n/* F4 is a different GPIO block from the F1. Clock gating moved to\n   AHB1, and the four-bit CRL/CRH scheme is gone. */\nRCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;\n\n/* MODER is 2 bits per pin: 01 = general purpose output. */\nGPIOC->MODER &= ~(3u << (13 * 2));\nGPIOC->MODER |=  (1u << (13 * 2));\n\nGPIOC->OTYPER  &= ~(1u << 13);        /* push-pull */\nGPIOC->OSPEEDR &= ~(3u << (13 * 2));  /* low speed is fine for an LED */\n\nGPIOC->BSRR = GPIO_BSRR_BR13;         /* LED on, active low */\nGPIOC->BSRR = GPIO_BSRR_BS13;         /* LED off */",
+      "gotcha": "Code written for an F1 Blue Pill will not compile here. CRL and CRH do not exist on the F4, the clock enable moved from APB2ENR to AHB1ENR, and MODER is two bits per pin instead of four."
+    }
+  ]
+}

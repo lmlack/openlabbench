@@ -1,69 +1,214 @@
-import Image from "next/image";
+import Link from "next/link";
+import { getBoards, signalCounts } from "@/lib/boards";
+import { getParts } from "@/lib/parts";
+import { LEGEND_ORDER, signal } from "@/lib/signals";
+
+const FEATURED = [
+  "raspberry-pi-40-pin",
+  "esp32-devkit-v1",
+  "stm32f103-blue-pill",
+  "raspberry-pi-pico",
+  "arduino-uno-r3",
+  "mos-6502",
+];
 
 export default function Home() {
+  const boards = getBoards();
+  const parts = getParts();
+  const equivalents = parts.reduce((n, p) => n + p.equivalents.length, 0);
+  const featured = FEATURED.map((slug) => boards.find((b) => b.slug === slug)).filter(
+    (b): b is NonNullable<typeof b> => Boolean(b),
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <div>
+      {/* Hero */}
+      {/* The cover sheet of a technical memorandum: subject line, title, then
+          the figures ruled off in a band the way a report states its scope. */}
+      <section className="relative overflow-hidden border-b-[3px] border-double border-line-strong">
+        <div className="bench-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="relative mx-auto max-w-6xl px-4 py-14 text-center sm:px-6 sm:py-16">
+          <p className="eyebrow">Technical reference</p>
+          <h1 className="mx-auto mt-2 max-w-3xl text-4xl font-normal leading-[1.1] tracking-tight sm:text-4xl">
+            open<b className="font-extrabold">lab</b>bench
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mx-auto mt-3 max-w-xl text-xl font-bold leading-snug text-muted">
+            Pinouts, part equivalents, printable cheat sheets.
           </p>
+
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/pinouts"
+              className="inline-flex h-11 items-center rounded-full bg-solid px-5 text-sm font-medium text-solid-fg transition-opacity hover:opacity-90"
+            >
+              Browse {boards.length} pinouts
+            </Link>
+            <Link
+              href="/cross-reference"
+              className="inline-flex h-11 items-center rounded-full border-[1.5px] border-line-strong bg-panel px-5 text-sm font-medium transition-colors hover:border-fg"
+            >
+              Find a substitute
+            </Link>
+          </div>
+
+          <dl className="mx-auto mt-10 flex max-w-2xl flex-wrap justify-center gap-x-12 gap-y-4 border-y border-line py-4">
+            <Stat value={boards.length} label="pinouts" />
+            <Stat value={parts.length} label="parts" />
+            <Stat value={equivalents} label="substitutions" />
+          </dl>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* What it does */}
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="flex flex-wrap justify-center gap-5">
+          <Feature
+            href="/pinouts"
+            title="Interactive pinouts"
+            body="Hover a signal, every pin carrying it lights up. Click a pin for its aliases, peripheral mappings and the gotcha nobody writes down."
+            accent={signal("i2c").color}
+          />
+          <Feature
+            href="/cross-reference"
+            title="Substitutions, explained"
+            body="An IRF540N is not an IRLZ44N. A BMP280 has no humidity channel. Every swap is graded, and says what changes."
+            accent={signal("spi").color}
+          />
+          <Feature
+            href="/cheat-sheets"
+            title="Vector cheat sheets"
+            body="One printable SVG per board, built from the same data. Sharp at any size, clean in black and white."
+            accent={signal("pwm").color}
+          />
         </div>
-      </main>
+      </section>
+
+      {/* Signal legend */}
+      <section className="border-y border-line bg-panel">
+        <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6">
+          <h2 className="text-lg font-semibold">One color language, everywhere</h2>
+          <p className="mx-auto mt-1.5 max-w-xl text-sm text-muted">
+            One electrical role sets a pin&apos;s color. Bus capabilities stack on top, because a
+            GPIO that is also SPI clock is both.
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {LEGEND_ORDER.map((key) => {
+              const meta = signal(key);
+              return (
+                <span
+                  key={key}
+                  className="sig-chip flex items-center gap-2 rounded-full border-[1.5px] px-3 py-1.5"
+                  style={{ "--sig": meta.color } as React.CSSProperties}
+                  title={meta.hint}
+                >
+                  <span
+                    className="sig-dot size-2 rounded-full"
+                    style={{ "--sig": meta.color } as React.CSSProperties}
+                  />
+                  <span
+                    className="sig-text text-sm"
+                    style={{ "--sig": meta.color } as React.CSSProperties}
+                  >
+                    {meta.label}
+                  </span>
+                  <span className="hidden text-sm text-subtle sm:inline">{meta.hint}</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured boards */}
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="text-center">
+          <h2 className="text-lg font-semibold">Start here</h2>
+          <Link href="/pinouts" className="mt-1 inline-block text-sm text-accent hover:underline">
+            All pinouts →
+          </Link>
+        </div>
+        <ul className="mt-5 flex flex-wrap justify-center gap-3">
+          {featured.map((board) => {
+            const counts = signalCounts(board);
+            return (
+              <li key={board.slug} className="w-full max-w-sm sm:w-[21rem]">
+                <Link
+                  href={`/pinouts/${board.slug}`}
+                  className="group flex h-full flex-col items-center rounded-2xl border border-line bg-panel p-4 text-center transition-colors hover:border-line-strong"
+                >
+                  <div className="flex items-baseline justify-center gap-2">
+                    <h3 className="font-semibold group-hover:text-accent">{board.shortName}</h3>
+                    <span className="shrink-0 text-sm text-subtle">{board.logic}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-subtle">{board.name}</p>
+                  <p className="mt-2 line-clamp-2 text-sm text-muted">{board.summary}</p>
+                  <div className="mt-auto flex flex-wrap justify-center gap-1 pt-3">
+                    {LEGEND_ORDER.filter((k) => counts[k]).map((k) => (
+                      <span
+                        key={k}
+                        className="size-1.5 rounded-full"
+                        style={{ background: signal(k).color }}
+                      />
+                    ))}
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* Contribute */}
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        <div className="rounded-2xl border border-line bg-panel p-6 text-center sm:p-8">
+          <h2 className="text-lg font-semibold">It is all plain JSON</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted">
+            A pinout is one file in <span className="font-mono text-fg">data/boards/</span>. Drop it
+            in, and the page, the search index and the cheat sheet appear on the next build.
+          </p>
+          <Link
+            href="/contribute"
+            className="mt-5 inline-flex h-10 items-center rounded-lg border border-line px-4 text-sm transition-colors hover:border-line-strong"
+          >
+            Read the schema
+          </Link>
+        </div>
+      </section>
     </div>
+  );
+}
+
+function Stat({ value, label }: { value: number; label: string }) {
+  return (
+    <div>
+      <dt className="sr-only">{label}</dt>
+      <dd className="text-center">
+        <span className="block text-xl font-semibold tabular-nums">{value}</span>
+        <span className="mt-0.5 block text-sm text-subtle">{label}</span>
+      </dd>
+    </div>
+  );
+}
+
+function Feature({
+  href,
+  title,
+  body,
+  accent,
+}: {
+  href: string;
+  title: string;
+  body: string;
+  accent: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group w-full max-w-sm rounded-2xl border border-line bg-panel p-5 text-center transition-colors hover:border-line-strong sm:w-[21rem]"
+    >
+      <span className="mx-auto block h-1 w-10 rounded-full" style={{ background: accent }} />
+      <h3 className="mt-4 font-semibold group-hover:text-accent">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{body}</p>
+    </Link>
   );
 }

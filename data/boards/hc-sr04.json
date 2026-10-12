@@ -1,0 +1,120 @@
+{
+  "slug": "hc-sr04",
+  "name": "HC-SR04 Ultrasonic Rangefinder",
+  "shortName": "HC-SR04",
+  "vendor": "Generic",
+  "category": "ic",
+  "summary": "Ping-and-listen distance sensor, 2 cm to 4 m. Four pins, 5 V only, and an echo pin that will happily feed 5 V into a 3.3 V board.",
+  "logic": "5 V",
+  "package": "4-pin 2.54 mm header",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 4,
+    "sideLabels": [
+      "Header, front view",
+      ""
+    ]
+  },
+  "keywords": [
+    "hc-sr04",
+    "hcsr04",
+    "ultrasonic",
+    "rangefinder",
+    "distance sensor",
+    "sonar",
+    "hc-sr04p",
+    "rcwl-1601"
+  ],
+  "notes": [
+    "ECHO drives a 5 V pulse. Into an ESP32, a Pico or any 3.3 V board that needs a divider, two resistors is enough. This is the most common way the sensor kills a GPIO.",
+    "Trigger with a 10 us high pulse, then time how long ECHO stays high. Distance in cm is that time in microseconds divided by 58, because sound makes the round trip twice.",
+    "Below about 2 cm it cannot distinguish the echo from its own transmit burst, so it returns nonsense rather than a small number. Treat anything under the blind zone as invalid.",
+    "It needs a reasonably flat target square to the sensor. Soft, angled or narrow objects scatter the ping and read as out of range.",
+    "If ECHO never goes low because nothing came back, a naive pulseIn blocks. Always use a timeout.",
+    "The HC-SR04P and the RCWL-1601 are pin-compatible and run from 3 to 5.5 V, which removes the level shifting problem entirely. Worth buying instead.",
+    "Readings drift with temperature: the speed of sound changes about 0.17 percent per degree C. Over a 30 degree swing that is a few centimetres at 4 m."
+  ],
+  "docs": [
+    {
+      "label": "HC-SR04 datasheet",
+      "url": "https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "VCC",
+      "primary": "power5",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "5 V",
+      "note": "5 V. The sensor draws a 15 mA burst on each ping.",
+      "side": "left",
+      "row": 1
+    },
+    {
+      "number": 2,
+      "name": "TRIG",
+      "primary": "gpio",
+      "functions": [
+        "Trigger input"
+      ],
+      "note": "10 us high pulse starts a measurement.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "number": 3,
+      "name": "ECHO",
+      "primary": "gpio",
+      "functions": [
+        "Echo output"
+      ],
+      "note": "Outputs 5 V. Divide it down for a 3.3 V board.",
+      "side": "left",
+      "row": 3
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 4
+    }
+  ],
+  "circuit": {
+    "title": "Level shifting the echo",
+    "parts": [
+      {
+        "part": "1 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "MCU",
+        "required": true,
+        "why": "In series with the 5 V echo output, the top half of a divider into a 3.3 V input."
+      },
+      {
+        "part": "2 kOhm",
+        "symbol": "res",
+        "from": "MCU",
+        "to": "GND",
+        "required": true,
+        "why": "The lower half. 5 V across 1k and 2k puts 3.3 V on the junction, which is what the input sees."
+      },
+      {
+        "part": "100 uF",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": false,
+        "why": "Across the supply at the module. Each ping pulls a 15 mA burst and a long thin lead sags under it."
+      }
+    ],
+    "note": "TRIG is an input and tolerates a 3.3 V drive, so only ECHO needs the divider. The module has no 3.3 V variant worth trusting: the ones sold as 3 V parts are usually the same board with a different regulator."
+  }
+}

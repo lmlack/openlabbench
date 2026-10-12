@@ -1,0 +1,639 @@
+{
+  "slug": "beaglebone-black-p9",
+  "name": "BeagleBone Black P9 Header",
+  "shortName": "BBB P9",
+  "vendor": "BeagleBoard.org",
+  "category": "sbc",
+  "summary": "The power, serial, I2C, SPI and analog side of the BeagleBone Black. The seven ADC channels take 1.8 V at most.",
+  "logic": "3.3 V / 1.8 V ADC",
+  "package": "2x23 2.54 mm (P9)",
+  "layout": {
+    "kind": "header",
+    "numbering": "zigzag",
+    "rows": 23,
+    "sideLabels": [
+      "Odd pins",
+      "Even pins"
+    ]
+  },
+  "keywords": [
+    "beaglebone",
+    "beaglebone black",
+    "bbb",
+    "p9",
+    "am335x",
+    "sitara",
+    "pru"
+  ],
+  "notes": [
+    "AIN0 to AIN6 are 1.8 V maximum, not 3.3 V. Putting 3.3 V on an analog pin destroys the ADC, and it is the single most common way to kill a BeagleBone. Divide every input down.",
+    "VADC (pin 32) is the 1.8 V reference and AGND (pin 34) is the analog return. Use those, not a digital GND.",
+    "VDD_5V (pins 5 and 6) is only live when the barrel jack is connected. SYS_5V (pins 7 and 8) is the regulated rail and works on USB power too, so capes should take 5 V from there.",
+    "I2C2 on pins 19 and 20 is the cape EEPROM bus and already has pull-ups. You can hang other devices on it, but address 0x54 to 0x57 are reserved for cape EEPROMs.",
+    "Pins 41 and 42 are each wired to two processor balls. Whichever one you are not using must be set to input, or the two fight each other.",
+    "Signal names here are the power-on defaults. Almost every pin can be muxed to something else through the device tree, which is both the strength and the learning curve of this board.",
+    "GPIO are 3.3 V and not 5 V tolerant. Source or sink 4 to 6 mA per pin, far less than a Pi.",
+    "The other side of this board is the P8 header, documented separately: gwark.dev/openlabbench/pinouts/beaglebone-black-p8"
+  ],
+  "docs": [
+    {
+      "label": "BeagleBone Black system reference manual",
+      "url": "https://docs.beagleboard.org/boards/beaglebone/black/ch07.html"
+    },
+    {
+      "label": "AM335x datasheet (TI)",
+      "url": "https://www.ti.com/product/AM3358"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "DC_3.3V",
+      "primary": "power3",
+      "functions": [
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "note": "250 mA budget across both 3.3 V pins."
+    },
+    {
+      "number": 4,
+      "name": "DC_3.3V",
+      "primary": "power3",
+      "functions": [
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V"
+    },
+    {
+      "number": 5,
+      "name": "VDD_5V",
+      "primary": "vin",
+      "functions": [
+        "Barrel jack 5 V"
+      ],
+      "voltage": "5 V",
+      "note": "Only live when the barrel jack is plugged in, not on USB power. 1 A for capes."
+    },
+    {
+      "number": 6,
+      "name": "VDD_5V",
+      "primary": "vin",
+      "functions": [
+        "Barrel jack 5 V"
+      ],
+      "voltage": "5 V"
+    },
+    {
+      "number": 7,
+      "name": "SYS_5V",
+      "primary": "power5",
+      "functions": [
+        "Regulated system 5 V"
+      ],
+      "voltage": "5 V",
+      "note": "Present on USB power too. This is the one to use for a cape."
+    },
+    {
+      "number": 8,
+      "name": "SYS_5V",
+      "primary": "power5",
+      "functions": [
+        "Regulated system 5 V"
+      ],
+      "voltage": "5 V"
+    },
+    {
+      "number": 9,
+      "name": "PWR_BUT",
+      "primary": "ctrl",
+      "functions": [
+        "Power button"
+      ],
+      "note": "Pull low to request a soft shutdown."
+    },
+    {
+      "number": 10,
+      "name": "SYS_RESETn",
+      "primary": "ctrl",
+      "aliases": [
+        "A10"
+      ],
+      "functions": [
+        "Reset, active low"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "UART4_RXD",
+      "primary": "gpio",
+      "aliases": [
+        "T17",
+        "GPIO0_30"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART4 RXD"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "GPIO1_28",
+      "primary": "gpio",
+      "aliases": [
+        "U18"
+      ],
+      "functions": [
+        "GPIO1_28"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "UART4_TXD",
+      "primary": "gpio",
+      "aliases": [
+        "U17",
+        "GPIO0_31"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART4 TXD"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "EHRPWM1A",
+      "primary": "gpio",
+      "aliases": [
+        "U14",
+        "GPIO1_18"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "eHRPWM1A"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "GPIO1_16",
+      "primary": "gpio",
+      "aliases": [
+        "R13"
+      ],
+      "functions": [
+        "GPIO1_16"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "EHRPWM1B",
+      "primary": "gpio",
+      "aliases": [
+        "T14",
+        "GPIO1_19"
+      ],
+      "tags": [
+        "pwm"
+      ],
+      "functions": [
+        "eHRPWM1B"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "I2C1_SCL",
+      "primary": "gpio",
+      "aliases": [
+        "A16",
+        "GPIO0_5"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SCL"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "I2C1_SDA",
+      "primary": "gpio",
+      "aliases": [
+        "B16",
+        "GPIO0_4"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C1 SDA"
+      ]
+    },
+    {
+      "number": 19,
+      "name": "I2C2_SCL",
+      "primary": "gpio",
+      "aliases": [
+        "D17",
+        "GPIO0_13"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C2 SCL"
+      ],
+      "note": "I2C2 is the cape EEPROM bus and already has pull-ups fitted."
+    },
+    {
+      "number": 20,
+      "name": "I2C2_SDA",
+      "primary": "gpio",
+      "aliases": [
+        "D18",
+        "GPIO0_12"
+      ],
+      "tags": [
+        "i2c"
+      ],
+      "functions": [
+        "I2C2 SDA"
+      ],
+      "note": "Cape EEPROM bus, pull-ups already fitted."
+    },
+    {
+      "number": 21,
+      "name": "UART2_TXD",
+      "primary": "gpio",
+      "aliases": [
+        "B17",
+        "GPIO0_3"
+      ],
+      "tags": [
+        "uart",
+        "spi"
+      ],
+      "functions": [
+        "UART2 TXD",
+        "SPI0 D0"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "UART2_RXD",
+      "primary": "gpio",
+      "aliases": [
+        "A17",
+        "GPIO0_2"
+      ],
+      "tags": [
+        "uart",
+        "spi"
+      ],
+      "functions": [
+        "UART2 RXD",
+        "SPI0 SCLK"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "GPIO1_17",
+      "primary": "gpio",
+      "aliases": [
+        "V14"
+      ],
+      "functions": [
+        "GPIO1_17"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "UART1_TXD",
+      "primary": "gpio",
+      "aliases": [
+        "D15",
+        "GPIO0_15"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART1 TXD"
+      ]
+    },
+    {
+      "number": 25,
+      "name": "GPIO3_21",
+      "primary": "gpio",
+      "aliases": [
+        "A14"
+      ],
+      "functions": [
+        "GPIO3_21"
+      ]
+    },
+    {
+      "number": 26,
+      "name": "UART1_RXD",
+      "primary": "gpio",
+      "aliases": [
+        "D16",
+        "GPIO0_14"
+      ],
+      "tags": [
+        "uart"
+      ],
+      "functions": [
+        "UART1 RXD"
+      ]
+    },
+    {
+      "number": 27,
+      "name": "GPIO3_19",
+      "primary": "gpio",
+      "aliases": [
+        "C13"
+      ],
+      "functions": [
+        "GPIO3_19"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "SPI1_CS0",
+      "primary": "gpio",
+      "aliases": [
+        "C12",
+        "GPIO3_17"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI1 CS0"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "SPI1_D0",
+      "primary": "gpio",
+      "aliases": [
+        "B13",
+        "GPIO3_15"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI1 D0"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "SPI1_D1",
+      "primary": "gpio",
+      "aliases": [
+        "D12",
+        "GPIO3_16"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "SPI1 D1"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "SPI1_SCLK",
+      "primary": "gpio",
+      "aliases": [
+        "A13",
+        "GPIO3_14"
+      ],
+      "tags": [
+        "spi",
+        "clock"
+      ],
+      "functions": [
+        "SPI1 SCLK"
+      ]
+    },
+    {
+      "number": 32,
+      "name": "VADC",
+      "primary": "vcc",
+      "functions": [
+        "ADC reference"
+      ],
+      "voltage": "1.8 V",
+      "note": "1.8 V reference for the analog inputs. Not a rail to power things from."
+    },
+    {
+      "number": 33,
+      "name": "AIN4",
+      "primary": "gpio",
+      "aliases": [
+        "C8"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 4"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 34,
+      "name": "AGND",
+      "primary": "gnd",
+      "functions": [
+        "Analog ground"
+      ],
+      "note": "Return for the ADC. Keep analog returns off the digital GND pins."
+    },
+    {
+      "number": 35,
+      "name": "AIN6",
+      "primary": "gpio",
+      "aliases": [
+        "A8"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 6"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 36,
+      "name": "AIN5",
+      "primary": "gpio",
+      "aliases": [
+        "B8"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 5"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 37,
+      "name": "AIN2",
+      "primary": "gpio",
+      "aliases": [
+        "B7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 2"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 38,
+      "name": "AIN3",
+      "primary": "gpio",
+      "aliases": [
+        "A7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 3"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 39,
+      "name": "AIN0",
+      "primary": "gpio",
+      "aliases": [
+        "B6"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 0"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 40,
+      "name": "AIN1",
+      "primary": "gpio",
+      "aliases": [
+        "C7"
+      ],
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "ADC channel 1"
+      ],
+      "note": "Analog in, 1.8 V MAX. 3.3 V here destroys the ADC. Scale every input."
+    },
+    {
+      "number": 41,
+      "name": "CLKOUT2",
+      "primary": "gpio",
+      "aliases": [
+        "D14",
+        "GPIO3_20",
+        "D13"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "CLKOUT2",
+        "GPIO3_20"
+      ],
+      "note": "Shared between two processor balls, D14 and D13. Set whichever one you are not using to input."
+    },
+    {
+      "number": 42,
+      "name": "GPIO0_7",
+      "primary": "gpio",
+      "aliases": [
+        "C18",
+        "GPIO3_18",
+        "B12"
+      ],
+      "tags": [
+        "pwm",
+        "spi"
+      ],
+      "functions": [
+        "GPIO0_7",
+        "eCAP0 PWM",
+        "SPI1 CS1"
+      ],
+      "note": "Shared between two processor balls, C18 and B12. Set the unused one to input."
+    },
+    {
+      "number": 43,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 44,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 45,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 46,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    }
+  ]
+}

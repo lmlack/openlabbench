@@ -1,0 +1,192 @@
+{
+  "slug": "sn74hc08",
+  "name": "74HC08 Quad AND Gate",
+  "shortName": "74HC08",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Four 2-input AND gates. Same pin arrangement as the 74HC00, so the two get mixed up constantly.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc08",
+    "7408",
+    "quad and",
+    "and gate"
+  ],
+  "notes": [
+    "AND is the gate you want for a simple enable: data on one input, a control line on the other.",
+    "Same pin arrangement as the 74HC00, 74HC32 and 74HC86. The only way to tell them apart on a board is the marking, so check before you assume the logic.",
+    "Unused inputs must be tied high or low. A floating CMOS input oscillates and drags supply current.",
+    "HC inputs need a level near their own rail. Driving a 5 V part from 3.3 V logic wants the HCT version."
+  ],
+  "docs": [
+    {
+      "label": "TI 74HC08 datasheet",
+      "url": "https://www.ti.com/product/SN74HC08"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input A"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 input B"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 1 output (AND)"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input A"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "2B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 input B"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 2 output (AND)"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 output (AND)"
+      ],
+      "note": "Output comes first on this side."
+    },
+    {
+      "number": 9,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input A"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "3B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 3 input B"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 output (AND)"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input A"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "4B",
+      "primary": "gpio",
+      "functions": [
+        "Gate 4 input B"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "One input high turns the gate into a plain buffer for the other. The usual way a spare AND gets used."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "12",
+        "to": "GND",
+        "required": true,
+        "why": "An unused input cannot be left floating: a CMOS input at mid-rail turns both transistors on and the chip heats up."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "13",
+        "to": "GND",
+        "required": true,
+        "why": "The other input of the same unused gate. Tie every one of them, not just one per gate."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Unused inputs are the one thing people skip on a 74HC part and the one thing that produces a warm chip, random outputs and an oscillation nobody can find."
+  }
+}

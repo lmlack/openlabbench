@@ -1,0 +1,193 @@
+{
+  "slug": "sn74hc14",
+  "name": "74HC14 Hex Schmitt Inverter",
+  "shortName": "74HC14",
+  "vendor": "TI / Nexperia / many",
+  "category": "ic",
+  "summary": "Six inverters with hysteresis. The part that turns a mushy signal into a clean edge, debounces a switch with one resistor and one cap, and makes an oscillator out of nothing.",
+  "logic": "2-6 V (HC)",
+  "package": "PDIP-14 / SOIC-14",
+  "keywords": [
+    "74hc14",
+    "7414",
+    "schmitt trigger",
+    "hex inverter",
+    "debounce",
+    "oscillator",
+    "40106"
+  ],
+  "notes": [
+    "Roughly 0.9 V of hysteresis at 5 V: the input has to rise past about 2.9 V to flip one way and fall below about 2.0 V to flip back. That gap is the whole point, and it is why a plain 74HC04 cannot do this job.",
+    "Switch debouncing: switch to ground, 10k pull-up, 100 nF to ground at the input. The cap slews, the hysteresis turns the slew into one clean transition. No code, no timers.",
+    "Relaxation oscillator: a resistor from output back to input and a cap from input to ground. Frequency is roughly 1 / (0.8 x R x C). One chip gives you six.",
+    "It also rescues slow edges from long cables, opto-couplers and photodiodes, all of which produce ramps a normal logic input will chatter on.",
+    "Pin order alternates input then output down the left, and output then input up the right, the same as the 74HC00.",
+    "The CD40106 is the same function in 4000-series CMOS, which runs to 18 V and is handy when the signal swings above 6 V."
+  ],
+  "docs": [
+    {
+      "label": "TI SN74HC14 datasheet",
+      "url": "https://www.ti.com/product/SN74HC14"
+    },
+    {
+      "label": "TI CD40106B (high-voltage version)",
+      "url": "https://www.ti.com/product/CD40106B"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "1A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 1 input"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "1Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 1 output"
+      ]
+    },
+    {
+      "number": 3,
+      "name": "2A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 2 input"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "2Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 2 output"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "3A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 3 input"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "3Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 3 output"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "4Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 4 output"
+      ],
+      "note": "Output first on this side, unlike inverters 1 to 3."
+    },
+    {
+      "number": 9,
+      "name": "4A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 4 input"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "5Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 5 output"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "5A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 5 input"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "6Y",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 6 output"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "6A",
+      "primary": "gpio",
+      "functions": [
+        "Inverter 6 input"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "2-6 V",
+      "note": "Tie unused inputs to a rail. 100 nF at the pin."
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 7,
+    "sideLabels": [
+      "Pins 1-7",
+      "Pins 8-14"
+    ]
+  },
+  "circuit": {
+    "title": "Relaxation oscillator",
+    "parts": [
+      {
+        "part": "100 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "1",
+        "required": true,
+        "why": "Feeds the output back to the input. The capacitor charges through it until the threshold flips the gate."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Sets the period with the resistor, roughly 0.8 x R x C on an HC14."
+      },
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      }
+    ],
+    "note": "Only a Schmitt input does this. The same two parts on a plain 74HC04 produce a sine-ish mess or nothing at all, because there is no hysteresis to snap the transition."
+  }
+}

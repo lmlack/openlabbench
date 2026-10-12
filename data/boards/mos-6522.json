@@ -1,0 +1,444 @@
+{
+  "slug": "mos-6522",
+  "name": "MOS 6522 VIA",
+  "shortName": "6522 VIA",
+  "vendor": "MOS / Rockwell / WDC",
+  "category": "ic",
+  "summary": "Two 8-bit ports, two timers, a shift register and interrupt handling. The chip that turns a bare 6502 into a computer with I/O.",
+  "logic": "5 V",
+  "package": "PDIP-40",
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 20,
+    "sideLabels": [
+      "Pins 1-20",
+      "Pins 21-40"
+    ]
+  },
+  "keywords": [
+    "6522",
+    "via",
+    "versatile interface adapter",
+    "w65c22",
+    "6502",
+    "homebrew computer",
+    "ben eater"
+  ],
+  "notes": [
+    "RS0 to RS3 select one of sixteen registers, so the VIA occupies sixteen addresses. Wire them to CPU A0 to A3 and decode the rest onto CS1 and CS2.",
+    "Both chip selects must be asserted at once, and both should be qualified with PHI2 or the VIA will see bus noise as accesses.",
+    "Timer 1 can free-run and toggle PB7, which gives you a hardware square wave with no CPU involvement. That is the usual source of a system tick or a tone.",
+    "Timer 2 counts pulses on PB6 as well as time, so it doubles as an event counter.",
+    "On the original NMOS 6522, reading Port A returns the pin states rather than the output register, so an output loaded down reads back wrong. Port B reads the register. The CMOS W65C22 fixes this.",
+    "IRQ is open drain. Several VIAs and ACIAs share one interrupt line through a single pull-up, and the handler reads each chip's flag register to find out who shouted.",
+    "The shift register has documented silicon bugs on the NMOS part and is best avoided; bit-bang through the ports instead, or use a W65C22.",
+    "Ben Eater's 6502 build uses this chip, which is why it is back in production and easy to buy."
+  ],
+  "docs": [
+    {
+      "label": "WDC W65C22 datasheet",
+      "url": "https://www.westerndesigncenter.com/wdc/documentation/w65c22.pdf"
+    }
+  ],
+  "pins": [
+    {
+      "number": 1,
+      "name": "VSS",
+      "primary": "gnd",
+      "aliases": [
+        "GND"
+      ],
+      "functions": [
+        "Ground"
+      ]
+    },
+    {
+      "number": 2,
+      "name": "PA0",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 0"
+      ],
+      "note": "Reading Port A on the NMOS part returns the pin, not the output register. A loaded output reads back wrong."
+    },
+    {
+      "number": 3,
+      "name": "PA1",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 1"
+      ]
+    },
+    {
+      "number": 4,
+      "name": "PA2",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 2"
+      ]
+    },
+    {
+      "number": 5,
+      "name": "PA3",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 3"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "PA4",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 4"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "PA5",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 5"
+      ]
+    },
+    {
+      "number": 8,
+      "name": "PA6",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 6"
+      ]
+    },
+    {
+      "number": 9,
+      "name": "PA7",
+      "primary": "gpio",
+      "functions": [
+        "Port A bit 7"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "PB0",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 0"
+      ]
+    },
+    {
+      "number": 11,
+      "name": "PB1",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 1"
+      ]
+    },
+    {
+      "number": 12,
+      "name": "PB2",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 2"
+      ]
+    },
+    {
+      "number": 13,
+      "name": "PB3",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 3"
+      ]
+    },
+    {
+      "number": 14,
+      "name": "PB4",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 4"
+      ]
+    },
+    {
+      "number": 15,
+      "name": "PB5",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 5"
+      ]
+    },
+    {
+      "number": 16,
+      "name": "PB6",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 6"
+      ],
+      "note": "Timer 2 counts falling edges here, so it doubles as an event counter."
+    },
+    {
+      "number": 17,
+      "name": "PB7",
+      "primary": "gpio",
+      "functions": [
+        "Port B bit 7"
+      ],
+      "note": "Timer 1 can toggle PB7 on its own, giving a hardware square wave with no CPU involvement."
+    },
+    {
+      "number": 18,
+      "name": "CB1",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Port B handshake 1"
+      ],
+      "note": "Shift register clock, and an interrupt source."
+    },
+    {
+      "number": 19,
+      "name": "CB2",
+      "primary": "ctrl",
+      "functions": [
+        "Port B handshake 2"
+      ],
+      "note": "Shift register data."
+    },
+    {
+      "number": 20,
+      "name": "VCC",
+      "primary": "vcc",
+      "functions": [
+        "Positive supply"
+      ],
+      "voltage": "5 V",
+      "note": "100 nF at the pin."
+    },
+    {
+      "number": 21,
+      "name": "IRQ",
+      "primary": "gpio",
+      "aliases": [
+        "/IRQ"
+      ],
+      "functions": [
+        "Interrupt request, active low"
+      ],
+      "note": "Open drain, so several VIAs share one line through a pull-up."
+    },
+    {
+      "number": 22,
+      "name": "RW",
+      "primary": "gpio",
+      "aliases": [
+        "R/W"
+      ],
+      "functions": [
+        "Read high, write low"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "CS2",
+      "primary": "ctrl",
+      "aliases": [
+        "/CS2"
+      ],
+      "functions": [
+        "Chip select 2, active low"
+      ]
+    },
+    {
+      "number": 24,
+      "name": "CS1",
+      "primary": "ctrl",
+      "functions": [
+        "Chip select 1, active high"
+      ],
+      "note": "Both selects must be asserted, and both should be qualified with PHI2."
+    },
+    {
+      "number": 25,
+      "name": "PHI2",
+      "primary": "ctrl",
+      "aliases": [
+        "O2",
+        "CLK"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "System clock in"
+      ],
+      "note": "Drive from the CPU phase 2 output. Every bus cycle is timed off this."
+    },
+    {
+      "number": 26,
+      "name": "D7",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 7"
+      ],
+      "note": "The data bus runs D7 down to D0 as the pin numbers rise, same as the 6502."
+    },
+    {
+      "number": 27,
+      "name": "D6",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 6"
+      ]
+    },
+    {
+      "number": 28,
+      "name": "D5",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 5"
+      ]
+    },
+    {
+      "number": 29,
+      "name": "D4",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 4"
+      ]
+    },
+    {
+      "number": 30,
+      "name": "D3",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 3"
+      ]
+    },
+    {
+      "number": 31,
+      "name": "D2",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 2"
+      ]
+    },
+    {
+      "number": 32,
+      "name": "D1",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 1"
+      ]
+    },
+    {
+      "number": 33,
+      "name": "D0",
+      "primary": "gpio",
+      "functions": [
+        "Data bus bit 0"
+      ]
+    },
+    {
+      "number": 34,
+      "name": "RES",
+      "primary": "ctrl",
+      "aliases": [
+        "/RES",
+        "RESET"
+      ],
+      "functions": [
+        "Reset, active low"
+      ],
+      "note": "Clears every register and puts both ports to input."
+    },
+    {
+      "number": 35,
+      "name": "RS3",
+      "primary": "ctrl",
+      "functions": [
+        "Register select bit 3"
+      ]
+    },
+    {
+      "number": 36,
+      "name": "RS2",
+      "primary": "ctrl",
+      "functions": [
+        "Register select bit 2"
+      ]
+    },
+    {
+      "number": 37,
+      "name": "RS1",
+      "primary": "ctrl",
+      "functions": [
+        "Register select bit 1"
+      ]
+    },
+    {
+      "number": 38,
+      "name": "RS0",
+      "primary": "ctrl",
+      "functions": [
+        "Register select bit 0"
+      ],
+      "note": "RS0 to RS3 pick one of sixteen registers. Wire them to CPU A0 to A3."
+    },
+    {
+      "number": 39,
+      "name": "CA2",
+      "primary": "ctrl",
+      "functions": [
+        "Port A handshake 2"
+      ]
+    },
+    {
+      "number": 40,
+      "name": "CA1",
+      "primary": "ctrl",
+      "functions": [
+        "Port A handshake 1"
+      ],
+      "note": "Input only, and an interrupt source."
+    }
+  ],
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "100 nF",
+        "symbol": "cap",
+        "from": "20",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin."
+      },
+      {
+        "part": "3.3 kOhm",
+        "symbol": "res",
+        "from": "21",
+        "to": "VCC",
+        "required": true,
+        "why": "IRQ is open drain so several peripherals can share one line. Nothing pulls it high on its own."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "24",
+        "to": "VCC",
+        "required": false,
+        "why": "Chip select 1 is active high. Tie it only on a bench rig where the VIA is the only device."
+      },
+      {
+        "part": "Wire link",
+        "symbol": "link",
+        "from": "23",
+        "to": "GND",
+        "required": false,
+        "why": "Chip select 2 is active low. In a real system both selects come from address decoding."
+      }
+    ],
+    "note": "RES (34) joins the system reset line, and PHI2 (25) must be the same clock the processor uses: every register access is timed from its falling edge."
+  }
+}
