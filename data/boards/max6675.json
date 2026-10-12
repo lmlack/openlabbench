@@ -1,0 +1,99 @@
+{
+  "slug": "max6675",
+  "name": "MAX6675 Thermocouple Converter",
+  "shortName": "MAX6675",
+  "vendor": "Maxim / Analog Devices",
+  "category": "ic",
+  "summary": "Reads a type-K thermocouple to 1024 C and hands back a 12-bit number over SPI, with cold-junction compensation already done.",
+  "logic": "3-5.5 V",
+  "package": "SO-8",
+  "keywords": [
+    "max6675",
+    "max31855",
+    "thermocouple",
+    "type k",
+    "kiln",
+    "reflow",
+    "cold junction"
+  ],
+  "notes": [
+    "The hot junction reads 0 to 1023.75 C in 0.25 C steps. Below zero it cannot go: the MAX6675 has no negative range at all, which is the usual reason to reach for the MAX31855 instead.",
+    "The cold end, meaning the board the chip is sitting on, has to stay between -20 and +85 C. Compensation works by measuring the chip's own temperature, so putting the chip near the thing you are heating breaks the measurement rather than just the chip.",
+    "T- must be grounded externally. The datasheet says so plainly, and it is the connection people leave out because a thermocouple looks like a floating pair.",
+    "It is read-only SPI: there is no MOSI and nothing to configure. Drop CS low and clock out 16 bits. Bit 2 of that word is the open-thermocouple flag, which reads high when the probe is disconnected, and is worth checking because a missing probe otherwise looks like a plausible temperature.",
+    "Type-K only. The linearization is built for that alloy pair, so a J, T or N probe will read, and will read wrong.",
+    "Conversion takes about 0.2 s. Reading faster than that just returns the same number.",
+    "Pin 8 is not connected. Modules usually bring it out anyway."
+  ],
+  "docs": [
+    {
+      "label": "MAX6675 datasheet",
+      "url": "https://cdn-shop.adafruit.com/datasheets/MAX6675.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": ["Pins 1-4", "Pins 5-8"]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "Supply bypass, called for by name in the datasheet's own pin description. The cold-junction sensor is on this rail."
+      },
+      {
+        "part": "Ground link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "T- has to be grounded externally. Left floating, the input pair has no common-mode reference and the reading wanders."
+      },
+      {
+        "part": "Type-K thermocouple",
+        "symbol": "load",
+        "from": "3",
+        "to": "2",
+        "required": true,
+        "why": "Chromel to T+, alumel to T-. Reverse them and the temperature moves the wrong way as it heats."
+      }
+    ],
+    "note": "Nothing else is needed. CS, SCK and SO go straight to the microcontroller, and the chip has no registers to set up. For long probe leads a 10 nF across T+ and T- is the usual noise fix."
+  },
+  "pins": [
+    { "number": 1, "name": "GND", "primary": "gnd" },
+    {
+      "number": 2,
+      "name": "T-",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "functions": ["Alumel lead"],
+      "note": "Connect to ground externally. This is not optional."
+    },
+    {
+      "number": 3,
+      "name": "T+",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "functions": ["Chromel lead"]
+    },
+    {
+      "number": 4,
+      "name": "VCC",
+      "primary": "vcc",
+      "voltage": "3-5.5 V",
+      "note": "Bypass with 0.1 uF to GND."
+    },
+    { "number": 5, "name": "SCK", "primary": "gpio", "tags": ["spi", "clock"], "functions": ["Serial clock in"] },
+    { "number": 6, "name": "CS", "primary": "gpio", "tags": ["spi"], "aliases": ["/CS"], "functions": ["Chip select, active low"], "note": "Low enables the interface and starts shifting out the latest conversion." },
+    { "number": 7, "name": "SO", "primary": "gpio", "tags": ["spi"], "aliases": ["MISO"], "functions": ["Serial data out"], "note": "Read only. There is no data input." },
+    { "number": 8, "name": "NC", "primary": "nc" }
+  ]
+}
