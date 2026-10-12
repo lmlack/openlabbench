@@ -1,6 +1,6 @@
-import { getBoards } from "./boards";
-import { CATEGORY_LABELS, slugifyPart } from "./labels";
-import { getParts } from "./parts";
+import { getBoards } from "./boards.ts";
+import { CATEGORY_LABELS, slugifyPart } from "./labels.ts";
+import { getParts } from "./parts.ts";
 import type { SearchDoc } from "./search";
 
 const lower = (xs: (string | undefined)[]) =>
@@ -73,4 +73,19 @@ export function buildSearchIndex(): SearchDoc[] {
   }
 
   return docs;
+}
+
+/**
+ * How many documents the index holds, counted without building them.
+ *
+ * The palette shows this before it has fetched the index, so the one number
+ * worth putting in the HTML of every page is the only thing that goes there.
+ */
+export function searchIndexSize(): number {
+  const boards = getBoards();
+  return (
+    boards.length +
+    boards.reduce((n, b) => n + b.pins.length, 0) +
+    getParts().length
+  );
 }

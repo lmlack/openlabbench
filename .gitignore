@@ -42,4 +42,5 @@ next-env.d.ts
 
 # generated from data/ by `npm run data` (runs automatically on build)
 /public/cheatsheets/
+/public/search-index.json
 /data/cheatsheets.json
