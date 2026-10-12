@@ -1,0 +1,100 @@
+{
+  "slug": "teensy-4-1",
+  "name": "Teensy 4.1",
+  "shortName": "Teensy 4.1",
+  "vendor": "PJRC",
+  "category": "mcu-board",
+  "summary": "A 600 MHz Cortex-M7 on a board the size of a stick of gum, with Ethernet pads, an SD socket and more serial ports than most people can use.",
+  "logic": "3.3 V, not 5 V tolerant",
+  "package": "2x24 2.54 mm, 61 x 18 mm",
+  "keywords": [
+    "teensy",
+    "teensy 4.1",
+    "teensy41",
+    "imxrt1062",
+    "pjrc",
+    "cortex-m7",
+    "600 mhz"
+  ],
+  "notes": [
+    "No pin is 5 V tolerant. Not one, including the ones that share a name with a 5 V peripheral. A 5 V sensor output into any of these is a damaged board, so level shift or divide first. This is the single most common way a Teensy dies.",
+    "Vin takes 3.6 to 5.5 V. The on-board regulator will hand back 250 mA at 3.3 V, and that is the budget for everything you hang off it.",
+    "This diagram is the two 24-pin edge rows, which is what a header solders into. Pins 42 to 54 exist too: 42 to 47 are the SD card socket signals, and 48 to 54 are pads on the underside. Several of those are printed twice on PJRC's card because the same signal reaches two places.",
+    "Also on the underside: VBAT for a coin cell that keeps the real-time clock running, pads for the Program and On/Off buttons, a 6-pin Ethernet connection, and footprints for extra flash and PSRAM.",
+    "Pin 13 is the on-board LED as well as SPI SCK. Using hardware SPI makes the LED flicker with traffic, which is a free bus activity indicator and a nuisance in equal measure.",
+    "Every digital pin can raise an interrupt, which is unusual and worth remembering before you go hunting for the special ones.",
+    "Analog pins A0 to A17 are scattered: A0 to A9 sit on the right row around pins 14 to 23, A10 to A13 are on the left among 24 to 27, and A14 to A17 come back on the right at 38 to 41.",
+    "The USB connector is at the top of this diagram. Turn the board over and the left column becomes the right one, which is how most miswiring starts."
+  ],
+  "docs": [
+    {
+      "label": "PJRC Teensy 4.1 product page",
+      "url": "https://www.pjrc.com/store/teensy41.html"
+    },
+    {
+      "label": "PJRC Teensy 4.1 pinout card (front)",
+      "url": "https://www.pjrc.com/teensy/card11a_rev4_web.pdf"
+    },
+    {
+      "label": "PJRC Teensy 4.1 pinout card (back, extra pins)",
+      "url": "https://www.pjrc.com/teensy/card11b_rev4_web.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 24,
+    "sideLabels": ["Left (USB at top)", "Right (USB at top)"]
+  },
+  "pins": [
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "left", "row": 1 },
+    { "name": "0", "primary": "gpio", "aliases": ["RX1", "CRX2", "CS1"], "tags": ["uart", "pwm"], "functions": ["Serial1 RX", "CAN2 RX"], "side": "left", "row": 2 },
+    { "name": "1", "primary": "gpio", "aliases": ["TX1", "CTX2", "MISO1"], "tags": ["uart", "pwm"], "functions": ["Serial1 TX", "CAN2 TX"], "side": "left", "row": 3 },
+    { "name": "2", "primary": "gpio", "aliases": ["OUT2"], "tags": ["pwm"], "functions": ["I2S2 OUT"], "side": "left", "row": 4 },
+    { "name": "3", "primary": "gpio", "aliases": ["LRCLK2"], "tags": ["pwm"], "functions": ["I2S2 LRCLK"], "side": "left", "row": 5 },
+    { "name": "4", "primary": "gpio", "aliases": ["BCLK2"], "tags": ["pwm"], "functions": ["I2S2 BCLK"], "side": "left", "row": 6 },
+    { "name": "5", "primary": "gpio", "aliases": ["IN2"], "tags": ["pwm"], "functions": ["I2S2 IN"], "side": "left", "row": 7 },
+    { "name": "6", "primary": "gpio", "aliases": ["OUT1D"], "tags": ["pwm"], "functions": ["I2S1 OUT1D"], "side": "left", "row": 8 },
+    { "name": "7", "primary": "gpio", "aliases": ["OUT1A", "RX2"], "tags": ["uart", "pwm"], "functions": ["I2S1 OUT1A", "Serial2 RX"], "side": "left", "row": 9 },
+    { "name": "8", "primary": "gpio", "aliases": ["IN1", "TX2"], "tags": ["uart", "pwm"], "functions": ["I2S1 IN", "Serial2 TX"], "side": "left", "row": 10 },
+    { "name": "9", "primary": "gpio", "aliases": ["OUT1C"], "tags": ["pwm"], "functions": ["I2S1 OUT1C"], "side": "left", "row": 11 },
+    { "name": "10", "primary": "gpio", "aliases": ["MQSR", "CS"], "tags": ["spi", "pwm"], "functions": ["SPI chip select", "Medium quality sound right"], "side": "left", "row": 12 },
+    { "name": "11", "primary": "gpio", "aliases": ["MOSI", "CTX1"], "tags": ["spi", "pwm"], "functions": ["SPI MOSI", "CAN1 TX"], "side": "left", "row": 13 },
+    { "name": "12", "primary": "gpio", "aliases": ["MISO", "MQSL"], "tags": ["spi", "pwm"], "functions": ["SPI MISO", "Medium quality sound left"], "side": "left", "row": 14 },
+    { "name": "3.3V", "primary": "power3", "functions": ["3.3 V out, 250 mA max"], "note": "Regulator output. Also the only safe level for any input pin.", "side": "left", "row": 15 },
+    { "name": "24", "primary": "gpio", "aliases": ["A10", "SCL2", "TX6"], "tags": ["analog", "i2c", "uart", "pwm"], "functions": ["ADC 10", "Wire2 SCL", "Serial6 TX"], "side": "left", "row": 16 },
+    { "name": "25", "primary": "gpio", "aliases": ["A11", "SDA2", "RX6"], "tags": ["analog", "i2c", "uart", "pwm"], "functions": ["ADC 11", "Wire2 SDA", "Serial6 RX"], "side": "left", "row": 17 },
+    { "name": "26", "primary": "gpio", "aliases": ["A12", "MOSI1"], "tags": ["analog", "spi"], "functions": ["ADC 12", "SPI1 MOSI"], "side": "left", "row": 18 },
+    { "name": "27", "primary": "gpio", "aliases": ["A13", "SCK1"], "tags": ["analog", "spi", "clock"], "functions": ["ADC 13", "SPI1 SCK"], "side": "left", "row": 19 },
+    { "name": "28", "primary": "gpio", "aliases": ["RX7"], "tags": ["uart", "pwm"], "functions": ["Serial7 RX"], "side": "left", "row": 20 },
+    { "name": "29", "primary": "gpio", "aliases": ["TX7"], "tags": ["uart", "pwm"], "functions": ["Serial7 TX"], "side": "left", "row": 21 },
+    { "name": "30", "primary": "gpio", "aliases": ["CRX3"], "functions": ["CAN3 RX"], "side": "left", "row": 22 },
+    { "name": "31", "primary": "gpio", "aliases": ["CTX3"], "functions": ["CAN3 TX"], "side": "left", "row": 23 },
+    { "name": "32", "primary": "gpio", "aliases": ["OUT1B"], "functions": ["I2S1 OUT1B"], "side": "left", "row": 24 },
+
+    { "name": "Vin", "primary": "vin", "voltage": "3.6-5.5 V", "functions": ["Supply in"], "note": "Feed the board here, or from USB, but cut the VUSB pad before doing both.", "side": "right", "row": 1 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 2 },
+    { "name": "3.3V", "primary": "power3", "functions": ["3.3 V out, 250 mA max"], "side": "right", "row": 3 },
+    { "name": "23", "primary": "gpio", "aliases": ["A9", "CRX1", "MCLK1"], "tags": ["analog", "pwm"], "functions": ["ADC 9", "CAN1 RX", "I2S1 MCLK"], "side": "right", "row": 4 },
+    { "name": "22", "primary": "gpio", "aliases": ["A8", "CTX1"], "tags": ["analog", "pwm"], "functions": ["ADC 8", "CAN1 TX"], "side": "right", "row": 5 },
+    { "name": "21", "primary": "gpio", "aliases": ["A7", "RX5", "BCLK1"], "tags": ["analog", "uart"], "functions": ["ADC 7", "Serial5 RX", "I2S1 BCLK"], "side": "right", "row": 6 },
+    { "name": "20", "primary": "gpio", "aliases": ["A6", "TX5", "LRCLK1"], "tags": ["analog", "uart"], "functions": ["ADC 6", "Serial5 TX", "I2S1 LRCLK"], "side": "right", "row": 7 },
+    { "name": "19", "primary": "gpio", "aliases": ["A5", "SCL"], "tags": ["analog", "i2c", "pwm"], "functions": ["ADC 5", "Wire SCL"], "note": "The default I2C clock. Needs a pull-up; there is none on the board.", "side": "right", "row": 8 },
+    { "name": "18", "primary": "gpio", "aliases": ["A4", "SDA"], "tags": ["analog", "i2c", "pwm"], "functions": ["ADC 4", "Wire SDA"], "note": "The default I2C data line.", "side": "right", "row": 9 },
+    { "name": "17", "primary": "gpio", "aliases": ["A3", "TX4", "SDA1"], "tags": ["analog", "uart", "i2c"], "functions": ["ADC 3", "Serial4 TX", "Wire1 SDA"], "side": "right", "row": 10 },
+    { "name": "16", "primary": "gpio", "aliases": ["A2", "RX4", "SCL1"], "tags": ["analog", "uart", "i2c"], "functions": ["ADC 2", "Serial4 RX", "Wire1 SCL"], "side": "right", "row": 11 },
+    { "name": "15", "primary": "gpio", "aliases": ["A1", "RX3"], "tags": ["analog", "uart", "pwm"], "functions": ["ADC 1", "Serial3 RX", "S/PDIF IN"], "side": "right", "row": 12 },
+    { "name": "14", "primary": "gpio", "aliases": ["A0", "TX3"], "tags": ["analog", "uart", "pwm"], "functions": ["ADC 0", "Serial3 TX", "S/PDIF OUT"], "side": "right", "row": 13 },
+    { "name": "13", "primary": "gpio", "aliases": ["LED", "SCK"], "tags": ["spi", "pwm", "clock"], "functions": ["SPI clock", "On-board LED"], "note": "On-board LED. It blinks with SPI traffic whether you want it to or not.", "side": "right", "row": 14 },
+    { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 15 },
+    { "name": "41", "primary": "gpio", "aliases": ["A17"], "tags": ["analog"], "functions": ["ADC 17"], "side": "right", "row": 16 },
+    { "name": "40", "primary": "gpio", "aliases": ["A16"], "tags": ["analog"], "functions": ["ADC 16"], "side": "right", "row": 17 },
+    { "name": "39", "primary": "gpio", "aliases": ["A15", "MISO1", "OUT1A"], "tags": ["analog", "spi"], "functions": ["ADC 15", "SPI1 MISO", "I2S1 OUT1A"], "side": "right", "row": 18 },
+    { "name": "38", "primary": "gpio", "aliases": ["A14", "CS1", "IN1"], "tags": ["analog", "spi"], "functions": ["ADC 14", "SPI1 chip select", "I2S1 IN"], "side": "right", "row": 19 },
+    { "name": "37", "primary": "gpio", "aliases": ["CS"], "tags": ["spi", "pwm"], "functions": ["SPI chip select"], "side": "right", "row": 20 },
+    { "name": "36", "primary": "gpio", "aliases": ["CS"], "tags": ["spi", "pwm"], "functions": ["SPI chip select"], "side": "right", "row": 21 },
+    { "name": "35", "primary": "gpio", "aliases": ["TX8"], "tags": ["uart"], "functions": ["Serial8 TX"], "side": "right", "row": 22 },
+    { "name": "34", "primary": "gpio", "aliases": ["RX8"], "tags": ["uart"], "functions": ["Serial8 RX"], "side": "right", "row": 23 },
+    { "name": "33", "primary": "gpio", "aliases": ["MCLK2"], "tags": ["pwm"], "functions": ["I2S2 MCLK"], "side": "right", "row": 24 }
+  ]
+}

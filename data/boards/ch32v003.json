@@ -1,0 +1,213 @@
+{
+  "slug": "ch32v003",
+  "name": "CH32V003 RISC-V Microcontroller",
+  "shortName": "CH32V003",
+  "vendor": "WCH",
+  "category": "mcu-chip",
+  "summary": "A 48 MHz RISC-V part that costs about ten cents, runs from 2.7 to 5.5 V and needs one capacitor to start. Programmed over a single wire.",
+  "logic": "2.7-5.5 V",
+  "package": "TSSOP-20 (F4P6)",
+  "keywords": [
+    "ch32v003",
+    "ch32v003f4p6",
+    "risc-v",
+    "wch",
+    "qingke",
+    "ten cent",
+    "attiny85",
+    "rv32ec"
+  ],
+  "notes": [
+    "PD1 is SWIO, the entire debug and programming interface. One wire, no SWCLK. Reassigning it as a GPIO works and costs you the debugger: recovering needs a WCH-LinkE and its unbrick routine, so leave it alone until the firmware is finished.",
+    "PD7 comes up as NRST, not as a GPIO. You can free it in the option bytes, and then you have no reset pin.",
+    "Only four pins are 5 V tolerant: PC1, PC2, PC5 and PC6. Everything else wants to stay inside VDD even though the chip itself runs happily at 5 V. PC7 is not tolerant, which surprises people wiring SPI, because MOSI is and MISO is not.",
+    "PA1 and PA2 double as OSCI and OSCO for an external 24 MHz crystal. The internal RC oscillator is good enough for almost everything, including USART, so most designs keep both as GPIO.",
+    "16 KB of flash and 2 KB of SRAM, with the whole 18-pin I/O set on three partial ports: PA has two pins, PC has eight, PD has eight.",
+    "The core is RV32EC: sixteen registers rather than thirty-two, and no hardware multiply or divide on this part. Code built for a full RV32I target will not run.",
+    "A0 through A7 are ADC channels, not port numbers, and they do not line up with the port pin numbers. A0 is on PA2 and A1 is on PA1, which reads backwards the first time."
+  ],
+  "docs": [
+    {
+      "label": "WCH CH32V003 datasheet (V1.1)",
+      "url": "https://www.wch-ic.com/products/CH32V003.html"
+    },
+    {
+      "label": "ch32v003fun, a minimal toolchain and reference",
+      "url": "https://github.com/cnlohr/ch32v003fun"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 10,
+    "sideLabels": ["Pins 1-10", "Pins 11-20"]
+  },
+  "circuit": {
+    "title": "Minimum circuit to run",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "9",
+        "to": "GND",
+        "required": true,
+        "why": "The whole of WCH's reference power supply circuit. One capacitor across VDD and VSS, close to the pins."
+      },
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "4",
+        "to": "GND",
+        "required": false,
+        "why": "On NRST, for noise immunity. The pull-up is internal, so this is the only external part the reset pin ever needs."
+      }
+    ],
+    "note": "There is no crystal here and no reset resistor. The oscillator is internal, the reset pull-up is internal, and programming is one wire to PD1. This is close to the smallest part count any 32-bit MCU asks for."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "PD4",
+      "primary": "gpio",
+      "tags": ["analog", "uart", "pwm"],
+      "functions": ["ADC A7", "USART CK", "TIM2 CH1/ETR", "Op-amp out"]
+    },
+    {
+      "number": 2,
+      "name": "PD5",
+      "primary": "gpio",
+      "tags": ["analog", "uart"],
+      "functions": ["USART TX", "ADC A5", "TIM2 CH4 (alt)"],
+      "note": "Default USART TX, so this is the pin a serial bootloader or printf lands on."
+    },
+    {
+      "number": 3,
+      "name": "PD6",
+      "primary": "gpio",
+      "tags": ["analog", "uart"],
+      "functions": ["USART RX", "ADC A6", "TIM2 CH3 (alt)"]
+    },
+    {
+      "number": 4,
+      "name": "PD7",
+      "primary": "ctrl",
+      "aliases": ["NRST"],
+      "functions": ["Reset, active low", "TIM2 CH4", "Op-amp in+"],
+      "note": "Reset after power-up. Becomes a GPIO only if you change the option bytes, and then nothing resets the chip but power."
+    },
+    {
+      "number": 5,
+      "name": "PA1",
+      "primary": "gpio",
+      "tags": ["analog", "pwm", "clock"],
+      "functions": ["ADC A1", "TIM1 CH2", "OSCI", "Op-amp in-"],
+      "note": "Crystal input if you fit one. ADC channel 1, not 0."
+    },
+    {
+      "number": 6,
+      "name": "PA2",
+      "primary": "gpio",
+      "tags": ["analog", "pwm", "clock"],
+      "functions": ["ADC A0", "TIM1 CH2N", "OSCO", "Op-amp in+"],
+      "note": "Crystal output if you fit one. ADC channel 0."
+    },
+    { "number": 7, "name": "VSS", "primary": "gnd", "aliases": ["GND"] },
+    {
+      "number": 8,
+      "name": "PD0",
+      "primary": "gpio",
+      "tags": ["pwm"],
+      "functions": ["TIM1 CH1N", "I2C SDA (alt)", "USART TX (alt)", "Op-amp in-"]
+    },
+    {
+      "number": 9,
+      "name": "VDD",
+      "primary": "vcc",
+      "voltage": "2.7-5.5 V"
+    },
+    {
+      "number": 10,
+      "name": "PC0",
+      "primary": "gpio",
+      "tags": ["pwm", "spi"],
+      "functions": ["TIM2 CH3", "SPI NSS (alt)", "TIM1 CH3 (alt)"]
+    },
+    {
+      "number": 11,
+      "name": "PC1",
+      "primary": "gpio",
+      "tags": ["i2c", "spi"],
+      "functions": ["I2C SDA", "SPI NSS", "TIM2 CH1/ETR (alt)"],
+      "voltage": "5 V tolerant"
+    },
+    {
+      "number": 12,
+      "name": "PC2",
+      "primary": "gpio",
+      "tags": ["i2c", "uart"],
+      "functions": ["I2C SCL", "USART RTS", "TIM1 BKIN"],
+      "voltage": "5 V tolerant"
+    },
+    {
+      "number": 13,
+      "name": "PC3",
+      "primary": "gpio",
+      "tags": ["pwm"],
+      "functions": ["TIM1 CH3", "TIM1 CH1N (alt)", "USART CTS (alt)"]
+    },
+    {
+      "number": 14,
+      "name": "PC4",
+      "primary": "gpio",
+      "tags": ["analog", "pwm", "clock"],
+      "functions": ["TIM1 CH4", "MCO", "ADC A2"],
+      "note": "MCO can output the system clock, which is the easy way to prove the PLL is doing what you think."
+    },
+    {
+      "number": 15,
+      "name": "PC5",
+      "primary": "gpio",
+      "tags": ["spi"],
+      "functions": ["SPI SCK", "TIM1 ETR", "I2C SCL (alt)"],
+      "voltage": "5 V tolerant"
+    },
+    {
+      "number": 16,
+      "name": "PC6",
+      "primary": "gpio",
+      "tags": ["spi"],
+      "functions": ["SPI MOSI", "I2C SDA (alt)"],
+      "voltage": "5 V tolerant"
+    },
+    {
+      "number": 17,
+      "name": "PC7",
+      "primary": "gpio",
+      "tags": ["spi"],
+      "functions": ["SPI MISO", "TIM1 CH2 (alt)", "USART RTS (alt)"],
+      "note": "Not 5 V tolerant, unlike the other three SPI pins."
+    },
+    {
+      "number": 18,
+      "name": "PD1",
+      "primary": "ctrl",
+      "aliases": ["SWIO"],
+      "functions": ["Single-wire debug", "TIM1 CH3N", "ADC ext trigger"],
+      "note": "The programming pin. Keep a header on it."
+    },
+    {
+      "number": 19,
+      "name": "PD2",
+      "primary": "gpio",
+      "tags": ["analog", "pwm"],
+      "functions": ["TIM1 CH1", "ADC A3", "TIM2 CH3 (alt)"]
+    },
+    {
+      "number": 20,
+      "name": "PD3",
+      "primary": "gpio",
+      "tags": ["analog", "pwm", "uart"],
+      "functions": ["ADC A4", "TIM2 CH2", "USART CTS", "ADC ext trigger"]
+    }
+  ]
+}

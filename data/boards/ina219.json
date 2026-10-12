@@ -1,0 +1,162 @@
+{
+  "slug": "ina219",
+  "name": "INA219 Current and Power Monitor",
+  "shortName": "INA219",
+  "vendor": "Texas Instruments",
+  "category": "ic",
+  "summary": "Measures current and voltage on a rail up to 26 V and reports both over I2C, while running from 3.3 V itself. The part behind most USB power meters.",
+  "logic": "3-5.5 V supply, senses up to 26 V",
+  "package": "SOIC-8 (D) shown; SOT-23-8 (DCN) differs",
+  "keywords": [
+    "ina219",
+    "ina226",
+    "current sensor",
+    "power monitor",
+    "high side",
+    "shunt",
+    "acs712",
+    "coulomb counter"
+  ],
+  "notes": [
+    "The two packages are not the same pinout. This diagram is the SOIC-8. On the SOT-23-8 the order is 1 IN+, 2 IN-, 3 GND, 4 VS, 5 SCL, 6 SDA, 7 A0, 8 A1, which is close to reversed. Check which package you have before probing.",
+    "It is a high-side sensor: IN+ and IN- sit at up to 26 V common mode while the chip itself runs from 3 to 5.5 V. That is the whole point of the part, and it is why the shunt goes in the positive rail rather than the ground return.",
+    "The current and power registers read zero until you write the calibration register. Nothing is broken, and the shunt and bus voltage registers work the whole time, which is what makes this confusing. Calibration is also what sets the current LSB.",
+    "Full-scale shunt voltage is +/-40 mV with the PGA at /1 and +/-320 mV at /8. Bus voltage has two ranges, 16 V and 32 V. Picking the smallest range that fits buys you resolution.",
+    "A0 and A1 each go to GND, VS, SDA or SCL, not just to a rail, which is how eight address pins' worth of range comes out of two: 16 addresses, 0x40 to 0x4F.",
+    "Breakout boards almost always carry a 0.1 ohm shunt, which hits full scale at 3.2 A. For more current you replace the resistor and recalculate, and for much less you want a larger one or the shunt voltage disappears into the noise.",
+    "The INA226 is the same idea with 16-bit resolution and an alert pin. Not a drop-in: different pinout and a different register map."
+  ],
+  "docs": [
+    {
+      "label": "TI INA219 datasheet",
+      "url": "https://www.ti.com/lit/ds/symlink/ina219.pdf"
+    },
+    {
+      "label": "Adafruit INA219 breakout guide",
+      "url": "https://learn.adafruit.com/adafruit-ina219-current-sensor-breakout"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": ["Pins 1-4", "Pins 5-8"]
+  },
+  "circuit": {
+    "title": "Minimum high-side sensing circuit",
+    "parts": [
+      {
+        "part": "0.1 ohm 1% shunt",
+        "symbol": "res",
+        "from": "8",
+        "to": "7",
+        "required": true,
+        "why": "The sense element. Everything is derived from the voltage across it, so its tolerance is your accuracy floor."
+      },
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin. The ADC samples against this rail, so noise on it lands in your readings."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SDA. The bus is open drain and cannot pull itself high."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "4",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SCL. One pair per bus, not per device."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "A1 to ground. Both address pins must be tied somewhere; floating gives an address that moves."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "A0 to ground, which with A1 gives address 0x40."
+      }
+    ],
+    "note": "The shunt goes in the positive rail between the supply and the load, with IN+ toward the supply. Bus voltage is measured from IN- to ground, so IN- is the load side."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "A1",
+      "primary": "ctrl",
+      "functions": ["Address bit 1"],
+      "note": "To GND, VS, SDA or SCL. Four states, not two."
+    },
+    {
+      "number": 2,
+      "name": "A0",
+      "primary": "ctrl",
+      "functions": ["Address bit 0"],
+      "note": "Both pins to GND gives 0x40."
+    },
+    {
+      "number": 3,
+      "name": "SDA",
+      "primary": "gpio",
+      "tags": ["i2c"],
+      "functions": ["I2C data"],
+      "note": "Open drain. Needs a pull-up."
+    },
+    {
+      "number": 4,
+      "name": "SCL",
+      "primary": "gpio",
+      "tags": ["i2c"],
+      "functions": ["I2C clock"],
+      "note": "Open drain. Fast mode to 400 kHz, high speed to 2.56 MHz."
+    },
+    {
+      "number": 5,
+      "name": "VS",
+      "primary": "vcc",
+      "aliases": ["VCC", "VDD"],
+      "voltage": "3-5.5 V",
+      "note": "Powers the chip only. It does not limit what the sensed rail may be."
+    },
+    {
+      "number": 6,
+      "name": "GND",
+      "primary": "gnd"
+    },
+    {
+      "number": 7,
+      "name": "IN-",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "aliases": ["VIN-"],
+      "functions": ["Shunt negative", "Bus voltage sense"],
+      "note": "Load side of the shunt. Bus voltage is measured from here to ground, so this is the node whose voltage you get."
+    },
+    {
+      "number": 8,
+      "name": "IN+",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "aliases": ["VIN+"],
+      "functions": ["Shunt positive"],
+      "note": "Supply side of the shunt. Common mode up to 26 V, whatever VS is."
+    }
+  ]
+}
