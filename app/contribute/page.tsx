@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getBoards } from "@/lib/boards";
-import { editCrossRefUrl, hasRepo, newBoardUrl, repoUrl } from "@/lib/repo";
+import { contributingUrl, editCrossRefUrl, hasRepo, newBoardUrl, repoUrl } from "@/lib/repo";
 import { LEGEND_ORDER, PRIMARY_ROLES, SIGNAL_TAGS, signal } from "@/lib/signals";
 
 export const metadata: Metadata = {
@@ -76,12 +76,19 @@ export default function ContributePage() {
               <a href={repoUrl()!} className="text-accent hover:underline">
                 Browse the repo
               </a>
+              <a href={contributingUrl()!} className="text-accent hover:underline">
+                Contributing guide
+              </a>
             </p>
             <p>Every board page also links to its own file at the bottom.</p>
           </>
         ) : (
+          /* This fires when NEXT_PUBLIC_REPO is unset at build time, which is a
+             build setting, not a statement about any repository. Say that, so a
+             self-hosted copy is not told something false about its own repo. */
           <p>
-            The repo is not public yet. Once it is, every board page gets an edit link.
+            This build has no repository configured, so the edit links are hidden rather
+            than pointing nowhere. Everything below still describes the data exactly.
           </p>
         )}
         <p>
