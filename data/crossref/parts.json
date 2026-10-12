@@ -635,6 +635,7 @@
   {
     "part": "BME280",
     "category": "sensor",
+    "pinout": "bme280",
     "summary": "Pressure, temperature and humidity sensor with I2C and SPI.",
     "specs": {
       "Measures": "P, T, RH",
@@ -800,6 +801,7 @@
   {
     "part": "DHT22",
     "category": "sensor",
+    "pinout": "dht22",
     "summary": "Single-wire temperature and humidity sensor.",
     "specs": {
       "Measures": "T, RH",
@@ -834,6 +836,48 @@
         "part": "DS18B20",
         "confidence": "not-drop-in",
         "notes": "Temperature only, but a real 1-Wire bus with addressable devices, so dozens share one pin. The right answer when you never needed humidity."
+      }
+    ]
+  },
+  {
+    "part": "DS18B20",
+    "category": "sensor",
+    "pinout": "ds18b20",
+    "summary": "Digital thermometer on a shared 1-Wire bus, each with a unique 64-bit address.",
+    "specs": {
+      "Supply": "3-5.5 V",
+      "Range": "-55 to +125 C",
+      "Accuracy": "+/-0.5 C from -10 to +85",
+      "Resolution": "9 to 12-bit",
+      "Package": "TO-92, SO-8"
+    },
+    "keywords": [
+      "ds18b20",
+      "1-wire",
+      "onewire",
+      "temperature",
+      "waterproof probe"
+    ],
+    "equivalents": [
+      {
+        "part": "DS18S20",
+        "confidence": "not-drop-in",
+        "notes": "Same bus and same pinout, different scratchpad: fixed 9-bit resolution with a different extended-resolution trick, and the temperature register is scaled differently. Code that assumes a DS18B20 reads it at half the right value. The family code in the ROM tells them apart, 0x28 against 0x10."
+      },
+      {
+        "part": "MAX31820",
+        "confidence": "caveats",
+        "notes": "Electrically the same part restricted to 3.0-3.7 V. On a 3.3 V system it is a straight swap; on 5 V it is out of spec."
+      },
+      {
+        "part": "LM35 / TMP36",
+        "confidence": "not-drop-in",
+        "notes": "Analog, one ADC pin each, no bus and no addressing. Cheaper and instant, but the accuracy is then your ADC's and your reference's problem. TMP36 reads below zero; LM35 needs a negative rail to."
+      },
+      {
+        "part": "SHT31 / AHT20",
+        "confidence": "not-drop-in",
+        "notes": "I2C parts that measure humidity as well, and read temperature more accurately. They cannot share one wire across a long cable the way a string of DS18B20s can, which is the whole reason this part is still used."
       }
     ]
   },
@@ -997,6 +1041,48 @@
         "part": "RTL8710 / BL602",
         "confidence": "not-drop-in",
         "notes": "Cheaper WiFi SoCs that appear in commodity smart plugs. Toolchains and community support are a long way behind Espressif's."
+      }
+    ]
+  },
+  {
+    "part": "HX711",
+    "category": "sensor",
+    "pinout": "hx711",
+    "summary": "24-bit bridge ADC for load cells, with the gain and reference built in.",
+    "specs": {
+      "Supply": "2.6-5.5 V",
+      "Resolution": "24-bit",
+      "Gain": "128, 64 (ch A), 32 (ch B)",
+      "Rate": "10 or 80 SPS",
+      "Package": "SOP-16"
+    },
+    "keywords": [
+      "hx711",
+      "load cell",
+      "strain gauge",
+      "scale",
+      "weigh"
+    ],
+    "equivalents": [
+      {
+        "part": "NAU7802",
+        "confidence": "not-drop-in",
+        "notes": "The same job over I2C instead of a hand-clocked line, with a real register map, an internal regulator for the bridge and 320 SPS. Different pinout entirely. It is the better part; the HX711 wins on price and on how much example code exists."
+      },
+      {
+        "part": "ADS1232 / ADS1231",
+        "confidence": "not-drop-in",
+        "notes": "TI's answer, quieter and with proper differential multiplexing, at several times the price. Different pinout and a different serial scheme."
+      },
+      {
+        "part": "INA125",
+        "confidence": "not-drop-in",
+        "notes": "An instrumentation amplifier with a bridge excitation reference, not a converter. You bring your own ADC. Worth it when you already have a good ADC and want the gain analog."
+      },
+      {
+        "part": "HX710B",
+        "confidence": "caveats",
+        "notes": "Same package and same clock-it-yourself interface, sold for pressure modules. Fixed gain of 128 on one channel, so the 26 and 27 pulse counts that pick channel B or gain 64 do nothing."
       }
     ]
   },
@@ -1211,6 +1297,48 @@
       }
     ],
     "pinout": "max485"
+  },
+  {
+    "part": "MAX6675",
+    "category": "sensor",
+    "pinout": "max6675",
+    "summary": "Type-K thermocouple to 12-bit SPI, with cold-junction compensation.",
+    "specs": {
+      "Supply": "3-5.5 V",
+      "Range": "0 to 1023.75 C",
+      "Resolution": "12-bit, 0.25 C",
+      "Type": "K only",
+      "Package": "SO-8"
+    },
+    "keywords": [
+      "max6675",
+      "thermocouple",
+      "type k",
+      "kiln",
+      "reflow"
+    ],
+    "equivalents": [
+      {
+        "part": "MAX31855",
+        "confidence": "caveats",
+        "notes": "Every pin is in the same place, and one of them wants the opposite wiring: the MAX6675 says T- must be grounded externally, the MAX31855 says do not connect T- to GND. It is also 3.0-3.6 V where the MAX6675 takes 5 V, and it returns a 32-bit word instead of 16. Reads below 0 C, down to -270, and comes in J, N, T, S, R and E versions. A better part that will quietly misbehave if you treat the socket as identical."
+      },
+      {
+        "part": "MAX31856",
+        "confidence": "not-drop-in",
+        "notes": "All eight thermocouple types with software selection, 19-bit, and proper open and short detection. Different pinout and it needs configuring, where the MAX6675 needs nothing."
+      },
+      {
+        "part": "AD8495",
+        "confidence": "not-drop-in",
+        "notes": "Analog type-K amplifier: 5 mV per degree straight into an ADC pin, no SPI. Simpler to wire and only as good as the ADC and reference you feed it."
+      },
+      {
+        "part": "PT100 + MAX31865",
+        "confidence": "not-drop-in",
+        "notes": "A different sensor entirely. An RTD is far more accurate and stable below 500 C, and cannot reach the temperatures a type-K probe handles."
+      }
+    ]
   },
   {
     "part": "MAX7219",

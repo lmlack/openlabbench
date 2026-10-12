@@ -1,0 +1,277 @@
+{
+  "slug": "hx711",
+  "name": "HX711 Load Cell Amplifier",
+  "shortName": "HX711",
+  "vendor": "Avia Semiconductor",
+  "category": "ic",
+  "summary": "A 24-bit ADC built for bridge sensors, with the gain and the reference already inside. What turns four strain gauge wires into a weight.",
+  "logic": "2.6-5.5 V",
+  "package": "SOP-16",
+  "keywords": [
+    "hx711",
+    "load cell",
+    "strain gauge",
+    "scale",
+    "weigh",
+    "wheatstone",
+    "ads1232",
+    "nau7802"
+  ],
+  "notes": [
+    "There is no I2C or SPI here. You clock DOUT out by hand on PD_SCK, and the number of pulses you send selects what the next conversion does: 25 pulses means channel A at gain 128, 26 means channel B at gain 32, and 27 means channel A at gain 64. Sending the wrong count silently changes channel.",
+    "Holding PD_SCK high for more than 60 us powers the chip down. That is the same pin you clock with, so a stalled or interrupted read puts the chip to sleep rather than hanging it.",
+    "Channel A is the one for a load cell: gain 128 or 64, programmable. Channel B is fixed at gain 32 and is meant for something coarser, like a battery monitor.",
+    "Full-scale differential input is only +/-0.5 x AVDD / gain, so at 5 V and gain 128 that is about +/-20 mV. A load cell's output is in that range, which is exactly the point, and anything larger clips immediately.",
+    "The inputs have to sit between AGND + 1.2 V and AVDD - 1.3 V. A bridge excited from the full rail puts its outputs near mid-supply, which is comfortably inside that, but a single-ended sensor referenced to ground is not.",
+    "RATE picks 10 Hz or 80 Hz. 10 Hz is the quieter one and is what most modules hardwire. 80 Hz costs you roughly a bit and a half of noise-free resolution.",
+    "XI low selects the on-chip oscillator, which is what you want unless you are feeding it a crystal. BASE and XO are left unconnected when the on-board regulator and the crystal are unused.",
+    "The 24 bits are real but the useful ones are fewer. Load cell work lives or dies on mechanical mounting and temperature, not on the ADC."
+  ],
+  "docs": [
+    {
+      "label": "HX711 datasheet (Avia Semiconductor)",
+      "url": "https://cdn.sparkfun.com/datasheets/Sensors/ForceFlex/hx711_english.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 8,
+    "sideLabels": [
+      "Pins 1-8",
+      "Pins 9-16"
+    ]
+  },
+  "circuit": {
+    "title": "Minimum circuit with the internal oscillator",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "3",
+        "to": "GND",
+        "required": true,
+        "why": "Analog supply decoupling. This rail excites the bridge and sets the reference, so noise on it lands directly in the reading."
+      },
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "16",
+        "to": "GND",
+        "required": true,
+        "why": "Digital supply decoupling, kept separate from the analog side so clocking does not modulate the measurement."
+      },
+      {
+        "part": "Feedback link",
+        "symbol": "link",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "VFB goes to AGND when the on-chip regulator is unused, which the datasheet states outright. Floating, the regulator control loop has no input."
+      },
+      {
+        "part": "Oscillator link",
+        "symbol": "link",
+        "from": "14",
+        "to": "GND",
+        "required": true,
+        "why": "XI low selects the internal oscillator. Only tie it high or drive it if you are supplying a clock."
+      },
+      {
+        "part": "Rate link",
+        "symbol": "link",
+        "from": "15",
+        "to": "GND",
+        "required": true,
+        "why": "RATE low gives 10 samples per second, the quieter of the two. High gives 80."
+      },
+      {
+        "part": "Load cell bridge",
+        "symbol": "load",
+        "from": "8",
+        "to": "7",
+        "required": true,
+        "why": "The sensor itself, across channel A. Its two output wires go here, and its excitation pair goes to AVDD and AGND."
+      }
+    ],
+    "note": "BASE and XO are left unconnected when the on-board regulator and crystal are unused. The bridge is excited from AVDD and AGND, which is why the reference tracks the excitation and the reading does not drift when the supply does."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "VSUP",
+      "primary": "vin",
+      "voltage": "2.7-5.5 V",
+      "functions": [
+        "Regulator supply"
+      ],
+      "note": "Feeds the optional on-chip regulator, not the chip's own logic."
+    },
+    {
+      "number": 2,
+      "name": "BASE",
+      "primary": "ctrl",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Regulator control out"
+      ],
+      "note": "Leave unconnected when the regulator is unused."
+    },
+    {
+      "number": 3,
+      "name": "AVDD",
+      "primary": "vcc",
+      "voltage": "2.6-5.5 V",
+      "functions": [
+        "Analog supply"
+      ],
+      "note": "Also the bridge excitation and the reference. Everything measured is a ratio of this."
+    },
+    {
+      "number": 4,
+      "name": "VFB",
+      "primary": "ctrl",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Regulator control in"
+      ],
+      "note": "To AGND when the regulator is unused."
+    },
+    {
+      "number": 5,
+      "name": "AGND",
+      "primary": "gnd",
+      "functions": [
+        "Analog ground"
+      ]
+    },
+    {
+      "number": 6,
+      "name": "VBG",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Reference bypass out"
+      ]
+    },
+    {
+      "number": 7,
+      "name": "INA-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel A negative"
+      ],
+      "note": "Must stay between AGND + 1.2 V and AVDD - 1.3 V."
+    },
+    {
+      "number": 8,
+      "name": "INA+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel A positive"
+      ],
+      "note": "The load cell channel. Gain 128 or 64."
+    },
+    {
+      "number": 9,
+      "name": "INB-",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel B negative"
+      ]
+    },
+    {
+      "number": 10,
+      "name": "INB+",
+      "primary": "gpio",
+      "tags": [
+        "analog"
+      ],
+      "functions": [
+        "Channel B positive"
+      ],
+      "note": "Fixed gain of 32. Meant for something coarser than a load cell."
+    },
+    {
+      "number": 11,
+      "name": "PD_SCK",
+      "primary": "gpio",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Serial clock in",
+        "Power down"
+      ],
+      "note": "Clock it 25, 26 or 27 times to pick the next channel and gain. Held high over 60 us, it powers the chip down."
+    },
+    {
+      "number": 12,
+      "name": "DOUT",
+      "primary": "gpio",
+      "functions": [
+        "Serial data out"
+      ],
+      "note": "Goes low when a conversion is ready, which is how you poll it."
+    },
+    {
+      "number": 13,
+      "name": "XO",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal out"
+      ],
+      "note": "Leave unconnected when no crystal is fitted."
+    },
+    {
+      "number": 14,
+      "name": "XI",
+      "primary": "ctrl",
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "Crystal in",
+        "External clock in"
+      ],
+      "note": "Low selects the on-chip oscillator."
+    },
+    {
+      "number": 15,
+      "name": "RATE",
+      "primary": "ctrl",
+      "functions": [
+        "Output rate select"
+      ],
+      "note": "Low is 10 Hz, high is 80 Hz."
+    },
+    {
+      "number": 16,
+      "name": "DVDD",
+      "primary": "vcc",
+      "voltage": "2.6-5.5 V",
+      "functions": [
+        "Digital supply"
+      ],
+      "note": "Sets the logic level of DOUT, so match it to the microcontroller."
+    }
+  ]
+}

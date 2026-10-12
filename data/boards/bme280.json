@@ -1,0 +1,149 @@
+{
+  "slug": "bme280",
+  "name": "BME280 Humidity, Pressure and Temperature Sensor",
+  "shortName": "BME280",
+  "vendor": "Bosch Sensortec",
+  "category": "ic",
+  "summary": "Three environmental measurements in a grain of rice, over I2C or SPI. Accurate enough on pressure to tell which floor of a building you are on.",
+  "logic": "1.71-3.6 V",
+  "package": "LGA-8, 2.5 x 2.5 mm",
+  "keywords": [
+    "bme280",
+    "bmp280",
+    "bme680",
+    "humidity",
+    "barometer",
+    "pressure",
+    "altimeter",
+    "bosch"
+  ],
+  "notes": [
+    "The BMP280 is the same part without humidity, in the same package with the same pinout and nearly the same register map. They are routinely sold as each other. Read the chip ID register: 0x60 is a BME280, 0x58 is a BMP280.",
+    "VDD and VDDIO are separate supplies on purpose. VDDIO sets the logic level, so the sensor can run its analog side at 1.8 V and still talk to a 3.3 V bus. Modules usually tie them together behind a regulator.",
+    "It is not 5 V tolerant on any pin. A bare chip wired to an Uno is a dead chip; the breakout boards that survive it have a regulator and a level shifter doing the work.",
+    "CSB picks the interface, and it is sampled rather than strapped: tie it to VDDIO for I2C, or drive it as chip select for SPI. Left floating it will not reliably be either.",
+    "SDO is the address bit in I2C mode. Low gives 0x76 and high gives 0x77, and it must be driven, not left open. Two sensors on one bus is the most this part will do.",
+    "The temperature reading is the die's own, and the die sits next to a thing you are powering. Forced mode, one reading at a time with the chip asleep in between, reports ambient. Continuous mode at a high rate reports the chip warming itself up, usually by a degree or two.",
+    "Pressure comes out in Pa with a 20-bit resolution, and the compensation routine in the datasheet is not optional: the raw value is meaningless without the per-chip calibration coefficients read out of registers 0x88 onward.",
+    "The pin table here is the chip's own, as numbered by Bosch. The real package is a square LGA with pads on all four sides, so these are the datasheet's numbers rather than a shape you can read off the part."
+  ],
+  "docs": [
+    {
+      "label": "Bosch BME280 datasheet",
+      "url": "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": ["Pins 1-4", "Pins 5-8"]
+  },
+  "circuit": {
+    "title": "Minimum circuit on I2C",
+    "parts": [
+      {
+        "part": "100 nF ceramic",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Analog supply decoupling. The pressure reading is a 20-bit measurement against this rail."
+      },
+      {
+        "part": "100 nF ceramic",
+        "symbol": "cap",
+        "from": "6",
+        "to": "GND",
+        "required": true,
+        "why": "Interface supply decoupling. VDDIO is a separate rail and needs its own capacitor."
+      },
+      {
+        "part": "Interface link",
+        "symbol": "link",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "CSB to VDDIO selects I2C. For SPI this pin becomes chip select instead, driven by the controller."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "SDO low sets the address to 0x76. High gives 0x77. It has to be driven either way."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "3",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SDA, which is the SDI pin in I2C mode."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "4",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SCL, which is the SCK pin in I2C mode. One pair per bus."
+      }
+    ],
+    "note": "Both ground pins must be connected. For SPI, leave the pull-ups off and treat SDI as MOSI, SDO as MISO, SCK as clock and CSB as chip select."
+  },
+  "pins": [
+    { "number": 1, "name": "GND", "primary": "gnd", "functions": ["Ground"] },
+    {
+      "number": 2,
+      "name": "CSB",
+      "primary": "ctrl",
+      "tags": ["spi"],
+      "functions": ["Chip select", "Interface select"],
+      "note": "To VDDIO for I2C. Driven low as chip select for SPI."
+    },
+    {
+      "number": 3,
+      "name": "SDI",
+      "primary": "gpio",
+      "tags": ["i2c", "spi"],
+      "aliases": ["SDA", "MOSI"],
+      "functions": ["Serial data in", "I2C SDA"]
+    },
+    {
+      "number": 4,
+      "name": "SCK",
+      "primary": "gpio",
+      "tags": ["i2c", "spi", "clock"],
+      "aliases": ["SCL"],
+      "functions": ["Serial clock in", "I2C SCL"]
+    },
+    {
+      "number": 5,
+      "name": "SDO",
+      "primary": "gpio",
+      "tags": ["i2c", "spi"],
+      "aliases": ["MISO"],
+      "functions": ["Serial data out", "I2C address bit"],
+      "note": "Low is 0x76, high is 0x77. Not connected in 3-wire SPI."
+    },
+    {
+      "number": 6,
+      "name": "VDDIO",
+      "primary": "vcc",
+      "voltage": "1.2-3.6 V",
+      "functions": ["Interface supply"],
+      "note": "Sets the logic level, independently of VDD."
+    },
+    { "number": 7, "name": "GND", "primary": "gnd", "functions": ["Ground"], "note": "Both ground pins have to be connected." },
+    {
+      "number": 8,
+      "name": "VDD",
+      "primary": "vcc",
+      "voltage": "1.71-3.6 V",
+      "functions": ["Analog supply"],
+      "note": "Not 5 V tolerant. Nothing on this part is."
+    }
+  ]
+}

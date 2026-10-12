@@ -1,0 +1,100 @@
+{
+  "slug": "dht22",
+  "name": "DHT22 / AM2302 Humidity and Temperature Sensor",
+  "shortName": "DHT22",
+  "vendor": "Aosong",
+  "category": "ic",
+  "summary": "Humidity and temperature on one wire, in a plastic grille you can read in about ten lines of code. Slow, cheap and everywhere.",
+  "logic": "3.3-5.5 V",
+  "package": "4-pin single row, 2.54 mm",
+  "keywords": [
+    "dht22",
+    "am2302",
+    "dht11",
+    "humidity",
+    "temperature",
+    "rht03",
+    "sht31",
+    "aht20"
+  ],
+  "notes": [
+    "The one-wire protocol here is not Dallas 1-Wire. The datasheet says so explicitly: it is a custom timing scheme, so it shares no library, no bus and no device addressing with a DS18B20. You cannot put both on one pin.",
+    "There is no addressing at all, so one sensor needs one GPIO. Two sensors means two pins.",
+    "Read it no faster than once every two seconds. Faster reads return stale data or fail outright, and the sensor self-heats, which biases the temperature it is reporting.",
+    "After power-up, wait a second before talking to it. The datasheet asks for this directly, and a read inside that window is the usual cause of a sensor that works only after a reset.",
+    "The manufacturer's own connection diagram uses a 1 kOhm pull-up on the data line, not the 4.7 kOhm that most guides repeat. Either works over a short lead; the lower value is the one the maker drew.",
+    "Pin 3 is not connected. The datasheet's pin table lists it struck through, left from a revision where it was a second ground. Leave it alone.",
+    "The timing is tight enough that reads fail on a busy processor with interrupts running. That is the sensor's fault, not yours, and it is why most libraries disable interrupts for the duration of a read.",
+    "The DHT11 is the same shape and protocol with worse everything: 1 percent humidity resolution against 0.1, and no negative temperatures. The AM2302 is the DHT22 with a cable instead of pins, red to power, black to ground, yellow to data."
+  ],
+  "docs": [
+    {
+      "label": "AM2302 / DHT22 datasheet (Aosong)",
+      "url": "https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 4,
+    "sideLabels": ["Grille facing you, left to right", ""]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "1 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "VCC",
+        "required": true,
+        "why": "Pull-up on the data line, the value the manufacturer's own connection diagram uses. The line idles high and both ends pull it low to talk."
+      },
+      {
+        "part": "100 nF ceramic",
+        "symbol": "cap",
+        "from": "1",
+        "to": "GND",
+        "required": false,
+        "why": "Supply filtering between VDD and GND, suggested by the datasheet for wave filtering rather than required to function."
+      }
+    ],
+    "note": "That is the whole circuit. Data goes to any GPIO, and the sensor needs a second between power-up and the first read."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "VDD",
+      "primary": "vcc",
+      "voltage": "3.3-5.5 V",
+      "functions": ["Power supply"],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "number": 2,
+      "name": "DATA",
+      "primary": "gpio",
+      "functions": ["Single-wire data"],
+      "note": "Needs a pull-up. Not compatible with Dallas 1-Wire.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "number": 3,
+      "name": "NC",
+      "primary": "nc",
+      "note": "Struck through in the datasheet's table. A second ground on an older revision.",
+      "side": "left",
+      "row": 3
+    },
+    {
+      "number": 4,
+      "name": "GND",
+      "primary": "gnd",
+      "functions": ["Ground"],
+      "side": "left",
+      "row": 4
+    }
+  ]
+}
