@@ -168,7 +168,6 @@ function BoardBody({ board }: { board: Board }) {
         <span className="text-sm font-semibold uppercase tracking-wider text-muted">
           {board.shortName.toUpperCase()}
         </span>
-        <span className="text-sm text-subtle">{board.pins.length} pins</span>
       </div>
     </div>
   );
