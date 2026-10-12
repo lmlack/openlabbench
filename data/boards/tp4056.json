@@ -1,0 +1,168 @@
+{
+  "slug": "tp4056",
+  "name": "TP4056 Li-Ion Charger",
+  "shortName": "TP4056",
+  "vendor": "NanJing Top Power ASIC",
+  "category": "ic",
+  "summary": "A complete single-cell lithium charger in eight pins. One resistor sets the current, and nothing else is needed, which is why it is on every USB charging module sold.",
+  "logic": "4-8 V in, 4.2 V out",
+  "package": "SOP-8",
+  "keywords": [
+    "tp4056",
+    "li-ion charger",
+    "lipo charger",
+    "18650",
+    "battery charger",
+    "mcp73831",
+    "dw01a",
+    "4.2v"
+  ],
+  "notes": [
+    "The chip does not protect the battery. It charges, and it stops at 4.2 V, but it will happily let a cell be drained flat afterwards. Modules come both ways: the bare ones have just this chip, and the protected ones add a DW01A and a dual MOSFET on the back. If a module has only one small IC on it, the cell is on its own below 3 V.",
+    "The charge current is set by one resistor from PROG to ground, and the datasheet's own table is the authority rather than the formula: 1.2 kOhm gives 1000 mA, 2 kOhm gives 580 mA, 5 kOhm gives 250 mA, 10 kOhm gives 130 mA. Most modules ship with 1.2 kOhm, which is far too much for a small pouch cell.",
+    "TEMP is a real input, not a courtesy. Charging suspends if it sits below 45 percent or above 80 percent of VCC for more than 0.15 s. Ground it to switch the temperature check off, which is what every module without a thermistor does.",
+    "CHRG and STDBY are open-drain outputs, low when active. They are what the two LEDs on a module hang off, through about 1 kOhm each.",
+    "With a 10 uF capacitor on BAT and no battery connected, the red LED blinks every one to four seconds instead of settling. That is the documented no-battery behavior, not a fault.",
+    "It is a linear charger, so everything between the input and 4.2 V turns into heat in the package. At 1 A from 5 V that is around a watt, and the chip will throttle itself back to hold 145 C junction temperature. Charging gets slower as it gets hotter, by design.",
+    "VCC has to stay above the battery voltage. When the input falls to within 30 mV of BAT the chip sleeps and the battery stops being drained through it, under 2 uA."
+  ],
+  "docs": [
+    {
+      "label": "TP4056 datasheet (NanJing Top Power)",
+      "url": "https://dlnmh9ip6v2uc.cloudfront.net/datasheets/Prototyping/TP4056.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 4,
+    "sideLabels": ["Pins 1-4", "Pins 5-8"]
+  },
+  "circuit": {
+    "title": "Minimum circuit to charge a cell",
+    "parts": [
+      {
+        "part": "10 uF ceramic",
+        "symbol": "cap",
+        "from": "4",
+        "to": "GND",
+        "required": true,
+        "why": "Input bulk, from the datasheet's own application circuit. A USB cable is long enough to be an inductor."
+      },
+      {
+        "part": "10 uF ceramic",
+        "symbol": "cap",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "Output bulk on the BAT pin, as drawn in the reference circuit. It also keeps the loop stable before a cell is attached."
+      },
+      {
+        "part": "1.2 kOhm (RPROG)",
+        "symbol": "res",
+        "from": "2",
+        "to": "GND",
+        "required": true,
+        "why": "Sets the charge current, here 1000 mA. Raise it for a smaller cell: 2 kOhm is 580 mA and 10 kOhm is 130 mA."
+      },
+      {
+        "part": "Enable link",
+        "symbol": "link",
+        "from": "8",
+        "to": "VCC",
+        "required": true,
+        "why": "CE high puts the chip in normal mode. Low disables it, so this is where a microcontroller would take control."
+      },
+      {
+        "part": "TEMP link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "Grounding TEMP disables the thermistor check. Without a cell that has an NTC, this is the only correct thing to do with the pin."
+      },
+      {
+        "part": "Li-ion cell",
+        "symbol": "cell",
+        "from": "5",
+        "to": "GND",
+        "required": true,
+        "why": "One cell, charged to a 4.2 V float. This pin regulates, so nothing else goes between the chip and the battery."
+      },
+      {
+        "part": "Red LED + 1 kOhm",
+        "symbol": "load",
+        "from": "7",
+        "to": "VCC",
+        "required": false,
+        "why": "CHRG pulls low while charging, so the LED lights during charge and goes out when it finishes."
+      },
+      {
+        "part": "Green LED + 1 kOhm",
+        "symbol": "load",
+        "from": "6",
+        "to": "VCC",
+        "required": false,
+        "why": "STDBY pulls low at charge termination, which is the done light."
+      }
+    ],
+    "note": "A thermistor in the battery pack goes to TEMP instead of the ground link, with its own divider to VCC. Nothing here protects the cell from over-discharge; that needs a separate protection circuit between the battery and the load."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "TEMP",
+      "primary": "ctrl",
+      "tags": ["analog"],
+      "functions": ["Battery thermistor input"],
+      "note": "Charging suspends outside 45 to 80 percent of VCC. Ground it to disable."
+    },
+    {
+      "number": 2,
+      "name": "PROG",
+      "primary": "ctrl",
+      "tags": ["analog"],
+      "functions": ["Charge current set", "Current monitor"],
+      "note": "Resistor to ground sets the current. The pin voltage also reports it: 2 V in constant-current mode."
+    },
+    { "number": 3, "name": "GND", "primary": "gnd" },
+    {
+      "number": 4,
+      "name": "VCC",
+      "primary": "vin",
+      "voltage": "4-8 V",
+      "functions": ["Input supply"],
+      "note": "Must stay above the battery voltage. Within 30 mV of BAT the chip sleeps."
+    },
+    {
+      "number": 5,
+      "name": "BAT",
+      "primary": "gpio",
+      "functions": ["Battery connection"],
+      "note": "Regulates to 4.2 V. Draws under 2 uA from the cell when disabled or asleep."
+    },
+    {
+      "number": 6,
+      "name": "STDBY",
+      "primary": "gpio",
+      "aliases": ["/STDBY"],
+      "functions": ["Charge complete, open drain"],
+      "note": "Pulled low when charging has terminated. High impedance otherwise."
+    },
+    {
+      "number": 7,
+      "name": "CHRG",
+      "primary": "gpio",
+      "aliases": ["/CHRG"],
+      "functions": ["Charging, open drain"],
+      "note": "Pulled low while charging. Blinks slowly when there is no battery."
+    },
+    {
+      "number": 8,
+      "name": "CE",
+      "primary": "ctrl",
+      "functions": ["Chip enable"],
+      "note": "High for normal operation, low to disable. Takes TTL or CMOS levels."
+    }
+  ]
+}

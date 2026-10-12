@@ -1,0 +1,118 @@
+{
+  "slug": "ads1115",
+  "name": "ADS1115 16-Bit ADC",
+  "shortName": "ADS1115",
+  "vendor": "Texas Instruments",
+  "category": "ic",
+  "summary": "Four single-ended or two differential channels at 16 bits over I2C, with a gain stage and its own reference. What you add when the microcontroller's ADC is not good enough.",
+  "logic": "2-5.5 V",
+  "package": "VSSOP-10 (DGS) / X2QFN-10 / WCSP",
+  "keywords": [
+    "ads1115",
+    "ads1015",
+    "ads1114",
+    "ads1113",
+    "16 bit adc",
+    "i2c adc",
+    "external adc",
+    "load cell"
+  ],
+  "notes": [
+    "The full-scale range is not an input rating. Selecting +/-6.144 V on a 3.3 V supply does not let you measure 6 V: the datasheet is explicit that no more than VDD + 0.3 V may reach an analog input. The wide ranges exist so the gain stage can be set below the supply, not above it. This is the mistake that kills these chips.",
+    "ADDR goes to GND, VDD, SDA or SCL, giving 0x48 through 0x4B. If you use SDA as the address, hold SDA low for at least 100 ns after SCL falls or the device may decode it wrong.",
+    "Eight data rates from 8 to 860 samples per second. Slow is not wasted: the lower rates integrate longer and are quieter, and 8 SPS is where the 16 bits actually mean something.",
+    "Four single-ended channels or two differential pairs, not both at once. Differential is the reason to buy this part, because it rejects the common-mode noise that a single-ended reading has no way to see.",
+    "The reference is internal, so readings do not drift with a noisy supply the way a microcontroller ADC referenced to its own 3.3 V rail does.",
+    "ALERT/RDY is open drain and needs a pull-up. It doubles as a conversion-ready strobe, which saves polling the config register in continuous mode.",
+    "The ADS1015 is the same chip at 12 bits and 3300 SPS, pin compatible and register compatible. Code written for one runs on the other with the result shifted four bits."
+  ],
+  "docs": [
+    {
+      "label": "TI ADS1115 datasheet",
+      "url": "https://www.ti.com/lit/ds/symlink/ads1115.pdf"
+    }
+  ],
+  "layout": {
+    "kind": "dip",
+    "numbering": "ccw",
+    "rows": 5,
+    "sideLabels": ["Pins 1-5", "Pins 6-10"]
+  },
+  "circuit": {
+    "title": "Minimum circuit",
+    "parts": [
+      {
+        "part": "0.1 uF ceramic",
+        "symbol": "cap",
+        "from": "8",
+        "to": "GND",
+        "required": true,
+        "why": "Supply decoupling at the pin, called for by name in the datasheet's pin table. The reference is derived from this rail."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "9",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SDA. The bus is open drain and cannot pull itself high."
+      },
+      {
+        "part": "4.7 kOhm",
+        "symbol": "res",
+        "from": "10",
+        "to": "VCC",
+        "required": true,
+        "why": "I2C pull-up on SCL. One pair per bus, not per device."
+      },
+      {
+        "part": "Address link",
+        "symbol": "link",
+        "from": "1",
+        "to": "GND",
+        "required": true,
+        "why": "ADDR tied low, giving 0x48. It is sampled continuously and must not float."
+      },
+      {
+        "part": "10 kOhm",
+        "symbol": "res",
+        "from": "2",
+        "to": "VCC",
+        "required": false,
+        "why": "Pull-up for ALERT/RDY, which is open drain. Only needed if you use the comparator or the conversion-ready strobe."
+      }
+    ],
+    "note": "Unused analog inputs should be tied to GND rather than left floating. A high-impedance source wants a capacitor across the input to supply the charge the sampling network takes."
+  },
+  "pins": [
+    {
+      "number": 1,
+      "name": "ADDR",
+      "primary": "ctrl",
+      "functions": ["I2C address select"],
+      "note": "GND, VDD, SDA or SCL for 0x48 to 0x4B. Four states, not two."
+    },
+    {
+      "number": 2,
+      "name": "ALERT/RDY",
+      "primary": "gpio",
+      "functions": ["Comparator out", "Conversion ready"],
+      "note": "Open drain. Needs a pull-up. Not present on the ADS1113."
+    },
+    { "number": 3, "name": "GND", "primary": "gnd" },
+    {
+      "number": 4,
+      "name": "AIN0",
+      "primary": "gpio",
+      "tags": ["analog"],
+      "functions": ["Analog input 0"],
+      "note": "Must stay between GND - 0.3 V and VDD + 0.3 V, whatever gain you select."
+    },
+    { "number": 5, "name": "AIN1", "primary": "gpio", "tags": ["analog"], "functions": ["Analog input 1"], "note": "Pairs with AIN0 for a differential reading." },
+    { "number": 6, "name": "AIN2", "primary": "gpio", "tags": ["analog"], "functions": ["Analog input 2"], "note": "ADS1115 only. Not connected on the ADS1113 and ADS1114." },
+    { "number": 7, "name": "AIN3", "primary": "gpio", "tags": ["analog"], "functions": ["Analog input 3"], "note": "ADS1115 only. Pairs with AIN2." },
+    { "number": 8, "name": "VDD", "primary": "vcc", "voltage": "2-5.5 V", "note": "Also the ceiling on every analog input." },
+    { "number": 9, "name": "SDA", "primary": "gpio", "tags": ["i2c"], "functions": ["I2C data"] },
+    { "number": 10, "name": "SCL", "primary": "gpio", "tags": ["i2c"], "functions": ["I2C clock"] }
+  ]
+}

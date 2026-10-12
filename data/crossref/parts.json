@@ -45,6 +45,260 @@
     ]
   },
   {
+    "part": "74HC00",
+    "category": "logic",
+    "pinout": "sn74hc00",
+    "summary": "Quad 2-input NAND gate, the universal gate everything else can be built from.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Gates": "4",
+      "Drive": "~6 mA/pin",
+      "Prop delay": "~9 ns at 5 V",
+      "Package": "PDIP-14, SOIC-14"
+    },
+    "keywords": [
+      "7400",
+      "74hc00",
+      "nand",
+      "quad nand"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT00",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL input thresholds. Use it when the inputs come from 3.3 V logic while the gate runs at 5 V; plain HC wants its inputs near its own rail and will sit in the undefined region."
+      },
+      {
+        "part": "74LS00",
+        "confidence": "caveats",
+        "notes": "Same pinout and the original bipolar part. It draws real current even when idle, needs a 5 V supply rather than 2-6 V, and sources far less than it sinks. Fine in a retro build, wrong in a battery one."
+      },
+      {
+        "part": "74AHC00 / 74LVC00",
+        "confidence": "caveats",
+        "notes": "Same pinout, several times faster. The speed brings sharper edges and more ringing on a breadboard, and LVC tops out at 3.6 V, so it is not a 5 V replacement."
+      },
+      {
+        "part": "CD4011B",
+        "confidence": "not-drop-in",
+        "notes": "Also a quad NAND in 14 pins, but two of the four gates sit differently. On the 4011 pin 4 is an output and pins 5 and 6 are its inputs, where the 74HC00 has inputs on 4 and 5 and the output on 6; gate 3 is swapped the same way. Gates 1 and 4 happen to line up, which is exactly why this mistake survives a quick test."
+      }
+    ]
+  },
+  {
+    "part": "74HC04",
+    "category": "logic",
+    "pinout": "sn74hc04",
+    "summary": "Hex inverter. Six NOT gates, and the usual way to buffer or invert a handful of signals.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Gates": "6",
+      "Drive": "~6 mA/pin",
+      "Prop delay": "~8 ns at 5 V",
+      "Package": "PDIP-14, SOIC-14"
+    },
+    "keywords": [
+      "7404",
+      "74hc04",
+      "inverter",
+      "hex inverter",
+      "not gate"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT04",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds. The one to reach for when a 5 V inverter is driven from 3.3 V logic."
+      },
+      {
+        "part": "CD4069UB",
+        "confidence": "drop-in",
+        "notes": "Pin for pin identical, checked against both datasheets: inputs on 1, 3, 5, 9, 11, 13 and outputs on 2, 4, 6, 8, 10, 12. It runs to 18 V, which HC cannot, but it is much slower and drives far less current. The UB suffix means unbuffered, a single inverting stage, which is what makes it usable as a linear amplifier in an oscillator and useless as a clean logic buffer."
+      },
+      {
+        "part": "74HC14",
+        "confidence": "caveats",
+        "notes": "Same pinout, but every input gains Schmitt hysteresis. That is an upgrade for a noisy or slow input and a change in behavior for anything timing-sensitive, because the thresholds move."
+      },
+      {
+        "part": "74HC240 / 74HC365",
+        "confidence": "not-drop-in",
+        "notes": "Inverting buffers with output enable, for driving a bus rather than a pin. Different pinouts and different pin counts."
+      }
+    ]
+  },
+  {
+    "part": "74HC138",
+    "category": "logic",
+    "pinout": "sn74hc138",
+    "summary": "3-to-8 line decoder. Three address pins select one of eight outputs, which goes low.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Outputs": "8, active low",
+      "Enables": "3 (E1, E2 low; E3 high)",
+      "Prop delay": "~16 ns at 5 V",
+      "Package": "PDIP-16, SOIC-16"
+    },
+    "keywords": [
+      "74138",
+      "74hc138",
+      "decoder",
+      "demultiplexer",
+      "3 to 8",
+      "chip select"
+    ],
+    "equivalents": [
+      {
+        "part": "74HC238",
+        "confidence": "caveats",
+        "notes": "Pin for pin identical, verified against both datasheets, with the outputs active HIGH instead of active LOW. It will drop into the socket and drive everything backwards, which is either exactly what you wanted or a very confusing afternoon."
+      },
+      {
+        "part": "74HCT138",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds, for a 5 V decoder addressed from 3.3 V logic."
+      },
+      {
+        "part": "74HC139",
+        "confidence": "not-drop-in",
+        "notes": "Two independent 2-to-4 decoders in the same 16 pins. Use it when you need two small decoders rather than one big one; nothing lines up with the '138."
+      },
+      {
+        "part": "CD4028B",
+        "confidence": "not-drop-in",
+        "notes": "BCD to decimal, so four inputs and ten active-high outputs, and no enable pins worth the name. Different count, different polarity, different pinout."
+      }
+    ]
+  },
+  {
+    "part": "74HC14",
+    "category": "logic",
+    "pinout": "sn74hc14",
+    "summary": "Hex Schmitt-trigger inverter. Cleans up a slow or noisy edge into something logic can use.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Gates": "6",
+      "Hysteresis": "~0.9 V at 5 V",
+      "Prop delay": "~12 ns at 5 V",
+      "Package": "PDIP-14, SOIC-14"
+    },
+    "keywords": [
+      "7414",
+      "74hc14",
+      "schmitt",
+      "hysteresis",
+      "debounce"
+    ],
+    "equivalents": [
+      {
+        "part": "CD40106B",
+        "confidence": "drop-in",
+        "notes": "Pin for pin identical, confirmed against both datasheets. Works to 18 V and has wider hysteresis, at the cost of speed and drive. For a debounce or a relaxation oscillator the slowness does not matter and the voltage range may be the whole reason to pick it."
+      },
+      {
+        "part": "74HCT14",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds, and the hysteresis window sits lower and narrower to match. Pick it for a 5 V part fed from 3.3 V logic."
+      },
+      {
+        "part": "74HC04",
+        "confidence": "caveats",
+        "notes": "Identical pinout and it will fit, but it has no hysteresis. On a clean fast edge you will not notice. On a button, an RC ramp or a long cable it oscillates through the transition and emits a burst of pulses, which is the exact problem the '14 exists to solve."
+      },
+      {
+        "part": "74HC132",
+        "confidence": "not-drop-in",
+        "notes": "Schmitt inputs on a quad NAND rather than an inverter, so you get gating as well as hysteresis. Different pinout and only four channels."
+      }
+    ]
+  },
+  {
+    "part": "74HC165",
+    "category": "logic",
+    "pinout": "sn74hc165",
+    "summary": "8-bit parallel-in serial-out shift register. Reads eight inputs over three wires.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Inputs": "8",
+      "Max clock": "~25 MHz at 5 V",
+      "Load": "Asynchronous, SH/LD low",
+      "Package": "PDIP-16, SOIC-16"
+    },
+    "keywords": [
+      "74165",
+      "74hc165",
+      "shift register",
+      "parallel in",
+      "piso",
+      "button expander"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT165",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds. Worth it when a 5 V register is clocked from a 3.3 V microcontroller."
+      },
+      {
+        "part": "74HC597",
+        "confidence": "not-drop-in",
+        "notes": "Also parallel-in serial-out, but with an input storage latch ahead of the register, so you can freeze the inputs at one instant and shift them out later. Different pinout, and the extra latch is the reason to choose it."
+      },
+      {
+        "part": "CD4021B",
+        "confidence": "not-drop-in",
+        "notes": "Often listed as the CMOS equivalent and it is not a substitute. The pinout shares nothing with the '165, parallel load is asynchronous rather than clocked, and only stages 6, 7 and 8 are brought out instead of a single serial output with its complement. There is also no clock-inhibit pin."
+      },
+      {
+        "part": "MCP23017 / PCF8574",
+        "confidence": "not-drop-in",
+        "notes": "I2C input expanders. Two wires instead of three and addressable, so several share a bus, but they need a driver and they are far slower per read than clocking a shift register."
+      }
+    ]
+  },
+  {
+    "part": "74HC245",
+    "category": "logic",
+    "pinout": "sn74hc245",
+    "summary": "Octal bus transceiver with direction control. Eight bidirectional buffers that can let go of the bus.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Channels": "8, bidirectional",
+      "Drive": "~35 mA/pin",
+      "Control": "DIR and OE",
+      "Package": "PDIP-20, SOIC-20"
+    },
+    "keywords": [
+      "74245",
+      "74hc245",
+      "bus transceiver",
+      "buffer",
+      "level shifter",
+      "tri-state"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT245",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds. The standard way to read 3.3 V signals into a 5 V bus without adding parts."
+      },
+      {
+        "part": "74LVC245 / 74LVC8T245",
+        "confidence": "caveats",
+        "notes": "The '245 pinout at 1.65-3.6 V, and 5 V tolerant inputs on the LVC part. The 8T245 adds a second supply pin so it shifts properly between two rails in both directions, which the plain '245 cannot do: one chip, one VCC, one output level."
+      },
+      {
+        "part": "74HC244 / 74HC541",
+        "confidence": "not-drop-in",
+        "notes": "Octal buffers that only go one way, split into two four-bit halves with their own enables. Same 20 pins, completely different arrangement, and no DIR pin."
+      },
+      {
+        "part": "TXB0108 / TXS0108E",
+        "confidence": "not-drop-in",
+        "notes": "Auto-direction level shifters, no DIR pin to drive. Convenient, but the TXB fights strong pull-ups and will not work on an I2C bus; the TXS is the open-drain version for that."
+      }
+    ]
+  },
+  {
     "part": "74HC595",
     "category": "logic",
     "summary": "8-bit serial-in parallel-out shift register with output latch.",
@@ -86,6 +340,48 @@
         "part": "MIC5891 / A6276",
         "confidence": "not-drop-in",
         "notes": "Latched source drivers for bigger LED loads. Different pinouts and much higher current."
+      }
+    ]
+  },
+  {
+    "part": "74HC74",
+    "category": "logic",
+    "pinout": "sn74hc74",
+    "summary": "Dual D flip-flop with preset and clear. One clock edge, one bit remembered.",
+    "specs": {
+      "Supply": "2-6 V",
+      "Flip-flops": "2",
+      "Max clock": "~50 MHz at 5 V",
+      "Trigger": "Rising edge",
+      "Package": "PDIP-14, SOIC-14"
+    },
+    "keywords": [
+      "7474",
+      "74hc74",
+      "d flip flop",
+      "divide by two",
+      "latch"
+    ],
+    "equivalents": [
+      {
+        "part": "74HCT74",
+        "confidence": "drop-in",
+        "notes": "Same pinout, TTL thresholds. The usual answer for a 5 V flip-flop clocked from a 3.3 V source."
+      },
+      {
+        "part": "74HC174 / 74HC175",
+        "confidence": "not-drop-in",
+        "notes": "Four and six flip-flops sharing one clock and one clear, in 16 pins. More bits per package, but you lose the per-flop preset and the independent clocks."
+      },
+      {
+        "part": "CD4013B",
+        "confidence": "not-drop-in",
+        "notes": "Also a dual D flip-flop in 14 pins, and also edge triggered, but nothing is in the same place: the 4013 puts Q on pin 1 where the '74 has clear. It runs to 18 V, which is usually the reason anyone reaches for it."
+      },
+      {
+        "part": "74HC73 / 74HC76",
+        "confidence": "not-drop-in",
+        "notes": "JK flip-flops. More flexible than a D type and a different pinout, and most JK designs reduce to a D type anyway."
       }
     ]
   },
@@ -133,6 +429,7 @@
   {
     "part": "ADS1115",
     "category": "analog",
+    "pinout": "ads1115",
     "summary": "16-bit I2C ADC, four channels, with PGA and comparator.",
     "specs": {
       "Resolution": "16-bit",
@@ -196,12 +493,12 @@
       {
         "part": "AP2112K-3.3",
         "confidence": "not-drop-in",
-        "notes": "SOT-23-5, 600 mA, 250 mV dropout and ~55 µA quiescent. The right part for anything battery powered, where the AMS1117's milliamps of idle current and 1.2 V dropout are both unacceptable."
+        "notes": "SOT-23-5, 600 mA, 250 mV dropout and ~55 \u00b5A quiescent. The right part for anything battery powered, where the AMS1117's milliamps of idle current and 1.2 V dropout are both unacceptable."
       },
       {
         "part": "MCP1700-3302E",
         "confidence": "not-drop-in",
-        "notes": "250 mA, 1.6 µA quiescent. For sleeping sensor nodes where idle current is the whole design."
+        "notes": "250 mA, 1.6 \u00b5A quiescent. For sleeping sensor nodes where idle current is the whole design."
       },
       {
         "part": "LM2596 / MP1584 buck module",
@@ -344,7 +641,7 @@
       "Interface": "I2C + SPI",
       "Addresses": "0x76 / 0x77",
       "Supply": "1.71-3.6 V",
-      "RH accuracy": "±3 %"
+      "RH accuracy": "\u00b13 %"
     },
     "keywords": [
       "bme280",
@@ -371,7 +668,88 @@
       {
         "part": "SHT31 / SHT41",
         "confidence": "not-drop-in",
-        "notes": "If you want humidity and temperature only, these beat the BME280 on RH accuracy (±2 % and better) and do not self-heat as much. I2C, different address and registers."
+        "notes": "If you want humidity and temperature only, these beat the BME280 on RH accuracy (\u00b12 % and better) and do not self-heat as much. I2C, different address and registers."
+      }
+    ]
+  },
+  {
+    "part": "CD4017B",
+    "category": "logic",
+    "pinout": "cd4017",
+    "summary": "Decade counter with ten decoded outputs. One output high at a time, stepping on each clock.",
+    "specs": {
+      "Supply": "3-18 V",
+      "Outputs": "10, decoded",
+      "Max clock": "~5 MHz at 10 V",
+      "Carry": "Divide by 10 out",
+      "Package": "PDIP-16, SOIC-16"
+    },
+    "keywords": [
+      "4017",
+      "cd4017",
+      "74hc4017",
+      "decade counter",
+      "johnson counter",
+      "led chaser"
+    ],
+    "equivalents": [
+      {
+        "part": "74HC4017",
+        "confidence": "drop-in",
+        "notes": "Pin for pin identical, verified against both datasheets; only the pin names change, with CP0 for clock, CP1 for clock inhibit and MR for reset. Much faster and a 2-6 V supply instead of up to 18 V."
+      },
+      {
+        "part": "CD4022B",
+        "confidence": "not-drop-in",
+        "notes": "The same idea with eight outputs instead of ten, in the same 16 pins but a different order. Use it when you want a divide by eight and do not want to wire the reset back from output 8."
+      },
+      {
+        "part": "74HC4017 + 74HC595",
+        "confidence": "not-drop-in",
+        "notes": "If what you actually want is arbitrary patterns rather than one-at-a-time stepping, a shift register is the right part. The 4017 cannot light two outputs at once, which is the limit people hit first."
+      }
+    ]
+  },
+  {
+    "part": "CD4051B",
+    "category": "logic",
+    "pinout": "cd4051",
+    "summary": "8-channel analog multiplexer and demultiplexer. One ADC pin reads eight things.",
+    "specs": {
+      "Supply": "3-20 V",
+      "Channels": "8, bidirectional",
+      "On resistance": "~125 ohms at 15 V",
+      "Negative rail": "VEE, for bipolar signals",
+      "Package": "PDIP-16, SOIC-16"
+    },
+    "keywords": [
+      "4051",
+      "cd4051",
+      "74hc4051",
+      "analog mux",
+      "multiplexer",
+      "8 channel"
+    ],
+    "equivalents": [
+      {
+        "part": "74HC4051",
+        "confidence": "drop-in",
+        "notes": "Same pinout and function at HC speed, but a 2-10 V supply instead of up to 20 V, and much lower on resistance. The usual choice at 3.3 or 5 V."
+      },
+      {
+        "part": "74HC4067",
+        "confidence": "not-drop-in",
+        "notes": "Sixteen channels instead of eight, in 24 pins. It also drops the VEE pin, so unlike the 4051 it cannot pass a signal that swings below ground, however you supply it."
+      },
+      {
+        "part": "CD4052B",
+        "confidence": "not-drop-in",
+        "notes": "Two independent 4-channel muxes sharing the select lines, for switching a stereo pair or a differential signal. Same 16 pins, different arrangement."
+      },
+      {
+        "part": "ADG708 / ADG728",
+        "confidence": "not-drop-in",
+        "notes": "Modern 8-channel switches with a few ohms of on resistance instead of a hundred, the ADG728 addressed over I2C. Worth it when the mux resistance is distorting the measurement."
       }
     ]
   },
@@ -428,7 +806,7 @@
       "Interface": "1-wire proprietary",
       "Rate": "0.5 Hz max",
       "Supply": "3.3-6 V",
-      "RH accuracy": "±2-5 %"
+      "RH accuracy": "\u00b12-5 %"
     },
     "keywords": [
       "dht22",
@@ -445,12 +823,12 @@
       {
         "part": "DHT11",
         "confidence": "caveats",
-        "notes": "Same one-wire protocol and pinout, markedly worse: ±5 % RH, 1 °C resolution, 0-50 °C range. Only the library's init call changes."
+        "notes": "Same one-wire protocol and pinout, markedly worse: \u00b15 % RH, 1 \u00b0C resolution, 0-50 \u00b0C range. Only the library's init call changes."
       },
       {
         "part": "SHT31-D",
         "confidence": "not-drop-in",
-        "notes": "Proper I2C, ±2 % RH, readable as fast as you like. The upgrade worth making, the DHT line's one-wire timing protocol is fragile under interrupts."
+        "notes": "Proper I2C, \u00b12 % RH, readable as fast as you like. The upgrade worth making, the DHT line's one-wire timing protocol is fragile under interrupts."
       },
       {
         "part": "DS18B20",
@@ -466,7 +844,7 @@
     "specs": {
       "Interface": "I2C",
       "Address": "0x68",
-      "Accuracy": "±2 ppm (±1 min/yr)",
+      "Accuracy": "\u00b12 ppm (\u00b11 min/yr)",
       "Supply": "2.3-5.5 V",
       "Backup": "Coin cell / supercap"
     },
@@ -495,7 +873,7 @@
       {
         "part": "RV-3028-C7",
         "confidence": "not-drop-in",
-        "notes": "±1 ppm at 45 nA. The part for a coin cell that has to last years. Different registers and a different package."
+        "notes": "\u00b11 ppm at 45 nA. The part for a coin cell that has to last years. Different registers and a different package."
       }
     ]
   },
@@ -630,7 +1008,7 @@
       "Type": "N-ch MOSFET",
       "Id": "47 A",
       "Vds": "55 V",
-      "Rds(on)": "22 mΩ at Vgs=5 V",
+      "Rds(on)": "22 m\u03a9 at Vgs=5 V",
       "Vgs(th)": "1-2 V"
     },
     "keywords": [
@@ -878,6 +1256,7 @@
   {
     "part": "MCP23017",
     "category": "interface",
+    "pinout": "mcp23017",
     "summary": "16-bit I2C I/O expander with interrupt outputs.",
     "specs": {
       "I/O": "16",
@@ -1035,7 +1414,7 @@
       {
         "part": "TLC555",
         "confidence": "caveats",
-        "notes": "CMOS: runs from 2 V, draws ~170 µA instead of 10 mA, and does not slam the supply rail on each transition. Output only sources ~10 mA though, so anything driven directly from a bipolar 555 needs a transistor here."
+        "notes": "CMOS: runs from 2 V, draws ~170 \u00b5A instead of 10 mA, and does not slam the supply rail on each transition. Output only sources ~10 mA though, so anything driven directly from a bipolar 555 needs a transistor here."
       },
       {
         "part": "ICM7555 / LMC555",
@@ -1286,6 +1665,7 @@
   {
     "part": "TP4056",
     "category": "regulator",
+    "pinout": "tp4056",
     "summary": "Single-cell Li-ion charger IC, the one on the ubiquitous red module.",
     "specs": {
       "Chemistry": "Li-ion / LiPo 1S",
@@ -1471,7 +1851,7 @@
       {
         "part": "nRF24L01+ PA/LNA",
         "confidence": "drop-in",
-        "notes": "Same chip with an amplifier and external antenna. Draws current in bursts well over 100 mA, so the 3V3 pin of a dev board will not hold it up, this is the module that needs a 10-100 µF bulk cap."
+        "notes": "Same chip with an amplifier and external antenna. Draws current in bursts well over 100 mA, so the 3V3 pin of a dev board will not hold it up, this is the module that needs a 10-100 \u00b5F bulk cap."
       },
       {
         "part": "Si24R1",
