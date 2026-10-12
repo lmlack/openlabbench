@@ -13,7 +13,7 @@ const NAV = [
   { href: "/contribute", label: "Contribute" },
 ];
 
-export function SiteHeader({ count }: { count: number }) {
+export function SiteHeader() {
   const pathname = usePathname();
   const [menu, setMenu] = useState(false);
 
@@ -52,7 +52,7 @@ export function SiteHeader({ count }: { count: number }) {
         </nav>
 
         <div className="flex flex-1 items-center justify-end gap-2">
-          <SearchPalette count={count} />
+          <SearchPalette />
           <ThemeToggle />
           <button
             type="button"

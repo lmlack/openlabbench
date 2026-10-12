@@ -5,7 +5,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_ORIGIN } from "@/lib/base-path";
 import { getBoards } from "@/lib/boards";
-import { searchIndexSize } from "@/lib/index-build";
 import { getParts } from "@/lib/parts";
 import "./globals.css";
 
@@ -65,7 +64,6 @@ export const metadata: Metadata = {
 const THEME_INIT = `try{var t=localStorage.getItem("olb-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const searchCount = searchIndexSize();
   const boards = getBoards().length;
   const parts = getParts().length;
 
@@ -86,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <ParentSiteBar />
-        <SiteHeader count={searchCount} />
+        <SiteHeader />
         <main id="content" className="flex-1">
           {children}
         </main>
