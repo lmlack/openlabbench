@@ -188,18 +188,38 @@ interface ColumnProps {
 
 function PinColumn({ rows, side, label, dimmed, inspected, onPeek, onSelect }: ColumnProps) {
   const mirror = side === "right";
+  const has = rows.map((row) => Boolean(side === "left" ? row.left : row.right));
+  const firstPin = has.indexOf(true);
+  const lastPin = has.lastIndexOf(true);
   return (
     <div className="min-w-0">
       <p className={`eyebrow mb-2 ${mirror ? "text-left" : "text-right"}`}>
         {label}
       </p>
       <ul className="space-y-1">
-        {rows.map((row) => {
+        {rows.map((row, i) => {
           const pin = side === "left" ? row.left : row.right;
-          if (!pin) {
-            // Keeps the two columns in step where one side has a gap
-            // (the Uno's power and analog headers are different lengths).
+          // Before this side's first pin or after its last, an empty row is
+          // only padding to line the columns up, not a gap on the board.
+          if (!pin && (i < firstPin || i > lastPin)) {
             return <li key={row.row} className="h-9" aria-hidden="true" />;
+          }
+          if (!pin) {
+            // A real gap on the board: the space between two header blocks
+            // (the Uno's D0-D7 and D8-D15, or its power and analog headers).
+            // Drawn as a marked break so it does not read as a missing pin.
+            return (
+              <li
+                key={row.row}
+                className="flex h-9 items-center gap-2 px-1 text-subtle"
+                aria-hidden="true"
+                title="Gap between headers on the board"
+              >
+                <span className="flex-1 border-t border-dashed border-line-strong" />
+                <span className="text-[10px] uppercase tracking-widest">gap</span>
+                <span className="flex-1 border-t border-dashed border-line-strong" />
+              </li>
+            );
           }
           return (
             <li key={`${row.row}-${pin.name}`}>
