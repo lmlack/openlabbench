@@ -38,7 +38,7 @@ You do not need to clone anything. From the running site:
   in GitHub's web editor and forks the repo for you.
 - Any board page has **Report it instead**, which opens an issue prefilled with
   a space for the pin and the source.
-- The [contribute page](https://gwark.dev/openlabbench/contribute) has the full
+- The [contribute page](https://openlabbench.gwark.dev/contribute) has the full
   schema with worked examples, plus one-click links to add a new board or edit
   the cross-reference.
 

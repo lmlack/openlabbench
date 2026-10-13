@@ -33,7 +33,7 @@
     "Signal names here are the power-on defaults. Nearly every pin muxes to something else, and several reach the PRU, the real reason to pick this board over a Pi.",
     "GPIO are 3.3 V and not 5 V tolerant, at 4 to 6 mA per pin.",
     "The P8 and P9 headers are keyed the same and sit the same distance apart as on the original BeagleBone, so older capes still fit.",
-    "The other side of this board is the P9 header, documented separately: gwark.dev/openlabbench/pinouts/beaglebone-black-p9"
+    "The other side of this board is the P9 header, documented separately: openlabbench.gwark.dev/pinouts/beaglebone-black-p9"
   ],
   "docs": [
     {

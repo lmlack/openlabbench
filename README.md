@@ -5,7 +5,7 @@ Pinouts, part equivalents, printable cheat sheets.
 A static Next.js site. No database and no CMS: every pinout is one JSON file, and
 the pages, the search index and the printable SVGs all come from it at build time.
 
-Live at **<https://gwark.dev/openlabbench>**. To fix a pin or add a board, see
+Live at **<https://openlabbench.gwark.dev>**. To fix a pin or add a board, see
 [CONTRIBUTING.md](CONTRIBUTING.md); the short version is that every pin has to
 come from a datasheet or a vendor diagram, and you can edit a board's JSON from
 the site without cloning anything.
@@ -170,7 +170,7 @@ this site exists to replace.
 Attribution that satisfies CC BY:
 
 ```
-openlabbench by lmlack, CC BY 4.0, https://gwark.dev/openlabbench/
+openlabbench by lmlack, CC BY 4.0, https://openlabbench.gwark.dev/
 ```
 
 The gwark mark (`public/gwark-mark.svg`) is brand identity, not content, and is

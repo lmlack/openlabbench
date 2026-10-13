@@ -33,7 +33,7 @@
     "Pins 41 and 42 are each wired to two processor balls. Whichever one you are not using must be set to input, or the two fight each other.",
     "Signal names here are the power-on defaults. Almost every pin can be muxed to something else through the device tree, which is both the strength and the learning curve of this board.",
     "GPIO are 3.3 V and not 5 V tolerant. Source or sink 4 to 6 mA per pin, far less than a Pi.",
-    "The other side of this board is the P8 header, documented separately: gwark.dev/openlabbench/pinouts/beaglebone-black-p8"
+    "The other side of this board is the P8 header, documented separately: openlabbench.gwark.dev/pinouts/beaglebone-black-p8"
   ],
   "docs": [
     {
