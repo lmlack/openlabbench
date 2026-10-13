@@ -1,38 +1,47 @@
+import { useId } from "react";
+
 /**
- * The gwark.dev mark, from assets/mark.svg in that project. Brand teal is kept
- * in both themes rather than recolored to the local palette; it is the one
- * element on the page that belongs to the parent site.
+ * The gwark.dev mark, traced from that site's master logo (gwark_logo.jpg):
+ * a 12-tooth gear, a globe with a line and node, and an orbit whose front
+ * half passes over the gear and globe. The crossings are masks, so their ids
+ * must be unique per instance. Brand teal is kept in both themes rather than
+ * recolored to the local palette; it is the one element on the page that
+ * belongs to the parent site.
  */
 export function GwarkMark({ className = "size-6" }: { className?: string }) {
-  const teeth = Array.from({ length: 12 }, (_, i) => i * 30);
+  const id = useId().replace(/:/g, "");
   return (
-    <svg viewBox="-70 -70 140 140" className={className} role="img" aria-label="gwark.dev">
-      <g
-        fill="none"
-        stroke="#15897a"
-        strokeWidth="7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {teeth.map((deg) => (
-          <rect
-            key={deg}
-            x="-5.5"
-            y="-66"
-            width="11"
-            height="17"
-            rx="2.5"
-            transform={`rotate(${deg})`}
-          />
-        ))}
-        <circle r="51" />
-        <circle r="33" />
-        <path d="M-30 -14 C -6 -30, 18 -32, 31 -18" />
-        <g transform="rotate(-24)">
-          <ellipse rx="67" ry="25" />
-          <circle cx="62" cy="-9" r="7.5" />
-          <circle cx="-17" cy="20" r="7.5" />
-        </g>
+    <svg viewBox="0 0 100 100" className={className} role="img" aria-label="gwark.dev">
+      <defs>
+      <mask id={`${id}f`} maskUnits="userSpaceOnUse" x="-20" y="-20" width="140" height="140">
+      <rect x="-20" y="-20" width="140" height="140" fill="#fff"/>
+      <path d="M96.3 21.53A52.58 14.77 -28.3 0 1 3.7 71.38" fill="none" stroke="#000" strokeWidth="6.91"/>
+      <circle cx="60.83" cy="57.34" r="8.11"/>
+      </mask>
+      <mask id={`${id}b`} maskUnits="userSpaceOnUse" x="-20" y="-20" width="140" height="140">
+      <rect x="-20" y="-20" width="140" height="140" fill="#fff"/>
+      <path d="M43.14 16.6L44.77 9.94L53.9 9.94L55.53 16.6L60.68 17.98L65.41 13.02L73.32 17.59L71.4 24.17L75.17 27.94L81.75 26.02L86.31 33.92L81.36 38.66L82.74 43.81L89.4 45.44L89.4 54.56L82.74 56.19L81.36 61.34L86.31 66.08L81.75 73.98L75.17 72.06L71.4 75.83L73.32 82.41L65.41 86.98L60.68 82.02L55.53 83.4L53.9 90.06L44.77 90.06L43.14 83.4L38 82.02L33.26 86.98L25.35 82.41L27.27 75.83L23.5 72.06L16.92 73.98L12.36 66.08L17.31 61.34L15.93 56.19L9.27 54.56L9.27 45.44L15.93 43.81L17.31 38.66L12.36 33.92L16.92 26.02L23.5 27.94L27.27 24.17L25.35 17.59L33.26 13.02L38 17.98Z" stroke="#000" strokeWidth="6.91" strokeLinejoin="round"/>
+      </mask>
+      <mask id={`${id}n`} maskUnits="userSpaceOnUse" x="-20" y="-20" width="140" height="140">
+      <rect x="-20" y="-20" width="140" height="140" fill="#fff"/>
+      <circle cx="39.9" cy="39.78" r="5.46"/>
+      <circle cx="60.83" cy="57.34" r="4.65"/>
+      <circle cx="89.82" cy="18.42" r="3.32"/>
+      </mask>
+      </defs>
+      <g fill="none" stroke="#15897a" strokeWidth="4.06" strokeLinecap="round" strokeLinejoin="round">
+      <g mask={`url(#${id}f)`}>
+      <path d="M43.14 16.6L44.77 9.94L53.9 9.94L55.53 16.6L60.68 17.98L65.41 13.02L73.32 17.59L71.4 24.17L75.17 27.94L81.75 26.02L86.31 33.92L81.36 38.66L82.74 43.81L89.4 45.44L89.4 54.56L82.74 56.19L81.36 61.34L86.31 66.08L81.75 73.98L75.17 72.06L71.4 75.83L73.32 82.41L65.41 86.98L60.68 82.02L55.53 83.4L53.9 90.06L44.77 90.06L43.14 83.4L38 82.02L33.26 86.98L25.35 82.41L27.27 75.83L23.5 72.06L16.92 73.98L12.36 66.08L17.31 61.34L15.93 56.19L9.27 54.56L9.27 45.44L15.93 43.81L17.31 38.66L12.36 33.92L16.92 26.02L23.5 27.94L27.27 24.17L25.35 17.59L33.26 13.02L38 17.98Z"/>
+      <circle cx="49.78" cy="49.7" r="24.08"/>
+      <path mask={`url(#${id}n)`} d="M25.88 46.77L61.82 28.85"/>
+      <circle cx="39.9" cy="39.78" r="5.46"/>
+      </g>
+      <g mask={`url(#${id}b)`}>
+      <path mask={`url(#${id}n)`} d="M3.7 71.38A52.58 14.77 -28.3 0 1 96.3 21.53"/>
+      </g>
+      <circle cx="89.82" cy="18.42" r="3.32"/>
+      <path mask={`url(#${id}n)`} d="M96.3 21.53A52.58 14.77 -28.3 0 1 3.7 71.38"/>
+      <circle cx="60.83" cy="57.34" r="4.65"/>
       </g>
     </svg>
   );
