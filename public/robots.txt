@@ -1,0 +1,6 @@
+# Everything here is public and static.
+User-agent: *
+Allow: /
+
+# Built from the board data by app/sitemap.ts.
+Sitemap: https://openlabbench.gwark.dev/sitemap.xml

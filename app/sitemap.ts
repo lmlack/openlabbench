@@ -7,11 +7,8 @@ import { getBoards } from "@/lib/boards";
 /**
  * Every page this site has, for crawlers.
  *
- * The site is served from gwark.dev/openlabbench, so this file lands at
- * /openlabbench/sitemap.xml. A sitemap may only list URLs at or below its own
- * directory, which is exactly the subtree it covers. The robots.txt that
- * points here lives at the root of gwark.dev, because that is the only place
- * a crawler looks for one.
+ * The site is served from the root of openlabbench.gwark.dev, so this file
+ * lands at /sitemap.xml, next to the robots.txt that points to it.
  *
  * lastModified comes from the mtime of the board's JSON file: the pin data is
  * the page. It is honest on a machine where the files were actually edited and
