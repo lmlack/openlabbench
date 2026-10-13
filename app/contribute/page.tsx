@@ -58,14 +58,14 @@ export default function ContributePage() {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
       <h1 className="text-center text-xl font-semibold tracking-tight sm:text-4xl">Contribute</h1>
       <p className="mx-auto mt-3 max-w-xl text-center text-muted">
-        Each pinout is one JSON file. The site builds from those files.
+        Each pinout is one JSON file, and the whole site is built from those files.
       </p>
 
       <Section title="Sending a change">
         {hasRepo ? (
           <>
             <p>
-              No clone needed. GitHub forks the repo and opens the file in its web editor.
+              You don&apos;t need to clone anything. GitHub makes a copy for you and opens the file in its editor.
             </p>
             <p className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-medium">
               <a href={newBoardUrl()!} className="text-accent hover:underline">
@@ -93,8 +93,7 @@ export default function ContributePage() {
           </p>
         )}
         <p>
-          Cite a source for every pin: a datasheet page or a vendor diagram. Untraceable data
-          does not go in.
+          Every pin needs a source, like a datasheet page or a diagram from the maker. If you can&apos;t point to one, leave it out.
         </p>
       </Section>
 
@@ -189,13 +188,12 @@ export default function ContributePage() {
 
       <Section title="Accuracy">
         <p>
-          Data comes from manufacturer datasheets and vendor diagrams. Clones and revisions
-          differ, so check your silkscreen before powering up.
+          The data comes from manufacturer datasheets and diagrams. Clones and revisions can differ, so check your board&apos;s silkscreen before you power it up.
         </p>
       </Section>
 
       <Section title="Wanted">
-        <p>Boards people ask for that are not here yet:</p>
+        <p>Boards people have asked for that aren&apos;t here yet:</p>
         <ul className="space-y-1.5">
           <li>BBC micro:bit edge connector, 25 strips including the five rings</li>
           <li>Raspberry Pi Compute Module 4, both 100-pin connectors</li>

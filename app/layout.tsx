@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s, openlabbench",
   },
   description:
-    "Interactive pinout diagrams, a searchable part cross-reference, and printable vector cheat sheets for microcontrollers, dev boards and the ICs on your bench.",
+    "Pinout diagrams you can click around in, a searchable list of part swaps, and cheat sheets you can print. For microcontrollers, dev boards and the chips on your bench.",
   keywords: [
     "pinout",
     "pinout diagram",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: "openlabbench",
     title: "openlabbench, hardware pinouts and cross-references",
     description:
-      "Interactive pinouts, searchable part equivalents and printable cheat sheets for your bench.",
+      "Pinouts, part swaps and printable cheat sheets for your bench.",
     images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "openlabbench: hardware pinouts, part swaps and printable cheat sheets." }],
   },
   twitter: { card: "summary_large_image" },
