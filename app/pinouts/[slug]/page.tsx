@@ -46,7 +46,7 @@ const jumpLink =
 
 const SECTION_TITLES: Record<string, string> = {
   diagram: "Pinout diagram",
-  "watch-out": "Watch out",
+  "watch-out": "Caution",
   circuit: "Minimum circuit",
   "bring-up": "Register configuration",
   "pin-table": "Full pin reference",
@@ -160,7 +160,7 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
 
       {board.notes && board.notes.length > 0 && (
         <section id="watch-out" className="mt-12 scroll-mt-20">
-          <SectionHead n={sectionNo("watch-out")} title="Watch out" />
+          <SectionHead n={sectionNo("watch-out")} title="Caution" />
           <ul className="mt-4 flex flex-wrap justify-center gap-2.5">
             {board.notes.map((note) => (
               <li

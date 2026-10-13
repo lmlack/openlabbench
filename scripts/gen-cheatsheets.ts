@@ -293,7 +293,7 @@ function render(board: Board): string {
     const top = gridTop + gridH + 26;
     body.push(
       `<line x1="${PAD}" y1="${top - 16}" x2="${W - PAD}" y2="${top - 16}" stroke="${LINE}" stroke-width="1"/>`,
-      `<text x="${PAD}" y="${top - 2}" font-size="10" font-weight="700" fill="${INK}">WATCH OUT</text>`,
+      `<text x="${PAD}" y="${top - 2}" font-size="10" font-weight="700" fill="${INK}">CAUTION</text>`,
     );
     let yL = top + 16;
     let yR = top + 16;
