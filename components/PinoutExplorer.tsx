@@ -157,20 +157,21 @@ export function PinoutExplorer({ board, grid, counts }: Props) {
 
 function BoardBody({ board }: { board: Board }) {
   const isChip = board.layout.kind === "dip";
+  // A DIP's notch sits at the pin-1 end, the top here, between pin 1 and the
+  // last pin. Drawn as a half-circle cut into the top edge, as on the real
+  // part, so it lines up with pin 1 however many pins the chip has.
   return (
-    <div className="flex w-8 items-center justify-center rounded-lg border border-line-strong bg-raised py-3 md:w-28">
-      <div className="flex flex-col items-center gap-2 [writing-mode:vertical-rl] rotate-180">
-        {isChip && (
-          <span
-            className="mb-1 size-3 rounded-full border border-line-strong md:size-4"
-            aria-label="Pin 1 notch marker"
-            title="Pin 1 end"
-          />
-        )}
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted md:text-sm">
-          {board.shortName.toUpperCase()}
-        </span>
-      </div>
+    <div className="relative flex w-8 items-center justify-center rounded-lg border border-line-strong bg-raised py-3 md:w-28">
+      {isChip && (
+        <span
+          className="absolute -top-px left-1/2 h-2.5 w-5 -translate-x-1/2 rounded-b-full border border-t-0 border-line-strong bg-panel md:h-3.5 md:w-7"
+          aria-label="Pin 1 notch marker"
+          title="Pin 1 end"
+        />
+      )}
+      <span className="rotate-180 text-xs font-semibold uppercase tracking-wider text-muted [writing-mode:vertical-rl] md:text-sm">
+        {board.shortName.toUpperCase()}
+      </span>
     </div>
   );
 }
