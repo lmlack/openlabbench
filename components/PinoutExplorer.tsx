@@ -104,14 +104,16 @@ export function PinoutExplorer({ board, grid, counts }: Props) {
 
       <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1fr)_20rem]">
         {/* ---- Diagram ---- */}
-        {/* Below ~360px a pin row with five bus badges is wider than the
-            screen. Scrolling the diagram inside its own card beats clipping
-            badges or dropping them, and leaves the rest of the page intact. */}
+        {/* Pins stay on both sides of the body at every width: where each pin
+            sits is the point of a pinout. Phones get a narrow body and drop
+            the bus badges and voltages, which the inspector and the table
+            still show. A board with very long names on a very narrow screen
+            scrolls inside its own card rather than squeezing. */}
         <div
-          className="overflow-x-auto rounded-2xl border border-line bg-panel p-3 sm:p-5"
+          className="overflow-x-auto rounded-2xl border border-line bg-panel p-2 sm:p-5"
           onMouseLeave={() => setPeeked(null)}
         >
-          <div className="grid gap-x-3 gap-y-6 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-1 max-[380px]:gap-x-0.5 md:gap-x-3">
             <PinColumn
               rows={grid}
               side="left"
@@ -156,16 +158,16 @@ export function PinoutExplorer({ board, grid, counts }: Props) {
 function BoardBody({ board }: { board: Board }) {
   const isChip = board.layout.kind === "dip";
   return (
-    <div className="order-first flex min-h-28 items-center justify-center rounded-lg border border-line-strong bg-raised px-4 py-3 md:order-none md:w-28 md:px-0">
-      <div className="flex flex-col items-center gap-2 md:[writing-mode:vertical-rl] md:rotate-180">
+    <div className="flex w-8 items-center justify-center rounded-lg border border-line-strong bg-raised py-3 md:w-28">
+      <div className="flex flex-col items-center gap-2 [writing-mode:vertical-rl] rotate-180">
         {isChip && (
           <span
-            className="size-4 rounded-full border border-line-strong md:mb-1"
+            className="mb-1 size-3 rounded-full border border-line-strong md:size-4"
             aria-label="Pin 1 notch marker"
             title="Pin 1 end"
           />
         )}
-        <span className="text-sm font-semibold uppercase tracking-wider text-muted">
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted md:text-sm">
           {board.shortName.toUpperCase()}
         </span>
       </div>
@@ -187,11 +189,7 @@ function PinColumn({ rows, side, label, dimmed, inspected, onPeek, onSelect }: C
   const mirror = side === "right";
   return (
     <div className="min-w-0">
-      <p
-        className={`eyebrow mb-2 ${
-          mirror ? "md:text-left" : "md:text-right"
-        }`}
-      >
+      <p className={`eyebrow mb-2 ${mirror ? "text-left" : "text-right"}`}>
         {label}
       </p>
       <ul className="space-y-1">
@@ -200,7 +198,7 @@ function PinColumn({ rows, side, label, dimmed, inspected, onPeek, onSelect }: C
           if (!pin) {
             // Keeps the two columns in step where one side has a gap
             // (the Uno's power and analog headers are different lengths).
-            return <li key={row.row} className="hidden h-9 md:block" aria-hidden="true" />;
+            return <li key={row.row} className="h-9" aria-hidden="true" />;
           }
           return (
             <li key={`${row.row}-${pin.name}`}>
@@ -248,8 +246,8 @@ function PinRow({
       onBlur={() => onPeek(null)}
       onClick={() => onSelect(pin)}
       aria-label={`${pin.name}${pin.number ? `, pin ${pin.number}` : ""}, ${meta.label}`}
-      className={`flex h-9 w-full items-center gap-2 rounded-md border px-1.5 transition-all ${
-        mirror ? "flex-row" : "flex-row md:flex-row-reverse"
+      className={`flex h-9 w-full items-center gap-1 rounded-md border px-0.5 transition-all md:gap-2 md:px-1.5 ${
+        mirror ? "flex-row" : "flex-row-reverse"
       } ${dim ? "pin-dim" : ""} ${
         active ? "border-line-strong bg-raised" : "border-transparent hover:bg-raised"
       }`}
@@ -257,29 +255,33 @@ function PinRow({
       {/* Pin number sits against the board body, as it does on a real one.
           Omitted on packages whose pins are named rather than numbered. */}
       {pin.number != null && (
-        <span className="flex size-6 shrink-0 items-center justify-center rounded border border-line bg-bg font-mono text-sm text-subtle">
+        <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded border border-line bg-bg px-0.5 font-mono text-xs text-subtle md:size-6 md:px-0 md:text-sm">
           {pin.number}
         </span>
       )}
 
       <span
-        className="sig-dot size-2.5 shrink-0 rounded-full"
+        className="sig-dot size-2 shrink-0 rounded-full md:size-2.5"
         style={{ "--sig": meta.color } as React.CSSProperties}
         title={meta.label}
       />
 
       <span
-        className="sig-text shrink-0 font-mono text-sm font-medium"
+        // The few 9- and 10-character names (BeagleBone, Rock 5B) set slightly
+        // tighter on phones, so they fit beside the body like the rest.
+        className={`sig-text shrink-0 font-mono text-xs font-medium md:text-sm ${
+          pin.name.length >= 9 ? "max-md:text-[11px] max-md:tracking-tight" : ""
+        }`}
         style={{ "--sig": meta.color } as React.CSSProperties}
       >
         {pin.name}
       </span>
 
       {pin.voltage && (
-        <span className="shrink-0 text-sm text-subtle">{pin.voltage}</span>
+        <span className="hidden shrink-0 text-sm text-subtle md:inline">{pin.voltage}</span>
       )}
 
-      <span className={`flex shrink-0 gap-1 ${mirror ? "" : "md:flex-row-reverse"}`}>
+      <span className={`hidden shrink-0 gap-1 md:flex ${mirror ? "" : "flex-row-reverse"}`}>
         {(pin.tags ?? []).map((t) => (
           <SignalBadge key={t} k={t} size="xs" />
         ))}
