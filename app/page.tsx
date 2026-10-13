@@ -33,7 +33,7 @@ export default function Home() {
             open<b className="font-extrabold">lab</b>bench
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-xl font-bold leading-snug text-muted">
-            Pinouts, part equivalents, printable cheat sheets.
+            Pinouts, part swaps and cheat sheets you can print.
           </p>
 
           <div className="mt-9 flex flex-wrap justify-center gap-3">
@@ -65,19 +65,19 @@ export default function Home() {
           <Feature
             href="/pinouts"
             title="Interactive pinouts"
-            body="Hover a signal, every pin carrying it lights up. Click a pin for its aliases, peripheral mappings and the gotcha nobody writes down."
+            body="Hover a signal and every pin that carries it lights up. Click a pin to see its other names, what it can be used for, and the gotchas that are easy to miss."
             accent={signal("i2c").color}
           />
           <Feature
             href="/cross-reference"
-            title="Substitutions, explained"
-            body="An IRF540N is not an IRLZ44N. A BMP280 has no humidity channel. Every swap is graded, and says what changes."
+            title="Part swaps"
+            body="Out of a part? Find what can replace it. Each swap is rated and tells you what&apos;s different, like a BMP280 having no humidity sensor."
             accent={signal("spi").color}
           />
           <Feature
             href="/cheat-sheets"
-            title="Vector cheat sheets"
-            body="One printable SVG per board, built from the same data. Sharp at any size, clean in black and white."
+            title="Printable cheat sheets"
+            body="One sheet per board, made from the same data. They stay sharp at any size and print fine in black and white."
             accent={signal("pwm").color}
           />
         </div>
@@ -86,10 +86,9 @@ export default function Home() {
       {/* Signal legend */}
       <section className="border-y border-line bg-panel">
         <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6">
-          <h2 className="text-lg font-semibold">One color language, everywhere</h2>
+          <h2 className="text-lg font-semibold">The colors mean the same thing everywhere</h2>
           <p className="mx-auto mt-1.5 max-w-xl text-sm text-muted">
-            One electrical role sets a pin&apos;s color. Bus capabilities stack on top, because a
-            GPIO that is also SPI clock is both.
+            A pin&apos;s color shows its main job. Extra buses get their own tags on top, since a pin can be GPIO and SPI clock at the same time.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {LEGEND_ORDER.map((key) => {
@@ -161,16 +160,15 @@ export default function Home() {
       {/* Contribute */}
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <div className="rounded-2xl border border-line bg-panel p-6 text-center sm:p-8">
-          <h2 className="text-lg font-semibold">It is all plain JSON</h2>
+          <h2 className="text-lg font-semibold">It&apos;s all plain JSON</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted">
-            A pinout is one file in <span className="font-mono text-fg">data/boards/</span>. Drop it
-            in, and the page, the search index and the cheat sheet appear on the next build.
+            Each pinout is one file in <span className="font-mono text-fg">data/boards/</span>. Add one and the page, search and cheat sheet show up on the next build.
           </p>
           <Link
             href="/contribute"
             className="mt-5 inline-flex h-10 items-center rounded-lg border border-line px-4 text-sm transition-colors hover:border-line-strong"
           >
-            Read the schema
+            See how it works
           </Link>
         </div>
       </section>

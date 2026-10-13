@@ -11,8 +11,7 @@ export function SiteFooter({ boards, parts }: { boards: number; parts: number })
             open<span className="text-accent">lab</span>bench
           </p>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-            Pinouts, part equivalents and printable cheat sheets. Every pin is a line of JSON in
-            the repo.
+            Pinouts, part swaps and printable cheat sheets, all made from plain JSON in the repo.
           </p>
           <a
             href={`${SITE_ORIGIN}/#projects`}
@@ -75,8 +74,7 @@ export function SiteFooter({ boards, parts }: { boards: number; parts: number })
       </div>
       <div className="mx-auto max-w-6xl border-t border-line px-4 py-5 sm:px-6">
         <p className="mx-auto max-w-2xl text-center text-sm text-subtle">
-          Compiled from manufacturer datasheets. Check your own board&apos;s silkscreen before you
-          apply power. Revisions and clones differ.
+          Pulled from manufacturer datasheets. Boards and clones vary, so check your board&apos;s silkscreen before you power it up.
         </p>
       </div>
     </footer>

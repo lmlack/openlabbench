@@ -20,8 +20,7 @@ export default function CrossReferencePage() {
       <header className="mx-auto max-w-2xl text-center">
         <h1 className="text-xl font-semibold tracking-tight sm:text-4xl">Part cross-reference</h1>
         <p className="mt-3 text-muted">
-          {total} alternatives across {parts.length} parts. Every one says <em>why</em> it is or is
-          not a straight swap.
+          {total} swaps for {parts.length} parts. Each one tells you whether it&apos;s a drop-in replacement, and if not, <em>why</em>.
         </p>
       </header>
 

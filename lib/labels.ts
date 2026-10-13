@@ -30,19 +30,19 @@ export const CONFIDENCE_META: Record<
 > = {
   "drop-in": {
     label: "Drop-in",
-    blurb: "Same pinout and behavior. Swap it and move on.",
+    blurb: "Same pinout and behavior. Just swap it in.",
     color: "#22c55e",
     ink: "#147236",
   },
   caveats: {
     label: "With caveats",
-    blurb: "Works after a change, read the note before you solder.",
+    blurb: "Works with a small change. Read the note before you solder.",
     color: "#eab308",
     ink: "#8f5a00",
   },
   "not-drop-in": {
     label: "Not drop-in",
-    blurb: "Solves the same problem, different pinout or interface.",
+    blurb: "Does the same job, but the pinout or interface is different.",
     color: "#f97316",
     ink: "#b91c1c",
   },
