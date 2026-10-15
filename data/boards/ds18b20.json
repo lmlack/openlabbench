@@ -56,9 +56,6 @@
       "number": 2,
       "name": "DQ",
       "primary": "gpio",
-      "tags": [
-        "uart"
-      ],
       "functions": [
         "1-Wire data"
       ],

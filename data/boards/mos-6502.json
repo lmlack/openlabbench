@@ -34,7 +34,7 @@
     "Vectors live at the top of memory: NMI at FFFA, RESET at FFFC, IRQ and BRK at FFFE.",
     "IRQ is level sensitive and maskable with SEI. NMI is edge triggered and cannot be masked, so a noisy NMI line gives you interrupts you never asked for. Tie both high through a resistor if unused.",
     "The NMOS 6502 has no minimum clock speed restriction going up but will lose state if clocked too slowly. The CMOS W65C02 is fully static, so you can single-step it by hand with a debounced switch. That alone makes it the better part to learn on.",
-    "On the W65C02 the unused pins change: pin 5 becomes ML, pin 36 becomes BE, and pin 38 becomes SOB. Pin 1 also becomes VPB on some variants."
+    "On the W65C02 the unused pins change: pin 5 becomes ML, pin 36 becomes BE, and pin 38 keeps its job as SO, renamed SOB. Pin 1 also becomes VPB on some variants."
   ],
   "docs": [
     {

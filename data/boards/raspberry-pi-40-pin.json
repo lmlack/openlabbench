@@ -4,7 +4,7 @@
   "shortName": "RPi 40-pin",
   "vendor": "Raspberry Pi",
   "category": "sbc",
-  "summary": "The J8 header shared by every 40-pin Raspberry Pi, from the Model B+ through the Pi 5. Names are BCM numbers, which is what libgpiod, pigpio and the Python GPIO libraries expect.",
+  "summary": "The J8 header shared by every 40-pin Raspberry Pi, from the Model B+ through the Pi 5. Names are BCM numbers, which is what libgpiod, pigpio and the Python GPIO libraries expect. The alternate functions listed are the BCM283x / BCM2711 ones; the Pi 5 routes the header through its RP1 chip, which has a different function table.",
   "logic": "3.3 V",
   "package": "2x20 2.54 mm header (J8)",
   "layout": {
@@ -17,7 +17,7 @@
   "notes": [
     "Pins are 3.3 V only. Driving one from a 5 V output will damage the SoC, level shift anything 5 V.",
     "GPIO2 and GPIO3 carry fixed 1.8 kΩ pull-ups to 3V3 on the board, so they cannot be used as plain inputs with an external pull-down.",
-    "Total current drawn from all 3V3 pins combined should stay under roughly 50 mA; per-pin GPIO drive is safe to about 16 mA, 50 mA across the whole header.",
+    "Each GPIO pin is safe to about 16 mA. The 50 mA figure for the whole header comes from the original Model B; current boards have more headroom on 3V3, but keep GPIO loads small and drive anything bigger through a transistor.",
     "GPIO0/GPIO1 (pins 27/28) are reserved for HAT ID EEPROM detection. Avoid them unless you are building a HAT.",
     "Pin numbering is physical here. BCM (Broadcom) numbers are the pin names; the obsolete WiringPi scheme is a third numbering you will still see in old forum posts."
   ],
@@ -26,11 +26,11 @@
     { "label": "pinout.xyz", "url": "https://pinout.xyz" }
   ],
   "pins": [
-    { "number": 1, "name": "3V3", "primary": "power3", "voltage": "3.3 V", "functions": ["3.3 V supply out"], "note": "~50 mA budget shared with pin 17." },
-    { "number": 2, "name": "5V", "primary": "power5", "voltage": "5 V", "functions": ["5 V supply out"], "note": "Fed straight from the USB-C / micro-USB input, upstream of the 3V3 regulator." },
+    { "number": 1, "name": "3V3", "primary": "power3", "voltage": "3.3 V", "functions": ["3.3 V supply out"], "note": "Shared with pin 17. Fine for sensors and small boards; power anything big from its own regulator." },
+    { "number": 2, "name": "5V", "primary": "power5", "voltage": "5 V", "functions": ["5 V supply out"], "note": "Fed straight from the USB input, upstream of the 3V3 regulator." },
     { "number": 3, "name": "GPIO2", "primary": "gpio", "aliases": ["BCM 2", "SDA1", "I2C1 SDA"], "tags": ["i2c"], "functions": ["I2C1 SDA"], "note": "Fixed 1.8 kΩ pull-up to 3V3." },
     { "number": 4, "name": "5V", "primary": "power5", "voltage": "5 V", "functions": ["5 V supply out"] },
-    { "number": 5, "name": "GPIO3", "primary": "gpio", "aliases": ["BCM 3", "SCL1", "I2C1 SCL"], "tags": ["i2c"], "functions": ["I2C1 SCL"], "note": "Fixed 1.8 kΩ pull-up to 3V3. Also wakes the Pi from halt when pulled low." },
+    { "number": 5, "name": "GPIO3", "primary": "gpio", "aliases": ["BCM 3", "SCL1", "I2C1 SCL"], "tags": ["i2c"], "functions": ["I2C1 SCL"], "note": "Fixed 1.8 kΩ pull-up to 3V3. On a Pi 4 and earlier, pulling it low also wakes the Pi from halt." },
     { "number": 6, "name": "GND", "primary": "gnd", "functions": ["Ground"] },
     { "number": 7, "name": "GPIO4", "primary": "gpio", "aliases": ["BCM 4", "GPCLK0"], "tags": ["clock"], "functions": ["GPCLK0"], "note": "Default 1-Wire bus pin (w1-gpio overlay), used by DS18B20 sensors." },
     { "number": 8, "name": "GPIO14", "primary": "gpio", "aliases": ["BCM 14", "TXD0", "TXD"], "tags": ["uart"], "functions": ["UART0 TXD"] },
@@ -54,7 +54,7 @@
     { "number": 26, "name": "GPIO7", "primary": "gpio", "aliases": ["BCM 7", "CE1"], "tags": ["spi"], "functions": ["SPI0 CE1"] },
     { "number": 27, "name": "GPIO0", "primary": "ctrl", "aliases": ["BCM 0", "ID_SD"], "tags": ["i2c"], "functions": ["ID EEPROM SDA"], "note": "Reserved for HAT identification at boot." },
     { "number": 28, "name": "GPIO1", "primary": "ctrl", "aliases": ["BCM 1", "ID_SC"], "tags": ["i2c"], "functions": ["ID EEPROM SCL"], "note": "Reserved for HAT identification at boot." },
-    { "number": 29, "name": "GPIO5", "primary": "gpio", "aliases": ["BCM 5"], "functions": ["GPCLK1"], "note": "Pulling low wakes a halted Pi 4 / Pi 5." },
+    { "number": 29, "name": "GPIO5", "primary": "gpio", "aliases": ["BCM 5"], "functions": ["GPCLK1"] },
     { "number": 30, "name": "GND", "primary": "gnd", "functions": ["Ground"] },
     { "number": 31, "name": "GPIO6", "primary": "gpio", "aliases": ["BCM 6"], "functions": ["GPCLK2"] },
     { "number": 32, "name": "GPIO12", "primary": "gpio", "aliases": ["BCM 12"], "tags": ["pwm"], "functions": ["PWM0"] },

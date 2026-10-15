@@ -6,7 +6,7 @@
   "category": "ic",
   "summary": "Eight more pins over two wires, and the chip on every I2C LCD backpack. Quasi-bidirectional outputs, which is the catch.",
   "logic": "2.5-6 V",
-  "package": "PDIP-16 / SOIC-16 / TSSOP-16",
+  "package": "PDIP-16 / SOIC-16 (TI's TSSOP is 20-pin with a different pinout)",
   "keywords": [
     "pcf8574",
     "pcf8574a",
@@ -21,7 +21,7 @@
     "Outputs are quasi-bidirectional: a strong pull-down but only a weak 100 uA pull-up. They sink 25 mA happily and source almost nothing, so wire LEDs to the positive rail and sink through the pin.",
     "To use a pin as an input, write a 1 to it first. That releases it to the weak pull-up, and an external switch to ground then reads as 0. Writing a 0 and then reading gives you 0 forever.",
     "A0, A1 and A2 set the low three address bits: 0x20 to 0x27 on the PCF8574, and 0x38 to 0x3F on the PCF8574A. Sellers mix the two parts freely, so scan the bus before assuming.",
-    "INT (pin 13) is open drain and pulses on any input change, which saves polling. It needs its own pull-up.",
+    "INT (pin 13) is open drain and goes low on any input change, which saves polling. It stays low until you read or write the port, or the input changes back. It needs its own pull-up.",
     "If you need real configurable pull-ups, push-pull outputs or per-pin direction, the MCP23017 does all three for a little more money and a register map."
   ],
   "docs": [
@@ -146,7 +146,7 @@
       "functions": [
         "Interrupt, open drain"
       ],
-      "note": "Pulses low on any input change. Needs a pull-up."
+      "note": "Goes low on any input change and stays low until the port is read or written. Needs a pull-up."
     },
     {
       "number": 14,
@@ -195,7 +195,7 @@
       "title": "Read and write the port over I2C",
       "toolchain": "Linux i2c-dev",
       "lang": "c",
-      "code": "#include <fcntl.h>\n#include <unistd.h>\n#include <linux/i2c-dev.h>\n#include <sys/ioctl.h>\n\nint fd = open(\"/dev/i2c-1\", O_RDWR);\nioctl(fd, I2C_SLAVE, 0x20);        /* A2..A0 all grounded */\n\nuint8_t out = 0x0F;                /* low nibble low, high nibble released */\nwrite(fd, &out, 1);\n\n/* To read a pin you must first write a 1 to it, which releases it\n   to the weak pull-up. A pin you last wrote 0 reads 0 forever. */\nuint8_t mask = 0xF0;\nwrite(fd, &mask, 1);\nuint8_t in;\nread(fd, &in, 1);",
+      "code": "#include <fcntl.h>\n#include <unistd.h>\n#include <linux/i2c-dev.h>\n#include <sys/ioctl.h>\n\nint fd = open(\"/dev/i2c-1\", O_RDWR);\nioctl(fd, I2C_SLAVE, 0x20);        /* A2..A0 all grounded */\n\nuint8_t out = 0x0F;                /* low nibble released, high nibble low */\nwrite(fd, &out, 1);\n\n/* To read a pin you must first write a 1 to it, which releases it\n   to the weak pull-up. A pin you last wrote 0 reads 0 forever. */\nuint8_t mask = 0xF0;\nwrite(fd, &mask, 1);\nuint8_t in;\nread(fd, &in, 1);",
       "gotcha": "There are no registers and no direction bits. Writing 1 releases a pin to a weak 100 uA pull-up so it can be read; writing 0 pulls it hard low. Outputs sink 25 mA but barely source, so wire LEDs to the positive rail."
     }
   ],

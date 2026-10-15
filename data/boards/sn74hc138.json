@@ -20,7 +20,7 @@
   "notes": [
     "Outputs are ACTIVE LOW. Exactly one of Y0 to Y7 goes low, the rest stay high, which is exactly what an active-low chip select wants.",
     "Three enables, and all three must agree: E1 and E2 are active low, E3 is active high. That is deliberate, because it lets you gate the decoder with the CPU clock and an address line without extra gates. On a 6502, E3 from PHI2 and E1 from a high address bit is the whole decode.",
-    "Cascade two by feeding a fourth address bit into E3 of one and an inverted copy into E2 of the other, which gives you 4-to-16 without a bigger part.",
+    "Cascade two by feeding a fourth address bit into E3 of one and E1 of the other. One chip is on when that bit is high and the other when it is low, which gives you 4-to-16 without a bigger part or an inverter.",
     "Leaving any enable floating means the decoder either never fires or fires constantly. This is the usual reason a breadboard bus has two devices driving at once.",
     "For 4-to-16 in one package the 74HC154 does it directly, at 24 pins."
   ],

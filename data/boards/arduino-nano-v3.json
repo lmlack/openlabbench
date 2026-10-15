@@ -31,7 +31,7 @@
     "VIN takes 7-12 V. The regulator is small, so a 12 V supply plus a few peripherals will get hot.",
     "Clones ship with a CH340 instead of the original FT232RL, which needs a different USB driver but is otherwise interchangeable.",
     "RESET appears twice on the header, which is handy when the ICSP side is occupied.",
-    "The newer Nano Every, Nano 33 IoT and Nano ESP32 keep this footprint but are 3.3 V parts with different peripherals."
+    "The newer Nano Every, Nano 33 IoT and Nano ESP32 keep this footprint but have different peripherals. The Nano Every is still 5 V; the Nano 33 IoT and Nano ESP32 are 3.3 V parts."
   ],
   "docs": [
     {

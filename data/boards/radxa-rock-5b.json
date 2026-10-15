@@ -4,7 +4,7 @@
   "shortName": "ROCK 5B",
   "vendor": "Radxa",
   "category": "sbc",
-  "summary": "RK3588S octa-core board with a Raspberry-Pi-shaped 40-pin header. The holes line up; almost nothing else does.",
+  "summary": "RK3588 octa-core board with a Raspberry-Pi-shaped 40-pin header. The holes line up; almost nothing else does.",
   "logic": "3.3 V GPIO, 1.8 V ADC",
   "package": "2x20 2.54 mm header",
   "layout": {
@@ -21,7 +21,6 @@
     "rock5b",
     "radxa",
     "rk3588",
-    "rk3588s",
     "rock 5",
     "orange pi 5 alternative",
     "sbc"

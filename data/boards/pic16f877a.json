@@ -5,7 +5,7 @@
   "vendor": "Microchip",
   "category": "mcu-chip",
   "summary": "The PIC that taught a generation of engineering students. 33 I/O, eight ADC channels and a DIP-40 you can still breadboard.",
-  "logic": "2.0-5.5 V",
+  "logic": "4.0-5.5 V",
   "package": "PDIP-40 / TQFP-44 / PLCC-44",
   "keywords": [
     "pic16f877a",
@@ -38,8 +38,7 @@
       "name": "MCLR",
       "primary": "ctrl",
       "aliases": [
-        "VPP",
-        "RE3"
+        "VPP"
       ],
       "functions": [
         "Reset, active low",
@@ -83,7 +82,8 @@
       "primary": "gpio",
       "aliases": [
         "AN2",
-        "VREF-"
+        "VREF-",
+        "CVREF"
       ],
       "tags": [
         "analog"
@@ -91,7 +91,8 @@
       "functions": [
         "Port A bit 2",
         "ADC 2",
-        "ADC negative reference"
+        "ADC negative reference",
+        "Comparator voltage reference out"
       ]
     },
     {
@@ -116,16 +117,18 @@
       "name": "RA4",
       "primary": "gpio",
       "aliases": [
-        "T0CKI"
+        "T0CKI",
+        "C1OUT"
       ],
       "tags": [
         "clock"
       ],
       "functions": [
         "Port A bit 4",
-        "Timer0 clock in"
+        "Timer0 clock in",
+        "Comparator 1 out"
       ],
-      "note": "Open drain only. It cannot source current, so an LED here needs a pull-up, not a series resistor to VDD."
+      "note": "Open drain only. It can sink but not source current. Wire an LED and series resistor from VDD to this pin, and add a pull-up only if you need it to output a high."
     },
     {
       "number": 7,
@@ -133,7 +136,8 @@
       "primary": "gpio",
       "aliases": [
         "AN4",
-        "SS"
+        "SS",
+        "C2OUT"
       ],
       "tags": [
         "analog",
@@ -142,7 +146,8 @@
       "functions": [
         "Port A bit 5",
         "ADC 4",
-        "SPI slave select"
+        "SPI slave select",
+        "Comparator 2 out"
       ]
     },
     {
@@ -203,7 +208,7 @@
       "functions": [
         "Positive supply"
       ],
-      "voltage": "2.0-5.5 V",
+      "voltage": "4.0-5.5 V",
       "note": "Both VDD pins, 11 and 32, must be connected."
     },
     {
@@ -218,7 +223,7 @@
     {
       "number": 13,
       "name": "OSC1",
-      "primary": "gpio",
+      "primary": "ctrl",
       "aliases": [
         "CLKIN"
       ],
@@ -232,7 +237,7 @@
     {
       "number": 14,
       "name": "OSC2",
-      "primary": "gpio",
+      "primary": "ctrl",
       "aliases": [
         "CLKOUT"
       ],
@@ -484,7 +489,7 @@
       "functions": [
         "Positive supply"
       ],
-      "voltage": "2.0-5.5 V",
+      "voltage": "4.0-5.5 V",
       "note": "The second supply pin. Connect it."
     },
     {

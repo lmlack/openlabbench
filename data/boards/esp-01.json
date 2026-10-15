@@ -15,20 +15,21 @@
   },
   "keywords": ["esp-01", "esp01", "esp01s", "esp8266", "ai-thinker", "wifi module", "at commands"],
   "notes": [
-    "CH_PD must be pulled HIGH for the chip to run at all. A fresh ESP-01 wired up with CH_PD left floating does nothing, and this is the single most common reason one appears dead.",
+    "CH_PD must be pulled HIGH for the chip to run at all. On the original ESP-01, CH_PD left floating does nothing, and this is the single most common reason one appears dead. The ESP-01S has pull-ups on CH_PD and RST already.",
     "Only GPIO0 and GPIO2 are brought out as general I/O, and both are strapping pins. GPIO0 low at boot enters flash mode; GPIO2 must be high at boot. That leaves very little room for a pull-down on either.",
     "No on-board regulator and no 5 V tolerance anywhere. Feed it a clean 3.3 V that can deliver 300 mA peaks. The 3.3 V pin on a USB-serial adapter usually cannot, and the symptom is random resets during WiFi association.",
     "TX and RX are 3.3 V. The module's RX is not 5 V tolerant, so a 5 V Arduino needs a divider on that line.",
     "No ADC pin is brought out, and neither is GPIO15 or GPIO16, so deep-sleep wake is not possible without soldering to the chip.",
     "The ESP-01S has 1 MB flash and moves the on-board LED to GPIO2. The original blue ESP-01 has 512 KB and its LED on the TX pin.",
-    "The 2x4 header is on 2.54 mm pitch but the two rows are only 0.1 inch apart, so it does not straddle a breadboard center channel. Use an adapter or jumpers."
+    "The 2x4 header is on 2.54 mm pitch but the two rows are only 0.1 inch apart, so it does not straddle a breadboard center channel. Use an adapter or jumpers.",
+    "Needs checking: which pins sit on the outer and inner rows hasn't been confirmed against an official Ai-Thinker drawing."
   ],
   "docs": [
     { "label": "ESP8266EX datasheet (Espressif)", "url": "https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf" }
   ],
   "pins": [
     { "name": "TX", "primary": "gpio", "aliases": ["GPIO1", "TXD0"], "tags": ["uart"], "functions": ["UART0 TXD"], "side": "left", "row": 1, "note": "Also the boot log output. High at boot; pulling it low stops the chip starting." },
-    { "name": "CH_PD", "primary": "ctrl", "aliases": ["CH_EN", "EN"], "functions": ["Chip enable, active high"], "side": "left", "row": 2, "note": "Must be tied high, through 10k to 3.3 V. Nothing runs until it is." },
+    { "name": "CH_PD", "primary": "ctrl", "aliases": ["CH_EN", "EN"], "functions": ["Chip enable, active high"], "side": "left", "row": 2, "note": "Must be tied high, through 10k to 3.3 V. Nothing runs until it is. The ESP-01S has this pull-up on board." },
     { "name": "RST", "primary": "ctrl", "aliases": ["RESET"], "functions": ["Active-low reset"], "side": "left", "row": 3, "note": "Pull low to reset. Leave floating or pull high in normal use." },
     { "name": "3V3", "primary": "power3", "voltage": "3.0-3.6 V", "functions": ["Supply in"], "side": "left", "row": 4, "note": "Supply input, not an output. Needs 300 mA of headroom for transmit bursts." },
 

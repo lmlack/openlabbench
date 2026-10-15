@@ -37,16 +37,18 @@
       "name": "P1.0",
       "primary": "gpio",
       "functions": [
-        "Port 1 bit 0"
+        "Port 1 bit 0",
+        "T2 (Timer 2 external count input)"
       ],
-      "note": "Port 1 has internal pull-ups and is the only port that is plain I/O with no second job."
+      "note": "Port 1 has internal pull-ups. Its only second jobs are Timer 2 on P1.0 and P1.1 and the ISP lines on P1.5 to P1.7."
     },
     {
       "number": 2,
       "name": "P1.1",
       "primary": "gpio",
       "functions": [
-        "Port 1 bit 1"
+        "Port 1 bit 1",
+        "T2EX (Timer 2 capture/reload trigger)"
       ]
     },
     {
@@ -217,7 +219,7 @@
     {
       "number": 18,
       "name": "XTAL2",
-      "primary": "gpio",
+      "primary": "ctrl",
       "tags": [
         "clock"
       ],
@@ -228,7 +230,7 @@
     {
       "number": 19,
       "name": "XTAL1",
-      "primary": "gpio",
+      "primary": "ctrl",
       "tags": [
         "clock"
       ],

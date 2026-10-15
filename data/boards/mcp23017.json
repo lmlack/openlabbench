@@ -98,7 +98,7 @@
         "why": "A2 tied low. All three low puts the chip at 0x20."
       }
     ],
-    "note": "INTA and INTB are open drain by default and need their own pull-up if you use them. Nothing else is required: the GPIO pull-ups are inside the chip and switched on in software."
+    "note": "INTA and INTB are push-pull, active low by default. Set the ODR bit in IOCON to make them open drain, and then they need their own pull-up. Nothing else is required: the GPIO pull-ups are inside the chip and switched on in software."
   },
   "pins": [
     { "number": 1, "name": "GPB0", "primary": "gpio", "functions": ["Port B bit 0"], "note": "Push-pull, 25 mA either direction, with an optional 100 kOhm pull-up." },
@@ -119,7 +119,7 @@
     { "number": 16, "name": "A1", "primary": "ctrl", "functions": ["Address bit 1"] },
     { "number": 17, "name": "A2", "primary": "ctrl", "functions": ["Address bit 2"], "note": "All three low gives 0x20, all high gives 0x27." },
     { "number": 18, "name": "RESET", "primary": "ctrl", "aliases": ["/RESET"], "functions": ["Reset, active low"], "note": "No internal pull-up. Must be held high to run." },
-    { "number": 19, "name": "INTB", "primary": "gpio", "functions": ["Port B interrupt out"], "note": "Open drain by default. Configurable active high or low." },
+    { "number": 19, "name": "INTB", "primary": "gpio", "functions": ["Port B interrupt out"], "note": "Push-pull and active low by default. Can be set to active high or open drain." },
     { "number": 20, "name": "INTA", "primary": "gpio", "functions": ["Port A interrupt out"], "note": "Can be mirrored with INTB so either port triggers both." },
     { "number": 21, "name": "GPA0", "primary": "gpio", "functions": ["Port A bit 0"] },
     { "number": 22, "name": "GPA1", "primary": "gpio", "functions": ["Port A bit 1"] },

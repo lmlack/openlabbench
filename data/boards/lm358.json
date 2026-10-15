@@ -5,7 +5,7 @@
   "vendor": "TI / ON / many",
   "category": "ic",
   "summary": "The default jellybean op-amp: two channels, runs from a single supply, and cannot reach either rail.",
-  "logic": "3-32 V single or +/-1.5-16 V split",
+  "logic": "3-30 V single or +/-1.5-15 V split",
   "package": "PDIP-8 / SOIC-8",
   "layout": {
     "kind": "dip",
@@ -27,9 +27,9 @@
   ],
   "notes": [
     "Not rail to rail. The output gets within about 1.5 V of V+ and the input common mode range stops 1.5 V below it too. On a 3.3 V rail that leaves almost nothing, which is why it misbehaves in modern designs.",
-    "The output does reach close to ground, which is the trick that makes single supply work at all. Sinking current near 0 V is weak though, roughly 50 uA without a pull-down resistor.",
+    "The output does reach close to ground, which is the trick that makes single supply work at all. Sinking current near 0 V is weak though, about 30 uA typical and 12 uA guaranteed, without a pull-down resistor.",
     "There is crossover distortion in the output stage. Fine for DC and sensor conditioning, audibly bad for audio. Use a TL072 or an NE5532 there.",
-    "1 MHz gain bandwidth. At a gain of 100 you have 10 kHz of bandwidth left, and no more.",
+    "0.7 MHz gain bandwidth, or 1.2 MHz on the LM358B. At a gain of 100 you have 7 kHz of bandwidth left, and no more.",
     "The LM393 comparator shares this package and pin arrangement but has an open collector output. The two look identical on a board and are not interchangeable.",
     "Pin 4 is the negative supply, which is ground in a single supply circuit. Pin 8 is V+. That is the opposite corner pair from most DIP-8 logic."
   ],
@@ -139,7 +139,7 @@
       "number": 8,
       "name": "V+",
       "primary": "vcc",
-      "voltage": "3-32 V",
+      "voltage": "3-30 V",
       "functions": [
         "Positive supply"
       ],

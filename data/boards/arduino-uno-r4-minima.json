@@ -23,7 +23,7 @@
     "A1, A2 and A3 are the on-chip op-amp: plus input, minus input and output, in that order. Leave the op-amp disabled and they are ordinary analog inputs.",
     "CAN is on D4 and D5, and the official datasheet gets this backwards in its description column. The pinout diagram's peripheral table is right: D4 is CTX0, the transmitter, and D5 is CRX0, the receiver. Either way you still need an external transceiver; these are logic-level pins.",
     "Not every pin can raise an interrupt. The RA4M1 routes IRQ lines to D0, D1, D2, D3, D8, D12, D13, A4 and A5 only, which is a trap if you are porting code from a board where every pin could.",
-    "PWM is on D3, D5, D6, D9, D10 and D11. D13 cannot do it any more, which breaks a surprising amount of old Uno example code.",
+    "PWM is on D3, D5, D6, D9, D10 and D11, the same pins as the Uno R3.",
     "A4 and A5 are the same silicon pins as D18 and D19, and they carry I2C. You get the analog input or the I2C bus, not both at once.",
     "The ADC will do 14 bits if you ask for it with analogReadResolution. It defaults to 10 for compatibility with code written for the R3.",
     "Position 1 on the power header is BOOT on this board, where the R3 had an unconnected pin. The barrel jack takes 6 to 24 V, a much wider range than the R3 was happy with."
@@ -49,7 +49,7 @@
     { "name": "SDA", "primary": "gpio", "aliases": ["D18", "A4", "P101"], "tags": ["i2c"], "functions": ["I2C SDA"], "note": "Same silicon pin as A4.", "side": "left", "row": 2 },
     { "name": "AREF", "primary": "ctrl", "functions": ["ADC reference in"], "note": "Only drive this after switching the reference in software.", "side": "left", "row": 3 },
     { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "left", "row": 4 },
-    { "name": "D13", "primary": "gpio", "aliases": ["SCK", "P111"], "tags": ["spi", "clock"], "functions": ["SPI clock", "On-board LED", "IRQ4"], "note": "The LED pin, and no longer PWM capable.", "side": "left", "row": 5 },
+    { "name": "D13", "primary": "gpio", "aliases": ["SCK", "P111"], "tags": ["spi", "clock"], "functions": ["SPI clock", "On-board LED", "IRQ4"], "note": "The LED pin. Not PWM capable, same as on the Uno R3.", "side": "left", "row": 5 },
     { "name": "D12", "primary": "gpio", "aliases": ["CIPO", "MISO", "P110"], "tags": ["spi"], "functions": ["SPI CIPO", "IRQ3"], "side": "left", "row": 6 },
     { "name": "D11", "primary": "gpio", "aliases": ["COPI", "MOSI", "P109"], "tags": ["spi", "pwm"], "functions": ["SPI COPI", "PWM"], "side": "left", "row": 7 },
     { "name": "D10", "primary": "gpio", "aliases": ["CS", "SS", "P112"], "tags": ["spi", "pwm"], "functions": ["SPI chip select", "PWM"], "side": "left", "row": 8 },

@@ -5,7 +5,7 @@
   "vendor": "TI / ON / many",
   "category": "ic",
   "summary": "One analog pin becomes eight. Bidirectional, so it multiplexes sensors into an ADC or fans a signal back out.",
-  "logic": "3-18 V (CD4051), 2-10 V (74HC4051)",
+  "logic": "3-18 V (CD4051), 2-6 V (74HC4051)",
   "package": "PDIP-16 / SOIC-16",
   "keywords": [
     "cd4051",
@@ -18,7 +18,7 @@
   ],
   "notes": [
     "It is a set of analog switches, not a buffer, so it works in both directions. The same chip reads eight sensors into one ADC pin or routes one DAC out to eight places.",
-    "On-resistance is around 125 ohm for the CD4051 and under 100 for the 74HC4051, and it varies with the signal level. Feeding a high-impedance load is fine; feeding anything that draws current puts a voltage across that resistance and the reading is wrong.",
+    "On-resistance for the CD4051 is about 470 ohm at 5 V and about 125 ohm at 15 V. The 74HC4051 is under 100 ohm at 4.5 V. Both vary with the signal level. Feeding a high-impedance load is fine; feeding anything that draws current puts a voltage across that resistance and the reading is wrong.",
     "An ADC with a sample-and-hold needs time to charge through that resistance. Settle for a few microseconds after switching channels before sampling, or every reading carries a smear of the previous channel.",
     "Three address pins select the channel, A is the low bit. INH high disconnects everything, which is how you parallel several chips onto one bus.",
     "VEE is the negative analog rail. Tie it to ground for single-supply work; tie it to a negative rail and the chip will pass signals that swing below ground, which no microcontroller input can do alone.",
@@ -116,7 +116,7 @@
       "functions": [
         "Negative analog supply"
       ],
-      "voltage": "VSS to -VDD",
+      "voltage": "VSS down to VDD - 20 V (CD4051), 0 to -6 V (74HC4051)",
       "note": "Tie to ground for single supply. A negative rail here lets signals swing below ground."
     },
     {
@@ -135,8 +135,7 @@
       "name": "C",
       "primary": "ctrl",
       "aliases": [
-        "S3",
-        "A2"
+        "S2"
       ],
       "functions": [
         "Address bit 2"
@@ -147,8 +146,7 @@
       "name": "B",
       "primary": "ctrl",
       "aliases": [
-        "S2",
-        "A1"
+        "S1"
       ],
       "functions": [
         "Address bit 1"
@@ -159,8 +157,7 @@
       "name": "A",
       "primary": "ctrl",
       "aliases": [
-        "S1",
-        "A0"
+        "S0"
       ],
       "functions": [
         "Address bit 0"
@@ -259,6 +256,6 @@
         "why": "Supply decoupling at the pin."
       }
     ],
-    "note": "VDD sets the largest signal the switches will pass, and the three address pins are digital inputs that must be driven, never left floating. With VEE on a negative rail the part switches signals that swing below ground, which is the reason to choose a 4051 over a 74HC4051."
+    "note": "VDD sets the largest signal the switches will pass, and the three address pins are digital inputs that must be driven, never left floating. With VEE on a negative rail the part switches signals that swing below ground. The 74HC4051 can do that too, down to -6 V. The reason to choose a CD4051 is its wider total supply span, up to 20 V."
   }
 }

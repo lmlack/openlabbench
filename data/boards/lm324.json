@@ -5,7 +5,7 @@
   "vendor": "TI / ON / many",
   "category": "ic",
   "summary": "Four LM358s in a DIP-14, and a completely different pin arrangement from the dual. Note the supply pins are not at the corners.",
-  "logic": "3-32 V single or +/-1.5-16 V split",
+  "logic": "3-30 V single or +/-1.5-15 V split",
   "package": "PDIP-14 / SOIC-14",
   "keywords": [
     "lm324",
@@ -16,7 +16,7 @@
     "jellybean"
   ],
   "notes": [
-    "VCC is pin 4 and GND is pin 11, in the middle of each side rather than at the corners. Every other jellybean in this package puts them at 14 and 7, so this one catches people out.",
+    "VCC is pin 4 and GND is pin 11, in the middle of each side rather than at the corners. Most quad op-amps (TL074, MCP6004) use the same pins. It is the 74xx logic chips that put power at 14 and 7, which is why this one catches people out.",
     "Same amplifier as the LM358: single supply, output reaches near ground but stops about 1.5 V below V+, 1 MHz gain bandwidth, crossover distortion in the output stage.",
     "Not rail to rail. On a 3.3 V rail you have almost no usable output swing, which is why modern designs reach for an MCP6004 instead.",
     "The LM339 is the comparator in this package and is NOT pin compatible with the LM324. Its supply pins are 3 and 12, and its outputs are open collector.",
@@ -70,7 +70,7 @@
       "functions": [
         "Positive supply"
       ],
-      "voltage": "3-32 V",
+      "voltage": "3-30 V",
       "note": "Pin 4, not pin 14. 100 nF to ground here."
     },
     {

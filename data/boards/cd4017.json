@@ -54,7 +54,7 @@
       "functions": [
         "Output 0"
       ],
-      "note": "High at reset and on the first count."
+      "note": "High after reset, until the first clock moves the count to Q1."
     },
     {
       "number": 4,
@@ -162,7 +162,7 @@
       "functions": [
         "Clock in"
       ],
-      "note": "Counts on the rising edge. Needs a clean edge; a slow RC ramp makes it skip."
+      "note": "Counts on the rising edge. The clock input has a Schmitt trigger, so slow edges are fine, but switch bounce still counts as extra pulses."
     },
     {
       "number": 15,
@@ -225,6 +225,6 @@
         "why": "Supply decoupling at the pin."
       }
     ],
-    "note": "Drive the clock from something with clean edges. A slow or noisy edge counts several times, which is why a 4017 fed straight from a button jumps three or four outputs per press."
+    "note": "Debounce the clock. A bouncing button gives several pulses per press, which is why a 4017 fed straight from a button jumps three or four outputs. Slow edges are fine, since the clock input has a Schmitt trigger."
   }
 }

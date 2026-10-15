@@ -33,7 +33,7 @@
     "It needs a reasonably flat target square to the sensor. Soft, angled or narrow objects scatter the ping and read as out of range.",
     "If ECHO never goes low because nothing came back, a naive pulseIn blocks. Always use a timeout.",
     "The HC-SR04P and the RCWL-1601 are pin-compatible and run from 3 to 5.5 V, which removes the level shifting problem entirely. Worth buying instead.",
-    "Readings drift with temperature: the speed of sound changes about 0.17 percent per degree C. Over a 30 degree swing that is a few centimetres at 4 m."
+    "Readings drift with temperature: the speed of sound changes about 0.17 percent per degree C. Over a 30 degree swing that is about 5 percent, or 20 cm at 4 m."
   ],
   "docs": [
     {
@@ -115,6 +115,6 @@
         "why": "Across the supply at the module. Each ping pulls a 15 mA burst and a long thin lead sags under it."
       }
     ],
-    "note": "TRIG is an input and tolerates a 3.3 V drive, so only ECHO needs the divider. The module has no 3.3 V variant worth trusting: the ones sold as 3 V parts are usually the same board with a different regulator."
+    "note": "TRIG is an input and tolerates a 3.3 V drive, so only ECHO needs the divider. If you want to skip the divider, the HC-SR04P runs from 3 to 5.5 V."
   }
 }

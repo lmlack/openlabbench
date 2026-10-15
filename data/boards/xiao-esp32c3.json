@@ -6,7 +6,7 @@
   "category": "mcu-board",
   "summary": "A thumbnail-sized RISC-V board with WiFi, BLE and a battery charger. The 14-pin XIAO footprint is shared across the whole family, so a SAMD21, RP2040 or nRF52840 drops into the same socket. USB-C at the top.",
   "logic": "3.3 V",
-  "package": "2x7 2.54 mm, 21 x 17.5 mm",
+  "package": "2x7 2.54 mm, 21 x 17.8 mm",
   "layout": {
     "kind": "board",
     "numbering": "explicit",
@@ -35,8 +35,9 @@
     "There is a lithium battery charger on board, with pads on the underside rather than a connector. The charge LED is on its own pin, not a GPIO.",
     "5V is VBUS, straight from the USB connector. It is an input when you power the board that way and an output when USB is connected, and it is not regulated.",
     "Only D0 to D3 can wake the chip from deep sleep.",
-    "There is a U.FL connector for an external antenna next to the PCB trace antenna. A solder jumper selects between them; moving it is worth several dB.",
-    "Adafruit's QT Py uses this same 14-pin footprint, so the two are interchangeable in a carrier. The larger Adafruit Feather footprint is a different thing entirely and FeatherWings will not fit."
+    "There is no antenna on the board itself. Wi-Fi and Bluetooth go through the U.FL connector, so keep the supplied antenna plugged in or the radio barely works.",
+    "Adafruit's QT Py uses this same 14-pin footprint, so the two are interchangeable in a carrier. The larger Adafruit Feather footprint is a different thing entirely and FeatherWings will not fit.",
+    "Needs checking: Seeed's own wiki gives both 500 mA and 700 mA for the 3V3 pin."
   ],
   "docs": [
     {

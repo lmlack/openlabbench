@@ -31,7 +31,7 @@
     "I2C is D20 and D21, not A4 and A5. Uno code that assumes the analog pins will not find the bus. D20 and D21 appear twice on the header; both positions are the same net.",
     "PWM is available on D2 to D13 and on D44, D45 and D46, which are on the double-row header. Fifteen in total.",
     "The analog pins double as digital D54 to D69, so A0 is also pin 54 in code.",
-    "20 mA per I/O pin maximum and 50 mA total from the 3V3 pin, which comes from the USB bridge rather than a real regulator.",
+    "20 mA per I/O pin maximum and 50 mA total from the 3V3 pin, which comes from a small on-board 3.3 V regulator.",
     "VIN takes 6 to 20 V, with 7 to 12 V recommended. Above that the linear regulator cooks under any real load.",
     "This is the board inside most RAMPS-based 3D printers, which is why it stays in production long after an ESP32 would do the job for less."
   ],
@@ -82,7 +82,7 @@
         "3.3 V supply out"
       ],
       "voltage": "3.3 V",
-      "note": "50 mA maximum, from the USB bridge regulator.",
+      "note": "50 mA maximum, from the on-board 3.3 V regulator.",
       "side": "left",
       "row": 4
     },

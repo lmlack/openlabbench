@@ -355,7 +355,7 @@
       ],
       "side": "right",
       "row": 4,
-      "note": "From the USB bridge regulator, 50 mA only. Not enough for a WiFi module."
+      "note": "From the on-board 3.3 V regulator, 50 mA only. Not enough for a WiFi module."
     },
     {
       "name": "5V",

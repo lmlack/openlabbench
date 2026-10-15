@@ -4,7 +4,7 @@
   "shortName": "NE555",
   "vendor": "Texas Instruments / many",
   "category": "ic",
-  "summary": "The timer that refuses to die. Monostable, astable or Schmitt comparator depending on how you wire the three resistor-divider taps. Pin 1 is bottom-left of the notch.",
+  "summary": "The timer that refuses to die. Monostable, astable or Schmitt comparator depending on how you wire the three resistor-divider taps. Pin 1 is just left of the notch.",
   "logic": "4.5-16 V",
   "package": "PDIP-8 / SOIC-8",
   "layout": {
@@ -142,7 +142,7 @@
       "functions": [
         "Positive supply"
       ],
-      "note": "16 V absolute max on the NE555; the TLC555 runs from 2 V."
+      "note": "16 V is the recommended max on the NE555 and 18 V the absolute max. The TLC555 runs from 2 V."
     }
   ],
   "circuit": {

@@ -735,7 +735,7 @@
       {
         "part": "74HC4051",
         "confidence": "drop-in",
-        "notes": "Same pinout and function at HC speed, but a 2-10 V supply instead of up to 20 V, and much lower on resistance. The usual choice at 3.3 or 5 V."
+        "notes": "Same pinout and function at HC speed, but a 2-6 V supply (10 V total with VEE) instead of up to 20 V, and much lower on resistance. The usual choice at 3.3 or 5 V."
       },
       {
         "part": "74HC4067",

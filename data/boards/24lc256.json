@@ -5,7 +5,7 @@
   "vendor": "Microchip / Atmel / ST",
   "category": "ic",
   "summary": "32 KB of non-volatile storage on two wires. The same pinout covers the whole 24Cxx family from 1 Kbit to 512 Kbit.",
-  "logic": "1.7-5.5 V",
+  "logic": "2.5-5.5 V (1.7 V on the 24AA256)",
   "package": "PDIP-8 / SOIC-8 / TSSOP-8",
   "keywords": [
     "24lc256",
@@ -20,7 +20,7 @@
     "Pins are identical across the 24Cxx family, so a 24C02 and a 24LC512 drop into the same socket. Only the capacity, the page size and the number of address bits used actually change.",
     "Writes happen a page at a time, 64 bytes on the 24LC256. A write that crosses a page boundary wraps around to the start of the same page instead of continuing, silently corrupting what you thought you stored.",
     "A page write takes up to 5 ms, during which the chip does not acknowledge. Poll for an ACK rather than guessing a delay.",
-    "A0 to A2 set the low address bits, giving 0x50 to 0x57. On parts of 512 Kbit and above some of those pins become extra memory address bits instead.",
+    "A0 to A2 set the low address bits, giving 0x50 to 0x57. On the 4 to 16 Kbit parts and the 1 Mbit 24LC1025, some of those pins become extra memory address bits instead.",
     "WP (pin 7) must be grounded to allow writes. Tied high it is read-only, which is useful for calibration data you do not want a bug to overwrite.",
     "Rated for a million write cycles per page, not per byte. Wear-level anything you update often, or use FRAM such as the FM24CL64, which is pin-compatible and effectively unlimited.",
     "The cheap DS3231 RTC modules carry an AT24C32 on the same bus, at 0x57. Free storage if you already have one wired up."
@@ -107,7 +107,7 @@
       "functions": [
         "Positive supply"
       ],
-      "voltage": "1.7-5.5 V",
+      "voltage": "2.5-5.5 V (1.7 V on the 24AA256)",
       "note": "100 nF to ground at the pin."
     }
   ],

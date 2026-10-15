@@ -17,7 +17,7 @@
     "40106"
   ],
   "notes": [
-    "Roughly 0.9 V of hysteresis at 5 V: the input has to rise past about 2.9 V to flip one way and fall below about 2.0 V to flip back. That gap is the whole point, and it is why a plain 74HC04 cannot do this job.",
+    "Roughly 0.9 V of hysteresis at 4.5 V: the input has to rise past about 2.5 V to flip one way and fall below about 1.6 V to flip back. That gap is the whole point, and it is why a plain 74HC04 cannot do this job.",
     "Switch debouncing: switch to ground, 10k pull-up, 100 nF to ground at the input. The cap slews, the hysteresis turns the slew into one clean transition. No code, no timers.",
     "Relaxation oscillator: a resistor from output back to input and a cap from input to ground. Frequency is roughly 1 / (0.8 x R x C). One chip gives you six.",
     "It also rescues slow edges from long cables, opto-couplers and photodiodes, all of which produce ramps a normal logic input will chatter on.",

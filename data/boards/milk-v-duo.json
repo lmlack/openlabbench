@@ -29,11 +29,11 @@
   "notes": [
     "The ADC pins are 1.8 V, not 3.3 V. GP26 and GP27 will be damaged by a 3.3 V signal. This is the sharpest edge on the board and it is easy to miss because every other pin is 3.3 V.",
     "It is the Pico footprint but not a Pico drop-in. Pins 34 and 35 are unpopulated where a Pico has GP28 and ADC_VREF, and the peripheral mapping behind every GP number is completely different.",
-    "GP16 to GP21 are the SPI NOR and NAND flash lines. Boot from microSD and leave the flash unused and you get them back; otherwise they are spoken for.",
+    "GP16 to GP21 can be an SPI NOR or NAND flash bus. The base Duo has no flash chip and boots from microSD, so on a stock board they are free GPIO.",
     "There is 100 Mbps Ethernet on five pads along the bottom edge: TX+, TX-, GND, RX+, RX-. They need an external magnetics module or an RJ45 jack with magnetics built in.",
     "The serial console is UART0 on GP12 and GP13 at 3.3 V. With no display output, that console is how you talk to the board before networking comes up.",
     "It boots from microSD. There is no on-board eMMC on the base Duo, so the card is not optional.",
-    "The CV1800B pairs a 1 GHz C906 RISC-V core with a 700 MHz one and a small 8051, and there is a camera socket on board. The later Duo 256M and Duo S use the SG2002 and change both the memory and some pin functions.",
+    "The CV1800B pairs a 1 GHz C906 RISC-V core with a 700 MHz one and a small 8051, and there is a camera socket on board. The later Duo 256M uses the SG2002 and the Duo S uses the SG2000. Both change both the memory and some pin functions.",
     "GPIO numbers in sysfs are the XGPIO and PWR_GPIO values listed per pin, not the GP number on the silkscreen. GP0 is 508, not 0."
   ],
   "docs": [
@@ -379,7 +379,7 @@
         "SPI NOR MISO",
         "SPI NAND MISO"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 22,
@@ -396,7 +396,7 @@
         "SPI NOR CS",
         "SPI NAND CS"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 23,
@@ -422,7 +422,7 @@
         "SPI NOR SCK",
         "SPI NAND SCK"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 25,
@@ -439,7 +439,7 @@
         "SPI NOR MOSI",
         "SPI NAND MOSI"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 26,
@@ -453,7 +453,7 @@
         "SPI NOR WP",
         "SPI NAND WP"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 27,
@@ -467,7 +467,7 @@
         "SPI NOR HOLD",
         "SPI NAND HOLD"
       ],
-      "note": "Wired to the on-board SPI NOR / NAND flash. Free only if you boot from microSD and leave the flash alone."
+      "note": "Optional SPI flash bus. The base Duo has no flash chip, so this is free GPIO on a stock board."
     },
     {
       "number": 28,

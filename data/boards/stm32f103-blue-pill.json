@@ -12,8 +12,8 @@
     "numbering": "explicit",
     "rows": 20,
     "sideLabels": [
-      "Header 1, USB at top",
-      "Header 2, USB at top"
+      "Header 2, USB at top",
+      "Header 1, USB at top"
     ]
   },
   "keywords": [
@@ -57,8 +57,8 @@
       "functions": [
         "RTC backup supply"
       ],
-      "side": "left",
-      "row": 1,
+      "side": "right",
+      "row": 20,
       "note": "No backup cell fitted. Tie to 3.3 V if unused."
     },
     {
@@ -71,8 +71,8 @@
       "functions": [
         "On-board LED, active low"
       ],
-      "side": "left",
-      "row": 2,
+      "side": "right",
+      "row": 19,
       "note": "3 mA max and slow. Fine for an LED, wrong for anything else."
     },
     {
@@ -88,8 +88,8 @@
       "functions": [
         "LSE crystal in"
       ],
-      "side": "left",
-      "row": 3,
+      "side": "right",
+      "row": 18,
       "note": "3 mA max. Taken by the 32.768 kHz crystal on most boards."
     },
     {
@@ -105,8 +105,8 @@
       "functions": [
         "LSE crystal out"
       ],
-      "side": "left",
-      "row": 4,
+      "side": "right",
+      "row": 17,
       "note": "3 mA max. Taken by the 32.768 kHz crystal on most boards."
     },
     {
@@ -126,8 +126,8 @@
         "TIM2 CH1",
         "Wake-up"
       ],
-      "side": "left",
-      "row": 5,
+      "side": "right",
+      "row": 16,
       "note": "Not 5 V tolerant."
     },
     {
@@ -145,8 +145,8 @@
         "ADC1 IN1",
         "TIM2 CH2"
       ],
-      "side": "left",
-      "row": 6,
+      "side": "right",
+      "row": 15,
       "note": "Not 5 V tolerant."
     },
     {
@@ -166,8 +166,8 @@
         "USART2 TX",
         "TIM2 CH3"
       ],
-      "side": "left",
-      "row": 7,
+      "side": "right",
+      "row": 14,
       "note": "Not 5 V tolerant."
     },
     {
@@ -187,8 +187,8 @@
         "USART2 RX",
         "TIM2 CH4"
       ],
-      "side": "left",
-      "row": 8,
+      "side": "right",
+      "row": 13,
       "note": "Not 5 V tolerant."
     },
     {
@@ -206,8 +206,8 @@
         "ADC1 IN4",
         "SPI1 NSS"
       ],
-      "side": "left",
-      "row": 9,
+      "side": "right",
+      "row": 12,
       "note": "Not 5 V tolerant."
     },
     {
@@ -226,8 +226,8 @@
         "ADC1 IN5",
         "SPI1 SCK"
       ],
-      "side": "left",
-      "row": 10,
+      "side": "right",
+      "row": 11,
       "note": "Not 5 V tolerant."
     },
     {
@@ -247,8 +247,8 @@
         "SPI1 MISO",
         "TIM3 CH1"
       ],
-      "side": "left",
-      "row": 11,
+      "side": "right",
+      "row": 10,
       "note": "Not 5 V tolerant."
     },
     {
@@ -268,8 +268,8 @@
         "SPI1 MOSI",
         "TIM3 CH2"
       ],
-      "side": "left",
-      "row": 12,
+      "side": "right",
+      "row": 9,
       "note": "Not 5 V tolerant."
     },
     {
@@ -287,8 +287,8 @@
         "ADC1 IN8",
         "TIM3 CH3"
       ],
-      "side": "left",
-      "row": 13,
+      "side": "right",
+      "row": 8,
       "note": "Not 5 V tolerant."
     },
     {
@@ -306,8 +306,8 @@
         "ADC1 IN9",
         "TIM3 CH4"
       ],
-      "side": "left",
-      "row": 14,
+      "side": "right",
+      "row": 7,
       "note": "Not 5 V tolerant."
     },
     {
@@ -324,8 +324,8 @@
         "I2C2 SCL",
         "USART3 TX"
       ],
-      "side": "left",
-      "row": 15
+      "side": "right",
+      "row": 6
     },
     {
       "name": "PB11",
@@ -341,8 +341,8 @@
         "I2C2 SDA",
         "USART3 RX"
       ],
-      "side": "left",
-      "row": 16
+      "side": "right",
+      "row": 5
     },
     {
       "name": "R",
@@ -354,37 +354,8 @@
       "functions": [
         "Active-low reset"
       ],
-      "side": "left",
-      "row": 17
-    },
-    {
-      "name": "3.3",
-      "primary": "power3",
-      "voltage": "3.3 V",
-      "functions": [
-        "3.3 V supply"
-      ],
-      "side": "left",
-      "row": 18,
-      "note": "Also an input if you feed the board from a regulated 3.3 V rail."
-    },
-    {
-      "name": "G",
-      "primary": "gnd",
-      "functions": [
-        "Ground"
-      ],
-      "side": "left",
-      "row": 19
-    },
-    {
-      "name": "G",
-      "primary": "gnd",
-      "functions": [
-        "Ground"
-      ],
-      "side": "left",
-      "row": 20
+      "side": "right",
+      "row": 4
     },
     {
       "name": "3.3",
@@ -394,7 +365,8 @@
         "3.3 V supply"
       ],
       "side": "right",
-      "row": 1
+      "row": 3,
+      "note": "Also an input if you feed the board from a regulated 3.3 V rail."
     },
     {
       "name": "G",
@@ -406,14 +378,42 @@
       "row": 2
     },
     {
+      "name": "G",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "3.3",
+      "primary": "power3",
+      "voltage": "3.3 V",
+      "functions": [
+        "3.3 V supply"
+      ],
+      "side": "left",
+      "row": 20
+    },
+    {
+      "name": "G",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 19
+    },
+    {
       "name": "5V",
       "primary": "power5",
       "voltage": "5 V",
       "functions": [
         "USB VBUS"
       ],
-      "side": "right",
-      "row": 3,
+      "side": "left",
+      "row": 18,
       "note": "Straight to the USB connector, unprotected and unfused."
     },
     {
@@ -431,8 +431,8 @@
         "I2C1 SDA remap",
         "CAN TX remap"
       ],
-      "side": "right",
-      "row": 4
+      "side": "left",
+      "row": 17
     },
     {
       "name": "PB8",
@@ -449,8 +449,8 @@
         "I2C1 SCL remap",
         "CAN RX remap"
       ],
-      "side": "right",
-      "row": 5
+      "side": "left",
+      "row": 16
     },
     {
       "name": "PB7",
@@ -468,8 +468,8 @@
         "TIM4 CH2",
         "USART1 RX remap"
       ],
-      "side": "right",
-      "row": 6,
+      "side": "left",
+      "row": 15,
       "note": "Default I2C1 data pin."
     },
     {
@@ -488,8 +488,8 @@
         "TIM4 CH1",
         "USART1 TX remap"
       ],
-      "side": "right",
-      "row": 7,
+      "side": "left",
+      "row": 14,
       "note": "Default I2C1 clock pin."
     },
     {
@@ -507,8 +507,8 @@
         "TIM3 CH2 remap",
         "I2C1 SMBA"
       ],
-      "side": "right",
-      "row": 8
+      "side": "left",
+      "row": 13
     },
     {
       "name": "PB4",
@@ -526,8 +526,8 @@
         "SPI1 MISO remap",
         "TIM3 CH1 remap"
       ],
-      "side": "right",
-      "row": 9,
+      "side": "left",
+      "row": 12,
       "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
     },
     {
@@ -547,8 +547,8 @@
         "SPI1 SCK remap",
         "TIM2 CH2 remap"
       ],
-      "side": "right",
-      "row": 10,
+      "side": "left",
+      "row": 11,
       "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
     },
     {
@@ -567,8 +567,8 @@
         "SPI1 NSS remap",
         "TIM2 CH1 remap"
       ],
-      "side": "right",
-      "row": 11,
+      "side": "left",
+      "row": 10,
       "note": "JTAG by default. Disable the JTAG remap to use it as GPIO."
     },
     {
@@ -586,8 +586,8 @@
         "CAN TX",
         "TIM1 CH ETR"
       ],
-      "side": "right",
-      "row": 12,
+      "side": "left",
+      "row": 9,
       "note": "USB D+. This is the pin that needs the 1.5k pull-up to 3.3 V."
     },
     {
@@ -605,8 +605,8 @@
         "CAN RX",
         "TIM1 CH4"
       ],
-      "side": "right",
-      "row": 13,
+      "side": "left",
+      "row": 8,
       "note": "USB D-."
     },
     {
@@ -623,8 +623,8 @@
         "USART1 RX",
         "TIM1 CH3"
       ],
-      "side": "right",
-      "row": 14,
+      "side": "left",
+      "row": 7,
       "note": "Serial bootloader RX when BOOT0 is high."
     },
     {
@@ -641,8 +641,8 @@
         "USART1 TX",
         "TIM1 CH2"
       ],
-      "side": "right",
-      "row": 15,
+      "side": "left",
+      "row": 6,
       "note": "Serial bootloader TX when BOOT0 is high."
     },
     {
@@ -660,8 +660,8 @@
         "TIM1 CH1",
         "Clock output"
       ],
-      "side": "right",
-      "row": 16
+      "side": "left",
+      "row": 5
     },
     {
       "name": "PB15",
@@ -675,8 +675,8 @@
       "functions": [
         "SPI2 MOSI"
       ],
-      "side": "right",
-      "row": 17
+      "side": "left",
+      "row": 4
     },
     {
       "name": "PB14",
@@ -690,8 +690,8 @@
       "functions": [
         "SPI2 MISO"
       ],
-      "side": "right",
-      "row": 18
+      "side": "left",
+      "row": 3
     },
     {
       "name": "PB13",
@@ -706,8 +706,8 @@
       "functions": [
         "SPI2 SCK"
       ],
-      "side": "right",
-      "row": 19
+      "side": "left",
+      "row": 2
     },
     {
       "name": "PB12",
@@ -721,8 +721,8 @@
       "functions": [
         "SPI2 NSS"
       ],
-      "side": "right",
-      "row": 20
+      "side": "left",
+      "row": 1
     }
   ],
   "snippets": [
