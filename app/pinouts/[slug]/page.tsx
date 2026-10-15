@@ -90,7 +90,7 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       <nav className="no-print mb-6 text-center text-sm">
         <Link href="/pinouts" className="text-muted hover:text-fg">
-          ← All pinouts
+          All pinouts
         </Link>
       </nav>
 
@@ -200,7 +200,7 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
           <SectionHead
             n={sectionNo("bring-up")}
             title="Register configuration"
-            sub="Turning a pin on the diagram into a configured pin."
+            sub="Code that sets up the pins shown on the diagram."
           />
           <SnippetBlock snippets={board.snippets} />
         </section>
@@ -210,7 +210,7 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
         <SectionHead
           n={sectionNo("pin-table")}
           title="Full pin reference"
-          sub="Every pin, alias and mapping. This is the table that prints."
+          sub="Every pin, alias and mapping. This table is included when you print the page."
         />
         <p className="mb-2 mt-4 text-center text-sm">
           <span className="font-semibold">Table {tableNo("pin-table")}.</span>{" "}
@@ -323,7 +323,7 @@ function FixThis({ board, name }: { board: string; name: string }) {
   return (
     <section className="no-print mt-10 text-center text-sm text-subtle">
       <p>
-        Found a wrong pin? The whole board is one file,{" "}
+        To fix a wrong pin, edit{" "}
         <span className="font-mono">data/boards/{board}.json</span>.
       </p>
       {edit && issue ? (
@@ -332,7 +332,7 @@ function FixThis({ board, name }: { board: string; name: string }) {
             Edit this file on GitHub
           </a>
           <a href={issue} className="text-accent hover:underline">
-            Report it instead
+            Open an issue
           </a>
         </p>
       ) : (

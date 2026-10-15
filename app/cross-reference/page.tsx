@@ -7,7 +7,7 @@ import { asset } from "@/lib/base-path";
 export const metadata: Metadata = {
   title: "Part cross-reference",
   description:
-    "Searchable equivalents for microcontrollers, transceivers, sensors, logic and power parts, each with the caveat that actually matters.",
+    "Searchable equivalents for microcontrollers, transceivers, sensors, logic and power parts, each with a note on what's different.",
   alternates: { canonical: asset("/cross-reference") },
 };
 
@@ -20,7 +20,7 @@ export default function CrossReferencePage() {
       <header className="mx-auto max-w-2xl text-center">
         <h1 className="text-xl font-semibold tracking-tight sm:text-4xl">Part cross-reference</h1>
         <p className="mt-3 text-muted">
-          {total} swaps for {parts.length} parts. Each one tells you whether it&apos;s a drop-in replacement, and if not, <em>why</em>.
+          {total} swaps for {parts.length} parts. Each one says whether it&apos;s a drop-in replacement and, if not, what&apos;s different.
         </p>
       </header>
 

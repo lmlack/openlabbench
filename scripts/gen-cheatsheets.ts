@@ -304,7 +304,7 @@ function render(board: Board): string {
       body.push(`<circle cx="${x + 3}" cy="${y - 3}" r="2.4" fill="#f59e0b"/>`);
       for (const ln of noteLines[i]) {
         body.push(
-          `<text x="${x + 13}" y="${y}" font-size="8.5" fill="${MUTED}">${esc(ln)}</text>`,
+          `<text x="${x + 13}" y="${y}" font-size="8.5" fill="${MUTED}" font-family="${SERIF}">${esc(ln)}</text>`,
         );
         y += 11;
       }
@@ -315,7 +315,7 @@ function render(board: Board): string {
   }
 
   body.push(
-    `<text x="${PAD}" y="${H - 16}" font-size="8" fill="${FAINT}">Compiled from manufacturer datasheets, verify against your own board revision before applying power.</text>`,
+    `<text x="${PAD}" y="${H - 16}" font-size="8" fill="${FAINT}" font-family="${SERIF}">From manufacturer datasheets. Check your own board revision before you power it up.</text>`,
     `<text x="${W - PAD}" y="${H - 16}" font-size="8" fill="${FAINT}" text-anchor="end">${PUBLIC_URL}</text>`,
   );
 
