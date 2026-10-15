@@ -201,7 +201,7 @@ function PartCard({ part, filter }: { part: Part; filter: Confidence | "all" }) 
         <div className="mt-3 flex flex-wrap justify-center gap-3 text-sm">
           {part.pinout && (
             <Link href={`/pinouts/${part.pinout}`} className="text-accent hover:underline">
-              View pinout →
+              View pinout
             </Link>
           )}
           <a

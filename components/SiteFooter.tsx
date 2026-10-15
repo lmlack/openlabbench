@@ -19,16 +19,6 @@ export function SiteFooter({ boards, parts }: { boards: number; parts: number })
           >
             <GwarkMark className="size-5 shrink-0" />
             More at gwark.dev
-            <svg viewBox="0 0 16 16" className="size-3.5 shrink-0" aria-hidden="true">
-              <path
-                d="M5.5 10.5 10.5 5.5M6.5 5.5h4v4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
           </a>
         </div>
         <div>
