@@ -215,3 +215,17 @@ body {
     color: #4a453d;
   }
 }
+
+/* Pin names on a board with 10-character names (BeagleBone, Rock 5B), on
+   narrow phones: all of them shrink together, just enough that the longest
+   fits with its warning mark inside the card. Measured: 14px fits at 390,
+   13.5px at 375, 12.5px at 360. Other boards keep the usual size. */
+@media (max-width: 400px) {
+  .long-names .sig-text { font-size: 14px; letter-spacing: -0.02em; }
+}
+@media (max-width: 380px) {
+  .long-names .sig-text { font-size: 13.5px; }
+}
+@media (max-width: 365px) {
+  .long-names .sig-text { font-size: 12.5px; }
+}

@@ -13,6 +13,9 @@ interface Props {
 }
 
 export function PinoutExplorer({ board, grid, counts }: Props) {
+  // A board with 10-character names (BeagleBone, Rock 5B) sets all of its
+  // names a step smaller on the narrowest phones, so they stay one size.
+  const longNames = grid.some((r) => (r.left?.name.length ?? 0) >= 10 || (r.right?.name.length ?? 0) >= 10);
   /** Set by clicking legend chips, survives mouse-out. */
   const [locked, setLocked] = useState<Set<HighlightKey>>(new Set());
   /** Set by hovering a legend chip, transient preview. */
@@ -113,7 +116,11 @@ export function PinoutExplorer({ board, grid, counts }: Props) {
           className="overflow-x-auto rounded-2xl border border-line bg-panel p-2 sm:p-5"
           onMouseLeave={() => setPeeked(null)}
         >
-          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-1 max-[380px]:gap-x-0.5 md:gap-x-3">
+          <div
+            className={`grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-1 max-[380px]:gap-x-0.5 md:gap-x-3 ${
+              longNames ? "long-names" : ""
+            }`}
+          >
             <PinColumn
               rows={grid}
               side="left"
@@ -288,11 +295,9 @@ function PinRow({
       />
 
       <span
-        // The few 9- and 10-character names (BeagleBone, Rock 5B) set slightly
-        // tighter on phones, so they fit beside the body like the rest.
-        className={`sig-text shrink-0 font-mono text-xs font-medium md:text-sm ${
-          pin.name.length >= 9 ? "max-md:text-[11px] max-md:tracking-tight" : ""
-        }`}
+        // Every name on a board is the same size, long or short (see
+        // .long-names in globals.css for the narrow-phone case).
+        className="sig-text shrink-0 font-mono text-xs font-medium md:text-sm"
         style={{ "--sig": meta.color } as React.CSSProperties}
       >
         {pin.name}
