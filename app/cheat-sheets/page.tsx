@@ -25,14 +25,14 @@ export default function CheatSheetsPage() {
         <div className="max-w-2xl">
           <h1 className="text-xl font-semibold tracking-tight sm:text-4xl">Cheat sheets</h1>
           <p className="mt-3 text-muted">
-            One printable sheet per pinout, made from the same data the site uses. They&apos;re plain SVG, so you can tape one above your bench or blow it up to poster size.
+            One printable sheet per pinout, made from the same data the site uses. They&apos;re SVG files, so they print sharp at any size.
           </p>
         </div>
         <PrintButton label="Print all" />
       </header>
 
       <p className="mt-4 text-center text-sm text-subtle">
-        {sheets.length} sheets · all vector, so they stay sharp
+        {sheets.length} sheets
       </p>
 
       <ul className="mt-8 space-y-8">

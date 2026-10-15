@@ -30,7 +30,7 @@ export const CONFIDENCE_META: Record<
 > = {
   "drop-in": {
     label: "Drop-in",
-    blurb: "Same pinout and behavior. Just swap it in.",
+    blurb: "Same pinout and behavior. Swap it in with no changes.",
     color: "#22c55e",
     ink: "#147236",
   },

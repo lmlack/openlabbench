@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s, openlabbench",
   },
   description:
-    "Pinout diagrams you can click around in, a searchable list of part swaps, and cheat sheets you can print. For microcontrollers, dev boards and the chips on your bench.",
+    "Interactive pinout diagrams, a searchable list of part substitutes, and printable cheat sheets for microcontrollers, dev boards and common chips.",
   keywords: [
     "pinout",
     "pinout diagram",
