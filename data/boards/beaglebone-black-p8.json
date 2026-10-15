@@ -407,13 +407,14 @@
       "name": "UART5_CTSN",
       "primary": "gpio",
       "aliases": [
-        "V4"
+        "V4",
+        "GPIO0_10"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART5_CTSN"
+        "UART5 CTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -422,13 +423,14 @@
       "name": "UART5_RTSN",
       "primary": "gpio",
       "aliases": [
-        "T5"
+        "T5",
+        "GPIO0_11"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART5_RTSN"
+        "UART5 RTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -437,13 +439,14 @@
       "name": "UART4_RTSN",
       "primary": "gpio",
       "aliases": [
-        "V3"
+        "V3",
+        "GPIO0_9"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART4_RTSN"
+        "UART4 RTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -452,13 +455,14 @@
       "name": "UART3_RTSN",
       "primary": "gpio",
       "aliases": [
-        "U4"
+        "U4",
+        "GPIO2_17"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART3_RTSN"
+        "UART3 RTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -467,13 +471,14 @@
       "name": "UART4_CTSN",
       "primary": "gpio",
       "aliases": [
-        "V2"
+        "V2",
+        "GPIO0_8"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART4_CTSN"
+        "UART4 CTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -482,13 +487,14 @@
       "name": "UART3_CTSN",
       "primary": "gpio",
       "aliases": [
-        "U3"
+        "U3",
+        "GPIO2_16"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART3_CTSN"
+        "UART3 CTSN"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -497,13 +503,14 @@
       "name": "UART5_TXD",
       "primary": "gpio",
       "aliases": [
-        "U1"
+        "U1",
+        "GPIO2_14"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART5_TXD"
+        "UART5 TXD"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
@@ -512,13 +519,14 @@
       "name": "UART5_RXD",
       "primary": "gpio",
       "aliases": [
-        "U2"
+        "U2",
+        "GPIO2_15"
       ],
       "tags": [
         "uart"
       ],
       "functions": [
-        "UART5_RXD"
+        "UART5 RXD"
       ],
       "note": "Wired to the on-board HDMI framer. Free only once HDMI is disabled in the device tree."
     },
