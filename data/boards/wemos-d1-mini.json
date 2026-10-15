@@ -33,14 +33,14 @@
     { "name": "D5", "primary": "gpio", "aliases": ["GPIO14", "SCLK"], "tags": ["spi", "pwm", "clock"], "functions": ["HSPI CLK"], "side": "left", "row": 4 },
     { "name": "D6", "primary": "gpio", "aliases": ["GPIO12", "MISO"], "tags": ["spi", "pwm"], "functions": ["HSPI MISO"], "side": "left", "row": 5 },
     { "name": "D7", "primary": "gpio", "aliases": ["GPIO13", "MOSI"], "tags": ["spi", "pwm"], "functions": ["HSPI MOSI"], "side": "left", "row": 6 },
-    { "name": "D8", "primary": "gpio", "aliases": ["GPIO15", "CS"], "tags": ["spi", "pwm"], "functions": ["HSPI CS"], "side": "left", "row": 7, "note": "Strapping pin: must be low at boot. Has a 10k pull-down on board." },
+    { "name": "D8", "primary": "gpio", "aliases": ["GPIO15", "CS"], "tags": ["spi", "pwm"], "functions": ["HSPI CS"], "side": "left", "row": 7, "note": "Strapping pin: must be low at boot. Has a 10k to 12k pull-down on board, depending on the board version." },
     { "name": "3V3", "primary": "power3", "voltage": "3.3 V", "functions": ["3.3 V supply out"], "side": "left", "row": 8, "note": "~500 mA from the on-board regulator, minus what the radio draws in bursts." },
 
     { "name": "TX", "primary": "gpio", "aliases": ["GPIO1", "D10", "TXD0"], "tags": ["uart"], "functions": ["UART0 TXD"], "side": "right", "row": 1, "note": "Shared with the USB bridge and the boot log." },
     { "name": "RX", "primary": "gpio", "aliases": ["GPIO3", "D9", "RXD0"], "tags": ["uart"], "functions": ["UART0 RXD"], "side": "right", "row": 2, "note": "Shared with the USB bridge." },
     { "name": "D1", "primary": "gpio", "aliases": ["GPIO5", "SCL"], "tags": ["i2c", "pwm"], "functions": ["Default I2C SCL"], "side": "right", "row": 3, "note": "One of the two safest general-purpose pins, no strapping role." },
     { "name": "D2", "primary": "gpio", "aliases": ["GPIO4", "SDA"], "tags": ["i2c", "pwm"], "functions": ["Default I2C SDA"], "side": "right", "row": 4, "note": "The other safe general-purpose pin." },
-    { "name": "D3", "primary": "gpio", "aliases": ["GPIO0", "FLASH"], "tags": ["pwm"], "functions": ["Boot mode select"], "side": "right", "row": 5, "note": "Strapping pin: high to boot, low for flash mode. Has a 10k pull-up; a button to GND is fine, a steady load is not." },
+    { "name": "D3", "primary": "gpio", "aliases": ["GPIO0", "FLASH"], "tags": ["pwm"], "functions": ["Boot mode select"], "side": "right", "row": 5, "note": "Strapping pin: high to boot, low for flash mode. Has a 10k to 12k pull-up; a button to GND is fine, a steady load is not." },
     { "name": "D4", "primary": "gpio", "aliases": ["GPIO2", "LED_BUILTIN", "TXD1"], "tags": ["pwm", "uart"], "functions": ["On-board LED (inverted)", "UART1 TXD"], "side": "right", "row": 6, "note": "Strapping pin: must be high at boot. LED is active-low." },
     { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 7 },
     { "name": "5V", "primary": "power5", "voltage": "5 V", "functions": ["USB 5 V in / out"], "side": "right", "row": 8, "note": "Straight to the micro-USB rail. Usable as a 5 V input to power the board." }

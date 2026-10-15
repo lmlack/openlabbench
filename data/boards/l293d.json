@@ -6,7 +6,7 @@
   "category": "ic",
   "summary": "Quad half-bridge with built-in flyback diodes: two DC motors bidirectionally, or one bipolar stepper. Old, inefficient and still the part in every starter kit.",
   "logic": "4.5-7 V logic / ≤36 V motor",
-  "package": "PDIP-16 / SOIC-16 (PowerDIP with fused GND)",
+  "package": "PDIP-16 (PowerDIP with fused GND)",
   "layout": {
     "kind": "dip",
     "numbering": "ccw",
@@ -27,7 +27,7 @@
   ],
   "notes": [
     "It is a Darlington bridge, so it drops roughly 1.4-1.8 V on each side, about 3 V total. At 6 V in, your motor sees half that. This is the reason to reach for a DRV8833 or TB6612FNG instead.",
-    "600 mA continuous per channel, 1.2 A peak. The plain L293 doubles that but has no internal diodes.",
+    "600 mA continuous per channel, 1.2 A peak. The plain L293 does 1 A continuous and 2 A peak, but has no internal diodes.",
     "The four center pins (4, 5, 12, 13) are both ground and the only heatsink. Solder all four to a copper pour; a DIP socket in still air will thermally shut down.",
     "VCC1 (16) is logic and VCC2 (8) is the motor rail. Both are required, and VCC2 must be at or above VCC1.",
     "The two enable pins take PWM for speed control. PWM on the direction inputs instead works but is noisier and gives a worse low-speed response.",
@@ -274,6 +274,6 @@
         "why": "Enable tied high runs the bridge continuously. Drive it with PWM instead to control speed."
       }
     ],
-    "note": "The D suffix is the whole difference: the L293D has the clamp diodes on-die, the plain L293 does not and needs eight external ones. Both drop about 2 V across the output stage, so a 12 V motor on a 12 V rail sees closer to 10 V."
+    "note": "The D suffix is the whole difference: the L293D has the clamp diodes on-die, the plain L293 does not and needs eight external ones. The output stage drops about 2.6 V in total (1.4 V on the high side, 1.2 V on the low side), so a 12 V motor on a 12 V rail sees closer to 9.4 V."
   }
 }

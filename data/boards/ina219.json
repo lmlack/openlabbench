@@ -18,11 +18,11 @@
     "coulomb counter"
   ],
   "notes": [
-    "The two packages are not the same pinout. This diagram is the SOIC-8. On the SOT-23-8 the order is 1 IN+, 2 IN-, 3 GND, 4 VS, 5 SCL, 6 SDA, 7 A0, 8 A1, which is close to reversed. Check which package you have before probing.",
+    "The two packages are not the same pinout. This diagram is the SOIC-8. On the SOT-23-8 the order is 1 IN+, 2 IN-, 3 GND, 4 VS, 5 SCL, 6 SDA, 7 A0, 8 A1, which is exactly reversed. Check which package you have before probing.",
     "It is a high-side sensor: IN+ and IN- sit at up to 26 V common mode while the chip itself runs from 3 to 5.5 V. That is the whole point of the part, and it is why the shunt goes in the positive rail rather than the ground return.",
     "The current and power registers read zero until you write the calibration register. Nothing is broken, and the shunt and bus voltage registers work the whole time, which is what makes this confusing. Calibration is also what sets the current LSB.",
     "Full-scale shunt voltage is +/-40 mV with the PGA at /1 and +/-320 mV at /8. Bus voltage has two ranges, 16 V and 32 V. Picking the smallest range that fits buys you resolution.",
-    "A0 and A1 each go to GND, VS, SDA or SCL, not just to a rail, which is how eight address pins' worth of range comes out of two: 16 addresses, 0x40 to 0x4F.",
+    "A0 and A1 each go to GND, VS, SDA or SCL, not just to a rail, which is how four address pins' worth of range comes out of two: 16 addresses, 0x40 to 0x4F.",
     "Breakout boards almost always carry a 0.1 ohm shunt, which hits full scale at 3.2 A. For more current you replace the resistor and recalculate, and for much less you want a larger one or the shunt voltage disappears into the noise.",
     "The INA226 is the same idea with 16-bit resolution and an alert pin. Not a drop-in: different pinout and a different register map."
   ],

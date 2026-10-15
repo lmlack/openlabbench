@@ -62,15 +62,18 @@
       "primary": "gpio",
       "aliases": [
         "RX1",
-        "CRX2"
+        "CRX2",
+        "CS1"
       ],
       "tags": [
         "uart",
-        "pwm"
+        "pwm",
+        "spi"
       ],
       "functions": [
         "Serial1 RX",
-        "CAN2 RX"
+        "CAN2 RX",
+        "SPI1 CS"
       ],
       "note": "Serial1 RX and CAN2 RX. Not printed on the reference card's front.",
       "side": "left",
@@ -81,15 +84,18 @@
       "primary": "gpio",
       "aliases": [
         "TX1",
-        "CTX2"
+        "CTX2",
+        "MISO1"
       ],
       "tags": [
         "uart",
-        "pwm"
+        "pwm",
+        "spi"
       ],
       "functions": [
         "Serial1 TX",
-        "CAN2 TX"
+        "CAN2 TX",
+        "SPI1 MISO"
       ],
       "side": "left",
       "row": 3
@@ -351,8 +357,7 @@
       ],
       "tags": [
         "analog",
-        "uart",
-        "pwm"
+        "uart"
       ],
       "functions": [
         "ADC 7",
@@ -371,8 +376,7 @@
       ],
       "tags": [
         "analog",
-        "uart",
-        "pwm"
+        "uart"
       ],
       "functions": [
         "ADC 6",
@@ -431,8 +435,7 @@
       "tags": [
         "analog",
         "i2c",
-        "uart",
-        "pwm"
+        "uart"
       ],
       "functions": [
         "ADC 3",
@@ -453,8 +456,7 @@
       "tags": [
         "analog",
         "i2c",
-        "uart",
-        "pwm"
+        "uart"
       ],
       "functions": [
         "ADC 2",

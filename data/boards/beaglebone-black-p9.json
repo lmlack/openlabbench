@@ -33,7 +33,8 @@
     "Pins 41 and 42 are each wired to two processor balls. Whichever one you are not using must be set to input, or the two fight each other.",
     "Signal names here are the power-on defaults. Almost every pin can be muxed to something else through the device tree, which is both the strength and the learning curve of this board.",
     "GPIO are 3.3 V and not 5 V tolerant. Source or sink 4 to 6 mA per pin, far less than a Pi.",
-    "The other side of this board is the P8 header, documented separately: openlabbench.gwark.dev/pinouts/beaglebone-black-p8"
+    "The other side of this board is the P8 header, documented separately: openlabbench.gwark.dev/pinouts/beaglebone-black-p8",
+    "Needs checking: whether the board itself fits pull-ups on I2C2 (pins 19 and 20) hasn't been confirmed against the schematic. The reference manual says capes must fit them."
   ],
   "docs": [
     {
@@ -70,7 +71,7 @@
         "3.3 V rail"
       ],
       "voltage": "3.3 V",
-      "note": "250 mA budget across both 3.3 V pins."
+      "note": "Rated 250 mA per pin."
     },
     {
       "number": 4,
@@ -230,10 +231,12 @@
         "GPIO0_5"
       ],
       "tags": [
-        "i2c"
+        "i2c",
+        "spi"
       ],
       "functions": [
-        "I2C1 SCL"
+        "I2C1 SCL",
+        "SPI0 CS0"
       ]
     },
     {
@@ -245,10 +248,12 @@
         "GPIO0_4"
       ],
       "tags": [
-        "i2c"
+        "i2c",
+        "spi"
       ],
       "functions": [
-        "I2C1 SDA"
+        "I2C1 SDA",
+        "SPI0 D1"
       ]
     },
     {
@@ -571,6 +576,7 @@
       "primary": "gpio",
       "aliases": [
         "D14",
+        "GPIO0_20",
         "GPIO3_20",
         "D13"
       ],
@@ -579,7 +585,8 @@
       ],
       "functions": [
         "CLKOUT2",
-        "GPIO3_20"
+        "GPIO3_20",
+        "GPIO0_20"
       ],
       "note": "Shared between two processor balls, D14 and D13. Set whichever one you are not using to input."
     },

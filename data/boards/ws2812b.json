@@ -30,7 +30,7 @@
     "A sacrificial first LED is the other standard fix: feed it 3.3 V data, run its supply from 5 V, and its DOUT comes out at a clean 5 V for the rest of the strip.",
     "DIN and DOUT are directional and the strip is printed with arrows. Cut and solder in the wrong direction and nothing past the joint lights.",
     "60 mA per LED at full white. A 1 m 60-LED strip is 3.6 A, which is far beyond any dev board's 5 V pin. Feed the strip directly and tie the grounds together.",
-    "300 to 500 ohm in series with DIN and 1000 uF across the supply at the head of the strip. Both are in the datasheet and both are usually skipped.",
+    "300 to 500 ohm in series with DIN and 1000 uF across the supply at the head of the strip. Neither is in the Worldsemi datasheet, which only shows 100 nF per LED. They come from Adafruit's NeoPixel guide, and both are usually skipped.",
     "Long runs need power injected every meter or so, or the far end turns brown-red as the supply sags.",
     "Bit timing is about 1.25 us and has no clock to resynchronize to, so an interrupt mid-frame corrupts the rest of the strip. On AVR that means interrupts off during a write; on RP2040 use PIO and on ESP32 use RMT.",
     "SK6812 is the usual second source and adds an RGBW variant. WS2815 runs on 12 V with a backup data line so one dead LED does not kill the rest of the run."

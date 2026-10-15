@@ -28,10 +28,10 @@
   ],
   "notes": [
     "The header is the same as the Pico 1: same 40 pins, same positions, same GP numbers. A carrier board or a HAT built for a Pico takes a Pico 2 without changes.",
-    "You pick the architecture at build time. The RP2350 carries two Cortex-M33 cores and two Hazard3 RISC-V cores on the same die, and the bootloader selects which pair runs. Only one pair at a time.",
+    "You pick the architecture at build time. The RP2350 carries two Cortex-M33 cores and two Hazard3 RISC-V cores on the same die, and the bootloader picks which architecture each core boots into. Usually both run the same one, though mixing one Arm and one RISC-V core is allowed.",
     "520 KB of SRAM against the Pico 1's 264 KB, 4 MB of flash against 2 MB, and 12 PIO state machines across three blocks against 8 across two.",
-    "PWM slice numbering does not carry over. The RP2350 has 12 slices where the RP2040 had 8, so the slice and channel a given GPIO lands on differs above GP15. Let the SDK work it out rather than porting hard-coded slice numbers.",
-    "Still 3.3 V and still not 5 V tolerant.",
+    "PWM slice numbering carries over from the Pico. GP0 to GP29 land on slices 0 to 7 exactly as on the RP2040. The extra slices 8 to 11 only exist on the larger RP2350B, which the Pico 2 does not use.",
+    "Still 3.3 V logic, but unlike the Pico the digital pins are 5 V tolerant while the board is powered. GP26 to GP29 are the exception: the ADC pins are not 5 V tolerant, and no pin is when the board is off.",
     "Peripheral mappings are not fixed: each pin lists the SPI, I2C or UART instance it can reach and you choose in software. Two pins on one instance cannot serve the same role at once.",
     "ADC_VREF is a filtered 3.3 V reference and AGND is the analog return. Use those for analog work rather than a digital ground pin.",
     "The RP2350 A2 stepping has a documented errata on GPIO input latching when a pin is switched from output to input with a pull-down. If an input reads stuck high, check the errata before blaming your wiring.",
@@ -61,7 +61,8 @@
       "functions": [
         "UART0 TX",
         "I2C0 SDA",
-        "SPI0 RX"
+        "SPI0 RX",
+        "PWM0 A"
       ]
     },
     {
@@ -77,7 +78,8 @@
       "functions": [
         "UART0 RX",
         "I2C0 SCL",
-        "SPI0 CSn"
+        "SPI0 CSn",
+        "PWM0 B"
       ]
     },
     {
@@ -100,7 +102,8 @@
       ],
       "functions": [
         "I2C1 SDA",
-        "SPI0 SCK"
+        "SPI0 SCK",
+        "PWM1 A"
       ]
     },
     {
@@ -114,7 +117,8 @@
       ],
       "functions": [
         "I2C1 SCL",
-        "SPI0 TX"
+        "SPI0 TX",
+        "PWM1 B"
       ]
     },
     {
@@ -130,7 +134,8 @@
       "functions": [
         "UART1 TX",
         "I2C0 SDA",
-        "SPI0 RX"
+        "SPI0 RX",
+        "PWM2 A"
       ]
     },
     {
@@ -146,7 +151,8 @@
       "functions": [
         "UART1 RX",
         "I2C0 SCL",
-        "SPI0 CSn"
+        "SPI0 CSn",
+        "PWM2 B"
       ]
     },
     {
@@ -169,7 +175,8 @@
       ],
       "functions": [
         "I2C1 SDA",
-        "SPI0 SCK"
+        "SPI0 SCK",
+        "PWM3 A"
       ]
     },
     {
@@ -183,7 +190,8 @@
       ],
       "functions": [
         "I2C1 SCL",
-        "SPI0 TX"
+        "SPI0 TX",
+        "PWM3 B"
       ]
     },
     {
@@ -199,7 +207,8 @@
       "functions": [
         "UART1 TX",
         "I2C0 SDA",
-        "SPI1 RX"
+        "SPI1 RX",
+        "PWM4 A"
       ]
     },
     {
@@ -215,7 +224,8 @@
       "functions": [
         "UART1 RX",
         "I2C0 SCL",
-        "SPI1 CSn"
+        "SPI1 CSn",
+        "PWM4 B"
       ]
     },
     {
@@ -238,7 +248,8 @@
       ],
       "functions": [
         "I2C1 SDA",
-        "SPI1 SCK"
+        "SPI1 SCK",
+        "PWM5 A"
       ]
     },
     {
@@ -252,7 +263,8 @@
       ],
       "functions": [
         "I2C1 SCL",
-        "SPI1 TX"
+        "SPI1 TX",
+        "PWM5 B"
       ]
     },
     {
@@ -263,12 +275,15 @@
         "uart",
         "i2c",
         "spi",
-        "pwm"
+        "pwm",
+        "clock"
       ],
       "functions": [
         "UART0 TX",
         "I2C0 SDA",
-        "SPI1 RX"
+        "SPI1 RX",
+        "GPIN0",
+        "PWM6 A"
       ]
     },
     {
@@ -279,12 +294,15 @@
         "uart",
         "i2c",
         "spi",
-        "pwm"
+        "pwm",
+        "clock"
       ],
       "functions": [
         "UART0 RX",
         "I2C0 SCL",
-        "SPI1 CSn"
+        "SPI1 CSn",
+        "GPOUT0",
+        "PWM6 B"
       ]
     },
     {
@@ -307,7 +325,9 @@
       ],
       "functions": [
         "I2C1 SDA",
-        "SPI1 SCK"
+        "SPI1 SCK",
+        "GPIN1",
+        "PWM7 A"
       ]
     },
     {
@@ -317,11 +337,14 @@
       "tags": [
         "i2c",
         "spi",
-        "pwm"
+        "pwm",
+        "clock"
       ],
       "functions": [
         "I2C1 SCL",
-        "SPI1 TX"
+        "SPI1 TX",
+        "GPOUT1",
+        "PWM7 B"
       ]
     },
     {
@@ -337,7 +360,8 @@
       "functions": [
         "UART0 TX",
         "I2C0 SDA",
-        "SPI0 RX"
+        "SPI0 RX",
+        "PWM0 A"
       ]
     },
     {
@@ -353,7 +377,8 @@
       "functions": [
         "UART0 RX",
         "I2C0 SCL",
-        "SPI0 CSn"
+        "SPI0 CSn",
+        "PWM0 B"
       ]
     },
     {
@@ -376,7 +401,8 @@
       ],
       "functions": [
         "I2C1 SDA",
-        "SPI0 SCK"
+        "SPI0 SCK",
+        "PWM1 A"
       ]
     },
     {
@@ -390,7 +416,8 @@
       ],
       "functions": [
         "I2C1 SCL",
-        "SPI0 TX"
+        "SPI0 TX",
+        "PWM1 B"
       ]
     },
     {
@@ -401,12 +428,15 @@
         "uart",
         "i2c",
         "pwm",
-        "clock"
+        "clock",
+        "spi"
       ],
       "functions": [
         "UART1 TX",
         "I2C0 SDA",
-        "GPIN0"
+        "GPIN0",
+        "SPI0 RX",
+        "PWM2 A"
       ]
     },
     {
@@ -417,12 +447,15 @@
         "uart",
         "i2c",
         "pwm",
-        "clock"
+        "clock",
+        "spi"
       ],
       "functions": [
         "UART1 RX",
         "I2C0 SCL",
-        "GPOUT0"
+        "GPOUT0",
+        "SPI0 CSn",
+        "PWM2 B"
       ]
     },
     {
@@ -439,10 +472,15 @@
       "primary": "gpio",
       "tags": [
         "pwm",
-        "clock"
+        "clock",
+        "spi",
+        "i2c"
       ],
       "functions": [
-        "GPIN1"
+        "GPIN1",
+        "SPI0 SCK",
+        "I2C1 SDA",
+        "PWM3 A"
       ]
     },
     {
@@ -472,7 +510,8 @@
       ],
       "functions": [
         "ADC0",
-        "I2C1 SDA"
+        "I2C1 SDA",
+        "PWM5 A"
       ]
     },
     {
@@ -490,7 +529,8 @@
       ],
       "functions": [
         "ADC1",
-        "I2C1 SCL"
+        "I2C1 SCL",
+        "PWM5 B"
       ]
     },
     {
@@ -512,10 +552,17 @@
       ],
       "tags": [
         "analog",
-        "pwm"
+        "pwm",
+        "uart",
+        "i2c",
+        "spi"
       ],
       "functions": [
-        "ADC2"
+        "ADC2",
+        "UART0 TX",
+        "I2C0 SDA",
+        "SPI1 RX",
+        "PWM6 A"
       ]
     },
     {

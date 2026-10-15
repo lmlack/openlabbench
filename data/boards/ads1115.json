@@ -6,7 +6,7 @@
   "category": "ic",
   "summary": "Four single-ended or two differential channels at 16 bits over I2C, with a gain stage and its own reference. What you add when the microcontroller's ADC is not good enough.",
   "logic": "2-5.5 V",
-  "package": "VSSOP-10 (DGS) / X2QFN-10 / WCSP",
+  "package": "VSSOP-10 (DGS) / X2QFN-10 (RUG) / SOT (DYN)",
   "keywords": [
     "ads1115",
     "ads1015",

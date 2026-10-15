@@ -23,7 +23,7 @@
     "Channel A is the one for a load cell: gain 128 or 64, programmable. Channel B is fixed at gain 32 and is meant for something coarser, like a battery monitor.",
     "Full-scale differential input is only +/-0.5 x AVDD / gain, so at 5 V and gain 128 that is about +/-20 mV. A load cell's output is in that range, which is exactly the point, and anything larger clips immediately.",
     "The inputs have to sit between AGND + 1.2 V and AVDD - 1.3 V. A bridge excited from the full rail puts its outputs near mid-supply, which is comfortably inside that, but a single-ended sensor referenced to ground is not.",
-    "RATE picks 10 Hz or 80 Hz. 10 Hz is the quieter one and is what most modules hardwire. 80 Hz costs you roughly a bit and a half of noise-free resolution.",
+    "RATE picks 10 Hz or 80 Hz. 10 Hz is the quieter one and is what most modules hardwire. 80 Hz costs you nearly a bit of noise-free resolution.",
     "XI low selects the on-chip oscillator, which is what you want unless you are feeding it a crystal. BASE and XO are left unconnected when the on-board regulator and the crystal are unused.",
     "The 24 bits are real but the useful ones are fewer. Load cell work lives or dies on mechanical mounting and temperature, not on the ADC."
   ],

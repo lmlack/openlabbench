@@ -33,9 +33,10 @@
     "The Arduino serial pins D0 and D1 are UART3, not the debug console. The console is UART0 on PTB16 and PTB17, which goes to the OpenSDA chip and out over the USB port.",
     "UART3 is shared three ways: the D0/D1 header pins, the Bluetooth HCI header, and the Ethernet IEEE 1588 timer pins PTC16 to PTC19. Enabling Ethernet and the header serial together will not work.",
     "I2C0 on D14 and D15 is shared with the on-board FXOS8700 accelerometer and magnetometer at address 0x1D. It is a real bus with real pull-ups, so extra devices are fine as long as the address does not clash.",
-    "SPI0 follows the Arduino convention: D10 is chip select, D11 is MOSI, D12 is MISO, D13 is SCK. The microSD slot is on the same bus.",
+    "SPI0 follows the Arduino convention: D10 is chip select, D11 is MOSI, D12 is MISO, D13 is SCK. The microSD slot is separate, on the SDHC pins PTE0 to PTE5.",
     "OpenSDAv2 gives you drag-and-drop flashing over USB mass storage, a CMSIS-DAP debug interface and a serial console on one cable. No external programmer needed.",
-    "There are extra pins outside the Arduino footprint, on the outer rows of the same headers, carrying the rest of the Ethernet and the CAN pins. Those are not shown here."
+    "There are extra pins outside the Arduino footprint, on the outer rows of the same headers, carrying I2S, extra ADC inputs, the DAC output and the CAN0 pins. Those are not shown here.",
+    "Needs checking: the VIN range hasn't been confirmed against NXP's user guide. The schematic names the net P5-9V_VIN, which suggests 5 to 9 V."
   ],
   "docs": [
     {

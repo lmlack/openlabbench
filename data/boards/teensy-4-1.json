@@ -85,7 +85,7 @@
     { "name": "16", "primary": "gpio", "aliases": ["A2", "RX4", "SCL1"], "tags": ["analog", "uart", "i2c"], "functions": ["ADC 2", "Serial4 RX", "Wire1 SCL"], "side": "right", "row": 11 },
     { "name": "15", "primary": "gpio", "aliases": ["A1", "RX3"], "tags": ["analog", "uart", "pwm"], "functions": ["ADC 1", "Serial3 RX", "S/PDIF IN"], "side": "right", "row": 12 },
     { "name": "14", "primary": "gpio", "aliases": ["A0", "TX3"], "tags": ["analog", "uart", "pwm"], "functions": ["ADC 0", "Serial3 TX", "S/PDIF OUT"], "side": "right", "row": 13 },
-    { "name": "13", "primary": "gpio", "aliases": ["LED", "SCK"], "tags": ["spi", "pwm", "clock"], "functions": ["SPI clock", "On-board LED"], "note": "On-board LED. It blinks with SPI traffic whether you want it to or not.", "side": "right", "row": 14 },
+    { "name": "13", "primary": "gpio", "aliases": ["LED", "SCK", "CRX1"], "tags": ["spi", "pwm", "clock"], "functions": ["SPI clock", "On-board LED", "CAN1 RX"], "note": "On-board LED. It blinks with SPI traffic whether you want it to or not.", "side": "right", "row": 14 },
     { "name": "GND", "primary": "gnd", "functions": ["Ground"], "side": "right", "row": 15 },
     { "name": "41", "primary": "gpio", "aliases": ["A17"], "tags": ["analog"], "functions": ["ADC 17"], "side": "right", "row": 16 },
     { "name": "40", "primary": "gpio", "aliases": ["A16"], "tags": ["analog"], "functions": ["ADC 16"], "side": "right", "row": 17 },

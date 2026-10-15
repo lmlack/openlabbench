@@ -23,7 +23,7 @@
     "S0 is the least significant select bit and S3 the most, so the channel number is just the four bits read as a binary number.",
     "E (pin 15) is active low. High turns every switch off, which is useful for sharing one ADC between several of these. Tie it to ground if you are not using it; it must not float.",
     "This is a switch, not an amplifier. The signal has to stay between GND and VCC, so it cannot pass a waveform that swings negative without biasing it first.",
-    "On resistance is about 80 ohms at 6 V and 90 at 4.5 V, up to 180 at worst case, and it changes with the signal level. Into a high-impedance ADC that does not matter; driving anything that draws current, it is a divider you did not design.",
+    "On resistance is about 80 ohms at 6 V and 90 at 4.5 V, up to 180 at 25 °C and 270 over the full temperature range, and it changes with the signal level. Into a high-impedance ADC that does not matter; driving anything that draws current, it is a divider you did not design.",
     "After switching channels, give the ADC time. The sample capacitor has to charge through that on resistance, and reading immediately gives you a blend of the last channel and this one.",
     "It is bidirectional, so the same part is a 1-to-16 demultiplexer with the signal going the other way. The CD4051 is the 8-channel version of the same idea."
   ],

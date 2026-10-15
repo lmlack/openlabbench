@@ -19,10 +19,10 @@
   "notes": [
     "Two 10 uF capacitors and nothing else: one across CAP+ and CAP-, one from VOUT to ground. No inductor, no layout drama.",
     "Output current is only about 20 mA, and the output sags as you draw it because the pump has real output impedance. It is for biasing op-amps and comparators, not for powering anything.",
-    "Default oscillator runs around 10 kHz, which lands squarely in the audio band. In an audio circuit tie BOOST (pin 1) to V+ to push it to about 45 kHz, or hang a capacitor on OSC to move it deliberately.",
+    "Default oscillator runs around 10 kHz, which lands squarely in the audio band. On the ICL7660S you can tie BOOST (pin 1) to V+ to push it to about 35 kHz. On any version you can hang a capacitor on OSC to move it deliberately.",
     "LV (pin 6) should be grounded below 3.5 V supply and left open above it. Getting this backwards is the usual reason a 7660 works at 5 V and not at 3 V, or latches up at 9 V.",
     "It can also double a voltage instead of inverting it, by rearranging the capacitors. The datasheet has the connection; it is not the default.",
-    "Absolute maximum is 10.5 V on the original ICL7660. The LM2662 and MAX1044 variants take more and deliver more current; check the exact part before applying 12 V."
+    "Absolute maximum is 10.5 V on the original ICL7660. The ICL7660S and ICL7660A take up to 12 V. The LM2662 delivers more current but only takes 5.5 V, so check the exact part before applying 12 V."
   ],
   "docs": [
     {
@@ -33,15 +33,15 @@
   "pins": [
     {
       "number": 1,
-      "name": "BOOST",
-      "primary": "ctrl",
+      "name": "NC",
+      "primary": "nc",
       "aliases": [
-        "NC on some parts"
+        "BOOST"
       ],
       "functions": [
-        "Oscillator boost"
+        "No connection (BOOST on the ICL7660S)"
       ],
-      "note": "Tie to V+ to raise the oscillator to about 45 kHz, out of the audio band."
+      "note": "Not connected on the ICL7660 and ICL7660A. Pin 1 is BOOST only on the ICL7660S, where tying it to V+ raises the oscillator to about 35 kHz, out of the audio band."
     },
     {
       "number": 2,

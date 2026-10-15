@@ -22,7 +22,7 @@
     "PRE and CLR are both ACTIVE LOW and both asynchronous, meaning they override the clock entirely. Tie them high through a resistor if unused. Leaving them floating is why a flip-flop appears stuck.",
     "Asserting PRE and CLR together is an illegal state: both outputs go high and the next release is a race. Never drive them from the same logic without interlocking.",
     "This is the right part for bringing an asynchronous signal into a clocked system. Two in series, clocked by your system clock, resolves metastability to a vanishing probability.",
-    "Setup time is about 15 ns at 5 V. Data must be stable that long before the clock edge or the output is undefined."
+    "The datasheet gives a setup time of 20 ns at 4.5 V, or 25 ns over the full -40 to 85 °C range. Data must be stable that long before the clock edge or the output is undefined."
   ],
   "docs": [
     {
@@ -87,10 +87,9 @@
     },
     {
       "number": 6,
-      "name": "1Q",
+      "name": "/1Q",
       "primary": "gpio",
       "aliases": [
-        "/1Q",
         "1Q bar"
       ],
       "functions": [
@@ -108,10 +107,9 @@
     },
     {
       "number": 8,
-      "name": "2Q",
+      "name": "/2Q",
       "primary": "gpio",
       "aliases": [
-        "/2Q",
         "2Q bar"
       ],
       "functions": [

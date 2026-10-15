@@ -29,7 +29,7 @@
   "notes": [
     "Pins 27 to 46 drive the on-board HDMI framer. They are yours only after disabling HDMI in the device tree, and doing that costs you video output.",
     "Pins 3 to 6 and 20 to 25 go to the on-board eMMC. Taking them means booting from microSD instead.",
-    "Between HDMI and eMMC, a stock board leaves roughly ten pins on P8 genuinely free. Plan the cape around that, not around the 46 holes.",
+    "Between HDMI and eMMC, a stock board leaves 14 pins on P8 genuinely free. Plan the cape around that, not around the 46 holes.",
     "Signal names here are the power-on defaults. Nearly every pin muxes to something else, and several reach the PRU, the real reason to pick this board over a Pi.",
     "GPIO are 3.3 V and not 5 V tolerant, at 4 to 6 mA per pin.",
     "The P8 and P9 headers are keyed the same and sit the same distance apart as on the original BeagleBone, so older capes still fit.",

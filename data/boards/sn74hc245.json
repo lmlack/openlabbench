@@ -19,7 +19,7 @@
   "notes": [
     "DIR picks which way the data flows: high sends A to B, low sends B to A. It is not an enable, and getting it backwards means two drivers fighting.",
     "OE is active low and tri-states all eight lines when high. Wire it from your address decode so the transceiver only drives during its own bus cycle.",
-    "The A and B pins are mirrored across the package: A1 to A8 run down pins 2 to 9, B8 to B1 run down pins 11 to 18. B1 sits opposite A8, not A1. Wire from the numbers.",
+    "The A and B pins are mirrored across the package: A1 to A8 run down pins 2 to 9, B8 to B1 run up pins 11 to 18. So both buses run the same way down the package, with each B pin one row below its A pin: B1 (pin 18) sits opposite A2 (pin 3). Wire from the numbers.",
     "Each output drives about 6 mA, far more than a microcontroller pin, which is the point when a bus has to reach across a backplane or a ribbon cable.",
     "It does not level shift on its own: A and B share one supply. For a genuine level translation use a 74LVC245 powered at the lower rail, which is 5 V tolerant on its inputs.",
     "Commonly used simply as a strong output buffer with DIR tied high and OE grounded."
@@ -119,7 +119,7 @@
       "functions": [
         "Bus B bit 8"
       ],
-      "note": "B8 sits opposite A1, not A8. The two buses run in opposite directions across the package."
+      "note": "B8 sits opposite GND (pin 10), one row below A8. Both buses run the same way down the package."
     },
     {
       "number": 12,

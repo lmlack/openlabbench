@@ -32,7 +32,8 @@
     "Other strapping pins: GPIO0 low enters flash mode (the BOOT button), GPIO2 must be low or floating, GPIO5 and GPIO15 are pulled high at boot and emit a PWM burst as they do.",
     "GPIO6 to GPIO11 wire to the SPI flash inside the module. They are not on the 30-pin header, and the 38-pin version that does expose them should not be used.",
     "Any output-capable pin can do PWM: the LEDC block has 16 channels and routes to any GPIO, so the usual PWM pin lists do not apply.",
-    "VIN takes 5 V. The onboard regulator handles about 600 mA, and the radio pulls 250 mA spikes, so a thin USB cable shows up as random reboots."
+    "VIN takes 5 V. The onboard regulator handles about 600 mA, and the radio pulls 250 mA spikes, so a thin USB cable shows up as random reboots.",
+    "Needs checking: the regulator current figure varies between clones and hasn't been confirmed for any particular board."
   ],
   "docs": [
     {

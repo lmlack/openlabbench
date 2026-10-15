@@ -20,7 +20,7 @@
     "The crystal is external and uncompensated, so accuracy is whatever your 32.768 kHz part and its stray capacitance give you. Expect minutes of drift per month, and more as the temperature swings. The DS3231 has the crystal and a temperature compensator on-die and drifts minutes per year.",
     "5 V only. It will not run from 3.3 V, which rules it out on an ESP32, a Pico or any modern board without a level shifter and a 5 V rail.",
     "Fixed I2C address 0x68, not selectable. That clashes with an MPU6050, which also sits at 0x68.",
-    "The crystal must be a 32.768 kHz part with 12.5 pF load capacitance, mounted as close to pins 1 and 2 as possible, with no ground pour underneath. Stray capacitance here is the main reason a hand-built DS1307 runs fast or slow.",
+    "The crystal must be a 32.768 kHz part with 12.5 pF load capacitance, mounted as close to pins 1 and 2 as possible, over a local ground plane, with no other signals routed nearby. Stray capacitance here is the main reason a hand-built DS1307 runs fast or slow.",
     "SQW/OUT is open drain and can emit 1 Hz, 4.096 kHz, 8.192 kHz or 32.768 kHz, which makes a free interrupt tick. It needs a pull-up.",
     "There are 56 bytes of battery-backed RAM above the clock registers, which is handy for storing a few settings.",
     "On power-up the clock halt bit is set and the chip is NOT running. Clear bit 7 of register 0 or it sits there reading the same time forever, which is the usual first-time confusion."
@@ -46,7 +46,7 @@
       "functions": [
         "Crystal in"
       ],
-      "note": "32.768 kHz, 12.5 pF load. Keep the traces short and the ground pour away."
+      "note": "32.768 kHz, 12.5 pF load. Keep the traces short and other signals away from them."
     },
     {
       "number": 2,
@@ -123,7 +123,7 @@
         "Positive supply"
       ],
       "voltage": "4.5-5.5 V",
-      "note": "5 V only. Below about 4.25 V it switches to the battery and stops answering on I2C."
+      "note": "5 V only. Below 1.25 times VBAT (about 3.75 V with a 3 V cell) it stops answering on I2C. It switches to the battery once VCC drops below VBAT."
     }
   ],
   "layout": {
@@ -144,7 +144,7 @@
         "from": "1",
         "to": "2",
         "required": true,
-        "why": "12.5 pF load type. Keep the traces short and any ground pour away from them."
+        "why": "12.5 pF load type. Keep the traces short and other signals away from them."
       },
       {
         "part": "CR2032 cell",

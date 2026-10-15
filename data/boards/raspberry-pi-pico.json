@@ -32,7 +32,7 @@
     "GPIO23, 24, 25 and 29 exist on the RP2040 but are not on the header, they drive the SMPS mode, VBUS sense, the on-board LED and VSYS sense. On the Pico W they are taken over by the wireless chip, which is why the LED moves to the CYW43 on that model.",
     "VSYS (pin 39) accepts 1.8-5.5 V and feeds the on-board buck-boost regulator. VBUS (pin 40) is USB 5 V directly.",
     "ADC_VREF (pin 35) is a filtered 3.3 V reference; tie analog grounds to AGND (pin 33), not a digital GND pin, for quieter readings.",
-    "The Pico 2 uses the same header and the same GP numbers on an RP2350: more RAM, a choice of Arm or RISC-V cores, and 12 PWM slices instead of 8."
+    "The Pico 2 uses the same header and the same GP numbers on an RP2350: more RAM, a choice of Arm or RISC-V cores, and 5 V tolerant digital pins."
   ],
   "docs": [
     {
@@ -418,13 +418,15 @@
         "uart",
         "i2c",
         "pwm",
-        "clock"
+        "clock",
+        "spi"
       ],
       "functions": [
         "UART1 TX",
         "I2C0 SDA",
         "PWM2 A",
-        "GPIN0"
+        "GPIN0",
+        "SPI0 RX"
       ]
     },
     {
@@ -435,13 +437,15 @@
         "uart",
         "i2c",
         "pwm",
-        "clock"
+        "clock",
+        "spi"
       ],
       "functions": [
         "UART1 RX",
         "I2C0 SCL",
         "PWM2 B",
-        "GPOUT0"
+        "GPOUT0",
+        "SPI0 CSn"
       ]
     },
     {
@@ -458,11 +462,15 @@
       "primary": "gpio",
       "tags": [
         "pwm",
-        "clock"
+        "clock",
+        "spi",
+        "i2c"
       ],
       "functions": [
         "PWM3 A",
-        "GPIN1"
+        "GPIN1",
+        "SPI0 SCK",
+        "I2C1 SDA"
       ]
     },
     {
@@ -534,11 +542,17 @@
       ],
       "tags": [
         "analog",
-        "pwm"
+        "pwm",
+        "uart",
+        "i2c",
+        "spi"
       ],
       "functions": [
         "ADC2",
-        "PWM6 A"
+        "PWM6 A",
+        "UART0 TX",
+        "I2C0 SDA",
+        "SPI1 RX"
       ]
     },
     {

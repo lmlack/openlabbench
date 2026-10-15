@@ -30,10 +30,11 @@
     "Both chip selects must be asserted at once, and both should be qualified with PHI2 or the VIA will see bus noise as accesses.",
     "Timer 1 can free-run and toggle PB7, which gives you a hardware square wave with no CPU involvement. That is the usual source of a system tick or a tone.",
     "Timer 2 counts pulses on PB6 as well as time, so it doubles as an event counter.",
-    "On the original NMOS 6522, reading Port A returns the pin states rather than the output register, so an output loaded down reads back wrong. Port B reads the register. The CMOS W65C22 fixes this.",
-    "IRQ is open drain. Several VIAs and ACIAs share one interrupt line through a single pull-up, and the handler reads each chip's flag register to find out who shouted.",
+    "Reading Port A returns the pin states rather than the output register, so an output loaded down reads back wrong. Port B reads the register for output bits. The CMOS W65C22 behaves the same way.",
+    "IRQ is open drain on the NMOS 6522 and the W65C22N. Several of those can share one interrupt line through a single pull-up, and the handler reads each chip's flag register to find out who shouted.",
     "The shift register has documented silicon bugs on the NMOS part and is best avoided; bit-bang through the ports instead, or use a W65C22.",
-    "Ben Eater's 6502 build uses this chip, which is why it is back in production and easy to buy."
+    "WDC still makes the CMOS W65C22, so it is easy to buy. It is also the chip used in Ben Eater's 6502 build.",
+    "Needs checking: whether the W65C22 fixed the shift register bugs isn't covered in WDC's datasheet."
   ],
   "docs": [
     {
@@ -60,7 +61,7 @@
       "functions": [
         "Port A bit 0"
       ],
-      "note": "Reading Port A on the NMOS part returns the pin, not the output register. A loaded output reads back wrong."
+      "note": "Reading Port A returns the pin, not the output register. A loaded output reads back wrong."
     },
     {
       "number": 3,
@@ -225,7 +226,7 @@
       "functions": [
         "Interrupt request, active low"
       ],
-      "note": "Open drain, so several VIAs share one line through a pull-up."
+      "note": "Open drain on the NMOS 6522 and W65C22N, so several can share one line through a pull-up. The W65C22S drives it both ways, so it needs a diode to share a line."
     },
     {
       "number": 22,
@@ -350,7 +351,7 @@
       "functions": [
         "Reset, active low"
       ],
-      "note": "Clears every register and puts both ports to input."
+      "note": "Clears the registers and puts both ports to input. The timer counters and latches and the shift register are not cleared."
     },
     {
       "number": 35,
@@ -420,7 +421,7 @@
         "from": "21",
         "to": "VCC",
         "required": true,
-        "why": "IRQ is open drain so several peripherals can share one line. Nothing pulls it high on its own."
+        "why": "On the NMOS 6522 and W65C22N, IRQ is open drain so several peripherals can share one line. Nothing pulls it high on its own."
       },
       {
         "part": "Wire link",

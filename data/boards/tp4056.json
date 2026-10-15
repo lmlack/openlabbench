@@ -123,7 +123,7 @@
       "primary": "ctrl",
       "tags": ["analog"],
       "functions": ["Charge current set", "Current monitor"],
-      "note": "Resistor to ground sets the current. The pin voltage also reports it: 2 V in constant-current mode."
+      "note": "Resistor to ground sets the current. The pin voltage also reports it: 1 V in constant-current mode, 0.1 V during trickle charge."
     },
     { "number": 3, "name": "GND", "primary": "gnd" },
     {

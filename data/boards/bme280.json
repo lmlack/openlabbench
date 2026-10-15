@@ -21,11 +21,11 @@
     "The BMP280 is the same part without humidity, in the same package with the same pinout and nearly the same register map. They are routinely sold as each other. Read the chip ID register: 0x60 is a BME280, 0x58 is a BMP280.",
     "VDD and VDDIO are separate supplies on purpose. VDDIO sets the logic level, so the sensor can run its analog side at 1.8 V and still talk to a 3.3 V bus. Modules usually tie them together behind a regulator.",
     "It is not 5 V tolerant on any pin. A bare chip wired to an Uno is a dead chip; the breakout boards that survive it have a regulator and a level shifter doing the work.",
-    "CSB picks the interface, and it is sampled rather than strapped: tie it to VDDIO for I2C, or drive it as chip select for SPI. Left floating it will not reliably be either.",
+    "CSB picks the interface: tie it to VDDIO for I2C, or drive it as chip select for SPI. It has a weak internal pull-up, but Bosch still asks for a direct link to VDDIO for I2C. One low pulse on CSB turns I2C off until the next power cycle.",
     "SDO is the address bit in I2C mode. Low gives 0x76 and high gives 0x77, and it must be driven, not left open. Two sensors on one bus is the most this part will do.",
     "The temperature reading is the die's own, and the die sits next to a thing you are powering. Forced mode, one reading at a time with the chip asleep in between, reports ambient. Continuous mode at a high rate reports the chip warming itself up, usually by a degree or two.",
     "Pressure comes out in Pa with a 20-bit resolution, and the compensation routine in the datasheet is not optional: the raw value is meaningless without the per-chip calibration coefficients read out of registers 0x88 onward.",
-    "The pin table here is the chip's own, as numbered by Bosch. The real package is a square LGA with pads on all four sides, so these are the datasheet's numbers rather than a shape you can read off the part."
+    "The package is a 2.5 mm square LGA with two rows of four pads. Bosch numbers them clockwise when seen from the top, the opposite of most chips. The diagram here is drawn from the top."
   ],
   "docs": [
     {
@@ -35,9 +35,9 @@
   ],
   "layout": {
     "kind": "dip",
-    "numbering": "ccw",
+    "numbering": "explicit",
     "rows": 4,
-    "sideLabels": ["Pins 1-4", "Pins 5-8"]
+    "sideLabels": ["Pins 8-5", "Pins 1-4"]
   },
   "circuit": {
     "title": "Minimum circuit on I2C",
@@ -94,9 +94,11 @@
     "note": "Both ground pins must be connected. For SPI, leave the pull-ups off and treat SDI as MOSI, SDO as MISO, SCK as clock and CSB as chip select."
   },
   "pins": [
-    { "number": 1, "name": "GND", "primary": "gnd", "functions": ["Ground"] },
+    { "number": 1, "side": "right", "row": 1, "name": "GND", "primary": "gnd", "functions": ["Ground"] },
     {
       "number": 2,
+      "side": "right",
+      "row": 2,
       "name": "CSB",
       "primary": "ctrl",
       "tags": ["spi"],
@@ -105,6 +107,8 @@
     },
     {
       "number": 3,
+      "side": "right",
+      "row": 3,
       "name": "SDI",
       "primary": "gpio",
       "tags": ["i2c", "spi"],
@@ -113,6 +117,8 @@
     },
     {
       "number": 4,
+      "side": "right",
+      "row": 4,
       "name": "SCK",
       "primary": "gpio",
       "tags": ["i2c", "spi", "clock"],
@@ -121,6 +127,8 @@
     },
     {
       "number": 5,
+      "side": "left",
+      "row": 4,
       "name": "SDO",
       "primary": "gpio",
       "tags": ["i2c", "spi"],
@@ -130,15 +138,19 @@
     },
     {
       "number": 6,
+      "side": "left",
+      "row": 3,
       "name": "VDDIO",
       "primary": "vcc",
       "voltage": "1.2-3.6 V",
       "functions": ["Interface supply"],
       "note": "Sets the logic level, independently of VDD."
     },
-    { "number": 7, "name": "GND", "primary": "gnd", "functions": ["Ground"], "note": "Both ground pins have to be connected." },
+    { "number": 7, "side": "left", "row": 2, "name": "GND", "primary": "gnd", "functions": ["Ground"], "note": "Both ground pins have to be connected." },
     {
       "number": 8,
+      "side": "left",
+      "row": 1,
       "name": "VDD",
       "primary": "vcc",
       "voltage": "1.71-3.6 V",

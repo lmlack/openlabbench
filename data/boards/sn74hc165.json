@@ -20,7 +20,7 @@
     "SH/LD (pin 1) is active low and backwards from what the name suggests: hold it LOW to snapshot the eight inputs, then take it HIGH to shift them out. Clock only moves data while it is high.",
     "The first bit is already on QH before you send any clock. Read it, then clock seven times, not eight.",
     "Inputs are D0 to D7 but they are split across the package: D4 to D7 on pins 3 to 6, D0 to D3 on pins 11 to 14. Wire from the numbers.",
-    "Chain by feeding QH of one chip into SER (pin 10) of the next, and share SH/LD and CLK. Read the far chip first.",
+    "Chain by feeding QH of one chip into SER (pin 10) of the next, and share SH/LD and CLK. The chip wired to the microcontroller shifts out first, and the far chip's bits arrive last.",
     "CLK INH (pin 15) gates the clock. Ground it unless you need it, or the register will not shift.",
     "Inputs have no internal pull-ups. A bank of buttons needs a resistor per input, which is the one place the PCF8574 is less work."
   ],
@@ -94,7 +94,7 @@
     },
     {
       "number": 7,
-      "name": "QH",
+      "name": "/QH",
       "primary": "gpio",
       "aliases": [
         "/Q7",

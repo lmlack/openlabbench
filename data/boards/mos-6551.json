@@ -20,7 +20,7 @@
   "notes": [
     "It has its own baud rate generator. A 1.8432 MHz crystal on XTLI and XTLO gives every standard rate from 50 to 19200 baud with no divider maths.",
     "Only four registers, selected by RS0 and RS1: data, status, command and control. Wire those to CPU A0 and A1.",
-    "The original NMOS 6551 has a well-known transmitter bug: the transmit-empty flag is unreliable, so polling it can hang. The usual workaround is a fixed delay per character. The CMOS W65C51N has the same bug; the older W65C51S does not.",
+    "The CMOS W65C51N sold today has a well-known transmitter bug: the transmit-empty flag always reads 1, so you cannot poll it. The usual workaround is a fixed delay per character. The original NMOS 6551 does not have this problem.",
     "IRQ is open drain, so it shares one interrupt line with the VIA and anything else through a single pull-up.",
     "The modem control lines are real: RTS, CTS, DTR, DSR and DCD are all brought out, which is enough for proper hardware flow control.",
     "Output levels are TTL, not RS-232. A MAX232 or equivalent sits between this and a real serial port; for a modern USB adapter, wire TxD and RxD straight across.",
@@ -206,7 +206,7 @@
       "functions": [
         "Data carrier detect, active low"
       ],
-      "note": "Tie low if unused, or the receiver ignores incoming data."
+      "note": "Tie low if unused. Left floating it changes state at random and raises spurious interrupts."
     },
     {
       "number": 17,
@@ -362,6 +362,6 @@
         "why": "IRQ is open drain and shares a line with the other peripherals."
       }
     ],
-    "note": "Drive XTLI (6) directly from an external clock if you prefer, but then XTLO (7) must be left open. The NMOS part also has the famous transmit bug: the status register never reports the transmitter empty, so timing-based delays are the usual workaround."
+    "note": "Drive XTLI (6) directly from an external clock if you prefer, but then XTLO (7) must be left open. The W65C51N also has the famous transmit bug: the status register always reports the transmitter empty, so timing-based delays are the usual workaround."
   }
 }

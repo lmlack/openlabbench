@@ -6,7 +6,7 @@
   "category": "ic",
   "summary": "Sixteen independent 12-bit PWM channels over I2C, each with its own start and stop point. The chip under every servo and LED driver breakout.",
   "logic": "2.3-5.5 V",
-  "package": "TSSOP-28 / HVQFN-28",
+  "package": "TSSOP-28 (shown) / HVQFN-28 (different pinout)",
   "keywords": [
     "pca9685",
     "servo driver",

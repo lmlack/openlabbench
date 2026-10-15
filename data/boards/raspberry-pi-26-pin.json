@@ -63,7 +63,7 @@
       "functions": [
         "5 V supply out"
       ],
-      "note": "Fed straight from the USB-C / micro-USB input, upstream of the 3V3 regulator."
+      "note": "Fed straight from the micro-USB input, upstream of the 3V3 regulator."
     },
     {
       "number": 3,
@@ -108,7 +108,7 @@
       "functions": [
         "I2C1 SCL"
       ],
-      "note": "Fixed 1.8 kΩ pull-up to 3V3. Also wakes the Pi from halt when pulled low. Rev 1 boards have GPIO1 here, on I2C0 rather than I2C1."
+      "note": "Fixed 1.8 kΩ pull-up to 3V3. Pulling it low also wakes the Pi from halt. Rev 1 boards have GPIO1 here, on I2C0 rather than I2C1."
     },
     {
       "number": 6,

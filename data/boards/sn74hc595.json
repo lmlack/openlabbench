@@ -144,7 +144,7 @@
       "functions": [
         "Overflow / cascade output"
       ],
-      "note": "Wire to the next chip's DS to chain registers. One clock behind the latch."
+      "note": "Wire to the next chip's DS to chain registers. This is the last stage of the shift register, not the latch, so it changes on SH_CP."
     },
     {
       "number": 10,
