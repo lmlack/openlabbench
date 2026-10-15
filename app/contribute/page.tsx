@@ -88,8 +88,8 @@ export default function ContributePage() {
              build setting, not a statement about any repository. Say that, so a
              self-hosted copy is not told something false about its own repo. */
           <p>
-            This build has no repository configured, so the edit links are hidden rather
-            than pointing nowhere. Everything below still describes the data exactly.
+            This build has no repository configured, so there are no edit links. The rest
+            of this page still applies.
           </p>
         )}
         <p>
@@ -188,7 +188,7 @@ export default function ContributePage() {
 
       <Section title="Accuracy">
         <p>
-          The data comes from manufacturer datasheets and diagrams. Clones and revisions can differ, so check your board&apos;s silkscreen before you power it up.
+          The data comes from manufacturer datasheets and diagrams. Clones and board revisions can differ from them.
         </p>
       </Section>
 

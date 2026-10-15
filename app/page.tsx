@@ -71,7 +71,7 @@ export default function Home() {
           <Feature
             href="/cross-reference"
             title="Part swaps"
-            body="Out of a part? Find what can replace it. Each swap is rated and tells you what&apos;s different, like a BMP280 having no humidity sensor."
+            body="Find a part that can replace the one you don&apos;t have. Each swap is rated and says what&apos;s different, like the BMP280 having no humidity sensor."
             accent={signal("spi").color}
           />
           <Feature
@@ -123,7 +123,7 @@ export default function Home() {
         <div className="text-center">
           <h2 className="text-lg font-semibold">Start here</h2>
           <Link href="/pinouts" className="mt-1 inline-block text-sm text-accent hover:underline">
-            All pinouts →
+            All pinouts
           </Link>
         </div>
         <ul className="mt-5 flex flex-wrap justify-center gap-3">
@@ -160,7 +160,7 @@ export default function Home() {
       {/* Contribute */}
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <div className="rounded-2xl border border-line bg-panel p-6 text-center sm:p-8">
-          <h2 className="text-lg font-semibold">It&apos;s all plain JSON</h2>
+          <h2 className="text-lg font-semibold">The data is plain JSON</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted">
             Each pinout is one file in <span className="font-mono text-fg">data/boards/</span>. Add one and the page, search and cheat sheet show up on the next build.
           </p>
