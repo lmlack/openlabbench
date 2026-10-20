@@ -162,14 +162,26 @@ export default async function BoardPage({ params }: PageProps<"/pinouts/[slug]">
         <section id="watch-out" className="mt-12 scroll-mt-20">
           <SectionHead n={sectionNo("watch-out")} title="Caution" />
           <ul className="mt-4 flex flex-wrap justify-center gap-2.5">
-            {board.notes.map((note) => (
-              <li
-                key={note}
-                className="print-break-avoid w-full max-w-xl border border-line bg-panel px-4 py-3 text-center text-sm leading-snug text-muted lg:w-[27rem]"
-              >
-                {note}
-              </li>
-            ))}
+            {board.notes.map((note) => {
+              const unchecked = note.match(/^Needs checking:\s*/);
+              return (
+                <li
+                  key={note}
+                  className={`print-break-avoid w-full max-w-xl border px-4 py-3 text-center text-sm leading-snug lg:w-[27rem] ${
+                    unchecked ? "callout-warn" : "border-line bg-panel text-muted"
+                  }`}
+                >
+                  {unchecked ? (
+                    <>
+                      <strong className="font-semibold">Needs checking:</strong>{" "}
+                      {note.slice(unchecked[0].length)}
+                    </>
+                  ) : (
+                    note
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}
