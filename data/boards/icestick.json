@@ -1,0 +1,556 @@
+{
+  "slug": "icestick",
+  "name": "Lattice iCEstick",
+  "shortName": "iCEstick",
+  "vendor": "Lattice Semiconductor",
+  "category": "mcu-board",
+  "summary": "A USB stick with an iCE40HX1K FPGA, five LEDs, an IrDA transceiver, a Pmod socket and 16 spare I/O on two through-hole headers.",
+  "logic": "3.3 V",
+  "package": "USB stick form factor (iCE40HX1K-TQ144). Two unpopulated 1x10 0.1 in headers (J1, J3) along the long edges and a 2x6 Pmod socket (J2) at the far end",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 16,
+    "sideLabels": [
+      "J2 pins 1-6, then J1 (bank 0)",
+      "J2 pins 7-12, then J3 (bank 2)"
+    ]
+  },
+  "keywords": [
+    "icestick",
+    "ice40",
+    "ice40hx1k",
+    "hx1k",
+    "ice40hx1k-stick-evn",
+    "tq144",
+    "fpga",
+    "lattice",
+    "icestorm",
+    "yosys",
+    "nextpnr",
+    "arachne-pnr",
+    "iceprog",
+    "icecube2",
+    "pmod",
+    "ft2232h",
+    "irda"
+  ],
+  "notes": [
+    "All user I/O are 3.3 V LVCMOS and not 5 V tolerant. The datasheet's absolute maximum for any I/O is 3.60 V, so a 5 V signal needs a level shifter or divider.",
+    "Never assign FPGA pin 21 as an output. It is the 12 MHz clock input, and the same net drives the FTDI chip's OSCI pin. Driving it breaks the FTDI's clock, and once such a design is in flash the board can no longer be programmed until resistor R18 is removed. This is the user guide's own Known Issue.",
+    "Program the SPI flash only. NVCM programming is one-time, and the user guide warns the FPGA can never be reprogrammed after it.",
+    "The FT2232H's first channel is wired to the N25Q032 SPI flash and to the FPGA's CRESET_B and CDONE pins, so the programmer can reset the FPGA and write the flash. The flash uses the FPGA's dedicated SPI pins (67, 68, 70, 71), none of which reach a header.",
+    "The FT2232H's second channel is a UART to the FPGA on bank 3. The FPGA receives on pin 9 (net RS232_Rx_TTL) and transmits on pin 8 (net RS232_Tx_TTL). The handshake lines are DCDn on pin 1, DSRn on pin 2, DTRn on pin 3, CTSn on pin 4 and RTSn on pin 7. The board shows up as two serial ports, and the user guide says to pick the last one.",
+    "The 12 MHz clock is a Discera MEMS oscillator (X1) on FPGA pin 21, which is global buffer input GBIN6 (PIO3_00). The HX1K in this package has one PLL for faster clocks.",
+    "LEDs D1 to D4 are red and sit in a diamond: D1 on pin 99 (PIO1_14), D2 on 98 (PIO1_13), D3 on 97 (PIO1_12), D4 on 96 (PIO1_11). D5 is green, on pin 95 (PIO1_10). All are in bank 1.",
+    "The Vishay TFDU4101 IrDA transceiver (up to 115 kbps) uses TXD on pin 105 (PIO1_18), RXD on pin 106 (PIO1_19) and the SD shutdown input on pin 107 (PIO1_20).",
+    "None of the 24 header I/O is a global buffer input. An external clock brought in on a header reaches the logic through general routing.",
+    "Before configuration every I/O is tri-stated with a weak pull-up to 3.3 V, so header pins read high until the design loads.",
+    "The HX1K is small: 1,280 logic cells (one LUT4 and one flip-flop each) and 64 Kbit of block RAM. A soft CPU fits only if it is a tiny one.",
+    "The header names (PIO0_02 and so on) are the schematic's net names. Lattice's own pin list calls the same pins IOT_, IOR_ and IOB_ names, and the silkscreen prints the TQ144 pin number, which is what goes in a PCF file. All three are searchable here.",
+    "The diagram is drawn with the USB plug pointing down. J2 actually lies across the end of the board with pins 1 to 6 along the outer edge and pin 1 on the J3 side. It is drawn as two columns to match the user guide's table, where pin 1 sits beside pin 7.",
+    "Test points: TP1 is 3.3 V, TP2 is the 1.2 V core rail and TP3 is ground. All three are unpopulated."
+  ],
+  "docs": [
+    {
+      "label": "Lattice iCEstick Evaluation Kit User's Guide (EB82), includes schematics",
+      "url": "https://www.latticesemi.com/view_document?document_id=50701"
+    },
+    {
+      "label": "Lattice iCEstick product page",
+      "url": "https://www.latticesemi.com/icestick"
+    },
+    {
+      "label": "Lattice iCE40 LP/HX Family Data Sheet (FPGA-DS-02029)",
+      "url": "https://www.latticesemi.com/view_document?document_id=49312"
+    },
+    {
+      "label": "Lattice iCE40 Pinout HX1K (pin list spreadsheet)",
+      "url": "https://www.latticesemi.com/view_document?document_id=49383"
+    },
+    {
+      "label": "Lattice IrDA UART TX demo for iCEstick (includes iCEcube2 PCF)",
+      "url": "https://www.latticesemi.com/view_document?document_id=51145"
+    },
+    {
+      "label": "Project IceStorm iCEstick PCF (cross-check)",
+      "url": "https://github.com/YosysHQ/icestorm/blob/master/examples/icestick/icestick.pcf"
+    }
+  ],
+  "pins": [
+    {
+      "name": "PIO1_02",
+      "primary": "gpio",
+      "aliases": [
+        "78",
+        "IOR_52"
+      ],
+      "functions": [
+        "J2 pin 1",
+        "FPGA pin 78",
+        "Bank 1"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "PIO1_03",
+      "primary": "gpio",
+      "aliases": [
+        "79",
+        "IOR_53"
+      ],
+      "functions": [
+        "J2 pin 2",
+        "FPGA pin 79",
+        "Bank 1"
+      ],
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "PIO1_04",
+      "primary": "gpio",
+      "aliases": [
+        "80",
+        "IOR_54"
+      ],
+      "functions": [
+        "J2 pin 3",
+        "FPGA pin 80",
+        "Bank 1"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "PIO1_05",
+      "primary": "gpio",
+      "aliases": [
+        "81",
+        "IOR_55"
+      ],
+      "functions": [
+        "J2 pin 4",
+        "FPGA pin 81",
+        "Bank 1"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "Ground"
+      ],
+      "functions": [
+        "J2 pin 5",
+        "Ground"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "3.3V",
+      "primary": "power3",
+      "aliases": [
+        "3V3",
+        "+3.3V"
+      ],
+      "functions": [
+        "J2 pin 6",
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "PIO1_06",
+      "primary": "gpio",
+      "aliases": [
+        "87",
+        "IOR_56"
+      ],
+      "functions": [
+        "J2 pin 7",
+        "FPGA pin 87",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "PIO1_07",
+      "primary": "gpio",
+      "aliases": [
+        "88",
+        "IOR_57"
+      ],
+      "functions": [
+        "J2 pin 8",
+        "FPGA pin 88",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "PIO1_08",
+      "primary": "gpio",
+      "aliases": [
+        "90",
+        "IOR_58"
+      ],
+      "functions": [
+        "J2 pin 9",
+        "FPGA pin 90",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "PIO1_09",
+      "primary": "gpio",
+      "aliases": [
+        "91",
+        "IOR_59"
+      ],
+      "functions": [
+        "J2 pin 10",
+        "FPGA pin 91",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "Ground"
+      ],
+      "functions": [
+        "J2 pin 11",
+        "Ground"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "3.3V",
+      "primary": "power3",
+      "aliases": [
+        "3V3",
+        "+3.3V"
+      ],
+      "functions": [
+        "J2 pin 12",
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "3.3V",
+      "primary": "power3",
+      "aliases": [
+        "3V3",
+        "+3.3V"
+      ],
+      "functions": [
+        "J1 pin 1",
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 7,
+      "note": "Pin 1 is at the end nearest the Pmod connector. The silkscreen beside J1 reads 119-112, GND, 3.3V from pin 10 to pin 1."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "Ground"
+      ],
+      "functions": [
+        "J1 pin 2",
+        "Ground"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "PIO0_02",
+      "primary": "gpio",
+      "aliases": [
+        "112",
+        "IOT_73"
+      ],
+      "functions": [
+        "J1 pin 3",
+        "FPGA pin 112",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "PIO0_03",
+      "primary": "gpio",
+      "aliases": [
+        "113",
+        "IOT_74"
+      ],
+      "functions": [
+        "J1 pin 4",
+        "FPGA pin 113",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "PIO0_04",
+      "primary": "gpio",
+      "aliases": [
+        "114",
+        "IOT_75"
+      ],
+      "functions": [
+        "J1 pin 5",
+        "FPGA pin 114",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "PIO0_05",
+      "primary": "gpio",
+      "aliases": [
+        "115",
+        "IOT_76"
+      ],
+      "functions": [
+        "J1 pin 6",
+        "FPGA pin 115",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "PIO0_06",
+      "primary": "gpio",
+      "aliases": [
+        "116",
+        "IOT_77"
+      ],
+      "functions": [
+        "J1 pin 7",
+        "FPGA pin 116",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "PIO0_07",
+      "primary": "gpio",
+      "aliases": [
+        "117",
+        "IOT_78"
+      ],
+      "functions": [
+        "J1 pin 8",
+        "FPGA pin 117",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "PIO0_08",
+      "primary": "gpio",
+      "aliases": [
+        "118",
+        "IOT_79"
+      ],
+      "functions": [
+        "J1 pin 9",
+        "FPGA pin 118",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "PIO0_09",
+      "primary": "gpio",
+      "aliases": [
+        "119",
+        "IOT_80"
+      ],
+      "functions": [
+        "J1 pin 10",
+        "FPGA pin 119",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "3.3V",
+      "primary": "power3",
+      "aliases": [
+        "3V3",
+        "+3.3V"
+      ],
+      "functions": [
+        "J3 pin 1",
+        "3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 7,
+      "note": "Square pad, at the end nearest the Pmod connector. The silkscreen beside J3 reads 44,45,47,48,56,60-62, GND, 3.3V from pin 10 to pin 1."
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "aliases": [
+        "Ground"
+      ],
+      "functions": [
+        "J3 pin 2",
+        "Ground"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "PIO2_17",
+      "primary": "gpio",
+      "aliases": [
+        "62",
+        "IOB_41"
+      ],
+      "functions": [
+        "J3 pin 3",
+        "FPGA pin 62",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "PIO2_16",
+      "primary": "gpio",
+      "aliases": [
+        "61",
+        "IOB_40"
+      ],
+      "functions": [
+        "J3 pin 4",
+        "FPGA pin 61",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "PIO2_15",
+      "primary": "gpio",
+      "aliases": [
+        "60",
+        "IOB_39"
+      ],
+      "functions": [
+        "J3 pin 5",
+        "FPGA pin 60",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "PIO2_14",
+      "primary": "gpio",
+      "aliases": [
+        "56",
+        "IOB_37"
+      ],
+      "functions": [
+        "J3 pin 6",
+        "FPGA pin 56",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "PIO2_13",
+      "primary": "gpio",
+      "aliases": [
+        "48",
+        "IOB_33"
+      ],
+      "functions": [
+        "J3 pin 7",
+        "FPGA pin 48",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "PIO2_12",
+      "primary": "gpio",
+      "aliases": [
+        "47",
+        "IOB_32"
+      ],
+      "functions": [
+        "J3 pin 8",
+        "FPGA pin 47",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "PIO2_11",
+      "primary": "gpio",
+      "aliases": [
+        "45",
+        "IOB_31"
+      ],
+      "functions": [
+        "J3 pin 9",
+        "FPGA pin 45",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 15
+    },
+    {
+      "name": "PIO2_10",
+      "primary": "gpio",
+      "aliases": [
+        "44",
+        "IOB_30"
+      ],
+      "functions": [
+        "J3 pin 10",
+        "FPGA pin 44",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 16
+    }
+  ]
+}

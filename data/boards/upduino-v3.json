@@ -1,0 +1,928 @@
+{
+  "slug": "upduino-v3",
+  "name": "UPduino v3.1",
+  "shortName": "UPduino",
+  "vendor": "tinyVision.ai",
+  "category": "mcu-board",
+  "summary": "A small Lattice iCE40UP5K FPGA board with an FT232H programmer, 4 MB flash and an RGB LED, with every FPGA I/O on two 24-pin headers. Works with the open toolchain: yosys, nextpnr and iceprog.",
+  "logic": "3.3 V",
+  "package": "2x24 2.54 mm headers plus a 2-pin 5V/GND header, 62 x 22 mm",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 24,
+    "sideLabels": [
+      "Left (USB at top)",
+      "Right (USB at top)"
+    ]
+  },
+  "keywords": [
+    "upduino",
+    "upduino 3",
+    "upduino v3.0",
+    "upduino v3.1",
+    "tinyvision",
+    "ice40",
+    "ice40up5k",
+    "up5k",
+    "ultraplus",
+    "sg48",
+    "fpga",
+    "lattice",
+    "yosys",
+    "nextpnr",
+    "icestorm",
+    "iceprog",
+    "apio",
+    "ft232h"
+  ],
+  "notes": [
+    "All I/O is 3.3 V and not 5 V tolerant. Bank 1 (the pins from 20 down to 6 on the right, plus SS, SCK, SI and SO) is fixed at 3.3 V because the flash and FT232H share it. Banks 0 and 2 can be moved to another voltage through the VIO pin and solder jumpers.",
+    "Header labels are the FPGA's SG48 package pin numbers, which is what goes in the PCF file. Pin 23 on the silkscreen is set_io 23.",
+    "The 12 MHz oscillator always reaches the 12M header pin. It only reaches the FPGA (pin 20, a global input) once you bridge the solder jumper marked OSC. The vendor PCF calls it R16, the v3.1 schematic SJ16.",
+    "The FT232H is wired as the SPI programmer for the flash, and optionally for the FPGA's configuration RAM. The official PCF also names pins 14 and 15 as a serial link to it, and both are shared with the flash.",
+    "The FPGA boots from a 4 MB SPI flash on SS, SCK, SI and SO, so those four pins are busy at power-up and whenever you program. qSPI mode needs two solder jumpers and costs pins 10 and 20.",
+    "The RGB LED pins (R, G, B) are open drain only. Pin 35 is the vendor's recommended clock input because the PLL sits next to it.",
+    "A 2-pin header at the far end from USB repeats 5V and GND.",
+    "UPduino v3.0 and v3.1 have identical header wiring. The one difference worth knowing: v3.0 boards have GND and 12M swapped on the silkscreen (right side, rows 7 and 8). This page follows the v3.1 schematic and silkscreen, which agree.",
+    "Needs checking: the vendor pinout image, the readthedocs pinout table and the MPSSE section of the official PCF put FPGA pin 17 on SI and pin 14 on SO. The v3.1 schematic, with its default resistors, puts pin 14 on SI and pin 17 on SO, which is the only order that lets the FPGA boot from flash. This page follows the schematic.",
+    "Needs checking: the schematic's RGB LED symbol names its pins in a different color order from the net names. This page follows the net names, the PCF and the silkscreen: red on pin 41, green on 39, blue on 40."
+  ],
+  "docs": [
+    {
+      "label": "UPduino v3.0/v3.1 repository (tinyVision.ai)",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0"
+    },
+    {
+      "label": "UPduino v3.1 schematic (KiCad)",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/Board/v3.01/UPduino_v3.01.kicad_sch"
+    },
+    {
+      "label": "UPduino v3.1 board layout and silkscreen (KiCad)",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/Board/v3.01/UPduino_v3.01.kicad_pcb"
+    },
+    {
+      "label": "Official PCF constraint file",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/RTL/common/upduino.pcf"
+    },
+    {
+      "label": "UPduino pinout table and errata",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/features/specs.rst"
+    },
+    {
+      "label": "UPduino v3.0 pinout image",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/features/upduino_pinout.png"
+    },
+    {
+      "label": "Oscillator options",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/tutorials/oscillator.rst"
+    },
+    {
+      "label": "Bank voltages",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/tutorials/bank_voltages.rst"
+    },
+    {
+      "label": "CRAM programming resistor options",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/tutorials/fpga_sram_programming.rst"
+    },
+    {
+      "label": "qSPI flash jumpers",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/tutorials/qspi_flash.rst"
+    },
+    {
+      "label": "Disconnecting the RGB LED",
+      "url": "https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/tutorials/disconnect_tri_color_led.rst"
+    },
+    {
+      "label": "UPduino documentation",
+      "url": "https://upduino.readthedocs.io/"
+    },
+    {
+      "label": "iCE40 UltraPlus family datasheet, FPGA-DS-02008 (Lattice)",
+      "url": "https://www.latticesemi.com/view_document?document_id=51968"
+    },
+    {
+      "label": "iCE40UP5K pinout spreadsheet (Lattice)",
+      "url": "https://www.latticesemi.com/view_document?document_id=51971"
+    }
+  ],
+  "pins": [
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "VIO",
+      "primary": "vcc",
+      "aliases": [
+        "VIO_BANK_0_2",
+        "VCCIO_0",
+        "VCCIO_2"
+      ],
+      "functions": [
+        "I/O supply input for FPGA banks 0 and 2"
+      ],
+      "note": "Not connected as shipped. Banks 0 and 2 run from 3.3 V through shorted solder jumpers. To run them from this pin, cut the shorted jumper and bridge the open one for each bank.",
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "RST",
+      "primary": "ctrl",
+      "aliases": [
+        "8",
+        "CRESET_B",
+        "CRESET_N"
+      ],
+      "functions": [
+        "FPGA pin 8",
+        "CRESET_B",
+        "FT232H ADBUS7"
+      ],
+      "note": "Active low, with a 10 kOhm pull-up. The FT232H drives it during programming. Releasing it makes the FPGA reload its image from the flash.",
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "DONE",
+      "primary": "ctrl",
+      "aliases": [
+        "7",
+        "CDONE"
+      ],
+      "functions": [
+        "FPGA pin 7",
+        "CDONE",
+        "FT232H ADBUS6",
+        "Green status LED"
+      ],
+      "note": "Goes high once the FPGA has configured, which also lights the green LED. Lattice's SG48 pinout lists it as a configuration pin only, not user I/O.",
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "R",
+      "primary": "gpio",
+      "aliases": [
+        "41",
+        "RGB2",
+        "led_red"
+      ],
+      "functions": [
+        "FPGA pin 41",
+        "RGB2",
+        "Bank 0",
+        "Red LED (on-board RGB)"
+      ],
+      "note": "Open-drain current sink, not a push-pull output. The LED anode is tied to 3.3 V, so writing 0 turns the color on. Cut the R28 jumper to free the pin from the LED.",
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "G",
+      "primary": "gpio",
+      "aliases": [
+        "39",
+        "RGB0",
+        "led_green"
+      ],
+      "functions": [
+        "FPGA pin 39",
+        "RGB0",
+        "Bank 0",
+        "Green LED (on-board RGB)"
+      ],
+      "note": "Open-drain current sink, not a push-pull output. The LED anode is tied to 3.3 V, so writing 0 turns the color on. Cut the R28 jumper to free the pin from the LED.",
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "B",
+      "primary": "gpio",
+      "aliases": [
+        "40",
+        "RGB1",
+        "led_blue"
+      ],
+      "functions": [
+        "FPGA pin 40",
+        "RGB1",
+        "Bank 0",
+        "Blue LED (on-board RGB)"
+      ],
+      "note": "Open-drain current sink, not a push-pull output. The LED anode is tied to 3.3 V, so writing 0 turns the color on. Cut the R28 jumper to free the pin from the LED.",
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "aliases": [
+        "VBUS",
+        "+5VD"
+      ],
+      "functions": [
+        "USB VBUS through a ferrite bead",
+        "Feeds the 3.3 V and 1.2 V regulators"
+      ],
+      "voltage": "5 V",
+      "note": "Straight from the USB connector through a ferrite bead, with no diode or fuse. Feeding 5 V in here with USB plugged in pushes it back into the host.",
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "aliases": [
+        "3.3V",
+        "+3V3"
+      ],
+      "functions": [
+        "Output of the on-board 3.3 V regulator"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "23",
+      "primary": "gpio",
+      "aliases": [
+        "23",
+        "IOT_37a",
+        "gpio_23"
+      ],
+      "functions": [
+        "FPGA pin 23",
+        "IOT_37a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "25",
+      "primary": "gpio",
+      "aliases": [
+        "25",
+        "IOT_36b",
+        "gpio_25"
+      ],
+      "functions": [
+        "FPGA pin 25",
+        "IOT_36b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "26",
+      "primary": "gpio",
+      "aliases": [
+        "26",
+        "IOT_39a",
+        "gpio_26"
+      ],
+      "functions": [
+        "FPGA pin 26",
+        "IOT_39a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "27",
+      "primary": "gpio",
+      "aliases": [
+        "27",
+        "IOT_38b",
+        "gpio_27"
+      ],
+      "functions": [
+        "FPGA pin 27",
+        "IOT_38b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "32",
+      "primary": "gpio",
+      "aliases": [
+        "32",
+        "IOT_43a",
+        "gpio_32"
+      ],
+      "functions": [
+        "FPGA pin 32",
+        "IOT_43a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "35",
+      "primary": "gpio",
+      "aliases": [
+        "35",
+        "IOT_46b_G0",
+        "gpio_35"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 35",
+        "IOT_46b_G0",
+        "Bank 0",
+        "Global buffer input G0"
+      ],
+      "note": "The best pin for an external clock, because it sits next to the PLL. Using it as an input for anything other than a clock rules out the PLL.",
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "31",
+      "primary": "gpio",
+      "aliases": [
+        "31",
+        "IOT_42b",
+        "gpio_31"
+      ],
+      "functions": [
+        "FPGA pin 31",
+        "IOT_42b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 17
+    },
+    {
+      "name": "37",
+      "primary": "gpio",
+      "aliases": [
+        "37",
+        "IOT_45a_G1",
+        "gpio_37"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 37",
+        "IOT_45a_G1",
+        "Bank 0",
+        "Global buffer input G1"
+      ],
+      "side": "left",
+      "row": 18
+    },
+    {
+      "name": "34",
+      "primary": "gpio",
+      "aliases": [
+        "34",
+        "IOT_44b",
+        "gpio_34"
+      ],
+      "functions": [
+        "FPGA pin 34",
+        "IOT_44b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 19
+    },
+    {
+      "name": "43",
+      "primary": "gpio",
+      "aliases": [
+        "43",
+        "IOT_49a",
+        "gpio_43"
+      ],
+      "functions": [
+        "FPGA pin 43",
+        "IOT_49a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 20
+    },
+    {
+      "name": "36",
+      "primary": "gpio",
+      "aliases": [
+        "36",
+        "IOT_48b",
+        "gpio_36"
+      ],
+      "functions": [
+        "FPGA pin 36",
+        "IOT_48b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 21
+    },
+    {
+      "name": "42",
+      "primary": "gpio",
+      "aliases": [
+        "42",
+        "IOT_51a",
+        "gpio_42"
+      ],
+      "functions": [
+        "FPGA pin 42",
+        "IOT_51a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 22
+    },
+    {
+      "name": "38",
+      "primary": "gpio",
+      "aliases": [
+        "38",
+        "IOT_50b",
+        "gpio_38"
+      ],
+      "functions": [
+        "FPGA pin 38",
+        "IOT_50b",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 23
+    },
+    {
+      "name": "28",
+      "primary": "gpio",
+      "aliases": [
+        "28",
+        "IOT_41a",
+        "gpio_28"
+      ],
+      "functions": [
+        "FPGA pin 28",
+        "IOT_41a",
+        "Bank 0"
+      ],
+      "side": "left",
+      "row": 24
+    },
+    {
+      "name": "SS",
+      "primary": "gpio",
+      "aliases": [
+        "16",
+        "IOB_35b",
+        "SPI_SS",
+        "spi_ssn",
+        "spi_cs",
+        "gpio_16"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 16",
+        "IOB_35b_SPI_SS",
+        "Bank 1",
+        "Flash chip select",
+        "FT232H ADBUS4"
+      ],
+      "note": "Flash chip select, with a 10 kOhm pull-up. Drive it high in your design unless you are talking to the flash, or the flash answers on the shared pins.",
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "SCK",
+      "primary": "gpio",
+      "aliases": [
+        "15",
+        "IOB_34a",
+        "SPI_SCK",
+        "spi_sck",
+        "serial_rxd",
+        "gpio_15"
+      ],
+      "tags": [
+        "spi",
+        "uart"
+      ],
+      "functions": [
+        "FPGA pin 15",
+        "IOB_34a_SPI_SCK",
+        "Bank 1",
+        "Flash clock",
+        "FT232H ADBUS0",
+        "PCF serial_rxd (from the FTDI)"
+      ],
+      "note": "Shared with the flash and the FT232H, with a 10 kOhm pull-up. The FT232H drives it while programming.",
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "SI",
+      "primary": "gpio",
+      "aliases": [
+        "14",
+        "IOB_32a",
+        "SPI_SO",
+        "FLASH_MOSI",
+        "serial_txd"
+      ],
+      "tags": [
+        "spi",
+        "uart"
+      ],
+      "functions": [
+        "FPGA pin 14 (through R12)",
+        "IOB_32a_SPI_SO",
+        "Bank 1",
+        "Flash DI",
+        "FT232H ADBUS1",
+        "PCF serial_txd (to the FTDI)"
+      ],
+      "note": "Needs checking: this is the flash data input, reached from FPGA pin 14 through R12, which the schematic fits by default. The vendor pinout image and pinout table show FPGA pin 17 here instead, which is only true with the CRAM resistor option fitted.",
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "SO",
+      "primary": "gpio",
+      "aliases": [
+        "17",
+        "IOB_33b",
+        "SPI_SI",
+        "FLASH_MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 17 (through R13)",
+        "IOB_33b_SPI_SI",
+        "Bank 1",
+        "Flash DO",
+        "FT232H ADBUS2"
+      ],
+      "note": "Needs checking: this is the flash data output, reaching FPGA pin 17 through R13, which the schematic fits by default. The vendor pinout image and pinout table show FPGA pin 14 here instead, which is only true with the CRAM resistor option fitted.",
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "20",
+      "primary": "gpio",
+      "aliases": [
+        "20",
+        "IOB_25b_G3",
+        "gpio_20"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 20",
+        "IOB_25b_G3",
+        "Bank 1",
+        "Global buffer input G3",
+        "12 MHz oscillator (OSC jumper)",
+        "Flash IO3 (qSPI jumper)"
+      ],
+      "note": "Bridge the OSC solder jumper and the on-board 12 MHz clock drives this pin through a buffer. Then treat it as a clock input only and never drive it. The qSPI jumper also lands flash IO3 here.",
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "10",
+      "primary": "gpio",
+      "aliases": [
+        "10",
+        "IOB_18a",
+        "gpio_10"
+      ],
+      "functions": [
+        "FPGA pin 10",
+        "IOB_18a",
+        "Bank 1",
+        "Flash IO2 (qSPI jumper)"
+      ],
+      "note": "Bridging the qSPI solder jumper connects flash IO2 here, so the pin is no longer free.",
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "Ground"
+      ],
+      "note": "UPduino v3.0 boards have this pin and 12M swapped on the silkscreen. The v3.1 silkscreen is correct.",
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "12M",
+      "primary": "ctrl",
+      "aliases": [
+        "12MHz",
+        "CLK_12M_EXT"
+      ],
+      "functions": [
+        "12 MHz clock output",
+        "Buffered from the on-board oscillator"
+      ],
+      "note": "Always running, from a buffer on the 12 MHz oscillator. It is not an FPGA pin: jumper it to a global input, or bridge OSC to reach pin 20. UPduino v3.0 silkscreen swaps it with the GND above.",
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "12",
+      "primary": "gpio",
+      "aliases": [
+        "12",
+        "IOB_22a",
+        "gpio_12"
+      ],
+      "functions": [
+        "FPGA pin 12",
+        "IOB_22a",
+        "Bank 1",
+        "USB D+ (unfitted resistor R21)"
+      ],
+      "note": "An unfitted resistor footprint (R21) joins this pin to USB D+ for the tinyFPGA bootloader. Unconnected as shipped.",
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "21",
+      "primary": "gpio",
+      "aliases": [
+        "21",
+        "IOB_23b",
+        "gpio_21"
+      ],
+      "functions": [
+        "FPGA pin 21",
+        "IOB_23b",
+        "Bank 1",
+        "USB D+ (open jumper R22)"
+      ],
+      "note": "An open solder jumper (R22) joins this pin to USB D+ for the tinyFPGA bootloader. Unconnected as shipped.",
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "13",
+      "primary": "gpio",
+      "aliases": [
+        "13",
+        "IOB_24a",
+        "gpio_13"
+      ],
+      "functions": [
+        "FPGA pin 13",
+        "IOB_24a",
+        "Bank 1",
+        "USB D- (open jumper R23)"
+      ],
+      "note": "An open solder jumper (R23) joins this pin to USB D- for the tinyFPGA bootloader. Unconnected as shipped.",
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "19",
+      "primary": "gpio",
+      "aliases": [
+        "19",
+        "IOB_29b",
+        "gpio_19"
+      ],
+      "functions": [
+        "FPGA pin 19",
+        "IOB_29b",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "18",
+      "primary": "gpio",
+      "aliases": [
+        "18",
+        "IOB_31b",
+        "gpio_18"
+      ],
+      "functions": [
+        "FPGA pin 18",
+        "IOB_31b",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "11",
+      "primary": "gpio",
+      "aliases": [
+        "11",
+        "IOB_20a",
+        "gpio_11"
+      ],
+      "functions": [
+        "FPGA pin 11",
+        "IOB_20a",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "9",
+      "primary": "gpio",
+      "aliases": [
+        "9",
+        "IOB_16a",
+        "gpio_9"
+      ],
+      "functions": [
+        "FPGA pin 9",
+        "IOB_16a",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 15
+    },
+    {
+      "name": "6",
+      "primary": "gpio",
+      "aliases": [
+        "6",
+        "IOB_13b",
+        "gpio_6"
+      ],
+      "functions": [
+        "FPGA pin 6",
+        "IOB_13b",
+        "Bank 1"
+      ],
+      "side": "right",
+      "row": 16
+    },
+    {
+      "name": "44",
+      "primary": "gpio",
+      "aliases": [
+        "44",
+        "IOB_3b_G6",
+        "gpio_44"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 44",
+        "IOB_3b_G6",
+        "Bank 2",
+        "Global buffer input G6"
+      ],
+      "side": "right",
+      "row": 17
+    },
+    {
+      "name": "4",
+      "primary": "gpio",
+      "aliases": [
+        "4",
+        "IOB_8a",
+        "gpio_4"
+      ],
+      "functions": [
+        "FPGA pin 4",
+        "IOB_8a",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 18
+    },
+    {
+      "name": "3",
+      "primary": "gpio",
+      "aliases": [
+        "3",
+        "IOB_9b",
+        "gpio_3"
+      ],
+      "functions": [
+        "FPGA pin 3",
+        "IOB_9b",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 19
+    },
+    {
+      "name": "48",
+      "primary": "gpio",
+      "aliases": [
+        "48",
+        "IOB_4a",
+        "gpio_48"
+      ],
+      "functions": [
+        "FPGA pin 48",
+        "IOB_4a",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 20
+    },
+    {
+      "name": "45",
+      "primary": "gpio",
+      "aliases": [
+        "45",
+        "IOB_5b",
+        "gpio_45"
+      ],
+      "functions": [
+        "FPGA pin 45",
+        "IOB_5b",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 21
+    },
+    {
+      "name": "47",
+      "primary": "gpio",
+      "aliases": [
+        "47",
+        "IOB_2a",
+        "gpio_47"
+      ],
+      "functions": [
+        "FPGA pin 47",
+        "IOB_2a",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 22
+    },
+    {
+      "name": "46",
+      "primary": "gpio",
+      "aliases": [
+        "46",
+        "IOB_0a",
+        "gpio_46"
+      ],
+      "functions": [
+        "FPGA pin 46",
+        "IOB_0a",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 23
+    },
+    {
+      "name": "2",
+      "primary": "gpio",
+      "aliases": [
+        "2",
+        "IOB_6a",
+        "gpio_2"
+      ],
+      "functions": [
+        "FPGA pin 2",
+        "IOB_6a",
+        "Bank 2"
+      ],
+      "side": "right",
+      "row": 24
+    }
+  ]
+}

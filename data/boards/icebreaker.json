@@ -1,0 +1,882 @@
+{
+  "slug": "icebreaker",
+  "name": "1BitSquared iCEBreaker v1.x",
+  "shortName": "iCEBreaker",
+  "vendor": "1BitSquared",
+  "category": "mcu-board",
+  "summary": "A Lattice iCE40UP5K FPGA board with an FT2232H programmer, 16 MB of QSPI flash and three PMOD ports. It was designed for teaching the open source Yosys and nextpnr flow, and that is still what most people buy it for.",
+  "logic": "3.3 V",
+  "package": "Main board with two 2x6 PMOD host headers (PMOD1A, PMOD1B), a 2x4 RGB LED and supply header, a 1x7 flash header and two 5 V AUX pins, plus a snap-off section on a third 2x6 PMOD (PMOD2). 2.54 mm pitch.",
+  "layout": {
+    "kind": "board",
+    "numbering": "explicit",
+    "rows": 28,
+    "sideLabels": [
+      "PMOD pins 1-6, odd pins of the other headers",
+      "PMOD pins 7-12, even pins of the other headers"
+    ]
+  },
+  "keywords": [
+    "icebreaker",
+    "ice40",
+    "ice40up5k",
+    "up5k",
+    "ultraplus",
+    "fpga",
+    "lattice",
+    "yosys",
+    "nextpnr",
+    "icestorm",
+    "iceprog",
+    "pmod",
+    "sg48",
+    "1bitsquared",
+    "ft2232h"
+  ],
+  "notes": [
+    "FPGA I/O are 3.3 V at most and not 5 V tolerant. Lattice's absolute maximum for any I/O is 3.6 V.",
+    "Rows run top edge first (PMOD1A, the 5V AUX pins, PMOD1B), then PMOD2 on the right edge and its 5V AUX pins, then the RGB LED header and the flash header along the bottom.",
+    "Every PMOD signal goes through a 33 ohm series resistor. The board fits no pull-ups on the PMOD lines. The FPGA has a weak internal pull-up you can enable per pin.",
+    "The 12 MHz oscillator feeds both the FT2232H and FPGA pin 35 (IOT_46b_G0, global buffer G0). The PCF calls it CLK.",
+    "The second FT2232H channel is a USB serial port: FPGA pin 6 is the FPGA's RX and pin 9 is its TX. The PCF names them RX and TX.",
+    "On the main board: user button on pin 10 (active low, 10 kOhm pull-up), red LED on pin 11 and green LED on pin 37, both active low. Pin 37 is also global buffer G1.",
+    "Configuration comes from a 16 MB Winbond W25Q128JV flash on the FPGA's SPI pins (14, 15, 16, 17), with pins 12 and 13 added for quad mode. The rest of the flash is free for your own data.",
+    "By default iceprog writes the flash. To load the FPGA SRAM directly instead, cut the J15 and J16 traces, bridge them the other way, and use iceprog -S. The design is then lost at power-off.",
+    "The CRESET header (J28) holds the FPGA in reset when shorted. The CDONE LED lights once a design has loaded.",
+    "Jumpers J3 to J13 are open by default. Closing all of them connects FTDI channel B's FIFO mode to the FPGA, and takes over PMOD2, the red and green LEDs and the user button.",
+    "J17 sets the I/O voltage of Bank 2, which is all eight PMOD1A signals, to 3.3 V or 1.8 V. It ships at 3.3 V, and the PMOD1A 3V3 pins stay at 3.3 V either way. J19 (Bank 0 and 1 supply) and J14 (core supply) are there for measuring current.",
+    "The snap-off section carries the five LEDs and three buttons on PMOD2. Once it is snapped off, connect it back through PMOD2 with a 12-pin cable.",
+    "Needs checking: the PCF and the vendor pinout legend put red on pin 39 (RGB0) and blue on pin 41 (RGB2), and the header silkscreen agrees. The v1.0e schematic's symbol for the optional on-board RGB LED (D11, marked unpopulated) wires RGB0 to blue and RGB2 to red. This page follows the PCF and the legend."
+  ],
+  "docs": [
+    {
+      "label": "iCEBreaker hardware repository and README (1BitSquared)",
+      "url": "https://github.com/icebreaker-fpga/icebreaker"
+    },
+    {
+      "label": "iCEBreaker v1.0e schematic (PDF)",
+      "url": "https://github.com/icebreaker-fpga/icebreaker/blob/master/hardware/v1.0e/icebreaker-sch.pdf"
+    },
+    {
+      "label": "iCEBreaker v1.0b pinout legend",
+      "url": "https://github.com/icebreaker-fpga/icebreaker/blob/master/img/icebreaker-v1_0b-legend.jpg"
+    },
+    {
+      "label": "iCEBreaker v1.0b jumper legend",
+      "url": "https://github.com/icebreaker-fpga/icebreaker/blob/master/img/icebreaker-v1_0b-legend-jumpers.jpg"
+    },
+    {
+      "label": "Official icebreaker.pcf constraint file",
+      "url": "https://github.com/icebreaker-fpga/icebreaker-verilog-examples/blob/main/icebreaker/icebreaker.pcf"
+    },
+    {
+      "label": "Lattice iCE40 UltraPlus family datasheet (FPGA-DS-02008)",
+      "url": "https://www.latticesemi.com/view_document?document_id=51968"
+    },
+    {
+      "label": "Lattice iCE40UP5K pinout file (XLSX)",
+      "url": "https://www.latticesemi.com/view_document?document_id=51971"
+    }
+  ],
+  "pins": [
+    {
+      "name": "P1A1",
+      "primary": "gpio",
+      "aliases": [
+        "pin 4",
+        "IOB_8a"
+      ],
+      "functions": [
+        "FPGA pin 4",
+        "IOB_8a, bank 2",
+        "Differential pair with P1A7 (true side)"
+      ],
+      "side": "left",
+      "row": 1
+    },
+    {
+      "name": "P1A2",
+      "primary": "gpio",
+      "aliases": [
+        "pin 2",
+        "IOB_6a"
+      ],
+      "functions": [
+        "FPGA pin 2",
+        "IOB_6a, bank 2"
+      ],
+      "side": "left",
+      "row": 2
+    },
+    {
+      "name": "P1A3",
+      "primary": "gpio",
+      "aliases": [
+        "pin 47",
+        "IOB_2a"
+      ],
+      "functions": [
+        "FPGA pin 47",
+        "IOB_2a, bank 2",
+        "Differential pair with P1A10 (true side)"
+      ],
+      "side": "left",
+      "row": 3
+    },
+    {
+      "name": "P1A4",
+      "primary": "gpio",
+      "aliases": [
+        "pin 45",
+        "IOB_5b"
+      ],
+      "functions": [
+        "FPGA pin 45",
+        "IOB_5b, bank 2",
+        "Differential pair with P1A8 (complement side)"
+      ],
+      "side": "left",
+      "row": 4
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD1A pin 5, ground"
+      ],
+      "side": "left",
+      "row": 5
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD1A pin 6, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 6
+    },
+    {
+      "name": "P1A7",
+      "primary": "gpio",
+      "aliases": [
+        "pin 3",
+        "IOB_9b"
+      ],
+      "functions": [
+        "FPGA pin 3",
+        "IOB_9b, bank 2",
+        "Differential pair with P1A1 (complement side)"
+      ],
+      "side": "right",
+      "row": 1
+    },
+    {
+      "name": "P1A8",
+      "primary": "gpio",
+      "aliases": [
+        "pin 48",
+        "IOB_4a"
+      ],
+      "functions": [
+        "FPGA pin 48",
+        "IOB_4a, bank 2",
+        "Differential pair with P1A4 (true side)"
+      ],
+      "side": "right",
+      "row": 2
+    },
+    {
+      "name": "P1A9",
+      "primary": "gpio",
+      "aliases": [
+        "pin 46",
+        "IOB_0a"
+      ],
+      "functions": [
+        "FPGA pin 46",
+        "IOB_0a, bank 2"
+      ],
+      "side": "right",
+      "row": 3
+    },
+    {
+      "name": "P1A10",
+      "primary": "gpio",
+      "aliases": [
+        "pin 44",
+        "IOB_3b_G6"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 44",
+        "IOB_3b_G6, bank 2",
+        "Global buffer input G6",
+        "Differential pair with P1A3 (complement side)"
+      ],
+      "note": "The only global buffer input on the dual PMOD. Use it for an external clock coming in on PMOD1A.",
+      "side": "right",
+      "row": 4
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD1A pin 11, ground"
+      ],
+      "side": "right",
+      "row": 5
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD1A pin 12, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 6
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "J26 5V AUX pin 1, USB 5 V"
+      ],
+      "voltage": "5 V",
+      "note": "5 V for PMODs that need it. Never connect it to an FPGA pin.",
+      "side": "left",
+      "row": 7
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "J26 5V AUX pin 2, ground"
+      ],
+      "side": "right",
+      "row": 7
+    },
+    {
+      "name": "P1B1",
+      "primary": "gpio",
+      "aliases": [
+        "pin 43",
+        "IOT_49a"
+      ],
+      "functions": [
+        "FPGA pin 43",
+        "IOT_49a, bank 0",
+        "Differential pair with P1B8 (true side)"
+      ],
+      "side": "left",
+      "row": 8
+    },
+    {
+      "name": "P1B2",
+      "primary": "gpio",
+      "aliases": [
+        "pin 38",
+        "IOT_50b"
+      ],
+      "functions": [
+        "FPGA pin 38",
+        "IOT_50b, bank 0",
+        "Differential pair with P1B7 (complement side)"
+      ],
+      "side": "left",
+      "row": 9
+    },
+    {
+      "name": "P1B3",
+      "primary": "gpio",
+      "aliases": [
+        "pin 34",
+        "IOT_44b"
+      ],
+      "functions": [
+        "FPGA pin 34",
+        "IOT_44b, bank 0",
+        "Differential pair with FPGA pin 37 (complement side)"
+      ],
+      "note": "Its differential partner is pin 37, which drives the green user LED, so this pin is only practical as a single-ended I/O.",
+      "side": "left",
+      "row": 10
+    },
+    {
+      "name": "P1B4",
+      "primary": "gpio",
+      "aliases": [
+        "pin 31",
+        "IOT_42b"
+      ],
+      "functions": [
+        "FPGA pin 31",
+        "IOT_42b, bank 0",
+        "Differential pair with P1B9 (complement side)"
+      ],
+      "side": "left",
+      "row": 11
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD1B pin 5, ground"
+      ],
+      "side": "left",
+      "row": 12
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD1B pin 6, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 13
+    },
+    {
+      "name": "P1B7",
+      "primary": "gpio",
+      "aliases": [
+        "pin 42",
+        "IOT_51a"
+      ],
+      "functions": [
+        "FPGA pin 42",
+        "IOT_51a, bank 0",
+        "Differential pair with P1B2 (true side)"
+      ],
+      "side": "right",
+      "row": 8
+    },
+    {
+      "name": "P1B8",
+      "primary": "gpio",
+      "aliases": [
+        "pin 36",
+        "IOT_48b"
+      ],
+      "functions": [
+        "FPGA pin 36",
+        "IOT_48b, bank 0",
+        "Differential pair with P1B1 (complement side)"
+      ],
+      "side": "right",
+      "row": 9
+    },
+    {
+      "name": "P1B9",
+      "primary": "gpio",
+      "aliases": [
+        "pin 32",
+        "IOT_43a"
+      ],
+      "functions": [
+        "FPGA pin 32",
+        "IOT_43a, bank 0",
+        "Differential pair with P1B4 (true side)"
+      ],
+      "side": "right",
+      "row": 10
+    },
+    {
+      "name": "P1B10",
+      "primary": "gpio",
+      "aliases": [
+        "pin 28",
+        "IOT_41a"
+      ],
+      "functions": [
+        "FPGA pin 28",
+        "IOT_41a, bank 0"
+      ],
+      "side": "right",
+      "row": 11
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD1B pin 11, ground"
+      ],
+      "side": "right",
+      "row": 12
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD1B pin 12, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 13
+    },
+    {
+      "name": "P2_1",
+      "primary": "gpio",
+      "aliases": [
+        "pin 27",
+        "IOT_38b",
+        "LED2"
+      ],
+      "functions": [
+        "FPGA pin 27",
+        "IOT_38b, bank 0",
+        "LED2 on the snap-off section (green, active high)",
+        "Differential pair with P2_7 (complement side)",
+        "FTDI FIFO TXE# via open jumper J10"
+      ],
+      "note": "Also drives snap-off LED2 through 330 ohm to GND while the section is attached, so it is already loaded.",
+      "side": "left",
+      "row": 14
+    },
+    {
+      "name": "P2_2",
+      "primary": "gpio",
+      "aliases": [
+        "pin 25",
+        "IOT_36b",
+        "LED3",
+        "I3C"
+      ],
+      "functions": [
+        "FPGA pin 25",
+        "IOT_36b, bank 0",
+        "LED3 on the snap-off section (green, active high)",
+        "I3C-capable pin",
+        "Differential pair with P2_8 (complement side)",
+        "FTDI FIFO D7 via open jumper J8"
+      ],
+      "note": "Also drives snap-off LED3 through 330 ohm to GND while the section is attached, so it is already loaded.",
+      "side": "left",
+      "row": 15
+    },
+    {
+      "name": "P2_3",
+      "primary": "gpio",
+      "aliases": [
+        "pin 21",
+        "IOB_23b",
+        "LED5"
+      ],
+      "functions": [
+        "FPGA pin 21",
+        "IOB_23b, bank 1",
+        "LED5 on the snap-off section (green, active high)",
+        "FTDI FIFO D5 via open jumper J6"
+      ],
+      "note": "Also drives snap-off LED5 through 330 ohm to GND while the section is attached, so it is already loaded.",
+      "side": "left",
+      "row": 16
+    },
+    {
+      "name": "P2_4",
+      "primary": "gpio",
+      "aliases": [
+        "pin 19",
+        "IOB_29b",
+        "BTN2"
+      ],
+      "functions": [
+        "FPGA pin 19",
+        "IOB_29b, bank 1",
+        "Button 2 on the snap-off section (active high)",
+        "FTDI FIFO D3 via open jumper J4"
+      ],
+      "note": "While the snap-off section is attached, button 2 pulls this pin to 3.3 V against a 10 kOhm pull-down. Pressed reads high.",
+      "side": "left",
+      "row": 17
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD2 pin 5, ground"
+      ],
+      "side": "left",
+      "row": 18
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD2 pin 6, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "left",
+      "row": 19
+    },
+    {
+      "name": "P2_7",
+      "primary": "gpio",
+      "aliases": [
+        "pin 26",
+        "IOT_39a",
+        "LED1"
+      ],
+      "functions": [
+        "FPGA pin 26",
+        "IOT_39a, bank 0",
+        "LED1 on the snap-off section (red, center, active high)",
+        "Differential pair with P2_1 (true side)",
+        "FTDI FIFO RXF# via open jumper J9"
+      ],
+      "note": "Also drives snap-off LED1 through 330 ohm to GND while the section is attached, so it is already loaded.",
+      "side": "right",
+      "row": 14
+    },
+    {
+      "name": "P2_8",
+      "primary": "gpio",
+      "aliases": [
+        "pin 23",
+        "IOT_37a",
+        "LED4",
+        "I3C"
+      ],
+      "functions": [
+        "FPGA pin 23",
+        "IOT_37a, bank 0",
+        "LED4 on the snap-off section (green, active high)",
+        "I3C-capable pin",
+        "Differential pair with P2_2 (true side)",
+        "FTDI FIFO D6 via open jumper J7"
+      ],
+      "note": "Also drives snap-off LED4 through 330 ohm to GND while the section is attached, so it is already loaded.",
+      "side": "right",
+      "row": 15
+    },
+    {
+      "name": "P2_9",
+      "primary": "gpio",
+      "aliases": [
+        "pin 20",
+        "IOB_25b_G3",
+        "BTN1"
+      ],
+      "tags": [
+        "clock"
+      ],
+      "functions": [
+        "FPGA pin 20",
+        "IOB_25b_G3, bank 1",
+        "Global buffer input G3",
+        "Button 1 on the snap-off section (active high)",
+        "FTDI FIFO D4 via open jumper J5"
+      ],
+      "note": "While the snap-off section is attached, button 1 pulls this pin to 3.3 V against a 10 kOhm pull-down. Pressed reads high. It is also the only global buffer input on PMOD2.",
+      "side": "right",
+      "row": 16
+    },
+    {
+      "name": "P2_10",
+      "primary": "gpio",
+      "aliases": [
+        "pin 18",
+        "IOB_31b",
+        "BTN3"
+      ],
+      "functions": [
+        "FPGA pin 18",
+        "IOB_31b, bank 1",
+        "Button 3 on the snap-off section (active high)",
+        "FTDI FIFO D2 via open jumper J3"
+      ],
+      "note": "While the snap-off section is attached, button 3 pulls this pin to 3.3 V against a 10 kOhm pull-down. Pressed reads high.",
+      "side": "right",
+      "row": 17
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "PMOD2 pin 11, ground"
+      ],
+      "side": "right",
+      "row": 18
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "PMOD2 pin 12, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 19
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "J27 5V AUX pin 1, USB 5 V"
+      ],
+      "voltage": "5 V",
+      "side": "left",
+      "row": 20
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "J27 5V AUX pin 2, ground"
+      ],
+      "side": "right",
+      "row": 20
+    },
+    {
+      "name": "GRN",
+      "primary": "gpio",
+      "aliases": [
+        "pin 40",
+        "RGB1",
+        "LED_GRN_N",
+        "LED_RGB[1]"
+      ],
+      "functions": [
+        "FPGA pin 40",
+        "RGB1, bank 0",
+        "J25 pin 1, green",
+        "24 mA LED driver"
+      ],
+      "note": "Open-drain current sink, programmable from 4 to 24 mA. Wire the LED from a supply pin down to this pin; it cannot drive high.",
+      "side": "left",
+      "row": 21
+    },
+    {
+      "name": "1V2",
+      "primary": "vcc",
+      "functions": [
+        "J25 pin 3, 1.2 V core rail"
+      ],
+      "voltage": "1.2 V",
+      "note": "The FPGA core supply. Measuring from it is fine; loading it is not.",
+      "side": "left",
+      "row": 22
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "J25 pin 5, ground"
+      ],
+      "side": "left",
+      "row": 23
+    },
+    {
+      "name": "5V",
+      "primary": "power5",
+      "functions": [
+        "J25 pin 7, USB 5 V"
+      ],
+      "voltage": "5 V",
+      "side": "left",
+      "row": 24
+    },
+    {
+      "name": "RED",
+      "primary": "gpio",
+      "aliases": [
+        "pin 39",
+        "RGB0",
+        "LED_RED_N",
+        "LED_RGB[0]"
+      ],
+      "functions": [
+        "FPGA pin 39",
+        "RGB0, bank 0",
+        "J25 pin 2, red",
+        "24 mA LED driver"
+      ],
+      "note": "Open-drain current sink, programmable from 4 to 24 mA. Wire the LED from a supply pin down to this pin; it cannot drive high.",
+      "side": "right",
+      "row": 21
+    },
+    {
+      "name": "BLU",
+      "primary": "gpio",
+      "aliases": [
+        "pin 41",
+        "RGB2",
+        "LED_BLU_N",
+        "LED_RGB[2]"
+      ],
+      "functions": [
+        "FPGA pin 41",
+        "RGB2, bank 0",
+        "J25 pin 4, blue",
+        "24 mA LED driver"
+      ],
+      "note": "Open-drain current sink, programmable from 4 to 24 mA. Wire the LED from a supply pin down to this pin; it cannot drive high.",
+      "side": "right",
+      "row": 22
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "J25 pin 6, ground"
+      ],
+      "side": "right",
+      "row": 23
+    },
+    {
+      "name": "3V3",
+      "primary": "power3",
+      "functions": [
+        "J25 pin 8, 3.3 V rail"
+      ],
+      "voltage": "3.3 V",
+      "side": "right",
+      "row": 24
+    },
+    {
+      "name": "CS",
+      "primary": "gpio",
+      "aliases": [
+        "pin 16",
+        "IOB_35b_SPI_SS",
+        "FLASH_SSB",
+        "FLASH_CS",
+        "iCE_SS_B"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 16",
+        "IOB_35b_SPI_SS, bank 1",
+        "J20 pin 1, flash chip select"
+      ],
+      "note": "Reaches the FPGA only through jumper J18. Pull J18 to program the FPGA SRAM without the flash answering. 10 kOhm pull-up.",
+      "side": "left",
+      "row": 25
+    },
+    {
+      "name": "SCK",
+      "primary": "gpio",
+      "aliases": [
+        "pin 15",
+        "IOB_34a_SPI_SCK",
+        "FLASH_SCK",
+        "iCE_SCK"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 15",
+        "IOB_34a_SPI_SCK, bank 1",
+        "J20 pin 2, flash clock"
+      ],
+      "note": "Shared by the FPGA, the flash and FTDI channel A, which drives it while programming. 10 kOhm pull-up.",
+      "side": "right",
+      "row": 25
+    },
+    {
+      "name": "IO0",
+      "primary": "gpio",
+      "aliases": [
+        "pin 14",
+        "IOB_32a_SPI_SO",
+        "FLASH_IO0",
+        "FLASH_MOSI",
+        "iCE_SO",
+        "MOSI"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 14",
+        "IOB_32a_SPI_SO, bank 1",
+        "J20 pin 3, flash DI / IO0"
+      ],
+      "note": "Joined to the FPGA by trace jumper J15, which you cut and re-solder to swap to direct SRAM programming.",
+      "side": "left",
+      "row": 26
+    },
+    {
+      "name": "IO1",
+      "primary": "gpio",
+      "aliases": [
+        "pin 17",
+        "IOB_33b_SPI_SI",
+        "FLASH_IO1",
+        "FLASH_MISO",
+        "iCE_SI",
+        "MISO"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 17",
+        "IOB_33b_SPI_SI, bank 1",
+        "J20 pin 4, flash DO / IO1"
+      ],
+      "note": "Joined to the FPGA by trace jumper J16, the partner of J15.",
+      "side": "right",
+      "row": 26
+    },
+    {
+      "name": "IO2",
+      "primary": "gpio",
+      "aliases": [
+        "pin 12",
+        "IOB_22a",
+        "FLASH_IO2",
+        "FLASH_WP"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 12",
+        "IOB_22a, bank 1",
+        "J20 pin 5, flash WP# / IO2"
+      ],
+      "note": "Flash write-protect when not in quad mode. 10 kOhm pull-up.",
+      "side": "left",
+      "row": 27
+    },
+    {
+      "name": "IO3",
+      "primary": "gpio",
+      "aliases": [
+        "pin 13",
+        "IOB_24a",
+        "FLASH_IO3",
+        "FLASH_HLD",
+        "FLASH_RST"
+      ],
+      "tags": [
+        "spi"
+      ],
+      "functions": [
+        "FPGA pin 13",
+        "IOB_24a, bank 1",
+        "J20 pin 6, flash HOLD# / RESET# / IO3"
+      ],
+      "note": "Flash hold and reset when not in quad mode. Holding it low freezes the flash. 10 kOhm pull-up.",
+      "side": "right",
+      "row": 27
+    },
+    {
+      "name": "GND",
+      "primary": "gnd",
+      "functions": [
+        "J20 pin 7, ground"
+      ],
+      "side": "left",
+      "row": 28
+    }
+  ]
+}
