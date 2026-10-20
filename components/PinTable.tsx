@@ -13,15 +13,28 @@ export function PinTable({ board, pins }: { board: Board; pins: PlacedPin[] }) {
     return a.row - b.row;
   });
 
+  // Boards drawn from several headers have no physical pin numbers, and only
+  // some boards wire their headers to a chip pin worth listing. A column of
+  // dashes tells the reader nothing, so each column shows only when it has data.
+  const showNumber = pins.some((p) => p.number != null);
+  const showChip = !!board.chipPinLabel && pins.some((p) => p.chipPin != null);
+
   return (
     <div className="border-y-[1.5px] border-line-strong">
       <table className="w-full border-collapse text-center text-sm">
         <caption className="sr-only">Complete pin reference for {board.name}</caption>
         <thead>
           <tr className="border-b border-line-strong eyebrow">
-            <th scope="col" className="w-14 px-3 py-2.5 font-medium">
-              Pin
-            </th>
+            {showNumber && (
+              <th scope="col" className="w-14 px-3 py-2.5 font-medium">
+                Pin
+              </th>
+            )}
+            {showChip && (
+              <th scope="col" className="w-20 px-3 py-2.5 font-medium">
+                {board.chipPinLabel}
+              </th>
+            )}
             <th scope="col" className="px-3 py-2.5 font-medium">
               Name
             </th>
@@ -45,9 +58,16 @@ export function PinTable({ board, pins }: { board: Board; pins: PlacedPin[] }) {
                 id={`pin-${pin.number ?? pin.name}`}
                 className="print-break-avoid border-b border-line/60 scroll-mt-20 last:border-0 target:bg-accent-soft"
               >
-                <td className="px-3 py-2 align-top font-mono text-sm text-subtle">
-                  {pin.number ?? "-"}
-                </td>
+                {showNumber && (
+                  <td className="px-3 py-2 align-top font-mono text-sm text-subtle">
+                    {pin.number ?? "-"}
+                  </td>
+                )}
+                {showChip && (
+                  <td className="px-3 py-2 align-top font-mono text-sm text-subtle">
+                    {pin.chipPin ?? "-"}
+                  </td>
+                )}
                 <td className="px-3 py-2 align-top">
                   <span className="flex items-center justify-center gap-2">
                     <span

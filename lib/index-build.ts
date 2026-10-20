@@ -37,6 +37,7 @@ export function buildSearchIndex(): SearchDoc[] {
         title: pin.name,
         subtitle: [
           pin.number ? `Pin ${pin.number}` : null,
+          pin.chipPin && board.chipPinLabel ? `${board.chipPinLabel} ${pin.chipPin}` : null,
           board.shortName,
           ...(pin.functions ?? []).slice(0, 2),
         ]
@@ -50,6 +51,7 @@ export function buildSearchIndex(): SearchDoc[] {
           ...(pin.aliases ?? []),
           ...(pin.functions ?? []),
           pin.number ? `pin ${pin.number}` : undefined,
+          pin.chipPin && board.chipPinLabel ? `${board.chipPinLabel} ${pin.chipPin}` : undefined,
         ]),
       });
     }

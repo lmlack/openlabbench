@@ -7,6 +7,7 @@
   "summary": "A USB stick with an iCE40HX1K FPGA, five LEDs, an IrDA transceiver, a Pmod socket and 16 spare I/O on two through-hole headers.",
   "logic": "3.3 V",
   "package": "USB stick form factor (iCE40HX1K-TQ144). Two unpopulated 1x10 0.1 in headers (J1, J3) along the long edges and a 2x6 Pmod socket (J2) at the far end",
+  "chipPinLabel": "FPGA pin",
   "layout": {
     "kind": "board",
     "numbering": "explicit",
@@ -80,14 +81,13 @@
   "pins": [
     {
       "name": "PIO1_02",
+      "chipPin": 78,
       "primary": "gpio",
       "aliases": [
-        "78",
         "IOR_52"
       ],
       "functions": [
         "J2 pin 1",
-        "FPGA pin 78",
         "Bank 1"
       ],
       "side": "left",
@@ -95,14 +95,13 @@
     },
     {
       "name": "PIO1_03",
+      "chipPin": 79,
       "primary": "gpio",
       "aliases": [
-        "79",
         "IOR_53"
       ],
       "functions": [
         "J2 pin 2",
-        "FPGA pin 79",
         "Bank 1"
       ],
       "side": "left",
@@ -110,14 +109,13 @@
     },
     {
       "name": "PIO1_04",
+      "chipPin": 80,
       "primary": "gpio",
       "aliases": [
-        "80",
         "IOR_54"
       ],
       "functions": [
         "J2 pin 3",
-        "FPGA pin 80",
         "Bank 1"
       ],
       "side": "left",
@@ -125,14 +123,13 @@
     },
     {
       "name": "PIO1_05",
+      "chipPin": 81,
       "primary": "gpio",
       "aliases": [
-        "81",
         "IOR_55"
       ],
       "functions": [
         "J2 pin 4",
-        "FPGA pin 81",
         "Bank 1"
       ],
       "side": "left",
@@ -168,14 +165,13 @@
     },
     {
       "name": "PIO1_06",
+      "chipPin": 87,
       "primary": "gpio",
       "aliases": [
-        "87",
         "IOR_56"
       ],
       "functions": [
         "J2 pin 7",
-        "FPGA pin 87",
         "Bank 1"
       ],
       "side": "right",
@@ -183,14 +179,13 @@
     },
     {
       "name": "PIO1_07",
+      "chipPin": 88,
       "primary": "gpio",
       "aliases": [
-        "88",
         "IOR_57"
       ],
       "functions": [
         "J2 pin 8",
-        "FPGA pin 88",
         "Bank 1"
       ],
       "side": "right",
@@ -198,14 +193,13 @@
     },
     {
       "name": "PIO1_08",
+      "chipPin": 90,
       "primary": "gpio",
       "aliases": [
-        "90",
         "IOR_58"
       ],
       "functions": [
         "J2 pin 9",
-        "FPGA pin 90",
         "Bank 1"
       ],
       "side": "right",
@@ -213,14 +207,13 @@
     },
     {
       "name": "PIO1_09",
+      "chipPin": 91,
       "primary": "gpio",
       "aliases": [
-        "91",
         "IOR_59"
       ],
       "functions": [
         "J2 pin 10",
-        "FPGA pin 91",
         "Bank 1"
       ],
       "side": "right",
@@ -285,14 +278,13 @@
     },
     {
       "name": "PIO0_02",
+      "chipPin": 112,
       "primary": "gpio",
       "aliases": [
-        "112",
         "IOT_73"
       ],
       "functions": [
         "J1 pin 3",
-        "FPGA pin 112",
         "Bank 0"
       ],
       "side": "left",
@@ -300,14 +292,13 @@
     },
     {
       "name": "PIO0_03",
+      "chipPin": 113,
       "primary": "gpio",
       "aliases": [
-        "113",
         "IOT_74"
       ],
       "functions": [
         "J1 pin 4",
-        "FPGA pin 113",
         "Bank 0"
       ],
       "side": "left",
@@ -315,14 +306,13 @@
     },
     {
       "name": "PIO0_04",
+      "chipPin": 114,
       "primary": "gpio",
       "aliases": [
-        "114",
         "IOT_75"
       ],
       "functions": [
         "J1 pin 5",
-        "FPGA pin 114",
         "Bank 0"
       ],
       "side": "left",
@@ -330,14 +320,13 @@
     },
     {
       "name": "PIO0_05",
+      "chipPin": 115,
       "primary": "gpio",
       "aliases": [
-        "115",
         "IOT_76"
       ],
       "functions": [
         "J1 pin 6",
-        "FPGA pin 115",
         "Bank 0"
       ],
       "side": "left",
@@ -345,14 +334,13 @@
     },
     {
       "name": "PIO0_06",
+      "chipPin": 116,
       "primary": "gpio",
       "aliases": [
-        "116",
         "IOT_77"
       ],
       "functions": [
         "J1 pin 7",
-        "FPGA pin 116",
         "Bank 0"
       ],
       "side": "left",
@@ -360,14 +348,13 @@
     },
     {
       "name": "PIO0_07",
+      "chipPin": 117,
       "primary": "gpio",
       "aliases": [
-        "117",
         "IOT_78"
       ],
       "functions": [
         "J1 pin 8",
-        "FPGA pin 117",
         "Bank 0"
       ],
       "side": "left",
@@ -375,14 +362,13 @@
     },
     {
       "name": "PIO0_08",
+      "chipPin": 118,
       "primary": "gpio",
       "aliases": [
-        "118",
         "IOT_79"
       ],
       "functions": [
         "J1 pin 9",
-        "FPGA pin 118",
         "Bank 0"
       ],
       "side": "left",
@@ -390,14 +376,13 @@
     },
     {
       "name": "PIO0_09",
+      "chipPin": 119,
       "primary": "gpio",
       "aliases": [
-        "119",
         "IOT_80"
       ],
       "functions": [
         "J1 pin 10",
-        "FPGA pin 119",
         "Bank 0"
       ],
       "side": "left",
@@ -434,14 +419,13 @@
     },
     {
       "name": "PIO2_17",
+      "chipPin": 62,
       "primary": "gpio",
       "aliases": [
-        "62",
         "IOB_41"
       ],
       "functions": [
         "J3 pin 3",
-        "FPGA pin 62",
         "Bank 2"
       ],
       "side": "right",
@@ -449,14 +433,13 @@
     },
     {
       "name": "PIO2_16",
+      "chipPin": 61,
       "primary": "gpio",
       "aliases": [
-        "61",
         "IOB_40"
       ],
       "functions": [
         "J3 pin 4",
-        "FPGA pin 61",
         "Bank 2"
       ],
       "side": "right",
@@ -464,14 +447,13 @@
     },
     {
       "name": "PIO2_15",
+      "chipPin": 60,
       "primary": "gpio",
       "aliases": [
-        "60",
         "IOB_39"
       ],
       "functions": [
         "J3 pin 5",
-        "FPGA pin 60",
         "Bank 2"
       ],
       "side": "right",
@@ -479,14 +461,13 @@
     },
     {
       "name": "PIO2_14",
+      "chipPin": 56,
       "primary": "gpio",
       "aliases": [
-        "56",
         "IOB_37"
       ],
       "functions": [
         "J3 pin 6",
-        "FPGA pin 56",
         "Bank 2"
       ],
       "side": "right",
@@ -494,14 +475,13 @@
     },
     {
       "name": "PIO2_13",
+      "chipPin": 48,
       "primary": "gpio",
       "aliases": [
-        "48",
         "IOB_33"
       ],
       "functions": [
         "J3 pin 7",
-        "FPGA pin 48",
         "Bank 2"
       ],
       "side": "right",
@@ -509,14 +489,13 @@
     },
     {
       "name": "PIO2_12",
+      "chipPin": 47,
       "primary": "gpio",
       "aliases": [
-        "47",
         "IOB_32"
       ],
       "functions": [
         "J3 pin 8",
-        "FPGA pin 47",
         "Bank 2"
       ],
       "side": "right",
@@ -524,14 +503,13 @@
     },
     {
       "name": "PIO2_11",
+      "chipPin": 45,
       "primary": "gpio",
       "aliases": [
-        "45",
         "IOB_31"
       ],
       "functions": [
         "J3 pin 9",
-        "FPGA pin 45",
         "Bank 2"
       ],
       "side": "right",
@@ -539,14 +517,13 @@
     },
     {
       "name": "PIO2_10",
+      "chipPin": 44,
       "primary": "gpio",
       "aliases": [
-        "44",
         "IOB_30"
       ],
       "functions": [
         "J3 pin 10",
-        "FPGA pin 44",
         "Bank 2"
       ],
       "side": "right",

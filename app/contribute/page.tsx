@@ -137,6 +137,11 @@ export default function ContributePage() {
           Use <Code>note</Code> for gotchas: strapping pins, on-board pull-ups, current limits,
           analog-only pins.
         </p>
+        <p>
+          When a header pin&apos;s label is not the number people type, as on FPGA boards, give
+          each pin a <Code>chipPin</Code> and the board a <Code>chipPinLabel</Code> such as{" "}
+          <Code>&quot;FPGA pin&quot;</Code>. The table shows them in their own column.
+        </p>
       </Section>
 
       <Section title="Adding a cross-reference">

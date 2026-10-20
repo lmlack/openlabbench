@@ -7,6 +7,7 @@
   "summary": "A small Lattice iCE40UP5K FPGA board with an FT232H programmer, 4 MB flash and an RGB LED, with every FPGA I/O on two 24-pin headers. Works with the open toolchain: yosys, nextpnr and iceprog.",
   "logic": "3.3 V",
   "package": "2x24 2.54 mm headers plus a 2-pin 5V/GND header, 62 x 22 mm",
+  "chipPinLabel": "FPGA pin",
   "layout": {
     "kind": "board",
     "numbering": "explicit",
@@ -133,14 +134,13 @@
     },
     {
       "name": "RST",
+      "chipPin": 8,
       "primary": "ctrl",
       "aliases": [
-        "8",
         "CRESET_B",
         "CRESET_N"
       ],
       "functions": [
-        "FPGA pin 8",
         "CRESET_B",
         "FT232H ADBUS7"
       ],
@@ -150,13 +150,12 @@
     },
     {
       "name": "DONE",
+      "chipPin": 7,
       "primary": "ctrl",
       "aliases": [
-        "7",
         "CDONE"
       ],
       "functions": [
-        "FPGA pin 7",
         "CDONE",
         "FT232H ADBUS6",
         "Green status LED"
@@ -167,14 +166,13 @@
     },
     {
       "name": "R",
+      "chipPin": 41,
       "primary": "gpio",
       "aliases": [
-        "41",
         "RGB2",
         "led_red"
       ],
       "functions": [
-        "FPGA pin 41",
         "RGB2",
         "Bank 0",
         "Red LED (on-board RGB)"
@@ -185,14 +183,13 @@
     },
     {
       "name": "G",
+      "chipPin": 39,
       "primary": "gpio",
       "aliases": [
-        "39",
         "RGB0",
         "led_green"
       ],
       "functions": [
-        "FPGA pin 39",
         "RGB0",
         "Bank 0",
         "Green LED (on-board RGB)"
@@ -203,14 +200,13 @@
     },
     {
       "name": "B",
+      "chipPin": 40,
       "primary": "gpio",
       "aliases": [
-        "40",
         "RGB1",
         "led_blue"
       ],
       "functions": [
-        "FPGA pin 40",
         "RGB1",
         "Bank 0",
         "Blue LED (on-board RGB)"
@@ -260,14 +256,13 @@
     },
     {
       "name": "23",
+      "chipPin": 23,
       "primary": "gpio",
       "aliases": [
-        "23",
         "IOT_37a",
         "gpio_23"
       ],
       "functions": [
-        "FPGA pin 23",
         "IOT_37a",
         "Bank 0"
       ],
@@ -276,14 +271,13 @@
     },
     {
       "name": "25",
+      "chipPin": 25,
       "primary": "gpio",
       "aliases": [
-        "25",
         "IOT_36b",
         "gpio_25"
       ],
       "functions": [
-        "FPGA pin 25",
         "IOT_36b",
         "Bank 0"
       ],
@@ -292,14 +286,13 @@
     },
     {
       "name": "26",
+      "chipPin": 26,
       "primary": "gpio",
       "aliases": [
-        "26",
         "IOT_39a",
         "gpio_26"
       ],
       "functions": [
-        "FPGA pin 26",
         "IOT_39a",
         "Bank 0"
       ],
@@ -308,14 +301,13 @@
     },
     {
       "name": "27",
+      "chipPin": 27,
       "primary": "gpio",
       "aliases": [
-        "27",
         "IOT_38b",
         "gpio_27"
       ],
       "functions": [
-        "FPGA pin 27",
         "IOT_38b",
         "Bank 0"
       ],
@@ -324,14 +316,13 @@
     },
     {
       "name": "32",
+      "chipPin": 32,
       "primary": "gpio",
       "aliases": [
-        "32",
         "IOT_43a",
         "gpio_32"
       ],
       "functions": [
-        "FPGA pin 32",
         "IOT_43a",
         "Bank 0"
       ],
@@ -340,9 +331,9 @@
     },
     {
       "name": "35",
+      "chipPin": 35,
       "primary": "gpio",
       "aliases": [
-        "35",
         "IOT_46b_G0",
         "gpio_35"
       ],
@@ -350,7 +341,6 @@
         "clock"
       ],
       "functions": [
-        "FPGA pin 35",
         "IOT_46b_G0",
         "Bank 0",
         "Global buffer input G0"
@@ -361,14 +351,13 @@
     },
     {
       "name": "31",
+      "chipPin": 31,
       "primary": "gpio",
       "aliases": [
-        "31",
         "IOT_42b",
         "gpio_31"
       ],
       "functions": [
-        "FPGA pin 31",
         "IOT_42b",
         "Bank 0"
       ],
@@ -377,9 +366,9 @@
     },
     {
       "name": "37",
+      "chipPin": 37,
       "primary": "gpio",
       "aliases": [
-        "37",
         "IOT_45a_G1",
         "gpio_37"
       ],
@@ -387,7 +376,6 @@
         "clock"
       ],
       "functions": [
-        "FPGA pin 37",
         "IOT_45a_G1",
         "Bank 0",
         "Global buffer input G1"
@@ -397,14 +385,13 @@
     },
     {
       "name": "34",
+      "chipPin": 34,
       "primary": "gpio",
       "aliases": [
-        "34",
         "IOT_44b",
         "gpio_34"
       ],
       "functions": [
-        "FPGA pin 34",
         "IOT_44b",
         "Bank 0"
       ],
@@ -413,14 +400,13 @@
     },
     {
       "name": "43",
+      "chipPin": 43,
       "primary": "gpio",
       "aliases": [
-        "43",
         "IOT_49a",
         "gpio_43"
       ],
       "functions": [
-        "FPGA pin 43",
         "IOT_49a",
         "Bank 0"
       ],
@@ -429,14 +415,13 @@
     },
     {
       "name": "36",
+      "chipPin": 36,
       "primary": "gpio",
       "aliases": [
-        "36",
         "IOT_48b",
         "gpio_36"
       ],
       "functions": [
-        "FPGA pin 36",
         "IOT_48b",
         "Bank 0"
       ],
@@ -445,14 +430,13 @@
     },
     {
       "name": "42",
+      "chipPin": 42,
       "primary": "gpio",
       "aliases": [
-        "42",
         "IOT_51a",
         "gpio_42"
       ],
       "functions": [
-        "FPGA pin 42",
         "IOT_51a",
         "Bank 0"
       ],
@@ -461,14 +445,13 @@
     },
     {
       "name": "38",
+      "chipPin": 38,
       "primary": "gpio",
       "aliases": [
-        "38",
         "IOT_50b",
         "gpio_38"
       ],
       "functions": [
-        "FPGA pin 38",
         "IOT_50b",
         "Bank 0"
       ],
@@ -477,14 +460,13 @@
     },
     {
       "name": "28",
+      "chipPin": 28,
       "primary": "gpio",
       "aliases": [
-        "28",
         "IOT_41a",
         "gpio_28"
       ],
       "functions": [
-        "FPGA pin 28",
         "IOT_41a",
         "Bank 0"
       ],
@@ -493,9 +475,9 @@
     },
     {
       "name": "SS",
+      "chipPin": 16,
       "primary": "gpio",
       "aliases": [
-        "16",
         "IOB_35b",
         "SPI_SS",
         "spi_ssn",
@@ -506,7 +488,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 16",
         "IOB_35b_SPI_SS",
         "Bank 1",
         "Flash chip select",
@@ -518,9 +499,9 @@
     },
     {
       "name": "SCK",
+      "chipPin": 15,
       "primary": "gpio",
       "aliases": [
-        "15",
         "IOB_34a",
         "SPI_SCK",
         "spi_sck",
@@ -532,7 +513,6 @@
         "uart"
       ],
       "functions": [
-        "FPGA pin 15",
         "IOB_34a_SPI_SCK",
         "Bank 1",
         "Flash clock",
@@ -545,9 +525,9 @@
     },
     {
       "name": "SI",
+      "chipPin": 14,
       "primary": "gpio",
       "aliases": [
-        "14",
         "IOB_32a",
         "SPI_SO",
         "FLASH_MOSI",
@@ -558,7 +538,7 @@
         "uart"
       ],
       "functions": [
-        "FPGA pin 14 (through R12)",
+        "Through R12",
         "IOB_32a_SPI_SO",
         "Bank 1",
         "Flash DI",
@@ -571,9 +551,9 @@
     },
     {
       "name": "SO",
+      "chipPin": 17,
       "primary": "gpio",
       "aliases": [
-        "17",
         "IOB_33b",
         "SPI_SI",
         "FLASH_MISO"
@@ -582,7 +562,7 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 17 (through R13)",
+        "Through R13",
         "IOB_33b_SPI_SI",
         "Bank 1",
         "Flash DO",
@@ -594,9 +574,9 @@
     },
     {
       "name": "20",
+      "chipPin": 20,
       "primary": "gpio",
       "aliases": [
-        "20",
         "IOB_25b_G3",
         "gpio_20"
       ],
@@ -604,7 +584,6 @@
         "clock"
       ],
       "functions": [
-        "FPGA pin 20",
         "IOB_25b_G3",
         "Bank 1",
         "Global buffer input G3",
@@ -617,14 +596,13 @@
     },
     {
       "name": "10",
+      "chipPin": 10,
       "primary": "gpio",
       "aliases": [
-        "10",
         "IOB_18a",
         "gpio_10"
       ],
       "functions": [
-        "FPGA pin 10",
         "IOB_18a",
         "Bank 1",
         "Flash IO2 (qSPI jumper)"
@@ -660,14 +638,13 @@
     },
     {
       "name": "12",
+      "chipPin": 12,
       "primary": "gpio",
       "aliases": [
-        "12",
         "IOB_22a",
         "gpio_12"
       ],
       "functions": [
-        "FPGA pin 12",
         "IOB_22a",
         "Bank 1",
         "USB D+ (unfitted resistor R21)"
@@ -678,14 +655,13 @@
     },
     {
       "name": "21",
+      "chipPin": 21,
       "primary": "gpio",
       "aliases": [
-        "21",
         "IOB_23b",
         "gpio_21"
       ],
       "functions": [
-        "FPGA pin 21",
         "IOB_23b",
         "Bank 1",
         "USB D+ (open jumper R22)"
@@ -696,14 +672,13 @@
     },
     {
       "name": "13",
+      "chipPin": 13,
       "primary": "gpio",
       "aliases": [
-        "13",
         "IOB_24a",
         "gpio_13"
       ],
       "functions": [
-        "FPGA pin 13",
         "IOB_24a",
         "Bank 1",
         "USB D- (open jumper R23)"
@@ -714,14 +689,13 @@
     },
     {
       "name": "19",
+      "chipPin": 19,
       "primary": "gpio",
       "aliases": [
-        "19",
         "IOB_29b",
         "gpio_19"
       ],
       "functions": [
-        "FPGA pin 19",
         "IOB_29b",
         "Bank 1"
       ],
@@ -730,14 +704,13 @@
     },
     {
       "name": "18",
+      "chipPin": 18,
       "primary": "gpio",
       "aliases": [
-        "18",
         "IOB_31b",
         "gpio_18"
       ],
       "functions": [
-        "FPGA pin 18",
         "IOB_31b",
         "Bank 1"
       ],
@@ -746,14 +719,13 @@
     },
     {
       "name": "11",
+      "chipPin": 11,
       "primary": "gpio",
       "aliases": [
-        "11",
         "IOB_20a",
         "gpio_11"
       ],
       "functions": [
-        "FPGA pin 11",
         "IOB_20a",
         "Bank 1"
       ],
@@ -762,14 +734,13 @@
     },
     {
       "name": "9",
+      "chipPin": 9,
       "primary": "gpio",
       "aliases": [
-        "9",
         "IOB_16a",
         "gpio_9"
       ],
       "functions": [
-        "FPGA pin 9",
         "IOB_16a",
         "Bank 1"
       ],
@@ -778,14 +749,13 @@
     },
     {
       "name": "6",
+      "chipPin": 6,
       "primary": "gpio",
       "aliases": [
-        "6",
         "IOB_13b",
         "gpio_6"
       ],
       "functions": [
-        "FPGA pin 6",
         "IOB_13b",
         "Bank 1"
       ],
@@ -794,9 +764,9 @@
     },
     {
       "name": "44",
+      "chipPin": 44,
       "primary": "gpio",
       "aliases": [
-        "44",
         "IOB_3b_G6",
         "gpio_44"
       ],
@@ -804,7 +774,6 @@
         "clock"
       ],
       "functions": [
-        "FPGA pin 44",
         "IOB_3b_G6",
         "Bank 2",
         "Global buffer input G6"
@@ -814,14 +783,13 @@
     },
     {
       "name": "4",
+      "chipPin": 4,
       "primary": "gpio",
       "aliases": [
-        "4",
         "IOB_8a",
         "gpio_4"
       ],
       "functions": [
-        "FPGA pin 4",
         "IOB_8a",
         "Bank 2"
       ],
@@ -830,14 +798,13 @@
     },
     {
       "name": "3",
+      "chipPin": 3,
       "primary": "gpio",
       "aliases": [
-        "3",
         "IOB_9b",
         "gpio_3"
       ],
       "functions": [
-        "FPGA pin 3",
         "IOB_9b",
         "Bank 2"
       ],
@@ -846,14 +813,13 @@
     },
     {
       "name": "48",
+      "chipPin": 48,
       "primary": "gpio",
       "aliases": [
-        "48",
         "IOB_4a",
         "gpio_48"
       ],
       "functions": [
-        "FPGA pin 48",
         "IOB_4a",
         "Bank 2"
       ],
@@ -862,14 +828,13 @@
     },
     {
       "name": "45",
+      "chipPin": 45,
       "primary": "gpio",
       "aliases": [
-        "45",
         "IOB_5b",
         "gpio_45"
       ],
       "functions": [
-        "FPGA pin 45",
         "IOB_5b",
         "Bank 2"
       ],
@@ -878,14 +843,13 @@
     },
     {
       "name": "47",
+      "chipPin": 47,
       "primary": "gpio",
       "aliases": [
-        "47",
         "IOB_2a",
         "gpio_47"
       ],
       "functions": [
-        "FPGA pin 47",
         "IOB_2a",
         "Bank 2"
       ],
@@ -894,14 +858,13 @@
     },
     {
       "name": "46",
+      "chipPin": 46,
       "primary": "gpio",
       "aliases": [
-        "46",
         "IOB_0a",
         "gpio_46"
       ],
       "functions": [
-        "FPGA pin 46",
         "IOB_0a",
         "Bank 2"
       ],
@@ -910,14 +873,13 @@
     },
     {
       "name": "2",
+      "chipPin": 2,
       "primary": "gpio",
       "aliases": [
-        "2",
         "IOB_6a",
         "gpio_2"
       ],
       "functions": [
-        "FPGA pin 2",
         "IOB_6a",
         "Bank 2"
       ],

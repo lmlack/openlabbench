@@ -61,6 +61,7 @@ for (const file of fs.readdirSync(BOARD_DIR).filter((f) => f.endsWith(".json")))
 
   const occupied = new Set<string>();
   const numbers = new Set<number>();
+  const chipPins = new Set<number>();
 
   board.pins.forEach((pin, i) => {
     const at = `${where} pin[${i}] "${pin.name ?? "?"}"`;
@@ -73,6 +74,13 @@ for (const file of fs.readdirSync(BOARD_DIR).filter((f) => f.endsWith(".json")))
       if (!Number.isInteger(pin.number) || pin.number < 1) fail(at, "number must be a positive integer");
       if (numbers.has(pin.number)) fail(at, `duplicate pin number ${pin.number}`);
       numbers.add(pin.number);
+    }
+
+    if (pin.chipPin != null) {
+      if (!Number.isInteger(pin.chipPin) || pin.chipPin < 1) fail(at, "chipPin must be a positive integer");
+      if (chipPins.has(pin.chipPin)) fail(at, `duplicate chipPin ${pin.chipPin}`);
+      chipPins.add(pin.chipPin);
+      if (!board.chipPinLabel) fail(at, "chipPin needs a board-level chipPinLabel to head its column");
     }
 
     if (numbering === "explicit") {

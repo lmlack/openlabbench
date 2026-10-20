@@ -7,6 +7,7 @@
   "summary": "A Lattice iCE40UP5K FPGA board with an FT2232H programmer, 16 MB of QSPI flash and three PMOD ports. It was designed for teaching the open source Yosys and nextpnr flow, and that is still what most people buy it for.",
   "logic": "3.3 V",
   "package": "Main board with two 2x6 PMOD host headers (PMOD1A, PMOD1B), a 2x4 RGB LED and supply header, a 1x7 flash header and two 5 V AUX pins, plus a snap-off section on a third 2x6 PMOD (PMOD2). 2.54 mm pitch.",
+  "chipPinLabel": "FPGA pin",
   "layout": {
     "kind": "board",
     "numbering": "explicit",
@@ -81,13 +82,12 @@
   "pins": [
     {
       "name": "P1A1",
+      "chipPin": 4,
       "primary": "gpio",
       "aliases": [
-        "pin 4",
         "IOB_8a"
       ],
       "functions": [
-        "FPGA pin 4",
         "IOB_8a, bank 2",
         "Differential pair with P1A7 (true side)"
       ],
@@ -96,13 +96,12 @@
     },
     {
       "name": "P1A2",
+      "chipPin": 2,
       "primary": "gpio",
       "aliases": [
-        "pin 2",
         "IOB_6a"
       ],
       "functions": [
-        "FPGA pin 2",
         "IOB_6a, bank 2"
       ],
       "side": "left",
@@ -110,13 +109,12 @@
     },
     {
       "name": "P1A3",
+      "chipPin": 47,
       "primary": "gpio",
       "aliases": [
-        "pin 47",
         "IOB_2a"
       ],
       "functions": [
-        "FPGA pin 47",
         "IOB_2a, bank 2",
         "Differential pair with P1A10 (true side)"
       ],
@@ -125,13 +123,12 @@
     },
     {
       "name": "P1A4",
+      "chipPin": 45,
       "primary": "gpio",
       "aliases": [
-        "pin 45",
         "IOB_5b"
       ],
       "functions": [
-        "FPGA pin 45",
         "IOB_5b, bank 2",
         "Differential pair with P1A8 (complement side)"
       ],
@@ -159,13 +156,12 @@
     },
     {
       "name": "P1A7",
+      "chipPin": 3,
       "primary": "gpio",
       "aliases": [
-        "pin 3",
         "IOB_9b"
       ],
       "functions": [
-        "FPGA pin 3",
         "IOB_9b, bank 2",
         "Differential pair with P1A1 (complement side)"
       ],
@@ -174,13 +170,12 @@
     },
     {
       "name": "P1A8",
+      "chipPin": 48,
       "primary": "gpio",
       "aliases": [
-        "pin 48",
         "IOB_4a"
       ],
       "functions": [
-        "FPGA pin 48",
         "IOB_4a, bank 2",
         "Differential pair with P1A4 (true side)"
       ],
@@ -189,13 +184,12 @@
     },
     {
       "name": "P1A9",
+      "chipPin": 46,
       "primary": "gpio",
       "aliases": [
-        "pin 46",
         "IOB_0a"
       ],
       "functions": [
-        "FPGA pin 46",
         "IOB_0a, bank 2"
       ],
       "side": "right",
@@ -203,16 +197,15 @@
     },
     {
       "name": "P1A10",
+      "chipPin": 44,
       "primary": "gpio",
       "aliases": [
-        "pin 44",
         "IOB_3b_G6"
       ],
       "tags": [
         "clock"
       ],
       "functions": [
-        "FPGA pin 44",
         "IOB_3b_G6, bank 2",
         "Global buffer input G6",
         "Differential pair with P1A3 (complement side)"
@@ -262,13 +255,12 @@
     },
     {
       "name": "P1B1",
+      "chipPin": 43,
       "primary": "gpio",
       "aliases": [
-        "pin 43",
         "IOT_49a"
       ],
       "functions": [
-        "FPGA pin 43",
         "IOT_49a, bank 0",
         "Differential pair with P1B8 (true side)"
       ],
@@ -277,13 +269,12 @@
     },
     {
       "name": "P1B2",
+      "chipPin": 38,
       "primary": "gpio",
       "aliases": [
-        "pin 38",
         "IOT_50b"
       ],
       "functions": [
-        "FPGA pin 38",
         "IOT_50b, bank 0",
         "Differential pair with P1B7 (complement side)"
       ],
@@ -292,13 +283,12 @@
     },
     {
       "name": "P1B3",
+      "chipPin": 34,
       "primary": "gpio",
       "aliases": [
-        "pin 34",
         "IOT_44b"
       ],
       "functions": [
-        "FPGA pin 34",
         "IOT_44b, bank 0",
         "Differential pair with FPGA pin 37 (complement side)"
       ],
@@ -308,13 +298,12 @@
     },
     {
       "name": "P1B4",
+      "chipPin": 31,
       "primary": "gpio",
       "aliases": [
-        "pin 31",
         "IOT_42b"
       ],
       "functions": [
-        "FPGA pin 31",
         "IOT_42b, bank 0",
         "Differential pair with P1B9 (complement side)"
       ],
@@ -342,13 +331,12 @@
     },
     {
       "name": "P1B7",
+      "chipPin": 42,
       "primary": "gpio",
       "aliases": [
-        "pin 42",
         "IOT_51a"
       ],
       "functions": [
-        "FPGA pin 42",
         "IOT_51a, bank 0",
         "Differential pair with P1B2 (true side)"
       ],
@@ -357,13 +345,12 @@
     },
     {
       "name": "P1B8",
+      "chipPin": 36,
       "primary": "gpio",
       "aliases": [
-        "pin 36",
         "IOT_48b"
       ],
       "functions": [
-        "FPGA pin 36",
         "IOT_48b, bank 0",
         "Differential pair with P1B1 (complement side)"
       ],
@@ -372,13 +359,12 @@
     },
     {
       "name": "P1B9",
+      "chipPin": 32,
       "primary": "gpio",
       "aliases": [
-        "pin 32",
         "IOT_43a"
       ],
       "functions": [
-        "FPGA pin 32",
         "IOT_43a, bank 0",
         "Differential pair with P1B4 (true side)"
       ],
@@ -387,13 +373,12 @@
     },
     {
       "name": "P1B10",
+      "chipPin": 28,
       "primary": "gpio",
       "aliases": [
-        "pin 28",
         "IOT_41a"
       ],
       "functions": [
-        "FPGA pin 28",
         "IOT_41a, bank 0"
       ],
       "side": "right",
@@ -420,14 +405,13 @@
     },
     {
       "name": "P2_1",
+      "chipPin": 27,
       "primary": "gpio",
       "aliases": [
-        "pin 27",
         "IOT_38b",
         "LED2"
       ],
       "functions": [
-        "FPGA pin 27",
         "IOT_38b, bank 0",
         "LED2 on the snap-off section (green, active high)",
         "Differential pair with P2_7 (complement side)",
@@ -439,15 +423,14 @@
     },
     {
       "name": "P2_2",
+      "chipPin": 25,
       "primary": "gpio",
       "aliases": [
-        "pin 25",
         "IOT_36b",
         "LED3",
         "I3C"
       ],
       "functions": [
-        "FPGA pin 25",
         "IOT_36b, bank 0",
         "LED3 on the snap-off section (green, active high)",
         "I3C-capable pin",
@@ -460,14 +443,13 @@
     },
     {
       "name": "P2_3",
+      "chipPin": 21,
       "primary": "gpio",
       "aliases": [
-        "pin 21",
         "IOB_23b",
         "LED5"
       ],
       "functions": [
-        "FPGA pin 21",
         "IOB_23b, bank 1",
         "LED5 on the snap-off section (green, active high)",
         "FTDI FIFO D5 via open jumper J6"
@@ -478,14 +460,13 @@
     },
     {
       "name": "P2_4",
+      "chipPin": 19,
       "primary": "gpio",
       "aliases": [
-        "pin 19",
         "IOB_29b",
         "BTN2"
       ],
       "functions": [
-        "FPGA pin 19",
         "IOB_29b, bank 1",
         "Button 2 on the snap-off section (active high)",
         "FTDI FIFO D3 via open jumper J4"
@@ -515,14 +496,13 @@
     },
     {
       "name": "P2_7",
+      "chipPin": 26,
       "primary": "gpio",
       "aliases": [
-        "pin 26",
         "IOT_39a",
         "LED1"
       ],
       "functions": [
-        "FPGA pin 26",
         "IOT_39a, bank 0",
         "LED1 on the snap-off section (red, center, active high)",
         "Differential pair with P2_1 (true side)",
@@ -534,15 +514,14 @@
     },
     {
       "name": "P2_8",
+      "chipPin": 23,
       "primary": "gpio",
       "aliases": [
-        "pin 23",
         "IOT_37a",
         "LED4",
         "I3C"
       ],
       "functions": [
-        "FPGA pin 23",
         "IOT_37a, bank 0",
         "LED4 on the snap-off section (green, active high)",
         "I3C-capable pin",
@@ -555,9 +534,9 @@
     },
     {
       "name": "P2_9",
+      "chipPin": 20,
       "primary": "gpio",
       "aliases": [
-        "pin 20",
         "IOB_25b_G3",
         "BTN1"
       ],
@@ -565,7 +544,6 @@
         "clock"
       ],
       "functions": [
-        "FPGA pin 20",
         "IOB_25b_G3, bank 1",
         "Global buffer input G3",
         "Button 1 on the snap-off section (active high)",
@@ -577,14 +555,13 @@
     },
     {
       "name": "P2_10",
+      "chipPin": 18,
       "primary": "gpio",
       "aliases": [
-        "pin 18",
         "IOB_31b",
         "BTN3"
       ],
       "functions": [
-        "FPGA pin 18",
         "IOB_31b, bank 1",
         "Button 3 on the snap-off section (active high)",
         "FTDI FIFO D2 via open jumper J3"
@@ -633,15 +610,14 @@
     },
     {
       "name": "GRN",
+      "chipPin": 40,
       "primary": "gpio",
       "aliases": [
-        "pin 40",
         "RGB1",
         "LED_GRN_N",
         "LED_RGB[1]"
       ],
       "functions": [
-        "FPGA pin 40",
         "RGB1, bank 0",
         "J25 pin 1, green",
         "24 mA LED driver"
@@ -682,15 +658,14 @@
     },
     {
       "name": "RED",
+      "chipPin": 39,
       "primary": "gpio",
       "aliases": [
-        "pin 39",
         "RGB0",
         "LED_RED_N",
         "LED_RGB[0]"
       ],
       "functions": [
-        "FPGA pin 39",
         "RGB0, bank 0",
         "J25 pin 2, red",
         "24 mA LED driver"
@@ -701,15 +676,14 @@
     },
     {
       "name": "BLU",
+      "chipPin": 41,
       "primary": "gpio",
       "aliases": [
-        "pin 41",
         "RGB2",
         "LED_BLU_N",
         "LED_RGB[2]"
       ],
       "functions": [
-        "FPGA pin 41",
         "RGB2, bank 0",
         "J25 pin 4, blue",
         "24 mA LED driver"
@@ -739,9 +713,9 @@
     },
     {
       "name": "CS",
+      "chipPin": 16,
       "primary": "gpio",
       "aliases": [
-        "pin 16",
         "IOB_35b_SPI_SS",
         "FLASH_SSB",
         "FLASH_CS",
@@ -751,7 +725,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 16",
         "IOB_35b_SPI_SS, bank 1",
         "J20 pin 1, flash chip select"
       ],
@@ -761,9 +734,9 @@
     },
     {
       "name": "SCK",
+      "chipPin": 15,
       "primary": "gpio",
       "aliases": [
-        "pin 15",
         "IOB_34a_SPI_SCK",
         "FLASH_SCK",
         "iCE_SCK"
@@ -772,7 +745,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 15",
         "IOB_34a_SPI_SCK, bank 1",
         "J20 pin 2, flash clock"
       ],
@@ -782,9 +754,9 @@
     },
     {
       "name": "IO0",
+      "chipPin": 14,
       "primary": "gpio",
       "aliases": [
-        "pin 14",
         "IOB_32a_SPI_SO",
         "FLASH_IO0",
         "FLASH_MOSI",
@@ -795,7 +767,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 14",
         "IOB_32a_SPI_SO, bank 1",
         "J20 pin 3, flash DI / IO0"
       ],
@@ -805,9 +776,9 @@
     },
     {
       "name": "IO1",
+      "chipPin": 17,
       "primary": "gpio",
       "aliases": [
-        "pin 17",
         "IOB_33b_SPI_SI",
         "FLASH_IO1",
         "FLASH_MISO",
@@ -818,7 +789,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 17",
         "IOB_33b_SPI_SI, bank 1",
         "J20 pin 4, flash DO / IO1"
       ],
@@ -828,9 +798,9 @@
     },
     {
       "name": "IO2",
+      "chipPin": 12,
       "primary": "gpio",
       "aliases": [
-        "pin 12",
         "IOB_22a",
         "FLASH_IO2",
         "FLASH_WP"
@@ -839,7 +809,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 12",
         "IOB_22a, bank 1",
         "J20 pin 5, flash WP# / IO2"
       ],
@@ -849,9 +818,9 @@
     },
     {
       "name": "IO3",
+      "chipPin": 13,
       "primary": "gpio",
       "aliases": [
-        "pin 13",
         "IOB_24a",
         "FLASH_IO3",
         "FLASH_HLD",
@@ -861,7 +830,6 @@
         "spi"
       ],
       "functions": [
-        "FPGA pin 13",
         "IOB_24a, bank 1",
         "J20 pin 6, flash HOLD# / RESET# / IO3"
       ],

@@ -377,6 +377,7 @@ function Inspector({
           </p>
           <p className="mt-0.5 text-sm text-subtle">
             {pin.number ? `Physical pin ${pin.number} · ` : ""}
+            {pin.chipPin && board.chipPinLabel ? `${board.chipPinLabel} ${pin.chipPin} · ` : ""}
             {meta.label}
           </p>
         </div>

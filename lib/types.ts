@@ -32,6 +32,12 @@ export interface Pin {
   /** Primary silkscreen / datasheet label, e.g. "GPIO2", "D13", "THRES". */
   name: string;
   primary: PrimaryRole;
+  /**
+   * The pin on the board's main chip that this header pin is wired to, when
+   * that is the number people actually type: the FPGA pin in a constraint
+   * file. Shown in its own column, headed by `Board.chipPinLabel`.
+   */
+  chipPin?: number;
   /** Other names the same pin is known by, used for search. */
   aliases?: string[];
   tags?: SignalTag[];
@@ -133,6 +139,8 @@ export interface Board {
   /** Logic level, e.g. "3.3 V". The single most consulted spec on a bench. */
   logic: string;
   package: string;
+  /** Heading for the `Pin.chipPin` column, e.g. "FPGA pin". Required with chipPin. */
+  chipPinLabel?: string;
   layout: Layout;
   pins: Pin[];
   notes?: string[];
